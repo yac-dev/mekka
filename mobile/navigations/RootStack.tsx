@@ -4,9 +4,7 @@ import { TouchableOpacity } from 'react-native';
 import { icons } from '../utils/icons';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator();
-import Home from '../screens/Home';
 import BottomTab from './BottomTab';
-import Dummy from '../screens/Dummy';
 
 const { MCI, II } = icons;
 
@@ -50,7 +48,6 @@ const RootStack = () => {
           // },
         })}
       />
-      <Stack.Screen name='Dummy' component={Dummy} />
     </Stack.Navigator>
   );
 };

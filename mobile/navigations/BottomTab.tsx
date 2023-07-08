@@ -1,13 +1,13 @@
 import React, { useContext } from 'react';
-import { TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import GlobalContext from '../contexts/GlobalContext';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 const Tab = createBottomTabNavigator();
 import { primaryBackgroundColor } from '../themes/color';
 import { icons } from '../utils/icons';
-import Home from '../screens/Home';
-import Discover from '../screens/Discover';
-const { MCI, II, MI } = icons;
+import MyMekkas from '../features/Home/pages/MyMekkas';
+import Mekkas from '../features/Discover/pages/Mekkas';
+const { MCI, MI, ET } = icons;
 
 const BottomTab: React.FC = () => {
   const { globalState } = useContext(GlobalContext);
@@ -29,43 +29,56 @@ const BottomTab: React.FC = () => {
           borderBottomWidth: 0,
         },
         headerRight: () => {
-          if (globalState.authData) {
-            return (
-              <TouchableOpacity style={{ marginRight: 10 }} onPress={() => navigation.navigate('Profile Top')}>
-                <MCI name='account-circle' size={30} color={'white'} />
-              </TouchableOpacity>
-            );
-          } else {
-            return null;
-          }
-        },
-        headerLeft: () => {
+          // if (globalState.authData) {
+          //   return (
+          //     <TouchableOpacity style={{ marginRight: 10 }} onPress={() => navigation.navigate('Profile Top')}>
+          //       <MCI name='account-circle' size={30} color={'white'} />
+          //     </TouchableOpacity>
+          //   );
+          // } else {
+          //   return null;
+          // }
           return (
-            <TouchableOpacity style={{ marginLeft: 10 }} onPress={() => navigation.navigate('About Lampost')}>
-              <MCI name='information' size={25} color={'white'} />
-            </TouchableOpacity>
+            // 今はこれでとりあえず。
+            <View style={{ flexDirection: 'row' }}>
+              <TouchableOpacity style={{ marginRight: 10 }} onPress={() => navigation.navigate('Profile Top')}>
+                <ET name='bell' size={25} color={'white'} />
+              </TouchableOpacity>
+              <TouchableOpacity style={{ marginRight: 10 }} onPress={() => navigation.navigate('Profile Top')}>
+                <MCI name='account-circle' size={25} color={'white'} />
+              </TouchableOpacity>
+            </View>
           );
         },
+        // headerLeft: () => {
+        //   return (
+        //     <TouchableOpacity style={{ marginLeft: 10 }} onPress={() => navigation.navigate('About Lampost')}>
+        //       <MCI name='information' size={25} color={'white'} />
+        //     </TouchableOpacity>
+        //   );
+        // },
       })}
     >
       <Tab.Screen
-        name='Home'
-        component={Home}
+        name='MyMekkas'
+        component={MyMekkas}
         options={({ navigation }) => ({
           headerShown: true,
           tabBarIcon: ({ size, color, focused }) => (
             <MI name='apps' color={focused ? 'white' : 'rgb(102, 104, 109)'} size={size} />
           ),
+          title: 'Home',
         })}
       />
       <Tab.Screen
-        name='Discover'
-        component={Discover}
+        name='Mekkas'
+        component={Mekkas}
         options={({ navigation }) => ({
           headerShown: true,
           tabBarIcon: ({ size, color, focused }) => (
             <MCI name='compass' color={focused ? 'white' : 'rgb(102, 104, 109)'} size={size} />
           ),
+          title: 'Discover',
         })}
       />
     </Tab.Navigator>
