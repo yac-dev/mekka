@@ -1,4 +1,5 @@
 import React, { useState, useReducer } from 'react';
+// import { StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import RootStack from './navigations/RootStack';
 import GlobalContext from './contexts/GlobalContext';
@@ -19,7 +20,8 @@ const App: React.FC = function () {
   const [state, dispatch] = useReducer(GlobalReducer, GLOBAL_INITIAL_STATE);
 
   return (
-    <GlobalContext.Provider value={{ state, dispatch }}>
+    <GlobalContext.Provider value={{ globalState: state, globalDispatch: dispatch }}>
+      {/* <StatusBar hidden={false} translucent={true} backgroundColor='blue' barStyle='light-content' /> */}
       <NavigationContainer>
         <RootStack />
       </NavigationContainer>

@@ -1,3 +1,4 @@
+//  基本的に、stateごとにtypeを作っていくことになるかもな。。。
 export const GLOBAL_INITIAL_STATE = {
   authData: null,
   jwt: null,

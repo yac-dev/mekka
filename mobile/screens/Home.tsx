@@ -1,12 +1,16 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { primaryBackgroundColor } from '../themes/color';
 import { primaryTextColor } from '../themes/text';
 import { icons } from '../utils/icons';
+import { NavigationProp } from '@react-navigation/native';
 
-// propsはなしね。
-const Home: React.FC = () => {
+interface RouterProps {
+  navigation: NavigationProp<any, any>;
+}
+
+const Home: React.FC<RouterProps> = (props) => {
   const { MCI } = icons;
 
   return (
@@ -15,6 +19,9 @@ const Home: React.FC = () => {
       <Text style={{ color: primaryTextColor }}>Helloooooooo</Text>
       <StatusBar style='auto' />
       <MCI name='library' color={'blue'} />
+      <TouchableOpacity onPress={() => props.navigation.navigate('Dummy')}>
+        <Text style={{ color: primaryTextColor }}>Press to navigate</Text>
+      </TouchableOpacity>
     </View>
   );
 };

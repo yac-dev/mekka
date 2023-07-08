@@ -2,13 +2,13 @@ import React, { createContext } from 'react';
 import { GlobalState, GLOBAL_INITIAL_STATE } from '../types/global';
 
 interface GlobalContextProps {
-  state: GlobalState;
-  dispatch: React.Dispatch<any>;
+  globalState: GlobalState;
+  globalDispatch: React.Dispatch<any>;
 }
 
 const GlobalContext = createContext<GlobalContextProps>({
-  state: GLOBAL_INITIAL_STATE,
-  dispatch: () => {},
+  globalState: GLOBAL_INITIAL_STATE,
+  globalDispatch: () => {},
 });
 
 export default GlobalContext;

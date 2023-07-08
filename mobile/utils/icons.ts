@@ -10,7 +10,7 @@ import { Feather } from '@expo/vector-icons';
 
 export const icons = {
   MCI: MaterialCommunityIcons,
-  MC: MaterialIcons,
+  MI: MaterialIcons,
   II: Ionicons,
   FA5: FontAwesome5,
   FT: Fontisto,
