@@ -7,11 +7,13 @@ import { primaryBackgroundColor } from '../themes/color';
 import { icons } from '../utils/icons';
 import MyMekkas from '../features/Home/pages/MyMekkas';
 import Mekkas from '../features/Discover/pages/Mekkas';
+import DiscoverStackNavigator from './DiscoverStackNavigator';
 const { MCI, MI, ET } = icons;
 
 const BottomTab: React.FC = () => {
   const { globalState } = useContext(GlobalContext);
 
+  // navigatorってさ、多分scope chainやらprototype chain的な働きなのかね。。。同じstack内で名前が見つからなかったら、上のnavigatorを探す、てきな動きをするのだろう、、、と仮定してみる。
   return (
     <Tab.Navigator
       screenOptions={({ navigation }) => ({
@@ -71,8 +73,8 @@ const BottomTab: React.FC = () => {
         })}
       />
       <Tab.Screen
-        name='Mekkas'
-        component={Mekkas}
+        name='Discover'
+        component={DiscoverStackNavigator}
         options={({ navigation }) => ({
           headerShown: true,
           tabBarIcon: ({ size, color, focused }) => (
