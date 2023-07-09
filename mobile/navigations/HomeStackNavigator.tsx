@@ -5,6 +5,7 @@ import { icons } from '../utils/icons';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator();
 import MySpaces from '../features/Home/pages/MySpaces';
+import Signup from '../features/Home/pages/Signup';
 import CreateNewSpace from '../features/Discover/pages/CreateNewSpace';
 import { primaryBackgroundColor } from '../themes/color';
 import { primaryTextColor } from '../themes/text';
@@ -21,17 +22,17 @@ const HomeStackNavigator: React.FC = () => {
           })}
         />
       </Stack.Group>
-      {/* <Stack.Group screenOptions={{ presentation: 'fullScreenModal' }}>
+      <Stack.Group screenOptions={{ presentation: 'fullScreenModal' }}>
         <Stack.Screen
-          name='Create new space'
-          component={CreateNewSpace}
+          name='Signup'
+          component={Signup}
           options={({ navigation }) => ({
             headerLeft: () => (
               <TouchableOpacity onPress={() => navigation.goBack()}>
                 <Text style={{ color: primaryTextColor, fontSize: 20 }}>Close</Text>
               </TouchableOpacity>
             ),
-            headerTitle: 'Create new Mekka',
+            headerTitle: 'Signup',
             headerStyle: {
               backgroundColor: primaryBackgroundColor,
             },
@@ -41,7 +42,7 @@ const HomeStackNavigator: React.FC = () => {
             },
           })}
         />
-      </Stack.Group> */}
+      </Stack.Group>
     </Stack.Navigator>
   );
 };

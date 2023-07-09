@@ -14,7 +14,7 @@ const DiscoverStackNavigator: React.FC = () => {
     <Stack.Navigator>
       <Stack.Group>
         <Stack.Screen
-          name='Mekkas'
+          name='Spaces'
           component={Spaces}
           options={({ navigation }) => ({
             headerShown: false,

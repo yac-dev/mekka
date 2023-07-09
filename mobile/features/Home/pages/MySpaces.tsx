@@ -7,6 +7,7 @@ import { primaryTextColor } from '../../../themes/text';
 import { icons } from '../../../utils/icons';
 import { NavigationProp } from '@react-navigation/native';
 import AuthButtons from '../components/AuthButtons';
+import Button from '../../../components/Button/Button';
 
 interface RouterProps {
   navigation: NavigationProp<any, any>;
@@ -28,7 +29,10 @@ const MySpaces: React.FC<RouterProps> = (props) => {
         style={{ flex: 1, backgroundColor: primaryBackgroundColor, alignItems: 'center', justifyContent: 'center' }}
       >
         <Text style={{ color: primaryTextColor, fontSize: 18 }}>Sign in to experience full functions😎</Text>
-        <AuthButtons />
+        <View style={{ flexDirection: 'row' }}>
+          <Button buttonLabel='Login' buttonColor='blue' onButtonPress={() => console.log('login')} />
+          <Button buttonLabel='Signup' buttonColor='blue' onButtonPress={() => props.navigation.navigate('Signup')} />
+        </View>
       </View>
     );
   }
