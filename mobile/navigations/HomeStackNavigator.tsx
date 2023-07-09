@@ -4,24 +4,24 @@ import GlobalContext from '../contexts/GlobalContext';
 import { icons } from '../utils/icons';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator();
-import Spaces from '../features/Discover/pages/Spaces';
+import MySpaces from '../features/Home/pages/MySpaces';
 import CreateNewSpace from '../features/Discover/pages/CreateNewSpace';
 import { primaryBackgroundColor } from '../themes/color';
 import { primaryTextColor } from '../themes/text';
 
-const DiscoverStackNavigator: React.FC = () => {
+const HomeStackNavigator: React.FC = () => {
   return (
     <Stack.Navigator>
       <Stack.Group>
         <Stack.Screen
-          name='Mekkas'
-          component={Spaces}
+          name='MySpaces'
+          component={MySpaces}
           options={({ navigation }) => ({
             headerShown: false,
           })}
         />
       </Stack.Group>
-      <Stack.Group screenOptions={{ presentation: 'fullScreenModal' }}>
+      {/* <Stack.Group screenOptions={{ presentation: 'fullScreenModal' }}>
         <Stack.Screen
           name='Create new space'
           component={CreateNewSpace}
@@ -41,9 +41,9 @@ const DiscoverStackNavigator: React.FC = () => {
             },
           })}
         />
-      </Stack.Group>
+      </Stack.Group> */}
     </Stack.Navigator>
   );
 };
 
-export default DiscoverStackNavigator;
+export default HomeStackNavigator;

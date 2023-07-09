@@ -9,9 +9,10 @@ interface RouterProps {
   navigation: NavigationProp<any, any>;
 }
 
-const Mekkas: React.FC<RouterProps> = (props) => {
+// client上では,mekkaとかそういう表現を使うことにする。
+const Spaces: React.FC<RouterProps> = (props) => {
   const onButtonPress = () => {
-    props.navigation.navigate('Create new mekka');
+    props.navigation.navigate('Create new space');
   };
 
   return (
@@ -22,4 +23,4 @@ const Mekkas: React.FC<RouterProps> = (props) => {
   );
 };
 
-export default Mekkas;
+export default Spaces;

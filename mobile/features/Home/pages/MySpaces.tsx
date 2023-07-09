@@ -13,7 +13,7 @@ interface RouterProps {
 }
 // homeは、authされている状態、されていない状態でrenderを分けなきゃいけない。
 // authなら、自分が参加しているlibraryを全部renderするし、authじゃないならlogin or signupを表示する感じ。
-const MyMekkas: React.FC<RouterProps> = (props) => {
+const MySpaces: React.FC<RouterProps> = (props) => {
   const { globalState } = useContext(GlobalContext);
 
   if (globalState.authData) {
@@ -34,4 +34,4 @@ const MyMekkas: React.FC<RouterProps> = (props) => {
   }
 };
 
-export default MyMekkas;
+export default MySpaces;

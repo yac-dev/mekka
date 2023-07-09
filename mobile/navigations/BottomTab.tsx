@@ -5,8 +5,9 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 const Tab = createBottomTabNavigator();
 import { primaryBackgroundColor } from '../themes/color';
 import { icons } from '../utils/icons';
-import MyMekkas from '../features/Home/pages/MyMekkas';
-import Mekkas from '../features/Discover/pages/Mekkas';
+import MySpaces from '../features/Home/pages/MySpaces';
+import Mekkas from '../features/Discover/pages/Spaces';
+import HomeStackNavigator from './HomeStackNavigator';
 import DiscoverStackNavigator from './DiscoverStackNavigator';
 const { MCI, MI, ET } = icons;
 
@@ -62,8 +63,8 @@ const BottomTab: React.FC = () => {
       })}
     >
       <Tab.Screen
-        name='MyMekkas'
-        component={MyMekkas}
+        name='Home'
+        component={HomeStackNavigator}
         options={({ navigation }) => ({
           headerShown: true,
           tabBarIcon: ({ size, color, focused }) => (

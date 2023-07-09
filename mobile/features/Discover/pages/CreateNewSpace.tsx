@@ -4,7 +4,7 @@ import { primaryBackgroundColor } from '../../../themes/color';
 import { primaryTextColor } from '../../../themes/text';
 import { CreateNewSpaceReducer, CreateNewSpaceContext } from '../contexts/CreateNewSpace';
 
-const CreateNewMekka = () => {
+const CreateNewSpace = () => {
   // ここに、stateを持たせるのって、よくないのかね。。。分からん。。。
   const [state, dispatch] = useReducer(CreateNewSpaceReducer, { name: '' });
 
@@ -17,4 +17,4 @@ const CreateNewMekka = () => {
   );
 };
 
-export default CreateNewMekka;
+export default CreateNewSpace;
