@@ -19,7 +19,7 @@ const MySpaces: React.FC<RouterProps> = (props) => {
 
   if (globalState.authData) {
     return (
-      <View>
+      <View style={{ flex: 1, backgroundColor: primaryBackgroundColor, padding: 10 }}>
         <Text style={{ color: primaryTextColor }}>You are logged in now.</Text>
       </View>
     );

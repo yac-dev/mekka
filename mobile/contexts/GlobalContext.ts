@@ -12,6 +12,7 @@ type GlobalState = {
   jwt: string | null;
 };
 
+// これ、jwtもいらねーよな。。別に。
 // reducerのためにtypeを作っておく。
 type GlobalAction =
   | { type: 'SET_AUTH_DATA'; payload: AuthType }
@@ -19,7 +20,8 @@ type GlobalAction =
   | {
       type: 'SIGNUP';
       payload: { authData: { _id: string; name: string; email: string; avatar: string }; jwt: string };
-    };
+    }
+  | { type: 'LOAD_ME'; payload: AuthType };
 
 export const GlobalReducer = (state: GlobalState, action: GlobalAction): GlobalState => {
   switch (action.type) {
@@ -29,6 +31,8 @@ export const GlobalReducer = (state: GlobalState, action: GlobalAction): GlobalS
       return { ...state, jwt: action.payload };
     case 'SIGNUP':
       return { ...state, authData: action.payload.authData, jwt: action.payload.jwt };
+    case 'LOAD_ME':
+      return { ...state, authData: action.payload };
     default:
       return state;
   }
