@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
 import { TouchableOpacity, Text } from 'react-native';
-import GlobalContext from '../contexts/GlobalContext';
 import { icons } from '../utils/icons';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator();
 import Spaces from '../features/Discover/pages/Spaces';
 import CreateNewSpace from '../features/Discover/pages/CreateNewSpace';
+import SpaceDetail from '../features/Discover/pages/SpaceDetail';
 import { primaryBackgroundColor } from '../themes/color';
 import { primaryTextColor } from '../themes/text';
 
@@ -16,6 +16,15 @@ const DiscoverStackNavigator: React.FC = () => {
         <Stack.Screen
           name='Spaces'
           component={Spaces}
+          options={({ navigation }) => ({
+            headerShown: false,
+          })}
+        />
+      </Stack.Group>
+      <Stack.Group screenOptions={{ presentation: 'modal', gestureEnabled: false }}>
+        <Stack.Screen
+          name='SpaceDetail'
+          component={SpaceDetail}
           options={({ navigation }) => ({
             headerShown: false,
           })}

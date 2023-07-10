@@ -33,3 +33,14 @@ export const createSpace = async (request, response) => {
     console.log(error);
   }
 };
+
+export const getSpaces = async (request, response) => {
+  try {
+    const spaces = await Space.find({});
+    response.status(200).json({
+      spaces,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
