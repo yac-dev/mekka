@@ -8,6 +8,8 @@ import { dirname } from 'path';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+import authRouter from './routers/auth';
+
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -18,6 +20,6 @@ app.get('/', (request, response) => {
   response.send('Hello guest');
 });
 
-// app.use('/api/auth', authRouter);
+app.use('/api/auth', authRouter);
 
 export default app;

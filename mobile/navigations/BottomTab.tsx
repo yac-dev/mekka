@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { View, TouchableOpacity } from 'react-native';
-import GlobalContext from '../contexts/GlobalContext';
+import { GlobalContext } from '../contexts/GlobalContext';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 const Tab = createBottomTabNavigator();
 import { primaryBackgroundColor } from '../themes/color';

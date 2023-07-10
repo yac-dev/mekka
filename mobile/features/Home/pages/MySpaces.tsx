@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import GlobalContext from '../../../contexts/GlobalContext';
+import { GlobalContext } from '../../../contexts/GlobalContext';
 import { primaryBackgroundColor } from '../../../themes/color';
 import { primaryTextColor } from '../../../themes/text';
 import { icons } from '../../../utils/icons';
