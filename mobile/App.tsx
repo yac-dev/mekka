@@ -7,11 +7,9 @@ import backendAPI from './apis/backend';
 
 const App: React.FC = function () {
   const [state, dispatch] = useReducer(GlobalReducer, { authData: null, jwt: null });
-  console.log(state.authData);
 
   const loadMe = async () => {
     const jwt = await SecureStore.getItemAsync('secure_token');
-    console.log(jwt);
     if (jwt) {
       const result = await backendAPI.get('/auth/loadMe', { headers: { authorization: `Bearer ${jwt}` } });
       const { user } = result.data;

@@ -2,12 +2,14 @@ import mongoose from 'mongoose';
 
 // それぞれのmekkaで、人の貢献度みたいなのを出すといいかもな。。。まあ、あくまでこれはsub的な位置付けだけど。
 // discordだと、それぞれの部屋でmemberの役割(role)を決められるみたいだね。そして、roleごとにできることを決められる見たい。
-const mekkaSchema = mongoose.Schema({
+// 最終的に、各spaceのrateも出したい。
+const spaceSchema = mongoose.Schema({
   name: String,
   thumbnail: String, // s3のlink
-  mediaType: {
-    type: mongoose.Schema.ObjectId,
-    ref: 'MediaType',
+  contentType: {
+    // type: mongoose.Schema.ObjectId,
+    // ref: 'MediaType',
+    type: String,
   },
   videoLength: Number,
   isPublic: {
@@ -39,6 +41,7 @@ const mekkaSchema = mongoose.Schema({
     ref: 'User',
   },
   roles: [
+    // これいらないかな。。。
     {
       type: mongoose.Schema.ObjectId,
       ref: 'Role',
@@ -47,4 +50,5 @@ const mekkaSchema = mongoose.Schema({
   createdAt: Date,
 });
 
-export const Mekka = mongoose.model('Mekka', mekkaSchema);
+const Space = mongoose.model('Space', spaceSchema);
+export default Space;

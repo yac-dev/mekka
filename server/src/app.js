@@ -9,6 +9,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 import authRouter from './routers/auth';
+import spacesRouter from './routers/spaces';
 
 const app = express();
 app.use(cors());
@@ -21,5 +22,6 @@ app.get('/', (request, response) => {
 });
 
 app.use('/api/auth', authRouter);
+app.use('/api/spaces', spacesRouter);
 
 export default app;
