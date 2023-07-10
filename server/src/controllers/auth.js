@@ -1,16 +1,29 @@
 import User from '../models/user';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
 
 export const signup = async (request, response) => {
   try {
     const { name, email, password } = request.body;
-    const user = await User.create({
+    if (password.length < 10) {
+      return next(new AppError('Password has to be at least 10 characters long.', 400, 'PasswordLengthError'));
+    }
+    const user = new User({
       name,
       email,
       password,
+      createdAt: new Date(),
+      pushToken: '',
     });
 
-    response.status(201).json({
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(user.password, salt);
+    await user.save();
+
+    const jwtToken = jwt.sign({ id: user._id }, process.env.JWT_PRIVATE_KEY);
+    response.status(201).send({
       user,
+      jwt: jwtToken,
     });
   } catch (error) {
     console.log(error);

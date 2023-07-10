@@ -1,5 +1,6 @@
 import React, { useState, useReducer, useContext } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import * as SecureStore from 'expo-secure-store';
 import { GlobalContext } from '../../../contexts/GlobalContext';
 import { primaryBackgroundColor, inputBackgroundColor } from '../../../themes/color';
 import { primaryTextColor, placeholderTextColor } from '../../../themes/text';
@@ -42,10 +43,12 @@ const Signup: React.FC = () => {
     avatar: string;
   };
 
+  // loadingとsnakcbarもなきゃか。ts、面倒くせーな。。。tsで作るとかやったことないからな。mern stackでtypescriptなもんとかないかね。。。
   const onSignupPress = async () => {
     const result = await backendAPI.post('/auth/signup', state);
-    const { user } = result.data;
-    globalDispatch({ type: 'SIGNUP', payload: user });
+    const { user, jwt } = result.data;
+    globalDispatch({ type: 'SIGNUP', payload: { authData: user, jwt } });
+    await SecureStore.setItemAsync('secure_token', jwt);
   };
 
   // ここのtextinputは別でcoponentを作りましょう。

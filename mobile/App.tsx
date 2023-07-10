@@ -1,9 +1,8 @@
 import React, { useState, useReducer } from 'react';
-// import { StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import RootStack from './navigations/RootStack';
 import { GlobalContext, GlobalReducer } from './contexts/GlobalContext';
-import { GLOBAL_INITIAL_STATE, GlobalState, GlobalAction } from './types/global';
+import backendAPI from './apis/backend';
 
 const App: React.FC = function () {
   const [state, dispatch] = useReducer(GlobalReducer, { authData: null, jwt: null });

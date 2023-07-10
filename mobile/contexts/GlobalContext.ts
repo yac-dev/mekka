@@ -16,7 +16,10 @@ type GlobalState = {
 type GlobalAction =
   | { type: 'SET_AUTH_DATA'; payload: AuthType }
   | { type: 'SET_JWT'; payload: string }
-  | { type: 'SIGNUP'; payload: { _id: string; name: string; email: string; avatar: string } };
+  | {
+      type: 'SIGNUP';
+      payload: { authData: { _id: string; name: string; email: string; avatar: string }; jwt: string };
+    };
 
 export const GlobalReducer = (state: GlobalState, action: GlobalAction): GlobalState => {
   switch (action.type) {
@@ -25,7 +28,7 @@ export const GlobalReducer = (state: GlobalState, action: GlobalAction): GlobalS
     case 'SET_JWT':
       return { ...state, jwt: action.payload };
     case 'SIGNUP':
-      return { ...state, authData: action.payload };
+      return { ...state, authData: action.payload.authData, jwt: action.payload.jwt };
     default:
       return state;
   }
