@@ -29,6 +29,11 @@ const SpaceDetail: React.FC<RouterProps> = (props) => {
       <TouchableOpacity onPress={() => props.navigation.navigate('Members')}>
         <Text style={{ color: 'white' }}>Press to route members</Text>
       </TouchableOpacity>
+      <View style={{ width: '100%', position: 'absolute', bottom: 0, padding: 10, backgroundColor: 'red' }}>
+        <TouchableOpacity style={{ backgroundColor: 'blue', padding: 10, borderRadius: 8 }}>
+          <Text style={{ color: 'white' }}>Join this space</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };

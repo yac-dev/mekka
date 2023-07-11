@@ -7,7 +7,7 @@ import Spaces from '../features/Discover/pages/Spaces';
 import CreateNewSpace from '../features/Discover/pages/CreateNewSpace';
 import SpaceDetail from '../features/Discover/pages/SpaceDetail';
 import SpaceDetailStackNavigator from './SpaceDetailStackNavigator';
-import { primaryBackgroundColor } from '../themes/color';
+import { primaryBackgroundColor, modalBackgroundColor } from '../themes/color';
 import { primaryTextColor } from '../themes/text';
 
 const DiscoverStackNavigator: React.FC = () => {
@@ -55,8 +55,10 @@ const DiscoverStackNavigator: React.FC = () => {
               </TouchableOpacity>
             ),
             headerTitle: 'Create new Mekka',
+            headerTransparent: true,
             headerStyle: {
-              backgroundColor: primaryBackgroundColor,
+              backgroundColor: modalBackgroundColor,
+              borderBottomWidth: 0,
             },
             headerTitleStyle: {
               fontWeight: 'bold',
