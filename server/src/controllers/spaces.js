@@ -36,9 +36,20 @@ export const createSpace = async (request, response) => {
 
 export const getSpaces = async (request, response) => {
   try {
-    const spaces = await Space.find({});
+    const spaces = await Space.find({}).select({ _id: true, name: true });
     response.status(200).json({
       spaces,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getSpace = async (request, response) => {
+  try {
+    const space = await Space.findById(request.params.spaceId);
+    response.status(200).json({
+      space,
     });
   } catch (error) {
     console.log(error);

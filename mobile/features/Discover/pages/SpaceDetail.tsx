@@ -18,11 +18,17 @@ const SpaceDetail: React.FC<RouterProps> = (props) => {
     const { space } = result.data;
     setSpace(space);
   };
+  useEffect(() => {
+    getSpace();
+  }, []);
 
   return (
     <View style={{ flex: 1, backgroundColor: 'black' }}>
       <Text>Space detail</Text>
       <Text style={{ color: 'white' }}>{space.name}</Text>
+      <TouchableOpacity onPress={() => props.navigation.navigate('Members')}>
+        <Text style={{ color: 'white' }}>Press to route members</Text>
+      </TouchableOpacity>
     </View>
   );
 };

@@ -7,13 +7,11 @@ import { primaryTextColor } from '../themes/text';
 import SpaceDetail from '../features/Discover/pages/SpaceDetail';
 import Members from '../features/Discover/pages/Members';
 
-// くそめんどい、、、、
-// parameterのlistもここに入れないといけないらしい。
 const SpaceDetailStackNavigator: React.FC = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name='Space detail'
+        name='SpaceDetail'
         component={SpaceDetail}
         options={({ navigation }) => ({
           headerLeft: () => (

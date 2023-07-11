@@ -38,7 +38,15 @@ const Spaces: React.FC<RouterProps> = (props) => {
   // tapして、detailを出す様にする。
   const renderSpace = useCallback((space: any) => {
     return (
-      <TouchableOpacity onPress={() => props.navigation.navigate('SpaceDetailStackNavigator', { spaceId: space._id })}>
+      // そうか、ここでrouteでparamsに渡すのは、SpaceDetailStackに渡すんだもんな。
+      <TouchableOpacity
+        onPress={() =>
+          props.navigation.navigate('SpaceDetailStackNavigator', {
+            screen: 'SpaceDetail',
+            params: { spaceId: space._id },
+          })
+        }
+      >
         <Text style={{ color: 'red', fontSize: 20 }}>{space.name}</Text>
       </TouchableOpacity>
     );
