@@ -6,6 +6,7 @@ const Stack = createNativeStackNavigator();
 import Spaces from '../features/Discover/pages/Spaces';
 import CreateNewSpace from '../features/Discover/pages/CreateNewSpace';
 import SpaceDetail from '../features/Discover/pages/SpaceDetail';
+import SpaceDetailStackNavigator from './SpaceDetailStackNavigator';
 import { primaryBackgroundColor } from '../themes/color';
 import { primaryTextColor } from '../themes/text';
 
@@ -23,10 +24,23 @@ const DiscoverStackNavigator: React.FC = () => {
       </Stack.Group>
       <Stack.Group screenOptions={{ presentation: 'modal', gestureEnabled: false }}>
         <Stack.Screen
-          name='SpaceDetail'
-          component={SpaceDetail}
+          name='SpaceDetailStackNavigator'
+          component={SpaceDetailStackNavigator}
           options={({ navigation }) => ({
             headerShown: false,
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <Text style={{ color: primaryTextColor, fontSize: 20 }}>Close</Text>
+              </TouchableOpacity>
+            ),
+            headerTitle: 'Space detail',
+            headerStyle: {
+              backgroundColor: primaryBackgroundColor,
+            },
+            headerTitleStyle: {
+              fontWeight: 'bold',
+              color: primaryTextColor,
+            },
           })}
         />
       </Stack.Group>

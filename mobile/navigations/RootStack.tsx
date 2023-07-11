@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import GlobalContext from '../contexts/GlobalContext';
 import { TouchableOpacity } from 'react-native';
 import { icons } from '../utils/icons';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';

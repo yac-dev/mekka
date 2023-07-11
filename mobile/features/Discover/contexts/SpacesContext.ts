@@ -1,6 +1,7 @@
 import { createContext } from 'react';
 
 type SpaceType = {
+  _id: string;
   name: string;
   contentType: string;
   // thumbnail: string;

@@ -1,5 +1,5 @@
-import React, { useReducer, useState, useEffect, useContext } from 'react';
-import { View, Text } from 'react-native';
+import React, { useReducer, useState, useEffect, useContext, useCallback } from 'react';
+import { View, Text, FlatList, TouchableOpacity } from 'react-native';
 import { NavigationProp } from '@react-navigation/native';
 import backendAPI from '../../../apis/backend';
 import { primaryBackgroundColor } from '../../../themes/color';
@@ -12,6 +12,7 @@ interface RouterProps {
 }
 
 type SpaceType = {
+  _id: string;
   name: string;
   contentType: string;
 };
@@ -34,12 +35,23 @@ const Spaces: React.FC<RouterProps> = (props) => {
     getSpaces();
   }, []);
 
+  // tapして、detailを出す様にする。
+  const renderSpace = useCallback((space: any) => {
+    return (
+      <TouchableOpacity onPress={() => props.navigation.navigate('SpaceDetailStackNavigator', { spaceId: space._id })}>
+        <Text style={{ color: 'red', fontSize: 20 }}>{space.name}</Text>
+      </TouchableOpacity>
+    );
+  }, []);
+
   return (
     <SpacesContext.Provider value={{ spaces, setSpaces }}>
-      <View
-        style={{ flex: 1, backgroundColor: primaryBackgroundColor, alignItems: 'center', justifyContent: 'center' }}
-      >
-        <Text style={{ color: primaryTextColor }}>Mekkas</Text>
+      <View style={{ flex: 1, backgroundColor: primaryBackgroundColor, padding: 10 }}>
+        <FlatList
+          data={spaces}
+          renderItem={({ item }) => renderSpace(item)}
+          keyExtractor={(item, index) => `${item._id}-${index}`}
+        />
         <CreateNewButton onButtonPress={onButtonPress} />
       </View>
     </SpacesContext.Provider>
