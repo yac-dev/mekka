@@ -4,7 +4,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { CreateNewSpaceContext } from '../../contexts/CreateNewSpace';
 
-const ContentTypeForm = () => {
+const VisibilityForm = () => {
   const [accordion, setAccordion] = useState(false);
   const { formData, setFormData } = useContext(CreateNewSpaceContext);
 
@@ -28,7 +28,7 @@ const ContentTypeForm = () => {
           >
             <AntDesign name='plus' color='red' size={20} />
           </View>
-          <Text style={{ color: 'white', fontSize: 18 }}>Content</Text>
+          <Text style={{ color: 'white', fontSize: 18 }}>Visibility</Text>
         </View>
         {accordion ? (
           <MaterialCommunityIcons name='chevron-up' color='white' size={20} />
@@ -38,7 +38,7 @@ const ContentTypeForm = () => {
       </View>
       {accordion ? (
         <View style={{ marginTop: 10 }}>
-          <Text style={{ marginBottom: 10, color: 'white' }}>What kind of content can you share in this space?</Text>
+          <Text style={{ marginBottom: 10, color: 'white' }}>Is this space publicly accesible?</Text>
           <View style={{ flexDirection: 'row', width: '100%' }}>
             <View style={{ width: '50%', padding: 2 }}>
               <TouchableOpacity
@@ -47,12 +47,12 @@ const ContentTypeForm = () => {
                   setFormData((previous) => {
                     return {
                       ...previous,
-                      contentType: 'photo',
+                      isPublic: true,
                     };
                   })
                 }
               >
-                <Text>Photo</Text>
+                <Text>Public</Text>
               </TouchableOpacity>
             </View>
             <View style={{ width: '50%', padding: 2 }}>
@@ -62,12 +62,12 @@ const ContentTypeForm = () => {
                   setFormData((previous) => {
                     return {
                       ...previous,
-                      contentType: 'video',
+                      isPublic: false,
                     };
                   })
                 }
               >
-                <Text>Video</Text>
+                <Text>Public</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -77,4 +77,4 @@ const ContentTypeForm = () => {
   );
 };
 
-export default ContentTypeForm;
+export default VisibilityForm;

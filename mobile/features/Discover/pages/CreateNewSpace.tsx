@@ -1,43 +1,64 @@
-import React, { useReducer, useContext } from 'react';
+import React, { useReducer, useContext, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, SafeAreaView } from 'react-native';
 import { GlobalContext } from '../../../contexts/GlobalContext';
 import { primaryBackgroundColor, inputBackgroundColor, modalBackgroundColor } from '../../../themes/color';
 import { primaryTextColor, placeholderTextColor } from '../../../themes/text';
-import { CreateNewSpaceReducer, CreateNewSpaceContext } from '../contexts/CreateNewSpace';
+import { CreateNewSpaceContext } from '../contexts/CreateNewSpace';
 import backendAPI from '../../../apis/backend';
 import Form from '../components/Form';
+
+type FormDataStateType = {
+  name: string;
+  icon: string;
+  contentType: string;
+  isPublic: boolean;
+  isCommentAvailable: boolean;
+  isReactionAvailable: boolean;
+  // reactions: string[];
+  // tags: string[];
+};
 
 const CreateNewSpace = () => {
   // ここに、stateを持たせるのって、よくないのかね。。。分からん。。。
   const { globalState } = useContext(GlobalContext);
-  const [state, dispatch] = useReducer(CreateNewSpaceReducer, {
+  const [formData, setFormData] = useState<FormDataStateType>({
     name: '',
+    icon: '',
     contentType: 'photo', // ここら辺は、全部選択式になる。
     isPublic: true,
     isCommentAvailable: true,
     isReactionAvailable: true,
     // reactions: [],
-    // tags: [], // ここからが、やっていて多分面白くなるところだと思う。
+    // tags: []
   });
+  // const [state, dispatch] = useReducer(CreateNewSpaceReducer, {
+  //   name: '',
+  //   contentType: 'photo', // ここら辺は、全部選択式になる。
+  //   isPublic: true,
+  //   isCommentAvailable: true,
+  //   isReactionAvailable: true,
+  //   // reactions: [],
+  //   // tags: [], // ここからが、やっていて多分面白くなるところだと思う。
+  // });
 
   const onDonePress = async () => {
-    const payload = {
-      name: state.name,
-      contentType: state.contentType,
-      isPublic: state.isPublic,
-      isCommentAvailable: state.isCommentAvailable,
-      isReactionAvailable: state.isReactionAvailable,
-      createdBy: globalState.authData._id, // possibly nullなだけね。まあ後で
-    };
-    const result = await backendAPI.post('/spaces', payload);
+    // const payload = {
+    //   name: state.name,
+    //   contentType: state.contentType,
+    //   isPublic: state.isPublic,
+    //   isCommentAvailable: state.isCommentAvailable,
+    //   isReactionAvailable: state.isReactionAvailable,
+    //   createdBy: globalState.authData._id, // possibly nullなだけね。まあ後で
+    // };
+    // const result = await backendAPI.post('/spaces', payload);
   };
 
   return (
-    <CreateNewSpaceContext.Provider value={{ createNewSpaceState: state, createNewSpaceDispatch: dispatch }}>
+    <CreateNewSpaceContext.Provider value={{ formData, setFormData }}>
       <SafeAreaView style={{ flex: 1, backgroundColor: modalBackgroundColor }}>
         <View style={{ flex: 1, backgroundColor: modalBackgroundColor, padding: 10 }}>
           <Form />
-          <Text style={{ color: primaryTextColor }}>Create your photos/videos sharing space from scratch</Text>
+          {/* <Text style={{ color: primaryTextColor }}>Create your photos/videos sharing space from scratch</Text>
           <TextInput
             placeholder='Space name'
             placeholderTextColor={placeholderTextColor}
@@ -118,7 +139,7 @@ const CreateNewSpace = () => {
           </View>
           <TouchableOpacity style={{ backgroundColor: 'yellow', padding: 10 }} onPress={() => onDonePress()}>
             <Text style={{ color: 'red' }}>Create</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </SafeAreaView>
     </CreateNewSpaceContext.Provider>
