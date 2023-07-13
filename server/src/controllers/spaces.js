@@ -1,23 +1,26 @@
 import Space from '../models/space';
+import SpaceAndUserRelationship from '../models/spaceAndUserRelationship';
+import { uploadPhoto } from '../services/s3';
 
 // type付も、最初から完璧でなくともいいぞ。
 export const createSpace = async (request, response) => {
   try {
     const {
       name,
-      // thumbnail,
+      icon,
       contentType,
-      // videoLength,
       isPublic,
       isCommentAvailable,
       isReactionAvailable,
       createdBy,
+      // videoLength,
       // reactions,
       // tags,
     } = request.body;
 
     const space = await Space.create({
       name,
+      icon: `https://mekka-${process.env.NODE_ENV}.s3.us-east-2.amazonaws.com/photos/${request.file.filename}`,
       contentType,
       isPublic,
       isCommentAvailable,
@@ -25,6 +28,12 @@ export const createSpace = async (request, response) => {
       createdBy,
       createdAt: new Date(),
     });
+
+    const spaceAndUserRelationship = await SpaceAndUserRelationship.create({
+      space: space._id,
+      user: createdBy,
+    });
+    uploadPhoto(request.file.filename);
 
     response.status(201).json({
       space,

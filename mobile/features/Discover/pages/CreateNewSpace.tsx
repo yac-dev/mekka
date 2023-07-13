@@ -1,4 +1,4 @@
-import React, { useReducer, useContext, useState } from 'react';
+import React, { useReducer, useContext, useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, SafeAreaView } from 'react-native';
 import { GlobalContext } from '../../../contexts/GlobalContext';
 import { primaryBackgroundColor, inputBackgroundColor, modalBackgroundColor } from '../../../themes/color';
@@ -6,6 +6,7 @@ import { primaryTextColor, placeholderTextColor } from '../../../themes/text';
 import { CreateNewSpaceContext } from '../contexts/CreateNewSpace';
 import backendAPI from '../../../apis/backend';
 import Form from '../components/Form';
+import { NavigationProp, RouteProp } from '@react-navigation/native';
 
 type FormDataStateType = {
   name: string;
@@ -18,7 +19,11 @@ type FormDataStateType = {
   // tags: string[];
 };
 
-const CreateNewSpace = () => {
+type RouterProps = {
+  navigation: NavigationProp<any, any>;
+};
+
+const CreateNewSpace: React.FC<RouterProps> = (props) => {
   // ここに、stateを持たせるのって、よくないのかね。。。分からん。。。
   const { globalState } = useContext(GlobalContext);
   const [formData, setFormData] = useState<FormDataStateType>({
@@ -31,26 +36,48 @@ const CreateNewSpace = () => {
     // reactions: [],
     // tags: []
   });
-  // const [state, dispatch] = useReducer(CreateNewSpaceReducer, {
-  //   name: '',
-  //   contentType: 'photo', // ここら辺は、全部選択式になる。
-  //   isPublic: true,
-  //   isCommentAvailable: true,
-  //   isReactionAvailable: true,
-  //   // reactions: [],
-  //   // tags: [], // ここからが、やっていて多分面白くなるところだと思う。
-  // });
+
+  useEffect(() => {
+    props.navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity onPress={() => onDonePress()} disabled={false}>
+          <Text
+            style={{
+              color: 'white',
+              fontSize: 20,
+              fontWeight: 'bold',
+            }}
+          >
+            Done
+          </Text>
+        </TouchableOpacity>
+      ),
+    });
+  }, []);
 
   const onDonePress = async () => {
     // const payload = {
-    //   name: state.name,
-    //   contentType: state.contentType,
-    //   isPublic: state.isPublic,
-    //   isCommentAvailable: state.isCommentAvailable,
-    //   isReactionAvailable: state.isReactionAvailable,
-    //   createdBy: globalState.authData._id, // possibly nullなだけね。まあ後で
+    //   name: formData.name,
+    //   icon: formData.icon,
+    //   contentType: formData.contentType,
+    //   isPublic: formData.isPublic,
+    //   isCommentAvailable: formData.isCommentAvailable,
+    //   isReactionAvailable: formData.isReactionAvailable,
+    //   createdBy: '64ab71ebc5bab81dcfe7d2fd',
     // };
-    // const result = await backendAPI.post('/spaces', payload);
+    const payload = new FormData();
+    payload.append('name', formData.name);
+    payload.append('contentType', formData.contentType);
+    payload.append('isPublic', formData.isPublic.toString());
+    payload.append('isCommentAvailable', formData.isCommentAvailable.toString());
+    payload.append('isReactionAvailable', formData.isReactionAvailable.toString());
+    payload.append('createdBy', '64ab71ebc5bab81dcfe7d2fd');
+    payload.append('icon', {
+      name: `64ab71ebc5bab81dcfe7d2fd-${new Date()}`,
+      uri: formData.icon,
+      type: 'image/jpeg',
+    });
+    const result = await backendAPI.post('/spaces', payload);
   };
 
   return (

@@ -54,7 +54,7 @@ const DiscoverStackNavigator: React.FC = () => {
                 <Text style={{ color: primaryTextColor, fontSize: 20 }}>Close</Text>
               </TouchableOpacity>
             ),
-            headerTitle: 'Create new Mekka',
+            headerTitle: 'Create new space',
             headerTransparent: true,
             headerStyle: {
               backgroundColor: modalBackgroundColor,

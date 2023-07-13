@@ -5,7 +5,7 @@ import mongoose from 'mongoose';
 // 最終的に、各spaceのrateも出したい。
 const spaceSchema = mongoose.Schema({
   name: String,
-  thumbnail: String, // s3のlink
+  icon: String, // s3のlink
   contentType: {
     // type: mongoose.Schema.ObjectId,
     // ref: 'MediaType',
@@ -36,10 +36,6 @@ const spaceSchema = mongoose.Schema({
       ref: 'Tag',
     },
   ], // mekkaに関するtagにもなるし、それぞれのビデオ、写真につけるtagにもなる。// このtagでも、それぞれのmekkaの特徴を表すことになる。
-  createdBy: {
-    type: mongoose.Schema.ObjectId,
-    ref: 'User',
-  },
   roles: [
     // これいらないかな。。。
     {
@@ -47,6 +43,12 @@ const spaceSchema = mongoose.Schema({
       ref: 'Role',
     },
   ],
+  totalPosts: Number,
+  totalMembers: Number,
+  createdBy: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'User',
+  },
   createdAt: Date,
 });
 
