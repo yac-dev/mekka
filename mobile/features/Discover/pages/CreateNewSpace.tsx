@@ -84,9 +84,6 @@ const CreateNewSpace: React.FC<RouterProps> = (props) => {
     };
 
     payload.append('icon', JSON.parse(JSON.stringify(iconData)));
-    // const iconBlob = new Blob([formData.icon], { type: 'image/jpeg' });
-
-    // payload.append('icon', iconBlob, `64ab71ebc5bab81dcfe7d2fd-${new Date()}.jpeg`);
     const result = await backendAPI.post('/spaces', payload, {
       headers: { 'Content-type': 'multipart/form-data' },
     });
