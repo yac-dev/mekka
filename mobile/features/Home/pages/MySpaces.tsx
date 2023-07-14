@@ -33,21 +33,22 @@ type SpaceAndMeRelationshipType = {
 // homeは、authされている状態、されていない状態でrenderを分けなきゃいけない。
 // authなら、自分が参加しているlibraryを全部renderするし、authじゃないならlogin or signupを表示する感じ。
 const MySpaces: React.FC<RouterProps> = (props) => {
-  const { globalState } = useContext(GlobalContext);
+  const { authData } = useContext(GlobalContext);
   const [spaceAndMeRelationships, setSpaceAndMeRelationships] = useState<SpaceAndMeRelationshipType[]>([]); //　[{name: 'Mario room', icon: 'https://mekka-dev...', isPublic: true}]
+  // どこのhttp requestだ？？
   console.log(spaceAndMeRelationships);
   const getMySpaces = async () => {
-    const result = await backendAPI.get(`/spaceanduserrelationships/users/${globalState.authData._id}`);
+    const result = await backendAPI.get(`/spaceanduserrelationships/users/${authData._id}`);
     const { spaceAndUserRelationships } = result.data;
     setSpaceAndMeRelationships(spaceAndUserRelationships);
   };
   useEffect(() => {
-    if (globalState.authData) {
+    if (authData) {
       getMySpaces();
     }
-  }, [globalState.authData]);
+  }, [authData]);
 
-  if (globalState.authData) {
+  if (authData) {
     return (
       <HomeContext.Provider value={{ spaceAndMeRelationships, setSpaceAndMeRelationships }}>
         <View style={{ flex: 1, backgroundColor: primaryBackgroundColor, padding: 10 }}>

@@ -12,8 +12,6 @@ import DiscoverStackNavigator from './DiscoverStackNavigator';
 const { MCI, MI, ET } = icons;
 
 const BottomTab: React.FC = () => {
-  const { globalState } = useContext(GlobalContext);
-
   // navigatorってさ、多分scope chainやらprototype chain的な働きなのかね。。。同じstack内で名前が見つからなかったら、上のnavigatorを探す、てきな動きをするのだろう、、、と仮定してみる。
   return (
     <Tab.Navigator
