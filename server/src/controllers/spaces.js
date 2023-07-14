@@ -20,7 +20,8 @@ export const createSpace = async (request, response) => {
 
     const space = await Space.create({
       name,
-      icon: `https://mekka-${process.env.NODE_ENV}.s3.us-east-2.amazonaws.com/photos/${request.file.filename}`,
+      icon,
+      // icon: `https://mekka-${process.env.NODE_ENV}.s3.us-east-2.amazonaws.com/photos/${request.file.filename}`,
       contentType,
       isPublic,
       isCommentAvailable,
@@ -33,7 +34,7 @@ export const createSpace = async (request, response) => {
       space: space._id,
       user: createdBy,
     });
-    uploadPhoto(request.file.filename);
+    // uploadPhoto(request.file.filename);
 
     response.status(201).json({
       space,

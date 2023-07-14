@@ -10,7 +10,6 @@ import { inputBackgroundColor } from '../../../../themes/color';
 const IconForm: React.FC = (props) => {
   const [accordion, setAccordion] = useState(false);
   const { formData, setFormData } = useContext(CreateNewSpaceContext);
-  console.log(formData);
 
   const pickAndSendImage = async () => {
     let pickedImage = await ImagePicker.launchImageLibraryAsync({

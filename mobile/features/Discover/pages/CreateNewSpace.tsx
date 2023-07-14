@@ -53,7 +53,7 @@ const CreateNewSpace: React.FC<RouterProps> = (props) => {
         </TouchableOpacity>
       ),
     });
-  }, []);
+  }, [formData]);
 
   const onDonePress = async () => {
     // const payload = {
@@ -72,12 +72,24 @@ const CreateNewSpace: React.FC<RouterProps> = (props) => {
     payload.append('isCommentAvailable', formData.isCommentAvailable.toString());
     payload.append('isReactionAvailable', formData.isReactionAvailable.toString());
     payload.append('createdBy', '64ab71ebc5bab81dcfe7d2fd');
-    payload.append('icon', {
+
+    const iconFile = new File([formData.icon], `64ab71ebc5bab81dcfe7d2fd-${new Date()}`, {
+      type: 'image/jpeg',
+    });
+
+    const iconData = {
       name: `64ab71ebc5bab81dcfe7d2fd-${new Date()}`,
       uri: formData.icon,
       type: 'image/jpeg',
+    };
+
+    payload.append('icon', JSON.parse(JSON.stringify(iconData)));
+    // const iconBlob = new Blob([formData.icon], { type: 'image/jpeg' });
+
+    // payload.append('icon', iconBlob, `64ab71ebc5bab81dcfe7d2fd-${new Date()}.jpeg`);
+    const result = await backendAPI.post('/spaces', payload, {
+      headers: { 'Content-type': 'multipart/form-data' },
     });
-    const result = await backendAPI.post('/spaces', payload);
   };
 
   return (
