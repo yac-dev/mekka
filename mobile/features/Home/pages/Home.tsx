@@ -50,8 +50,10 @@ const MySpaces: React.FC<RouterProps> = (props) => {
 
   if (authData) {
     return (
-      <HomeContext.Provider value={{ spaceAndMeRelationships, setSpaceAndMeRelationships }}>
-        <View style={{ flex: 1, backgroundColor: primaryBackgroundColor, padding: 10 }}>
+      <HomeContext.Provider
+        value={{ spaceAndMeRelationships, setSpaceAndMeRelationships, navigation: props.navigation }}
+      >
+        <View style={{ flex: 1, backgroundColor: primaryBackgroundColor }}>
           <Spaces />
         </View>
       </HomeContext.Provider>

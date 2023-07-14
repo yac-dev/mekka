@@ -4,8 +4,9 @@ import { GlobalContext } from '../contexts/GlobalContext';
 import { icons } from '../utils/icons';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator();
-import MySpaces from '../features/Home/pages/MySpaces';
+import Home from '../features/Home/pages/Home';
 import Signup from '../features/Home/pages/Signup';
+import Space from '../features/Home/pages/Space';
 import CreateNewSpace from '../features/Discover/pages/CreateNewSpace';
 import { primaryBackgroundColor } from '../themes/color';
 import { primaryTextColor } from '../themes/text';
@@ -15,8 +16,8 @@ const HomeStackNavigator: React.FC = () => {
     <Stack.Navigator>
       <Stack.Group>
         <Stack.Screen
-          name='MySpaces'
-          component={MySpaces}
+          name='Home'
+          component={Home}
           options={({ navigation }) => ({
             headerShown: false,
           })}
@@ -33,6 +34,25 @@ const HomeStackNavigator: React.FC = () => {
               </TouchableOpacity>
             ),
             headerTitle: 'Signup',
+            headerStyle: {
+              backgroundColor: primaryBackgroundColor,
+            },
+            headerTitleStyle: {
+              fontWeight: 'bold',
+              color: primaryTextColor,
+            },
+          })}
+        />
+        <Stack.Screen
+          name='Space'
+          component={Space}
+          options={({ navigation }) => ({
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <Text style={{ color: primaryTextColor, fontSize: 20 }}>Close</Text>
+              </TouchableOpacity>
+            ),
+            headerTitle: 'Space',
             headerStyle: {
               backgroundColor: primaryBackgroundColor,
             },

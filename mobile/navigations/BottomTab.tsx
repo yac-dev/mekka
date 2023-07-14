@@ -5,7 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 const Tab = createBottomTabNavigator();
 import { primaryBackgroundColor } from '../themes/color';
 import { icons } from '../utils/icons';
-import MySpaces from '../features/Home/pages/MySpaces';
+import MySpaces from '../features/Home/pages/Home';
 import Mekkas from '../features/Discover/pages/Spaces';
 import HomeStackNavigator from './HomeStackNavigator';
 import DiscoverStackNavigator from './DiscoverStackNavigator';

@@ -1,4 +1,5 @@
 import React, { useState, useReducer, useEffect } from 'react';
+import { View, Platform } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import * as SecureStore from 'expo-secure-store';
 import { GlobalContext } from './contexts/GlobalContext';
@@ -14,7 +15,7 @@ type AuthDataType = {
 
 const App: React.FC = function () {
   const [authData, setAuthData] = useState<AuthDataType>({ _id: '', name: '', email: '', avatar: '' });
-  const [isIpad, setIsIpad] = useState<boolean>(false);
+  const [isIpad, setIsIpad] = useState<boolean>(Platform.OS === 'ios' && Platform.isPad);
   const [loading, setLoading] = useState<boolean>(false);
   const [snackBar, setSnackBar] = useState<boolean>(false);
 
