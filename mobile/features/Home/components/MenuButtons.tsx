@@ -3,7 +3,9 @@ import { View, Text, Dimensions, TouchableOpacity } from 'react-native';
 import { GlobalContext } from '../../../contexts/GlobalContext';
 import { HomeContext } from '../contexts/HomeContext';
 import { AntDesign } from '@expo/vector-icons';
-import { iconColorTable, iconParameterBackgroundColorTable } from '../../../themes/color';
+import { iconColorTable, iconButtonBackgroundColorTable } from '../../../themes/color';
+import { Ionicons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const MenuButtons = () => {
   const { isIpad } = useContext(GlobalContext);
@@ -22,12 +24,12 @@ const MenuButtons = () => {
             alignItems: 'center',
             justifyContent: 'center',
             borderRadius: 15,
-            backgroundColor: 'red',
+            backgroundColor: iconButtonBackgroundColorTable['red1'],
             marginBottom: 5,
           }}
           onPress={() => navigation?.navigate('CreateNewSpace')}
         >
-          <AntDesign name='plus' color='white' size={25} />
+          <AntDesign name='plus' color={iconColorTable['red1']} size={25} />
         </TouchableOpacity>
         <Text style={{ color: 'white' }}>Create space</Text>
       </View>
@@ -39,12 +41,12 @@ const MenuButtons = () => {
             alignItems: 'center',
             justifyContent: 'center',
             borderRadius: 15,
-            backgroundColor: 'red',
+            backgroundColor: iconButtonBackgroundColorTable['blue1'],
             marginBottom: 5,
           }}
           onPress={() => navigation?.navigate('Discover')}
         >
-          <AntDesign name='plus' color='white' size={25} />
+          <Ionicons name='compass' color={iconColorTable['blue1']} size={25} />
         </TouchableOpacity>
         <Text style={{ color: 'white' }}>Discover</Text>
       </View>
@@ -56,15 +58,15 @@ const MenuButtons = () => {
             alignItems: 'center',
             justifyContent: 'center',
             borderRadius: 15,
-            backgroundColor: 'red',
+            backgroundColor: iconButtonBackgroundColorTable['green1'],
             marginBottom: 5,
           }}
         >
-          <AntDesign name='plus' color='white' size={25} />
+          <MaterialCommunityIcons name='human-greeting-variant' color={iconColorTable['green1']} size={25} />
         </TouchableOpacity>
         <Text style={{ color: 'white' }}>Invitations</Text>
       </View>
-      {/* <View style={{ width: oneGridWidth, height: oneGridHeight, alignItems: 'center' }}>
+      <View style={{ width: oneGridWidth, height: oneGridHeight, alignItems: 'center' }}>
         <TouchableOpacity
           style={{
             width: iconWidth,
@@ -72,14 +74,14 @@ const MenuButtons = () => {
             alignItems: 'center',
             justifyContent: 'center',
             borderRadius: 15,
-            backgroundColor: 'red',
+            backgroundColor: iconButtonBackgroundColorTable['yellow1'],
             marginBottom: 5,
           }}
         >
-          <AntDesign name='plus' color='white' size={25} />
+          <AntDesign name='plus' color={iconColorTable['yellow1']} size={25} />
         </TouchableOpacity>
-        <Text style={{ color: 'white' }}>Create</Text>
-      </View> */}
+        <Text style={{ color: 'white' }}>Camera</Text>
+      </View>
     </View>
   );
 };
