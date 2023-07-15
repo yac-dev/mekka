@@ -9,8 +9,7 @@ import { iconColorTable, iconParameterBackgroundColorTable } from '../../../../t
 
 const ReactionForm = () => {
   const [accordion, setAccordion] = useState(false);
-  const { navigation } = useContext(HomeContext);
-  const { formData, setFormData } = useContext(CreateNewSpaceContext);
+  const { formData, setFormData, navigation } = useContext(CreateNewSpaceContext);
 
   return (
     <TouchableOpacity
@@ -75,12 +74,20 @@ const ReactionForm = () => {
               </TouchableOpacity>
             </View>
           </View>
-          <TouchableOpacity
-            style={{ backgroundColor: 'blue', padding: 5, borderRadius: 5 }}
-            onPress={() => navigation?.navigate('EmojiPicker')}
-          >
-            <Text>Emoji</Text>
-          </TouchableOpacity>
+          <View style={{ flexDirection: 'row' }}>
+            <TouchableOpacity
+              style={{ backgroundColor: 'blue', padding: 5, borderRadius: 5 }}
+              onPress={() => navigation?.navigate('EmojiPicker')}
+            >
+              <Text style={{ color: 'white' }}>Emoji</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{ backgroundColor: 'blue', padding: 5, borderRadius: 5 }}
+              onPress={() => navigation?.navigate('EmojiPicker')}
+            >
+              <Text style={{ color: 'white' }}>Special emoji</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       ) : null}
     </TouchableOpacity>

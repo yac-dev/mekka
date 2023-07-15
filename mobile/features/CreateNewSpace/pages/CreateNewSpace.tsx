@@ -88,7 +88,7 @@ const CreateNewSpace: React.FC<RouterProps> = (props) => {
   };
 
   return (
-    <CreateNewSpaceContext.Provider value={{ formData, setFormData }}>
+    <CreateNewSpaceContext.Provider value={{ formData, setFormData, navigation: props.navigation }}>
       <SafeAreaView style={{ flex: 1, backgroundColor: modalBackgroundColor }}>
         <View style={{ flex: 1, backgroundColor: modalBackgroundColor, padding: 10 }}>
           <Form />

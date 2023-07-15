@@ -1,4 +1,5 @@
 import { createContext } from 'react';
+import { NavigationProp, ParamListBase } from '@react-navigation/native';
 
 // stateとactionのtypeをまず設定すると。
 type FormDataStateType = {
@@ -45,6 +46,7 @@ type FormDataStateType = {
 interface CreateNewSpaceProps {
   formData: FormDataStateType; // ここのstateの形というかtypeか。これを直さなきゃなんだね。。。
   setFormData: React.Dispatch<React.SetStateAction<FormDataStateType>>;
+  navigation: NavigationProp<ParamListBase> | undefined;
 }
 
 export const CreateNewSpaceContext = createContext<CreateNewSpaceProps>({
@@ -57,4 +59,5 @@ export const CreateNewSpaceContext = createContext<CreateNewSpaceProps>({
     isReactionAvailable: true,
   },
   setFormData: () => {},
+  navigation: undefined,
 });
