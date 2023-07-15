@@ -2,10 +2,14 @@ import React, { useState, useContext } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { HomeContext } from '../../../Home/contexts/HomeContext';
 import { CreateNewSpaceContext } from '../../contexts/CreateNewSpace';
+import { Ionicons } from '@expo/vector-icons';
+import { iconColorTable, iconParameterBackgroundColorTable } from '../../../../themes/color';
 
 const ReactionForm = () => {
   const [accordion, setAccordion] = useState(false);
+  const { navigation } = useContext(HomeContext);
   const { formData, setFormData } = useContext(CreateNewSpaceContext);
 
   return (
@@ -21,12 +25,12 @@ const ReactionForm = () => {
               height: 40,
               justifyContent: 'center',
               alignItems: 'center',
-              backgroundColor: 'blue',
+              backgroundColor: iconParameterBackgroundColorTable['pink1'],
               marginRight: 15,
-              borderRadius: 5,
+              borderRadius: 11,
             }}
           >
-            <AntDesign name='plus' color='red' size={20} />
+            <Ionicons name='heart' color={iconColorTable['pink1']} size={20} />
           </View>
           <Text style={{ color: 'white', fontSize: 18 }}>Reaction</Text>
         </View>
@@ -71,6 +75,12 @@ const ReactionForm = () => {
               </TouchableOpacity>
             </View>
           </View>
+          <TouchableOpacity
+            style={{ backgroundColor: 'blue', padding: 5, borderRadius: 5 }}
+            onPress={() => navigation?.navigate('EmojiPicker')}
+          >
+            <Text>Emoji</Text>
+          </TouchableOpacity>
         </View>
       ) : null}
     </TouchableOpacity>

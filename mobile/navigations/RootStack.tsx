@@ -8,6 +8,7 @@ import Home from '../features/Home/pages/Home';
 import Signup from '../features/Home/pages/Signup';
 import Space from '../features/Home/pages/Space';
 import CreateNewSpace from '../features/CreateNewSpace/pages/CreateNewSpace';
+import EmojiPicker from '../features/CreateNewSpace/components/CreateNewSpace/EmojiPicker';
 import Discover from '../features/Discover/pages/Spaces';
 import { Entypo } from '@expo/vector-icons';
 import { primaryBackgroundColor } from '../themes/color';
@@ -144,6 +145,27 @@ const RootStack = () => {
               </TouchableOpacity>
             ),
             headerTitle: 'Create new space',
+            headerStyle: {
+              backgroundColor: primaryBackgroundColor,
+            },
+            headerTitleStyle: {
+              fontWeight: 'bold',
+              color: primaryTextColor,
+            },
+          })}
+        />
+      </Stack.Group>
+      <Stack.Group screenOptions={{ presentation: 'modal', gestureEnabled: false }}>
+        <Stack.Screen
+          name='EmojiPicker'
+          component={EmojiPicker}
+          options={({ navigation }) => ({
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <Text style={{ color: primaryTextColor, fontSize: 20 }}>Close</Text>
+              </TouchableOpacity>
+            ),
+            headerTitle: 'Emoji picker',
             headerStyle: {
               backgroundColor: primaryBackgroundColor,
             },

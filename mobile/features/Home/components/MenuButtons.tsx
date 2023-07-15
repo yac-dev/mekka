@@ -3,6 +3,7 @@ import { View, Text, Dimensions, TouchableOpacity } from 'react-native';
 import { GlobalContext } from '../../../contexts/GlobalContext';
 import { HomeContext } from '../contexts/HomeContext';
 import { AntDesign } from '@expo/vector-icons';
+import { iconColorTable, iconParameterBackgroundColorTable } from '../../../themes/color';
 
 const MenuButtons = () => {
   const { isIpad } = useContext(GlobalContext);

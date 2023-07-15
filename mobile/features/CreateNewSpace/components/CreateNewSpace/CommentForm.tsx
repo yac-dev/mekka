@@ -3,6 +3,8 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { CreateNewSpaceContext } from '../../contexts/CreateNewSpace';
+import { Foundation } from '@expo/vector-icons';
+import { iconColorTable, iconParameterBackgroundColorTable } from '../../../../themes/color';
 
 const CommentForm = () => {
   const [accordion, setAccordion] = useState(false);
@@ -21,12 +23,12 @@ const CommentForm = () => {
               height: 40,
               justifyContent: 'center',
               alignItems: 'center',
-              backgroundColor: 'blue',
+              backgroundColor: iconParameterBackgroundColorTable['orange1'],
               marginRight: 15,
-              borderRadius: 5,
+              borderRadius: 11,
             }}
           >
-            <AntDesign name='plus' color='red' size={20} />
+            <Foundation name='comments' color={iconColorTable['orange1']} size={20} />
           </View>
           <Text style={{ color: 'white', fontSize: 18 }}>Comment</Text>
         </View>

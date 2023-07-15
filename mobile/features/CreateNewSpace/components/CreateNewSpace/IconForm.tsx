@@ -5,6 +5,8 @@ import { CreateNewSpaceContext } from '../../contexts/CreateNewSpace';
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { inputBackgroundColor } from '../../../../themes/color';
+import { iconColorTable, iconParameterBackgroundColorTable } from '../../../../themes/color';
+import { Foundation } from '@expo/vector-icons';
 // image pickerを使おう。
 
 const IconForm: React.FC = (props) => {
@@ -46,12 +48,12 @@ const IconForm: React.FC = (props) => {
               height: 40,
               justifyContent: 'center',
               alignItems: 'center',
-              backgroundColor: 'blue',
+              backgroundColor: iconParameterBackgroundColorTable['blue1'],
               marginRight: 15,
-              borderRadius: 5,
+              borderRadius: 11,
             }}
           >
-            <AntDesign name='plus' color='red' size={20} />
+            <Foundation name='thumbnails' color={iconColorTable['blue1']} size={20} />
           </View>
           <Text style={{ color: 'white', fontSize: 18 }}>Icon</Text>
         </View>
