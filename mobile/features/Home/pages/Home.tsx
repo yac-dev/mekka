@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Dimensions } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { GlobalContext } from '../../../contexts/GlobalContext';
 import { HomeContext } from '../contexts/HomeContext';
@@ -11,6 +11,7 @@ import AuthButtons from '../components/AuthButtons';
 import Button from '../../../components/Button/Button';
 import Spaces from '../components/Spaces';
 import backendAPI from '../../../apis/backend';
+import MenuButtons from '../components/MenuButtons';
 
 interface RouterProps {
   navigation: NavigationProp<any, any>;
@@ -33,10 +34,12 @@ type SpaceAndMeRelationshipType = {
 // homeは、authされている状態、されていない状態でrenderを分けなきゃいけない。
 // authなら、自分が参加しているlibraryを全部renderするし、authじゃないならlogin or signupを表示する感じ。
 const MySpaces: React.FC<RouterProps> = (props) => {
-  const { authData } = useContext(GlobalContext);
-  const [spaceAndMeRelationships, setSpaceAndMeRelationships] = useState<SpaceAndMeRelationshipType[]>([]); //　[{name: 'Mario room', icon: 'https://mekka-dev...', isPublic: true}]
-  // どこのhttp requestだ？？
-  console.log(spaceAndMeRelationships);
+  const { authData, isIpad } = useContext(GlobalContext);
+  const [spaceAndMeRelationships, setSpaceAndMeRelationships] = useState<SpaceAndMeRelationshipType[]>([]);
+  const oneGridWidth = isIpad ? Dimensions.get('window').width / 6 : Dimensions.get('window').width / 4;
+  const oneGridHeight = isIpad ? Dimensions.get('window').height / 7.5 : Dimensions.get('window').height / 7;
+  const iconWidth = oneGridWidth * 0.7;
+
   const getMySpaces = async () => {
     const result = await backendAPI.get(`/spaceanduserrelationships/users/${authData._id}`);
     const { spaceAndUserRelationships } = result.data;
@@ -54,6 +57,7 @@ const MySpaces: React.FC<RouterProps> = (props) => {
         value={{ spaceAndMeRelationships, setSpaceAndMeRelationships, navigation: props.navigation }}
       >
         <View style={{ flex: 1, backgroundColor: primaryBackgroundColor }}>
+          <MenuButtons />
           <Spaces />
         </View>
       </HomeContext.Provider>

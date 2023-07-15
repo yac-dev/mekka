@@ -60,7 +60,7 @@ const Spaces: React.FC<RouterProps> = (props) => {
           renderItem={({ item }) => renderSpace(item)}
           keyExtractor={(item, index) => `${item._id}-${index}`}
         />
-        {/* <CreateNewButton onButtonPress={onButtonPress} /> */}
+        <CreateNewButton onButtonPress={onButtonPress} />
       </View>
     </SpacesContext.Provider>
   );
