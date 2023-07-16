@@ -76,7 +76,7 @@ const RootStack = () => {
                   <TouchableOpacity style={{ marginRight: 10 }} onPress={() => navigation.navigate('Profile Top')}>
                     <Entypo name='bell' size={25} color={'white'} />
                   </TouchableOpacity>
-                  <TouchableOpacity style={{ marginRight: 10 }} onPress={() => navigation.navigate('Profile Top')}>
+                  <TouchableOpacity style={{ marginRight: 0 }} onPress={() => navigation.navigate('Profile Top')}>
                     <MCI name='account-circle' size={25} color={'white'} />
                   </TouchableOpacity>
                 </View>

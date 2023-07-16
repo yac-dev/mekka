@@ -11,7 +11,7 @@ const MenuButtons = () => {
   const { isIpad } = useContext(GlobalContext);
   const { navigation } = useContext(HomeContext);
   const oneGridWidth = isIpad ? Dimensions.get('window').width / 6 : Dimensions.get('window').width / 4;
-  const oneGridHeight = isIpad ? Dimensions.get('window').height / 7.5 : Dimensions.get('window').height / 7.5;
+  const oneGridHeight = isIpad ? Dimensions.get('window').height / 7.5 : Dimensions.get('window').height / 6.5;
   const iconWidth = oneGridWidth * 0.65;
 
   return (
@@ -78,7 +78,7 @@ const MenuButtons = () => {
             marginBottom: 5,
           }}
         >
-          <AntDesign name='plus' color={iconColorTable['yellow1']} size={25} />
+          <Ionicons name='camera' color={iconColorTable['yellow1']} size={25} />
         </TouchableOpacity>
         <Text style={{ color: 'white' }}>Camera</Text>
       </View>
