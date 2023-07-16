@@ -6,7 +6,8 @@ const Stack = createNativeStackNavigator();
 import BottomTab from './BottomTab';
 import Home from '../features/Home/pages/Home';
 import Signup from '../features/Home/pages/Signup';
-import Space from '../features/Home/pages/Space';
+// import Space from '../features/Home/pages/Space';
+import SpaceTopTabNavigator from '../navigations/SpaceTopTabNavigator';
 import CreateNewSpace from '../features/CreateNewSpace/pages/CreateNewSpace';
 import EmojiPicker from '../features/CreateNewSpace/components/CreateNewSpace/EmojiPicker';
 // special emoji picker
@@ -120,7 +121,7 @@ const RootStack = () => {
         />
         <Stack.Screen
           name='Space'
-          component={Space}
+          component={SpaceTopTabNavigator}
           options={({ navigation }) => ({
             headerLeft: () => (
               <TouchableOpacity onPress={() => navigation.goBack()}>
