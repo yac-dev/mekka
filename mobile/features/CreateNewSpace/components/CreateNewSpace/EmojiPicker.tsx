@@ -13,29 +13,27 @@ const EmojiPicker: React.FC = (props) => {
   const [selectedEmoji, setSelectedEmoji] = useState('');
   const [filterOption, setFilterOption] = useState('smileyAndPeople');
 
-  // useEffect(() => {
-  //   props.navigation.setOptions({
-  //     headerRight: () => (
-  //       <TouchableOpacity
-  //         // このmergeって、初めて知ったな。
-  //         onPress={() =>
-  //           props.navigation.navigate({ name: 'Create new library', params: { selectedEmoji }, merge: true })
-  //         }
-  //         disabled={selectedEmoji ? false : true}
-  //       >
-  //         <Text
-  //           style={{
-  //             color: selectedEmoji ? 'white' : disabledTextColor,
-  //             fontSize: 20,
-  //             fontWeight: selectedEmoji ? 'bold' : null,
-  //           }}
-  //         >
-  //           Done
-  //         </Text>
-  //       </TouchableOpacity>
-  //     ),
-  //   });
-  // }, [selectedEmoji]);
+  useEffect(() => {
+    props.navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity
+          // このmergeって、初めて知ったな。
+          onPress={() => props.navigation.navigate({ name: 'CreateNewSpace', params: { selectedEmoji }, merge: true })}
+          disabled={selectedEmoji ? false : true}
+        >
+          <Text
+            style={{
+              color: selectedEmoji ? 'white' : 'red',
+              fontSize: 20,
+              fontWeight: selectedEmoji ? 'bold' : null,
+            }}
+          >
+            Done
+          </Text>
+        </TouchableOpacity>
+      ),
+    });
+  }, [selectedEmoji]);
 
   const renderEmojis = () => {
     const list = emojis[filterOption].map((emoji, index) => {

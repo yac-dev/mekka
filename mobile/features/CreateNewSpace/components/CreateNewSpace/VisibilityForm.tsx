@@ -5,17 +5,18 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { CreateNewSpaceContext } from '../../contexts/CreateNewSpace';
 import { iconColorTable, iconParameterBackgroundColorTable } from '../../../../themes/color';
 import { MaterialIcons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 
 const VisibilityForm = () => {
   const [accordion, setAccordion] = useState(false);
   const { formData, setFormData } = useContext(CreateNewSpaceContext);
 
   return (
-    <TouchableOpacity
-      style={{ padding: 7, borderRadius: 5, marginBottom: 10, backgroundColor: 'rgb(50,50,50)' }}
-      onPress={() => setAccordion((previous) => !previous)}
-    >
-      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+    <View style={{ padding: 7, borderRadius: 5, marginBottom: 10, backgroundColor: 'rgb(50,50,50)' }}>
+      <TouchableOpacity
+        style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}
+        onPress={() => setAccordion((previous) => !previous)}
+      >
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <View
             style={{
@@ -37,7 +38,7 @@ const VisibilityForm = () => {
         ) : (
           <MaterialCommunityIcons name='chevron-down' color='white' size={20} />
         )}
-      </View>
+      </TouchableOpacity>
       {accordion ? (
         <View style={{ marginTop: 10 }}>
           <Text style={{ marginBottom: 10, color: 'white' }}>Is this space publicly accesible?</Text>
@@ -55,6 +56,14 @@ const VisibilityForm = () => {
                 }
               >
                 <Text>Public</Text>
+                {formData.isPublic ? (
+                  <Ionicons
+                    name='checkmark-circle'
+                    size={20}
+                    color={'green'}
+                    style={{ position: 'absolute', top: 0, right: 0 }}
+                  />
+                ) : null}
               </TouchableOpacity>
             </View>
             <View style={{ width: '50%', padding: 2 }}>
@@ -69,13 +78,21 @@ const VisibilityForm = () => {
                   })
                 }
               >
-                <Text>Public</Text>
+                <Text>Private</Text>
+                {!formData.isPublic ? (
+                  <Ionicons
+                    name='checkmark-circle'
+                    size={20}
+                    color={'green'}
+                    style={{ position: 'absolute', top: 0, right: 0 }}
+                  />
+                ) : null}
               </TouchableOpacity>
             </View>
           </View>
         </View>
       ) : null}
-    </TouchableOpacity>
+    </View>
   );
 };
 

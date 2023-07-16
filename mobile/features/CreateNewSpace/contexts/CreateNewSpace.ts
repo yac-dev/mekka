@@ -1,5 +1,15 @@
 import { createContext } from 'react';
-import { NavigationProp, ParamListBase } from '@react-navigation/native';
+import { NavigationProp, ParamListBase, RouteProp } from '@react-navigation/native';
+
+type ReactionIconType = {
+  name: string;
+  url: string;
+};
+
+type ReactionType = {
+  emoji: string;
+  reactionIcon: ReactionIconType | undefined;
+};
 
 // stateとactionのtypeをまず設定すると。
 type FormDataStateType = {
@@ -11,9 +21,11 @@ type FormDataStateType = {
   isReactionAvailable: boolean;
   videoLength: number;
   stay: string;
-  // reactions: string[];
-  // tags: string[];
+  reactions: ReactionType[];
+  tags: string[];
 };
+
+// { emoji: '' , icon: '' }
 
 // type CreateNewSpaceActionType =
 //   | { type: 'SET_NAME'; payload: string }
@@ -49,7 +61,9 @@ interface CreateNewSpaceProps {
   formData: FormDataStateType; // ここのstateの形というかtypeか。これを直さなきゃなんだね。。。
   setFormData: React.Dispatch<React.SetStateAction<FormDataStateType>>;
   navigation: NavigationProp<ParamListBase> | undefined;
+  route: RouteProp<ParamListBase, string> | undefined;
 }
+// この、paramlistbaseっていうがなんだが分からねー。
 
 export const CreateNewSpaceContext = createContext<CreateNewSpaceProps>({
   formData: {
@@ -61,7 +75,10 @@ export const CreateNewSpaceContext = createContext<CreateNewSpaceProps>({
     isReactionAvailable: true,
     videoLength: 60,
     stay: '',
+    reactions: [],
+    tags: [],
   },
   setFormData: () => {},
   navigation: undefined,
+  route: undefined,
 });

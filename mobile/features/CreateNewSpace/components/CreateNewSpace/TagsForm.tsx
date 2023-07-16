@@ -6,6 +6,7 @@ import { CreateNewSpaceContext } from '../../contexts/CreateNewSpace';
 import { inputBackgroundColor } from '../../../../themes/color';
 import { iconColorTable, iconParameterBackgroundColorTable } from '../../../../themes/color';
 import { Foundation } from '@expo/vector-icons';
+import { Octicons } from '@expo/vector-icons';
 
 const TagsFrom: React.FC = (props) => {
   const { formData, setFormData } = useContext(CreateNewSpaceContext);
@@ -36,7 +37,7 @@ const TagsFrom: React.FC = (props) => {
               borderRadius: 11,
             }}
           >
-            <Foundation name='pricetag-multiple' color={iconColorTable['gray1']} size={20} />
+            <Octicons name='hash' color={iconColorTable['gray1']} size={20} />
           </View>
           <Text style={{ color: 'white', fontSize: 18 }}>Tags</Text>
         </View>
