@@ -15,6 +15,8 @@ type FormDataStateType = {
   isPublic: boolean;
   isCommentAvailable: boolean;
   isReactionAvailable: boolean;
+  videoLength: number;
+  stay: string;
   // reactions: string[];
   // tags: string[];
 };
@@ -31,6 +33,8 @@ const CreateNewSpace: React.FC<RouterProps> = (props) => {
     isPublic: true,
     isCommentAvailable: true,
     isReactionAvailable: true,
+    videoLength: 60,
+    stay: '',
     // reactions: [],
     // tags: []
   });

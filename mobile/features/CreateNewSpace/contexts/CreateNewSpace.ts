@@ -9,6 +9,8 @@ type FormDataStateType = {
   isPublic: boolean;
   isCommentAvailable: boolean;
   isReactionAvailable: boolean;
+  videoLength: number;
+  stay: string;
   // reactions: string[];
   // tags: string[];
 };
@@ -57,6 +59,8 @@ export const CreateNewSpaceContext = createContext<CreateNewSpaceProps>({
     isPublic: true,
     isCommentAvailable: true,
     isReactionAvailable: true,
+    videoLength: 60,
+    stay: '',
   },
   setFormData: () => {},
   navigation: undefined,
