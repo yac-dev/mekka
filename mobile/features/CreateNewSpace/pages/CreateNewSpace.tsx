@@ -8,14 +8,15 @@ import backendAPI from '../../../apis/backend';
 import Form from '../components/Form';
 import { NavigationProp, RouteProp } from '@react-navigation/native';
 
-type ReactionIconType = {
+type SpecialEmojiType = {
   name: string;
   url: string;
 };
 
 type ReactionType = {
+  emojiType: string;
   emoji: string;
-  reactionIcon: ReactionIconType | undefined;
+  specialEmoji: SpecialEmojiType | undefined;
 };
 
 type FormDataStateType = {
@@ -37,6 +38,7 @@ type RouterProps = {
 };
 
 const CreateNewSpace: React.FC<RouterProps> = (props) => {
+  const { authData } = useContext(GlobalContext);
   const [formData, setFormData] = useState<FormDataStateType>({
     name: '',
     icon: '',
@@ -45,7 +47,7 @@ const CreateNewSpace: React.FC<RouterProps> = (props) => {
     isCommentAvailable: true,
     isReactionAvailable: true,
     videoLength: 60,
-    stay: '',
+    stay: 'permanent',
     reactions: [],
     tags: [],
   });
@@ -71,25 +73,26 @@ const CreateNewSpace: React.FC<RouterProps> = (props) => {
   const onDonePress = async () => {
     // const payload = {
     //   name: formData.name,
-    //   icon: formData.icon,
+    //   // icon: formData.icon,
     //   contentType: formData.contentType,
     //   isPublic: formData.isPublic,
     //   isCommentAvailable: formData.isCommentAvailable,
     //   isReactionAvailable: formData.isReactionAvailable,
-    //   createdBy: '64ab71ebc5bab81dcfe7d2fd',
+    //   createdBy: authData._id,
+    //   reactions: formData.reactions,
+    //   tags: formData.tags,
     // };
+    // console.log(payload);
     const payload = new FormData();
     payload.append('name', formData.name);
     payload.append('contentType', formData.contentType);
     payload.append('isPublic', formData.isPublic.toString());
     payload.append('isCommentAvailable', formData.isCommentAvailable.toString());
     payload.append('isReactionAvailable', formData.isReactionAvailable.toString());
-    payload.append('createdBy', '64ab71ebc5bab81dcfe7d2fd');
-
-    const iconFile = new File([formData.icon], `64ab71ebc5bab81dcfe7d2fd-${new Date()}`, {
-      type: 'image/jpeg',
-    });
-
+    payload.append('tags', JSON.stringify(formData.tags));
+    payload.append('reactions', JSON.stringify(formData.reactions));
+    payload.append('videoLength', formData.videoLength.toString());
+    payload.append('createdBy', authData._id);
     const iconData = {
       name: `64ab71ebc5bab81dcfe7d2fd-${new Date()}`,
       uri: formData.icon,

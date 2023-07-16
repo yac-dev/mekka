@@ -7,7 +7,7 @@ import { inputBackgroundColor } from '../../../../themes/color';
 import { iconColorTable, iconParameterBackgroundColorTable } from '../../../../themes/color';
 import { Ionicons } from '@expo/vector-icons';
 
-const NameParameter: React.FC = (props) => {
+const NameForm: React.FC = (props) => {
   const { formData, setFormData } = useContext(CreateNewSpaceContext);
   const [accordion, setAccordion] = useState<boolean>(false);
   // でも、これtopで持ってないとダメだな。
@@ -50,7 +50,8 @@ const NameParameter: React.FC = (props) => {
         <View style={{ marginTop: 10 }}>
           <Text style={{ marginBottom: 10, color: 'white' }}>Please write the space name. Be unique.</Text>
           <TextInput
-            placeholder='Type here'
+            placeholder='In 40 characters long'
+            placeholderTextColor={'white'}
             value={formData.name}
             onChangeText={(text) =>
               setFormData((previous) => {
@@ -60,7 +61,8 @@ const NameParameter: React.FC = (props) => {
                 };
               })
             }
-            style={{ backgroundColor: inputBackgroundColor, padding: 10, borderRadius: 5 }}
+            autoCapitalize='none'
+            style={{ backgroundColor: inputBackgroundColor, padding: 10, borderRadius: 5, color: 'white' }}
           />
         </View>
       ) : null}
@@ -68,4 +70,4 @@ const NameParameter: React.FC = (props) => {
   );
 };
 
-export default NameParameter;
+export default NameForm;

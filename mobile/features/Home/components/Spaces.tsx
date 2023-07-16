@@ -23,7 +23,7 @@ const Spaces: React.FC = (props) => {
       >
         <Image
           source={{ uri: relationship.space.icon }}
-          style={{ width: iconWidth, aspectRatio: 1, borderRadius: 12, marginBottom: 5 }}
+          style={{ width: iconWidth, aspectRatio: 1, borderRadius: 15, marginBottom: 5 }}
         />
         <Text style={{ color: 'white' }}>{relationship.space.name}</Text>
       </TouchableOpacity>

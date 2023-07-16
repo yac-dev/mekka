@@ -1,14 +1,15 @@
 import { createContext } from 'react';
 import { NavigationProp, ParamListBase, RouteProp } from '@react-navigation/native';
 
-type ReactionIconType = {
+type SpecialEmojiType = {
   name: string;
   url: string;
 };
 
 type ReactionType = {
+  emojiType: string;
   emoji: string;
-  reactionIcon: ReactionIconType | undefined;
+  specialEmoji: SpecialEmojiType | undefined;
 };
 
 // stateとactionのtypeをまず設定すると。
@@ -69,12 +70,12 @@ export const CreateNewSpaceContext = createContext<CreateNewSpaceProps>({
   formData: {
     name: '',
     icon: '',
-    contentType: '',
+    contentType: 'photo',
     isPublic: true,
     isCommentAvailable: true,
     isReactionAvailable: true,
     videoLength: 60,
-    stay: '',
+    stay: 'permanent',
     reactions: [],
     tags: [],
   },

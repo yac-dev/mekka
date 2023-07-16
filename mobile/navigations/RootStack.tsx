@@ -9,6 +9,8 @@ import Signup from '../features/Home/pages/Signup';
 import Space from '../features/Home/pages/Space';
 import CreateNewSpace from '../features/CreateNewSpace/pages/CreateNewSpace';
 import EmojiPicker from '../features/CreateNewSpace/components/CreateNewSpace/EmojiPicker';
+// special emoji picker
+import AddTag from '../features/CreateNewSpace/components/CreateNewSpace/AddTag';
 import Discover from '../features/Discover/pages/Spaces';
 import { Entypo } from '@expo/vector-icons';
 import { primaryBackgroundColor } from '../themes/color';
@@ -166,6 +168,25 @@ const RootStack = () => {
               </TouchableOpacity>
             ),
             headerTitle: 'Emoji picker',
+            headerStyle: {
+              backgroundColor: primaryBackgroundColor,
+            },
+            headerTitleStyle: {
+              fontWeight: 'bold',
+              color: primaryTextColor,
+            },
+          })}
+        />
+        <Stack.Screen
+          name='AddTag'
+          component={AddTag}
+          options={({ navigation }) => ({
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <Text style={{ color: primaryTextColor, fontSize: 20 }}>Close</Text>
+              </TouchableOpacity>
+            ),
+            headerTitle: 'Add tag',
             headerStyle: {
               backgroundColor: primaryBackgroundColor,
             },

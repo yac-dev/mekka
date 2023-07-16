@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 import NameForm from './CreateNewSpace/NameForm';
 import IconForm from './CreateNewSpace/IconForm';
 import VisibilityForm from './CreateNewSpace/VisibilityForm';
@@ -10,7 +10,7 @@ import TagsFrom from './CreateNewSpace/TagsForm';
 
 const Form = () => {
   return (
-    <View>
+    <ScrollView>
       <NameForm />
       <IconForm />
       <VisibilityForm />
@@ -18,7 +18,7 @@ const Form = () => {
       <CommentForm />
       <ReactionForm />
       <TagsFrom />
-    </View>
+    </ScrollView>
   );
 };
 

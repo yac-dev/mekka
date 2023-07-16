@@ -17,7 +17,10 @@ const ReactionForm: React.FC = (props) => {
       setFormData((previous) => {
         return {
           ...previous,
-          reactions: [...previous.reactions, { emoji: route.params?.selectedEmoji, reactionIcon: '' }],
+          reactions: [
+            ...previous.reactions,
+            { emojiType: 'normal', emoji: route.params?.selectedEmoji, specialEmoji: '' },
+          ],
         };
       });
     }
