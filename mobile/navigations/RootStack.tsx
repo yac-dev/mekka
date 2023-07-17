@@ -7,7 +7,8 @@ import BottomTab from './BottomTab';
 import Home from '../features/Home/pages/Home';
 import Signup from '../features/Home/pages/Signup';
 // import Space from '../features/Home/pages/Space';
-import SpaceTopTabNavigator from '../navigations/SpaceTopTabNavigator';
+// import SpaceTopTabNavigator from '../navigations/SpaceTopTabNavigator';
+import SpaceRootStackNavigator from './SpaceRootStackNavigator';
 import CreateNewSpace from '../features/CreateNewSpace/pages/CreateNewSpace';
 import EmojiPicker from '../features/CreateNewSpace/components/CreateNewSpace/EmojiPicker';
 // special emoji picker
@@ -101,34 +102,15 @@ const RootStack = () => {
       </Stack.Group>
       <Stack.Group screenOptions={{ presentation: 'fullScreenModal' }}>
         <Stack.Screen
-          name='Signup'
-          component={Signup}
+          name='SpaceRootStackNavigator'
+          component={SpaceRootStackNavigator}
           options={({ navigation }) => ({
             headerLeft: () => (
               <TouchableOpacity onPress={() => navigation.goBack()}>
                 <Text style={{ color: primaryTextColor, fontSize: 20 }}>Close</Text>
               </TouchableOpacity>
             ),
-            headerTitle: 'Signup',
-            headerStyle: {
-              backgroundColor: primaryBackgroundColor,
-            },
-            headerTitleStyle: {
-              fontWeight: 'bold',
-              color: primaryTextColor,
-            },
-          })}
-        />
-        <Stack.Screen
-          name='Space'
-          component={SpaceTopTabNavigator}
-          options={({ navigation }) => ({
-            headerLeft: () => (
-              <TouchableOpacity onPress={() => navigation.goBack()}>
-                <Text style={{ color: primaryTextColor, fontSize: 20 }}>Close</Text>
-              </TouchableOpacity>
-            ),
-            headerTitle: 'Space',
+            headerTitle: '',
             headerStyle: {
               backgroundColor: primaryBackgroundColor,
             },
@@ -159,6 +141,25 @@ const RootStack = () => {
         />
       </Stack.Group>
       <Stack.Group screenOptions={{ presentation: 'modal', gestureEnabled: false }}>
+        <Stack.Screen
+          name='Signup'
+          component={Signup}
+          options={({ navigation }) => ({
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <Text style={{ color: primaryTextColor, fontSize: 20 }}>Close</Text>
+              </TouchableOpacity>
+            ),
+            headerTitle: 'Signup',
+            headerStyle: {
+              backgroundColor: primaryBackgroundColor,
+            },
+            headerTitleStyle: {
+              fontWeight: 'bold',
+              color: primaryTextColor,
+            },
+          })}
+        />
         <Stack.Screen
           name='EmojiPicker'
           component={EmojiPicker}

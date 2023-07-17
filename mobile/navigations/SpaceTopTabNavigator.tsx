@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { TouchableOpacity, Text } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import Grid from '../features/Space/pages/Grid';
+import Grid from '../features/Space/pages/Home';
 import Map from '../features/Space/pages/Map';
 import Albums from '../features/Space/pages/Albums';
 
@@ -11,7 +11,7 @@ const SpaceStackNavigator: React.FC = () => {
   return (
     <Tab.Navigator>
       <Tab.Screen
-        name='Upcoming'
+        name='Grid'
         component={Grid}
         options={({ route }) => ({
           tabBarLabel: 'Grid',
@@ -22,7 +22,7 @@ const SpaceStackNavigator: React.FC = () => {
         name='Map'
         component={Map}
         options={({ route }) => ({
-          tabBarLabel: 'Grid',
+          tabBarLabel: 'Map',
           tabBarLabelStyle: { textTransform: 'none', fontWeight: 'bold', fontSize: 17 },
         })}
       />
@@ -30,7 +30,7 @@ const SpaceStackNavigator: React.FC = () => {
         name='Albums'
         component={Albums}
         options={({ route }) => ({
-          tabBarLabel: 'Grid',
+          tabBarLabel: 'Albums',
           tabBarLabelStyle: { textTransform: 'none', fontWeight: 'bold', fontSize: 17 },
         })}
       />

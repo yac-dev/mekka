@@ -10,26 +10,6 @@ const Spaces: React.FC = (props) => {
   const oneGridHeight = isIpad ? Dimensions.get('window').height / 7.5 : Dimensions.get('window').height / 6.5;
   const iconWidth = oneGridWidth * 0.65;
 
-  const renderSpace = useCallback((relationship: any) => {
-    return (
-      <TouchableOpacity
-        style={{
-          width: oneGridWidth,
-          height: oneGridHeight,
-          // backgroundColor: 'red',
-          alignItems: 'center',
-        }}
-        onPress={() => navigation.navigate('Space')}
-      >
-        <Image
-          source={{ uri: relationship.space.icon }}
-          style={{ width: iconWidth, aspectRatio: 1, borderRadius: 15, marginBottom: 5 }}
-        />
-        <Text style={{ color: 'white' }}>{relationship.space.name}</Text>
-      </TouchableOpacity>
-    );
-  }, []);
-
   const renderMySpaces = () => {
     const list = spaceAndMeRelationships.map((relationship) => {
       return (
@@ -41,7 +21,7 @@ const Spaces: React.FC = (props) => {
             // backgroundColor: 'red',
             alignItems: 'center',
           }}
-          onPress={() => navigation?.navigate('Space')}
+          onPress={() => navigation?.navigate('SpaceRootStackNavigator', { spaceId: relationship.space._id })}
         >
           <Image
             source={{ uri: relationship.space.icon }}
