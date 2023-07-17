@@ -21,7 +21,12 @@ const Spaces: React.FC = (props) => {
             // backgroundColor: 'red',
             alignItems: 'center',
           }}
-          onPress={() => navigation?.navigate('SpaceRootStackNavigator', { spaceId: relationship.space._id })}
+          onPress={() =>
+            navigation?.navigate('SpaceRootStackNavigator', {
+              screen: 'Home',
+              params: { spaceId: relationship.space._id },
+            })
+          }
         >
           <Image
             source={{ uri: relationship.space.icon }}
