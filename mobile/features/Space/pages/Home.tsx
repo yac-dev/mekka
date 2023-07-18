@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { SpaceContext } from '../contexts/SpaceContext';
 import backendAPI from '../../../apis/backend';
 import SpaceIconButton from '../components/SpaceIconButton';
 import SpaceMenu from './SpaceMenu';
 
-const Home = (props) => {
+type HomeProps = {};
+
+const Home: React.FC = (props) => {
   const [space, setSpace] = useState({ name: '' });
   const menuBottomSheetRef = useRef(null);
   const getSpace = async () => {
@@ -19,7 +21,7 @@ const Home = (props) => {
   }, []);
 
   return (
-    <SpaceContext.Provider value={{ space, setSpace, menuBottomSheetRef }}>
+    <SpaceContext.Provider value={{ space, setSpace, navigation: props.navigation, menuBottomSheetRef }}>
       <GestureHandlerRootView style={{ flex: 1, backgroundColor: 'black', padding: 10 }}>
         <Text style={{ color: 'white' }}>Grid here</Text>
         <SpaceIconButton />

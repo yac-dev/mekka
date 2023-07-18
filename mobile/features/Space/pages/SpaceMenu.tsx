@@ -1,11 +1,11 @@
 import React, { useMemo, useContext } from 'react';
 import { SpaceContext } from '../contexts/SpaceContext';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import GorhomBottomSheet, { BottomSheetView, BottomSheetBackdrop } from '@gorhom/bottom-sheet';
 
 const SpaceMenu = () => {
   const snapPoints = useMemo(() => ['70%'], []);
-  const { menuBottomSheetRef } = useContext(SpaceContext);
+  const { menuBottomSheetRef, navigation } = useContext(SpaceContext);
 
   return (
     <GorhomBottomSheet
@@ -23,7 +23,14 @@ const SpaceMenu = () => {
     >
       <BottomSheetView style={{ paddingLeft: 10, paddingRight: 10, flex: 1 }}>
         <View>
-          <Text style={{ color: 'red' }}>Hello</Text>
+          <TouchableOpacity
+            onPress={() => {
+              menuBottomSheetRef?.current.close();
+              navigation?.navigate('Post');
+            }}
+          >
+            <Text style={{ color: 'red' }}>Post</Text>
+          </TouchableOpacity>
         </View>
       </BottomSheetView>
     </GorhomBottomSheet>

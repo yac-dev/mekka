@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { TouchableOpacity, Text, View } from 'react-native';
+import { TouchableOpacity, Text, View, Dimensions, StyleSheet } from 'react-native';
 import { icons } from '../utils/icons';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator();
@@ -9,8 +9,19 @@ import { primaryTextColor } from '../themes/text';
 import Home from '../features/Space/pages/Home';
 import Map from '../features/Space/pages/Map';
 import Albums from '../features/Space/pages/Albums';
+import Post from '../features/Space/pages/Post';
 
 const { MCI, II } = icons;
+
+const windowHeight = Dimensions.get('window').height;
+const modalHeight = windowHeight / 2;
+
+const styles = StyleSheet.create({
+  modalContainer: {
+    height: modalHeight,
+    backgroundColor: 'white',
+  },
+});
 
 const SpaceRootStackNavigator = () => {
   return (
@@ -40,25 +51,26 @@ const SpaceRootStackNavigator = () => {
         {/*ここは、space menuで使う。　*/}
       </Stack.Group>
       <Stack.Group screenOptions={{ presentation: 'fullScreenModal' }}>
-        {/* <Stack.Screen
+        <Stack.Screen
           name='Post'
-          component={SpaceTopTabNavigator}
+          component={Post}
           options={({ navigation }) => ({
+            headerShown: true, // ここtrueにすると、,,,
             headerLeft: () => (
               <TouchableOpacity onPress={() => navigation.goBack()}>
                 <Text style={{ color: primaryTextColor, fontSize: 20 }}>Close</Text>
               </TouchableOpacity>
             ),
-            headerTitle: 'Space',
+            headerTitle: 'Post',
             headerStyle: {
-              backgroundColor: primaryBackgroundColor,
+              backgroundColor: 'black',
             },
             headerTitleStyle: {
               fontWeight: 'bold',
-              color: primaryTextColor,
+              color: 'white',
             },
           })}
-        /> */}
+        />
       </Stack.Group>
     </Stack.Navigator>
   );
