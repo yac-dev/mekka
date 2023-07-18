@@ -36,6 +36,9 @@ const SpaceRootStackNavigator = () => {
           headerShown: false, // ここtrueにすると、,,,
         })}
       />
+      <Stack.Group screenOptions={{ presentation: 'modal', gestureEnabled: false }}>
+        {/*ここは、space menuで使う。　*/}
+      </Stack.Group>
       <Stack.Group screenOptions={{ presentation: 'fullScreenModal' }}>
         {/* <Stack.Screen
           name='Post'
