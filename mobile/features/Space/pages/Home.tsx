@@ -3,7 +3,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { SpaceContext } from '../contexts/SpaceContext';
 import backendAPI from '../../../apis/backend';
-import SpaceIconButton from '../components/SpaceIconButton';
+import SpaceIconMenuButton from '../components/SpaceIconMenuButton';
 import SpaceMenu from './SpaceMenu';
 
 type HomeProps = {};
@@ -24,7 +24,7 @@ const Home: React.FC = (props) => {
     <SpaceContext.Provider value={{ space, setSpace, navigation: props.navigation, menuBottomSheetRef }}>
       <GestureHandlerRootView style={{ flex: 1, backgroundColor: 'black', padding: 10 }}>
         <Text style={{ color: 'white' }}>Grid here</Text>
-        <SpaceIconButton />
+        <SpaceIconMenuButton />
         <SpaceMenu />
       </GestureHandlerRootView>
     </SpaceContext.Provider>

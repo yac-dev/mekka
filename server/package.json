@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "server:dev": "env-cmd -f ./config/.env.dev nodemon --es-module-specifier-resolution=node src/index.js"
+    "server:dev": "env-cmd -f ./config/.env.dev nodemon --es-module-specifier-resolution=node src/index.js",
+    "server:production": "NODE_ENV=production node --es-module-specifier-resolution=node src/index.js"
   },
   "type": "module",
   "keywords": [],
