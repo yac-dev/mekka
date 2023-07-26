@@ -1,11 +1,29 @@
-import React, { useState, useContext } from 'react';
-import { View, Text } from 'react-native';
+import React, { useState, useContext, useEffect } from 'react';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { PostContext } from '../contexts/PostContext';
 import AddPhoto from '../components/Post/AddPhoto';
 import AddCaption from '../components/Post/AddCaption';
 
-const Post: React.FC = () => {
+const Post: React.FC = (props) => {
   const [formData, setFormData] = useState({ photos: [], caption: '' });
+
+  useEffect(() => {
+    props.navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity onPress={() => console.log('Hello')} disabled={false}>
+          <Text
+            style={{
+              color: 'white',
+              fontSize: 20,
+              fontWeight: 'bold',
+            }}
+          >
+            Done
+          </Text>
+        </TouchableOpacity>
+      ),
+    });
+  }, [formData]);
 
   return (
     <PostContext.Provider value={{ formData, setFormData }}>
