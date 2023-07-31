@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import { PostContext } from '../contexts/PostContext';
 import AddPhoto from '../components/Post/AddPhoto';
 import AddCaption from '../components/Post/AddCaption';
+import AddLocation from '../components/Post/AddLocation';
 
 const Post: React.FC = (props) => {
   const [formData, setFormData] = useState({ photos: [], caption: '' });
@@ -30,6 +31,7 @@ const Post: React.FC = (props) => {
       <View style={{ flex: 1, padding: 10, backgroundColor: 'black' }}>
         <AddPhoto />
         <AddCaption />
+        <AddLocation />
       </View>
     </PostContext.Provider>
   );

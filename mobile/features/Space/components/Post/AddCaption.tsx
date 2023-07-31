@@ -6,20 +6,18 @@ const AddCaption = () => {
   const { setFormData } = useContext(PostContext);
 
   return (
-    <View>
-      <TextInput
-        style={{ backgroundColor: 'red', padding: 10 }}
-        placeholder='add caption...'
-        onChangeText={(text) =>
-          setFormData((previous) => {
-            return {
-              ...previous,
-              caption: text,
-            };
-          })
-        }
-      />
-    </View>
+    <TextInput
+      style={{ backgroundColor: 'rgb(44, 44, 44)', padding: 10, borderRadius: 8, marginBottom: 20 }}
+      placeholder='Add caption...'
+      onChangeText={(text) =>
+        setFormData((previous) => {
+          return {
+            ...previous,
+            caption: text,
+          };
+        })
+      }
+    />
   );
 };
 

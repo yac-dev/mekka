@@ -5,6 +5,7 @@ import GorhomBottomSheet, { BottomSheetView, BottomSheetBackdrop } from '@gorhom
 import SpaceIcon from '../components/SpaceIcon';
 import SpaceMenus from '../components/SpaceMenus';
 
+// rgb(35, 35, 35)
 const SpaceMenu = () => {
   const snapPoints = useMemo(() => ['70%'], []);
   const { menuBottomSheetRef, navigation } = useContext(SpaceContext);
@@ -19,7 +20,7 @@ const SpaceMenu = () => {
         <BottomSheetBackdrop {...backdropProps} appearsOnIndex={0} disappearsOnIndex={-1} />
       )}
       enablePanDownToClose={true}
-      backgroundStyle={{ backgroundColor: 'rgb(63, 63, 63)' }}
+      backgroundStyle={{ backgroundColor: 'rgb(35, 35, 35)' }}
       handleIndicatorStyle={{ backgroundColor: 'white' }}
       // onClose={() => onSelectedItemBottomSheetClose()}
     >

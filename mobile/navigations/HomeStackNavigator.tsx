@@ -54,7 +54,7 @@ const HomeStackNavigator: React.FC = () => {
             ),
             headerTitle: 'Space',
             headerStyle: {
-              backgroundColor: primaryBackgroundColor,
+              backgroundColor: 'rgb(40, 40, 40)',
             },
             headerTitleStyle: {
               fontWeight: 'bold',

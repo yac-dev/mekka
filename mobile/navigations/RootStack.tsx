@@ -112,7 +112,7 @@ const RootStack = () => {
             ),
             headerTitle: '',
             headerStyle: {
-              backgroundColor: primaryBackgroundColor,
+              backgroundColor: 'black',
             },
             headerTitleStyle: {
               fontWeight: 'bold',

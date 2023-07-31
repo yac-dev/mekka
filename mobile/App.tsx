@@ -1,5 +1,5 @@
 import React, { useState, useReducer, useEffect } from 'react';
-import { View, Platform } from 'react-native';
+import { View, Platform, StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import * as SecureStore from 'expo-secure-store';
 import { GlobalContext } from './contexts/GlobalContext';
@@ -49,6 +49,7 @@ const App: React.FC = function () {
       }}
     >
       {/* <StatusBar hidden={false} translucent={true} backgroundColor='blue' barStyle='light-content' /> */}
+      <StatusBar hidden={false} translucent={true} backgroundColor='blue' barStyle='light-content' />
       <NavigationContainer>
         <RootStack />
       </NavigationContainer>
