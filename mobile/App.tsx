@@ -14,6 +14,7 @@ type AuthDataType = {
 };
 
 const App: React.FC = function () {
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [authData, setAuthData] = useState<AuthDataType>({ _id: '', name: '', email: '', avatar: '' });
   const [isIpad, setIsIpad] = useState<boolean>(Platform.OS === 'ios' && Platform.isPad);
   const [loading, setLoading] = useState<boolean>(false);
@@ -25,6 +26,7 @@ const App: React.FC = function () {
       const result = await backendAPI.get('/auth/loadMe', { headers: { authorization: `Bearer ${jwt}` } });
       const { user } = result.data;
       setAuthData(user);
+      setIsAuthenticated(true);
     }
   };
   useEffect(() => {
@@ -33,7 +35,18 @@ const App: React.FC = function () {
 
   return (
     <GlobalContext.Provider
-      value={{ authData, setAuthData, isIpad, setIsIpad, loading, setLoading, snackBar, setSnackBar }}
+      value={{
+        authData,
+        setAuthData,
+        isAuthenticated,
+        setIsAuthenticated,
+        isIpad,
+        setIsIpad,
+        loading,
+        setLoading,
+        snackBar,
+        setSnackBar,
+      }}
     >
       {/* <StatusBar hidden={false} translucent={true} backgroundColor='blue' barStyle='light-content' /> */}
       <NavigationContainer>

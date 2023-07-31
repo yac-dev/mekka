@@ -41,6 +41,8 @@ type AuthDataType = {
 interface GlobalContextProps {
   authData: AuthDataType;
   setAuthData: React.Dispatch<React.SetStateAction<AuthDataType>>;
+  isAuthenticated: boolean;
+  setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
   isIpad: boolean;
   setIsIpad: React.Dispatch<React.SetStateAction<boolean>>;
   loading: boolean;
@@ -52,6 +54,8 @@ interface GlobalContextProps {
 export const GlobalContext = createContext<GlobalContextProps>({
   authData: { _id: '', name: '', email: '', avatar: '' },
   setAuthData: () => {},
+  isAuthenticated: false,
+  setIsAuthenticated: () => {},
   isIpad: false,
   setIsIpad: () => {},
   loading: false,
