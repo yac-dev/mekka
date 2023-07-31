@@ -8,18 +8,30 @@ const AddPhoto = () => {
   const { formData, setFormData } = useContext(PostContext);
 
   const pickAndSendImage = async () => {
-    let pickedImage = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
       // allowsEditing: true,
       // aspect: [16, 9],
       quality: 1,
     });
-    if (!pickedImage.canceled && pickedImage.assets[0].uri) {
-      console.log(pickedImage);
+    if (!result.canceled && result.assets[0].uri) {
+      const { uri } = result.assets[0];
+
+      // Determine media type based on file extension
+      if (uri.endsWith('.jpg') || uri.endsWith('.png')) {
+        // The picked content is a photo.
+        console.log('Picked photo:', uri);
+      } else if (uri.endsWith('.mp4') || uri.endsWith('.mov')) {
+        // The picked content is a video.
+        console.log('Picked video:', uri);
+      } else {
+        console.log('Unknown media type:', uri);
+      }
+
       setFormData((previous) => {
         return {
           ...previous,
-          photos: [...previous.photos, pickedImage.assets[0].uri],
+          photos: [...previous.photos, result.assets[0].uri],
         };
       });
     }

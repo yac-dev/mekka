@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 
 const tagSchema = mongoose.Schema({
+  icon: String,
   name: String,
   color: String,
 });
