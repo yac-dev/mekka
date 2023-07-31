@@ -4,9 +4,31 @@ import { PostContext } from '../contexts/PostContext';
 import AddPhoto from '../components/Post/AddPhoto';
 import AddCaption from '../components/Post/AddCaption';
 import AddLocation from '../components/Post/AddLocation';
+import { NavigationProp, ParamListBase, RouteProp } from '@react-navigation/native';
 
-const Post: React.FC = (props) => {
-  const [formData, setFormData] = useState({ photos: [], caption: '' });
+// ここで、propsに関するinterfaceなりをやらんとな。。。
+type PostProps = {
+  navigation: NavigationProp<any, any>;
+  route: RouteProp<any, any> | undefined;
+};
+
+type LocationType = {
+  type: string;
+  coordinates: number[];
+};
+
+type FormType = {
+  photos: string[];
+  caption: string;
+  location: LocationType;
+};
+
+const Post: React.FC<PostProps> = (props) => {
+  const [formData, setFormData] = useState<FormType>({
+    photos: [],
+    caption: '',
+    location: { type: 'Point', coordinates: [] },
+  });
 
   useEffect(() => {
     props.navigation.setOptions({
@@ -27,7 +49,7 @@ const Post: React.FC = (props) => {
   }, [formData]);
 
   return (
-    <PostContext.Provider value={{ formData, setFormData }}>
+    <PostContext.Provider value={{ formData, setFormData, navigation: props.navigation, route: props.route }}>
       <View style={{ flex: 1, padding: 10, backgroundColor: 'black' }}>
         <AddPhoto />
         <AddCaption />

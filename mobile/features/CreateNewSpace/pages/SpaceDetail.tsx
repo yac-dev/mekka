@@ -14,7 +14,7 @@ const SpaceDetail: React.FC<RouterProps> = (props) => {
   const [space, setSpace] = useState({});
 
   const getSpace = async () => {
-    const result = await backendAPI.get(`/spaces/${props.route.params.spaceId}`);
+    const result = await backendAPI.get(`/spaces/${props.route?.params?.spaceId}`);
     const { space } = result.data;
     setSpace(space);
   };
