@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { TouchableOpacity, Text } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import Grid from '../features/Space/pages/Home';
-import Map from '../features/Space/pages/Map';
+import Map from '../features/Space/pages/AddLocation';
 import Albums from '../features/Space/pages/Albums';
 
 const Tab = createMaterialTopTabNavigator();

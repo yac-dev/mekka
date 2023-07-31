@@ -7,7 +7,7 @@ import SpaceTopTabNavigator from './SpaceTopTabNavigator';
 import { primaryBackgroundColor } from '../themes/color';
 import { primaryTextColor } from '../themes/text';
 import Home from '../features/Space/pages/Home';
-import Map from '../features/Space/pages/Map';
+import AddLoaction from '../features/Space/pages/AddLocation';
 import Albums from '../features/Space/pages/Albums';
 import Post from '../features/Space/pages/Post';
 
@@ -34,13 +34,6 @@ const SpaceRootStackNavigator = () => {
         })}
       />
       <Stack.Screen
-        name='Map'
-        component={Map}
-        options={({ navigation }) => ({
-          headerShown: false, // ここtrueにすると、,,,
-        })}
-      />
-      <Stack.Screen
         name='Albums'
         component={Albums}
         options={({ navigation }) => ({
@@ -49,6 +42,26 @@ const SpaceRootStackNavigator = () => {
       />
       <Stack.Group screenOptions={{ presentation: 'modal', gestureEnabled: false }}>
         {/*ここは、space menuで使う。　*/}
+        <Stack.Screen
+          name='AddLocation'
+          component={AddLoaction}
+          options={({ navigation }) => ({
+            headerShown: true, // ここtrueにすると、,,,
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <Text style={{ color: primaryTextColor, fontSize: 20 }}>Close</Text>
+              </TouchableOpacity>
+            ),
+            headerTitle: 'Add location',
+            headerStyle: {
+              backgroundColor: 'black',
+            },
+            headerTitleStyle: {
+              fontWeight: 'bold',
+              color: 'white',
+            },
+          })}
+        />
       </Stack.Group>
       <Stack.Group screenOptions={{ presentation: 'fullScreenModal' }}>
         <Stack.Screen

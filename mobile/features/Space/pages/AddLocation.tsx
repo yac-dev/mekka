@@ -1,15 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, TouchableOpacity, Dimensions } from 'react-native';
-import MapView, { Marker } from 'react-native-maps';
+import { PostContext } from '../contexts/PostContext';
+import MapView, { Marker, MapPressEvent } from 'react-native-maps';
 import { mapStyle } from '../../../themes/map';
+import { NavigationProp, ParamListBase, RouteProp } from '@react-navigation/native';
 
-const Map = (props) => {
-  const [selectingVenue, setSelectingVenue] = useState(null);
+type SelectingLocationType = null | {
+  type: string;
+  coordinates: number[];
+};
 
-  const onMapPress = (event) => {
+type AddLocationProps = {
+  navigation: NavigationProp<ParamListBase> | undefined;
+};
+
+const AddLocation: React.FC<AddLocationProps> = (props) => {
+  const [selectingLocation, setSelectingLocation] = useState<SelectingLocationType>(null);
+
+  const onMapPress = (event: MapPressEvent) => {
     event.persist();
     // console.log(event.nativeEvent.coordinate);
-    setSelectingVenue({
+    setSelectingLocation({
       coordinates: [event.nativeEvent.coordinate.longitude, event.nativeEvent.coordinate.latitude],
       type: 'Point',
     });
@@ -22,15 +33,15 @@ const Map = (props) => {
   };
 
   useEffect(() => {
-    props.navigation.setOptions({
+    props.navigation?.setOptions({
       headerRight: () => (
         <TouchableOpacity
-          onPress={() => props.navigation.navigate('Launch new meetup', { selectedVenue: selectingVenue })}
-          disabled={selectingVenue ? false : true}
+          onPress={() => props.navigation?.navigate('Post', { selectedLocation: selectingLocation })}
+          disabled={selectingLocation ? false : true}
         >
           <Text
             style={{
-              color: selectingVenue ? 'white' : 'yellow',
+              color: selectingLocation ? 'white' : 'rgb(117, 117, 117)',
               fontSize: 20,
               fontWeight: 'bold',
             }}
@@ -40,7 +51,7 @@ const Map = (props) => {
         </TouchableOpacity>
       ),
     });
-  }, [selectingVenue]);
+  }, [selectingLocation]);
 
   return (
     <MapView
@@ -60,12 +71,12 @@ const Map = (props) => {
       }}
       // provider='google'
     >
-      {selectingVenue ? (
+      {selectingLocation ? (
         <Marker
           tracksViewChanges={false}
           coordinate={{
-            latitude: selectingVenue.coordinates[1],
-            longitude: selectingVenue.coordinates[0],
+            latitude: selectingLocation.coordinates[1],
+            longitude: selectingLocation.coordinates[0],
           }}
           // pinColor='black'
         ></Marker>
@@ -74,4 +85,4 @@ const Map = (props) => {
   );
 };
 
-export default Map;
+export default AddLocation;
