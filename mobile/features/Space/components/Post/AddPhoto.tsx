@@ -12,42 +12,58 @@ const AddPhoto = () => {
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       // allowsEditing: true,
       // aspect: [16, 9],
+      allowsMultipleSelection: true,
       quality: 1,
     });
-    if (!result.canceled && result.assets[0].uri) {
-      const { uri } = result.assets[0];
-
-      // Determine media type based on file extension
-      if (uri.endsWith('.jpg') || uri.endsWith('.png')) {
-        // The picked content is a photo.
-        console.log('Picked photo:', uri);
-      } else if (uri.endsWith('.mp4') || uri.endsWith('.mov')) {
-        // The picked content is a video.
-        console.log('Picked video:', uri);
-      } else {
-        console.log('Unknown media type:', uri);
-      }
-
+    if (!result.canceled && result.assets) {
+      // result assets それぞれのassetに対して、dataを作る様にすると。
       setFormData((previous) => {
+        const addedAssets = result.assets.map((asset) => {
+          return {
+            uri: asset.uri,
+            type: asset.type === 'image' ? 'image' : 'video',
+            duration: asset.duration ? asset.duration : null,
+          };
+        });
+
         return {
           ...previous,
-          photos: [...previous.photos, result.assets[0].uri],
+          contents: [...previous.contents, ...addedAssets],
         };
       });
+
+      // Determine media type based on file extension
+      // if (uri.endsWith('.jpg') || uri.endsWith('.png')) {
+      //   // The picked content is a photo.
+      //   console.log('Picked photo:', uri);
+      // } else if (uri.endsWith('.mp4') || uri.endsWith('.mov')) {
+      //   // The picked content is a video.
+      //   console.log('Picked video:', uri);
+      // } else {
+      //   console.log('Unknown media type:', uri);
+      // }
+
+      // setFormData((previous) => {
+      //   return {
+      //     ...previous,
+      //     photos: [...previous.photos, result.assets[0].uri],
+      //   };
+      // });
     }
     // user idと日付でfile名を確保しておく。
     // let creatingFileName = `${auth.data._id}-${Date.now()}`;
     // if (!pickedImage.cancelled && pickedImage.uri) {
     // }
   };
+  console.log(JSON.stringify(formData, null, 4));
 
   const renderPhoto = () => {
-    if (formData.photos.length) {
-      const list = formData.photos.map((photo, index) => {
+    if (formData.contents.length) {
+      const list = formData.contents.map((content, index) => {
         return (
           <Image
             key={index}
-            source={{ uri: photo }}
+            source={{ uri: content.uri }}
             style={{ width: 90, height: 90, borderRadius: 12, marginRight: 10 }}
           />
         );
@@ -64,7 +80,7 @@ const AddPhoto = () => {
   };
 
   const renderDescription = () => {
-    return <Text style={{ color: 'white' }}>{formData.photos.length ? 'Add more' : 'Add image'}</Text>;
+    return <Text style={{ color: 'white' }}>{formData.contents.length ? 'Add more' : 'Add image'}</Text>;
   };
 
   return (

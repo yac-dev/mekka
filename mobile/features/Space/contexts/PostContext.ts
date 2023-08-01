@@ -1,13 +1,19 @@
 import { createContext, RefObject } from 'react';
 import { NavigationProp, ParamListBase, RouteProp } from '@react-navigation/native';
 
+type ContentType = {
+  data: string;
+  type: string; // photo or video ここのliteral型かも書いた方がいいかもな。。。
+  duration: number;
+};
+
 type LocationType = {
   type: string;
   coordinates: number[];
 };
 
 type FormType = {
-  photos: string[];
+  contents: ContentType[];
   caption: string;
   location: LocationType;
 };
@@ -21,7 +27,7 @@ type FormContextType = {
 
 export const PostContext = createContext<FormContextType>({
   formData: {
-    photos: [],
+    contents: [],
     caption: '',
     location: {
       type: 'Point',

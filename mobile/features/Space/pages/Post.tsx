@@ -7,7 +7,12 @@ import AddLocation from '../components/Post/AddLocation';
 import { NavigationProp, ParamListBase, RouteProp } from '@react-navigation/native';
 import backendAPI from '../../../apis/backend';
 
-// ここで、propsに関するinterfaceなりをやらんとな。。。
+type ContentType = {
+  data: string;
+  type: string; // photo or video ここのliteral型かも書いた方がいいかもな。。。
+  duration: number;
+};
+
 type PostProps = {
   navigation: NavigationProp<any, any>;
   route: RouteProp<any, any> | undefined;
@@ -19,14 +24,14 @@ type LocationType = {
 };
 
 type FormType = {
-  photos: string[];
+  contents: ContentType[];
   caption: string;
   location: LocationType;
 };
 
 const Post: React.FC<PostProps> = (props) => {
   const [formData, setFormData] = useState<FormType>({
-    photos: [],
+    contents: [],
     caption: '',
     location: { type: 'Point', coordinates: [] },
   });

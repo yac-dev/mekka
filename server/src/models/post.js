@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const postSchema = mongoose.Schema({
-  content: String, // s3のurlがいっぱい入るだろう。
+  content: [{ type: mongoose.Schema.ObjectId, ref: 'Content' }],
   caption: String,
   location: {
     type: {
