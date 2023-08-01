@@ -10,6 +10,7 @@ const __dirname = dirname(__filename);
 
 import authRouter from './routers/auth';
 import spacesRouter from './routers/spaces';
+import postsRouter from './routers/posts';
 import spaceAndUserRelationshipsRouter from './routers/spaceAndUserRelationships';
 
 const app = express();
@@ -24,6 +25,7 @@ app.get('/', (request, response) => {
 
 app.use('/api/auth', authRouter);
 app.use('/api/spaces', spacesRouter);
+app.use('/api/posts', postsRouter);
 app.use('/api/spaceanduserrelationships', spaceAndUserRelationshipsRouter);
 
 export default app;

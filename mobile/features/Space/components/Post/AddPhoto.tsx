@@ -50,12 +50,8 @@ const AddPhoto = () => {
       //   };
       // });
     }
-    // user idと日付でfile名を確保しておく。
-    // let creatingFileName = `${auth.data._id}-${Date.now()}`;
-    // if (!pickedImage.cancelled && pickedImage.uri) {
-    // }
   };
-  console.log(JSON.stringify(formData, null, 4));
+  // console.log(JSON.stringify(formData, null, 4));
 
   const renderPhoto = () => {
     if (formData.contents.length) {

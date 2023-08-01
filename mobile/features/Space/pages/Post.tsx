@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
+import { GlobalContext } from '../../../contexts/GlobalContext';
 import { PostContext } from '../contexts/PostContext';
 import AddPhoto from '../components/Post/AddPhoto';
 import AddCaption from '../components/Post/AddCaption';
@@ -8,7 +9,7 @@ import { NavigationProp, ParamListBase, RouteProp } from '@react-navigation/nati
 import backendAPI from '../../../apis/backend';
 
 type ContentType = {
-  data: string;
+  uri: string;
   type: string; // photo or video ここのliteral型かも書いた方がいいかもな。。。
   duration: number;
 };
@@ -30,6 +31,7 @@ type FormType = {
 };
 
 const Post: React.FC<PostProps> = (props) => {
+  const { authData } = useContext(GlobalContext);
   const [formData, setFormData] = useState<FormType>({
     contents: [],
     caption: '',
@@ -39,7 +41,7 @@ const Post: React.FC<PostProps> = (props) => {
   useEffect(() => {
     props.navigation.setOptions({
       headerRight: () => (
-        <TouchableOpacity onPress={() => console.log(formData)} disabled={false}>
+        <TouchableOpacity onPress={() => onDonePress()} disabled={false}>
           <Text
             style={{
               color: 'white',
@@ -55,7 +57,24 @@ const Post: React.FC<PostProps> = (props) => {
   }, [formData]);
 
   const onDonePress = async () => {
-    const result = await backendAPI.post('/posts'); // どこのspaceになんのpostを、っていう感じか。。。
+    const payload = new FormData();
+    payload.append('caption', formData.caption);
+    payload.append('location', JSON.stringify(formData.location));
+    payload.append('createdBy', authData._id);
+    // 前に面倒臭い開発やっていてよかったね。
+    for (let content of formData.contents) {
+      const obj = {
+        name: content.uri.split('/').pop(),
+        uri: content.uri,
+        type: content.type === 'image' ? 'image/jpg' : 'video/mp4', // まあ、あまり良くないが、、、とりあえずこれでいく。
+      };
+      payload.append('contents', JSON.parse(JSON.stringify(obj)));
+    }
+
+    const result = await backendAPI.post('/posts', payload, {
+      headers: { 'Content-type': 'multipart/form-data' },
+    });
+    console.log(result.data);
   };
 
   return (

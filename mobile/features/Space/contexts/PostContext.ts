@@ -2,7 +2,7 @@ import { createContext, RefObject } from 'react';
 import { NavigationProp, ParamListBase, RouteProp } from '@react-navigation/native';
 
 type ContentType = {
-  data: string;
+  uri: string;
   type: string; // photo or video ここのliteral型かも書いた方がいいかもな。。。
   duration: number;
 };
