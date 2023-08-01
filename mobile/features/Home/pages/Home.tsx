@@ -71,7 +71,7 @@ const MySpaces: React.FC<RouterProps> = (props) => {
       >
         <Text style={{ color: primaryTextColor, fontSize: 18 }}>Sign in to experience full functions😎</Text>
         <View style={{ flexDirection: 'row' }}>
-          <Button buttonLabel='Login' buttonColor='blue' onButtonPress={() => console.log('login')} />
+          <Button buttonLabel='Login' buttonColor='blue' onButtonPress={() => props.navigation.navigate('Login')} />
           <Button buttonLabel='Signup' buttonColor='blue' onButtonPress={() => props.navigation.navigate('Signup')} />
         </View>
       </View>

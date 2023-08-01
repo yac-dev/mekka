@@ -40,3 +40,31 @@ export const loadMe = async (request, response) => {
     console.log(error);
   }
 };
+
+export const login = async (request, response) => {
+  try {
+    const { email, password } = request.body;
+    const user = await User.findOne({ email });
+    if (!user) {
+      throw new Error('Nooooo.mail');
+    }
+    console.log(user);
+
+    const isEnteredPasswordCorrect = await user.isPasswordCorrect(password, user.password);
+    if (!isEnteredPasswordCorrect) {
+      throw new Error('password not match...');
+    }
+
+    // 基本、10dayにしましょう。expirationは。
+    const jwtToken = jwt.sign({ id: user._id }, process.env.JWT_PRIVATE_KEY);
+    response.json({
+      user,
+      jwt: jwtToken,
+    });
+  } catch (error) {
+    console.log(error.message, error.name);
+    response.status(400).send({
+      message: 'OOPS! Something wrong with your email or password. Please enter your email and password again.',
+    });
+  }
+};

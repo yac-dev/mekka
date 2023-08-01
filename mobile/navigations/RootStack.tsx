@@ -6,6 +6,7 @@ const Stack = createNativeStackNavigator();
 import BottomTab from './BottomTab';
 import Home from '../features/Home/pages/Home';
 import Signup from '../features/Home/pages/Signup';
+import Login from '../features/Home/pages/Login';
 // import Space from '../features/Home/pages/Space';
 // import SpaceTopTabNavigator from '../navigations/SpaceTopTabNavigator';
 import SpaceRootStackNavigator from './SpaceRootStackNavigator';
@@ -153,6 +154,25 @@ const RootStack = () => {
             headerTitle: 'Signup',
             headerStyle: {
               backgroundColor: primaryBackgroundColor,
+            },
+            headerTitleStyle: {
+              fontWeight: 'bold',
+              color: primaryTextColor,
+            },
+          })}
+        />
+        <Stack.Screen
+          name='Login'
+          component={Login}
+          options={({ navigation }) => ({
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <Text style={{ color: primaryTextColor, fontSize: 20 }}>Close</Text>
+              </TouchableOpacity>
+            ),
+            headerTitle: 'Login',
+            headerStyle: {
+              backgroundColor: 'rgb(35, 35, 35)',
             },
             headerTitleStyle: {
               fontWeight: 'bold',
