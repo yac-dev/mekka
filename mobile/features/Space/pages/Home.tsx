@@ -5,6 +5,7 @@ import { SpaceContext } from '../contexts/SpaceContext';
 import { NavigationProp, ParamListBase, RouteProp } from '@react-navigation/native';
 import backendAPI from '../../../apis/backend';
 import SpaceIconMenuButton from '../components/SpaceIconMenuButton';
+import Posts from '../components/Posts';
 import SpaceMenu from './SpaceMenu';
 
 type HomeProps = {
@@ -12,8 +13,33 @@ type HomeProps = {
   route: RouteProp<any, any> | undefined;
 };
 
+type LocationType = {
+  type: string;
+  coordinates: number[];
+};
+
+type ContentType = {
+  _id: string;
+  data: string;
+  type: string;
+  createdBy: string;
+  createdAt: string;
+};
+
+type PostType = {
+  _id: string;
+  location: LocationType;
+  contents: ContentType[];
+  caption: string;
+  spaceId: string;
+  tags: string[];
+  createdBy: string;
+  createdAt: string;
+};
+
 const Home: React.FC<HomeProps> = (props) => {
   const [space, setSpace] = useState({ name: '' });
+  const [posts, setPosts] = useState<PostType[]>([]);
   const menuBottomSheetRef = useRef(null);
 
   const getSpace = async () => {
@@ -21,15 +47,24 @@ const Home: React.FC<HomeProps> = (props) => {
     const { space } = result.data;
     setSpace(space);
   };
+
+  const getPosts = async () => {
+    const result = await backendAPI.get(`/posts/space/${props.route?.params?.spaceId}`);
+    setPosts(result.data.posts);
+  };
+
   useEffect(() => {
     getSpace();
+    getPosts();
   }, []);
-  console.log(space);
+  console.log(JSON.stringify(posts, null, 4));
 
   return (
-    <SpaceContext.Provider value={{ space, setSpace, navigation: props.navigation, menuBottomSheetRef }}>
+    <SpaceContext.Provider
+      value={{ space, setSpace, posts, setPosts, navigation: props.navigation, menuBottomSheetRef }}
+    >
       <GestureHandlerRootView style={{ flex: 1, backgroundColor: 'black', padding: 10 }}>
-        <Text style={{ color: 'white' }}>Grid here</Text>
+        <Posts />
         <SpaceIconMenuButton />
         <SpaceMenu />
       </GestureHandlerRootView>
