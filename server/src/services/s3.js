@@ -10,18 +10,18 @@ const s3 = new S3({
   secretAccessKey: process.env.AWS_S3_BUCKET_SECRET_KEY_FOR_SERVER,
 });
 
-export const uploadPhoto = async (fileName) => {
+export const uploadPhoto = async (fileName, contentType) => {
   const __dirname = path.resolve();
-  const filePath = path.join(__dirname, 'buffer', 'photos', fileName);
+  const filePath = path.join(__dirname, 'buffer', fileName);
   const fileStream = fs.createReadStream(filePath);
 
   const uploadParams = {
     Bucket: process.env.AWS_S3BUCKET_NAME,
     Body: fileStream,
-    Key: `photos/${fileName}`,
+    Key: contentType === 'photo' ? `photos/${fileName}` : `video/${fileName}`,
   };
   await s3.upload(uploadParams).promise();
-  console.log('photo Uploaded');
+  console.log('content uploaded');
 
   await unlinkFile(filePath);
 };

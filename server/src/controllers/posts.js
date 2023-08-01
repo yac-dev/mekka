@@ -1,19 +1,31 @@
 import Post from '../models/post';
+import Content from '../models/content';
+import { uploadPhoto } from '../services/s3';
 
 export const createPost = async (request, response) => {
   try {
-    // requestで、multerからのfileがどう来るか、まだ知らんな。。。ここね。
-    // filesに対して、contentsのdocumentsを作る感じか。
-    // その作ったdocumentsをpostのcontsntsに入れる。
-    const { contents, caption, createdBy, location } = request.body;
-    // data: `https://lampost-${process.env.NODE_ENV}.s3.us-east-2.amazonaws.com/assets/videos/${request.file.filename}`,
-    // const post = await Post.create({
-    //   content: `https://lampost-${process.env.NODE_ENV}.s3.us-east-2.amazonaws.com/assets/videos/${request.file.filename}`,
-    //   caption,
-    //   createdBy,
-    //   location,
-    // });
-    console.log('working here..');
+    const { caption, createdBy, location } = request.body;
+    const files = request.files;
+    const createdAt = new Date();
+    const contentIds = [];
+    for (let file of files) {
+      const content = await Content.create({
+        data: `https://lampost-${process.env.NODE_ENV}.s3.us-east-2.amazonaws.com/assets/videos/${file.filename}`,
+        type: file.mimetype === 'image/jpeg' ? 'photo' : 'video',
+        createdBy,
+        createdAt,
+      });
+      contentIds.push(content._id);
+      uploadPhoto(file.filename, content.type);
+    }
+    // 2, 作ったcontentsを、今度はpostに入れる。
+    const post = await Post.create({
+      contents: contentIds,
+      caption,
+      location,
+      createdBy,
+      createdAt,
+    });
 
     response.status(201).json({
       message: 'success',

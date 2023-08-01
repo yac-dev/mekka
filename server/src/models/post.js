@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const postSchema = mongoose.Schema({
-  content: [{ type: mongoose.Schema.ObjectId, ref: 'Content' }],
+  contents: [{ type: mongoose.Schema.ObjectId, ref: 'Content' }],
   caption: String,
   location: {
     type: {

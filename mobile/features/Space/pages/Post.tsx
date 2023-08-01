@@ -66,7 +66,7 @@ const Post: React.FC<PostProps> = (props) => {
       const obj = {
         name: content.uri.split('/').pop(),
         uri: content.uri,
-        type: content.type === 'image' ? 'image/jpg' : 'video/mp4', // まあ、あまり良くないが、、、とりあえずこれでいく。
+        type: content.type === 'image' ? 'image/jpg' : 'video/mp4',
       };
       payload.append('contents', JSON.parse(JSON.stringify(obj)));
     }
@@ -74,7 +74,6 @@ const Post: React.FC<PostProps> = (props) => {
     const result = await backendAPI.post('/posts', payload, {
       headers: { 'Content-type': 'multipart/form-data' },
     });
-    console.log(result.data);
   };
 
   return (
