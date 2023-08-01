@@ -61,6 +61,7 @@ const Post: React.FC<PostProps> = (props) => {
     payload.append('caption', formData.caption);
     payload.append('location', JSON.stringify(formData.location));
     payload.append('createdBy', authData._id);
+    payload.append('spaceId', props.route?.params?.spaceId);
     // 前に面倒臭い開発やっていてよかったね。
     for (let content of formData.contents) {
       const obj = {

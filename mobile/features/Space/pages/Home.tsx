@@ -24,6 +24,7 @@ const Home: React.FC<HomeProps> = (props) => {
   useEffect(() => {
     getSpace();
   }, []);
+  console.log(space);
 
   return (
     <SpaceContext.Provider value={{ space, setSpace, navigation: props.navigation, menuBottomSheetRef }}>

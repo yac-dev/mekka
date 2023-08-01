@@ -4,7 +4,7 @@ import { uploadPhoto } from '../services/s3';
 
 export const createPost = async (request, response) => {
   try {
-    const { caption, createdBy, location } = request.body;
+    const { caption, createdBy, location, spaceId } = request.body;
     const files = request.files;
     const createdAt = new Date();
     const contentIds = [];
@@ -22,6 +22,7 @@ export const createPost = async (request, response) => {
     const post = await Post.create({
       contents: contentIds,
       caption,
+      spaceId,
       location,
       createdBy,
       createdAt,

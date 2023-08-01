@@ -6,7 +6,7 @@ import { AntDesign } from '@expo/vector-icons';
 
 const SpaceMenus = () => {
   const { isIpad } = useContext(GlobalContext);
-  const { menuBottomSheetRef, navigation } = useContext(SpaceContext);
+  const { menuBottomSheetRef, navigation, space } = useContext(SpaceContext);
   const oneGridWidth = isIpad ? Dimensions.get('window').width / 6 : Dimensions.get('window').width / 4;
   const oneGridHeight = isIpad ? Dimensions.get('window').height / 7.5 : Dimensions.get('window').height / 7;
   const iconWidth = oneGridWidth * 0.7;
@@ -24,7 +24,7 @@ const SpaceMenus = () => {
           }}
           onPress={() => {
             menuBottomSheetRef?.current.close();
-            navigation?.navigate('Post');
+            navigation?.navigate('Post', { spaceId: space._id });
           }}
         >
           <AntDesign name='plus' size={20} color='white' />
