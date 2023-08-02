@@ -86,11 +86,11 @@ const Posts = () => {
     if (posts.length) {
       const list = posts.map((post, index) => {
         return (
-          <View key={index}>
+          <View key={index} style={{ marginBottom: 30 }}>
             {renderHeader(post)}
             {renderContents(post.contents)}
             <View>
-              <TouchableOpacity onPress={() => navigation?.navigate('Reactions')}>
+              <TouchableOpacity onPress={() => navigation?.navigate('Reactions', { postId: post._id })}>
                 <MaterialCommunityIcons name='plus' size={20} color='white' />
               </TouchableOpacity>
               <Text style={{ color: 'white', fontSize: 17 }}>{post.caption}</Text>

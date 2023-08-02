@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { SpaceContext } from '../contexts/SpaceContext';
 import { NavigationProp, ParamListBase, RouteProp } from '@react-navigation/native';
 import backendAPI from '../../../apis/backend';
@@ -75,9 +75,11 @@ const Home: React.FC<HomeProps> = (props) => {
       }}
     >
       <GestureHandlerRootView style={{ flex: 1, backgroundColor: 'black', padding: 10 }}>
-        <Posts />
-        <SpaceIconMenuButton />
-        <SpaceMenu />
+        <ScrollView>
+          <Posts />
+          <SpaceIconMenuButton />
+          <SpaceMenu />
+        </ScrollView>
       </GestureHandlerRootView>
     </SpaceContext.Provider>
   );
