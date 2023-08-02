@@ -10,7 +10,9 @@ export const createPost = async (request, response) => {
     const contentIds = [];
     for (let file of files) {
       const content = await Content.create({
-        data: `https://lampost-${process.env.NODE_ENV}.s3.us-east-2.amazonaws.com/assets/videos/${file.filename}`,
+        data: `https://mekka-${process.env.NODE_ENV}.s3.us-east-2.amazonaws.com/${
+          file.mimetype === 'image/jpeg' ? 'photos' : 'videos'
+        }/${file.filename}`,
         type: file.mimetype === 'image/jpeg' ? 'photo' : 'video',
         createdBy,
         createdAt,
@@ -38,10 +40,18 @@ export const createPost = async (request, response) => {
 
 export const getPosts = async (request, response) => {
   try {
-    const posts = await Post.find({ spaceId: request.params.spaceId }).populate({
-      path: 'contents',
-      model: 'Content',
-    });
+    const posts = await Post.find({ spaceId: request.params.spaceId }).populate([
+      {
+        path: 'contents',
+        model: 'Content',
+        select: '_id data type',
+      },
+      {
+        path: 'createdBy',
+        model: 'User',
+        select: '_id name avatar',
+      },
+    ]);
     response.status(200).json({
       posts,
     });

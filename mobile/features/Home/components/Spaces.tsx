@@ -2,6 +2,7 @@ import React, { useContext, useCallback } from 'react';
 import { View, Text, TouchableOpacity, Image, FlatList, Dimensions, ScrollView } from 'react-native';
 import { GlobalContext } from '../../../contexts/GlobalContext';
 import { HomeContext } from '../contexts/HomeContext';
+import FastImage from 'react-native-fast-image';
 
 const Spaces: React.FC = (props) => {
   const { isIpad } = useContext(GlobalContext);
@@ -28,9 +29,10 @@ const Spaces: React.FC = (props) => {
             })
           }
         >
-          <Image
-            source={{ uri: relationship.space.icon }}
+          <FastImage
             style={{ width: iconWidth, aspectRatio: 1, borderRadius: 15, marginBottom: 5 }}
+            source={{ uri: relationship.space.icon }}
+            resizeMode={FastImage.resizeMode.contain}
           />
           <Text style={{ color: 'white' }}>{relationship.space.name}</Text>
         </TouchableOpacity>

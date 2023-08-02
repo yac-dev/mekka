@@ -7,8 +7,9 @@ const AddCaption = () => {
 
   return (
     <TextInput
-      style={{ backgroundColor: 'rgb(44, 44, 44)', padding: 10, borderRadius: 8, marginBottom: 20 }}
+      style={{ backgroundColor: 'rgb(44, 44, 44)', padding: 10, borderRadius: 8, marginBottom: 20, color: 'white' }}
       placeholder='Add caption...'
+      autoCapitalize='none'
       onChangeText={(text) =>
         setFormData((previous) => {
           return {

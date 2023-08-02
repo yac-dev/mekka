@@ -34,6 +34,8 @@ type SpaceContextType = {
   setSpace: React.Dispatch<React.SetStateAction<SpaceType>>;
   posts: PostType[];
   setPosts: React.Dispatch<React.SetStateAction<PostType[]>>;
+  arePostsFetched: boolean;
+  setArePostsFetched: React.Dispatch<React.SetStateAction<boolean>>;
   navigation: NavigationProp<ParamListBase> | undefined;
   menuBottomSheetRef: RefObject<null> | null;
 };
@@ -45,6 +47,8 @@ export const SpaceContext = createContext<SpaceContextType>({
   setSpace: () => {},
   posts: [],
   setPosts: () => {},
+  arePostsFetched: false,
+  setArePostsFetched: () => {},
   navigation: undefined,
   menuBottomSheetRef: null,
 });

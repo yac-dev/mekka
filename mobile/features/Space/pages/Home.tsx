@@ -40,6 +40,7 @@ type PostType = {
 const Home: React.FC<HomeProps> = (props) => {
   const [space, setSpace] = useState({ name: '' });
   const [posts, setPosts] = useState<PostType[]>([]);
+  const [arePostsFetched, setArePostsFetched] = useState<boolean>(false);
   const menuBottomSheetRef = useRef(null);
 
   const getSpace = async () => {
@@ -51,17 +52,27 @@ const Home: React.FC<HomeProps> = (props) => {
   const getPosts = async () => {
     const result = await backendAPI.get(`/posts/space/${props.route?.params?.spaceId}`);
     setPosts(result.data.posts);
+    setArePostsFetched(true);
   };
 
   useEffect(() => {
     getSpace();
     getPosts();
   }, []);
-  console.log(JSON.stringify(posts, null, 4));
+  // console.log(JSON.stringify(posts, null, 4));
 
   return (
     <SpaceContext.Provider
-      value={{ space, setSpace, posts, setPosts, navigation: props.navigation, menuBottomSheetRef }}
+      value={{
+        space,
+        setSpace,
+        posts,
+        setPosts,
+        arePostsFetched,
+        setArePostsFetched,
+        navigation: props.navigation,
+        menuBottomSheetRef,
+      }}
     >
       <GestureHandlerRootView style={{ flex: 1, backgroundColor: 'black', padding: 10 }}>
         <Posts />
