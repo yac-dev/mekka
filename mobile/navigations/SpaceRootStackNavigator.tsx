@@ -8,6 +8,7 @@ import { primaryBackgroundColor } from '../themes/color';
 import { primaryTextColor } from '../themes/text';
 import Home from '../features/Space/pages/Home';
 import AddLoaction from '../features/Space/pages/AddLocation';
+import Reactions from '../features/Space/pages/Reactions';
 import Albums from '../features/Space/pages/Albums';
 import Post from '../features/Space/pages/Post';
 
@@ -40,8 +41,8 @@ const SpaceRootStackNavigator = () => {
           headerShown: false, // ここtrueにすると、,,,
         })}
       />
+      {/* Reactions */}
       <Stack.Group screenOptions={{ presentation: 'modal', gestureEnabled: false }}>
-        {/*ここは、space menuで使う。　*/}
         <Stack.Screen
           name='AddLocation'
           component={AddLoaction}
@@ -55,6 +56,26 @@ const SpaceRootStackNavigator = () => {
             headerTitle: 'Add location',
             headerStyle: {
               backgroundColor: 'black',
+            },
+            headerTitleStyle: {
+              fontWeight: 'bold',
+              color: 'white',
+            },
+          })}
+        />
+        <Stack.Screen
+          name='Reactions'
+          component={Reactions}
+          options={({ navigation }) => ({
+            headerShown: true, // ここtrueにすると、,,,
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <Text style={{ color: primaryTextColor, fontSize: 20 }}>Close</Text>
+              </TouchableOpacity>
+            ),
+            headerTitle: 'Reactions',
+            headerStyle: {
+              backgroundColor: 'rgb(40, 40, 40)',
             },
             headerTitleStyle: {
               fontWeight: 'bold',

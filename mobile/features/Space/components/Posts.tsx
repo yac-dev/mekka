@@ -29,9 +29,9 @@ type PostType = {
 
 const Posts = () => {
   const { isIpad } = useContext(GlobalContext);
-  const { posts, arePostsFetched } = useContext(SpaceContext);
+  const { posts, arePostsFetched, navigation } = useContext(SpaceContext);
   const oneGridWidth = isIpad ? Dimensions.get('window').width / 4 : Dimensions.get('window').width / 2;
-  console.log(JSON.stringify(posts, null, 4));
+  // console.log(JSON.stringify(posts, null, 4));
 
   // これをさ、左右スライド式にしたいわけだが、、、、こういうlibraryって何があるだろう。carouselかな？？
   const renderContents = (contents: ContentType[]) => {
@@ -90,7 +90,7 @@ const Posts = () => {
             {renderHeader(post)}
             {renderContents(post.contents)}
             <View>
-              <TouchableOpacity onPress={() => console.log('hello')}>
+              <TouchableOpacity onPress={() => navigation?.navigate('Reactions')}>
                 <MaterialCommunityIcons name='plus' size={20} color='white' />
               </TouchableOpacity>
               <Text style={{ color: 'white', fontSize: 17 }}>{post.caption}</Text>

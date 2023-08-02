@@ -1,10 +1,14 @@
 import Post from '../models/post';
 import Content from '../models/content';
+import ReactionStatus from '../models/reactionStatus';
 import { uploadPhoto } from '../services/s3';
 
 export const createPost = async (request, response) => {
   try {
-    const { caption, createdBy, location, spaceId } = request.body;
+    // postで、reactionを全部持っておかないとね。
+    const { caption, createdBy, location, spaceId, reactions } = request.body;
+    const parsedLocation = JSON.parse(location);
+    const parsedReactions = JSON.parse(reactions);
     const files = request.files;
     const createdAt = new Date();
     const contentIds = [];
@@ -29,6 +33,16 @@ export const createPost = async (request, response) => {
       createdBy,
       createdAt,
     });
+
+    // objectを作って、insertManyをする感じか。
+    const reacionStatusObjects = parsedReactions.map((reactionId) => {
+      return {
+        post: post,
+        reaction: reactionId,
+        count: 0,
+      };
+    });
+    const reactionAndStatuses = await ReactionStatus.insertMany(reacionStatusObjects);
 
     response.status(201).json({
       message: 'success',

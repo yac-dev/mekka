@@ -24,7 +24,7 @@ const SpaceMenus = () => {
           }}
           onPress={() => {
             menuBottomSheetRef?.current.close();
-            navigation?.navigate('Post', { spaceId: space._id });
+            navigation?.navigate('Post', { space });
           }}
         >
           <AntDesign name='plus' size={20} color='white' />

@@ -30,6 +30,7 @@ type FormType = {
   location: LocationType;
 };
 
+// 多分、spaceのobjectを全部渡した方がいいのかも。idだけではなくて。
 const Post: React.FC<PostProps> = (props) => {
   const { authData } = useContext(GlobalContext);
   const [formData, setFormData] = useState<FormType>({
@@ -57,12 +58,15 @@ const Post: React.FC<PostProps> = (props) => {
   }, [formData]);
 
   const onDonePress = async () => {
+    // console.log('this is the space object', JSON.stringify(props.route?.params?.space));
+    // console.log('this is the space reactios', props.route?.params?.space.reactions);
     const payload = new FormData();
+    payload.append('reactions', JSON.stringify(props.route?.params?.space?.reactions));
     payload.append('caption', formData.caption);
     payload.append('location', JSON.stringify(formData.location));
     payload.append('createdBy', authData._id);
-    payload.append('spaceId', props.route?.params?.spaceId);
-    // 前に面倒臭い開発やっていてよかったね。
+    payload.append('spaceId', props.route?.params?.space._id);
+    // // 前に面倒臭い開発やっていてよかったね。
     for (let content of formData.contents) {
       const obj = {
         name: content.uri.split('/').pop(),
@@ -71,6 +75,7 @@ const Post: React.FC<PostProps> = (props) => {
       };
       payload.append('contents', JSON.parse(JSON.stringify(obj)));
     }
+    console.log(payload);
 
     const result = await backendAPI.post('/posts', payload, {
       headers: { 'Content-type': 'multipart/form-data' },
