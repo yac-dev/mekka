@@ -24,7 +24,9 @@ const styles = StyleSheet.create({
   },
 });
 
-const SpaceRootStackNavigator = () => {
+// シンプルに、というかあれか。spaceで持っておけばいいのか。photo, video, photoAndVideoって。
+const PhotoSpaceRootStackNavigator = () => {
+  // これ、めんどうだな。。。3つに分かれるのかね。。。パターンが。
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -110,4 +112,4 @@ const SpaceRootStackNavigator = () => {
   );
 };
 
-export default SpaceRootStackNavigator;
+export default PhotoSpaceRootStackNavigator;

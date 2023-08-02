@@ -9,7 +9,7 @@ import Signup from '../features/Home/pages/Signup';
 import Login from '../features/Home/pages/Login';
 // import Space from '../features/Home/pages/Space';
 // import SpaceTopTabNavigator from '../navigations/SpaceTopTabNavigator';
-import SpaceRootStackNavigator from './SpaceRootStackNavigator';
+import PhotoSpaceRootStackNavigator from './PhotoSpaceRootStackNavigator';
 import CreateNewSpace from '../features/CreateNewSpace/pages/CreateNewSpace';
 import EmojiPicker from '../features/CreateNewSpace/components/CreateNewSpace/EmojiPicker';
 // special emoji picker
@@ -103,8 +103,8 @@ const RootStack = () => {
       </Stack.Group>
       <Stack.Group screenOptions={{ presentation: 'fullScreenModal' }}>
         <Stack.Screen
-          name='SpaceRootStackNavigator'
-          component={SpaceRootStackNavigator}
+          name='PhotoSpaceRootStackNavigator'
+          component={PhotoSpaceRootStackNavigator}
           options={({ navigation }) => ({
             headerLeft: () => (
               <TouchableOpacity onPress={() => navigation.goBack()}>

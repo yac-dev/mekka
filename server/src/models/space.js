@@ -7,9 +7,8 @@ const spaceSchema = mongoose.Schema({
   name: String,
   icon: String, // s3のlink
   contentType: {
-    // type: mongoose.Schema.ObjectId,
-    // ref: 'MediaType',
     type: String,
+    enum: ['photo', 'video'],
   },
   videoLength: Number,
   isPublic: {

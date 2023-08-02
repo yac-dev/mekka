@@ -11,6 +11,25 @@ const Spaces: React.FC = (props) => {
   const oneGridHeight = isIpad ? Dimensions.get('window').height / 7.5 : Dimensions.get('window').height / 6.5;
   const iconWidth = oneGridWidth * 0.65;
 
+  const navigate = (relationship) => {
+    if (relationship.space.contentType === 'photo') {
+      navigation?.navigate('PhotoSpaceRootStackNavigator', {
+        screen: 'Home',
+        params: { spaceId: relationship.space._id },
+      });
+    } else if (relationship.space.contentType === 'video') {
+      navigation?.navigate('VideoSpaceRootStackNavigator', {
+        screen: 'Home',
+        params: { spaceId: relationship.space._id },
+      }); // いいや、とりあえず3つそれぞれでnavigationを分けようか。
+    } else {
+      navigation?.navigate('PhotoAndVideoSpaceRootStackNavigator', {
+        screen: 'Home',
+        params: { spaceId: relationship.space._id },
+      });
+    }
+  };
+
   const renderMySpaces = () => {
     const list = spaceAndMeRelationships.map((relationship) => {
       return (
@@ -22,12 +41,8 @@ const Spaces: React.FC = (props) => {
             // backgroundColor: 'red',
             alignItems: 'center',
           }}
-          onPress={() =>
-            navigation?.navigate('SpaceRootStackNavigator', {
-              screen: 'Home',
-              params: { spaceId: relationship.space._id },
-            })
-          }
+          // contentTypeによって、いくnavigatorが変わるわけですよ。。。そう、つまりここでnavigatingを分ければいいわけね。
+          onPress={() => navigate(relationship)}
         >
           <FastImage
             style={{ width: iconWidth, aspectRatio: 1, borderRadius: 15, marginBottom: 5 }}
