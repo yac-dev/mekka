@@ -14,7 +14,7 @@ const Spaces: React.FC = (props) => {
   const navigate = (relationship) => {
     if (relationship.space.contentType === 'photo') {
       navigation?.navigate('PhotoSpaceRootStackNavigator', {
-        screen: 'Home',
+        screen: 'Photos',
         params: { spaceId: relationship.space._id },
       });
     } else if (relationship.space.contentType === 'video') {
@@ -24,7 +24,7 @@ const Spaces: React.FC = (props) => {
       }); // いいや、とりあえず3つそれぞれでnavigationを分けようか。
     } else {
       navigation?.navigate('PhotoAndVideoSpaceRootStackNavigator', {
-        screen: 'Home',
+        screen: 'Photos',
         params: { spaceId: relationship.space._id },
       });
     }

@@ -10,6 +10,7 @@ import Login from '../features/Home/pages/Login';
 // import Space from '../features/Home/pages/Space';
 // import SpaceTopTabNavigator from '../navigations/SpaceTopTabNavigator';
 import PhotoSpaceRootStackNavigator from './PhotoSpaceRootStackNavigator';
+import PhotoAndVideoSpaceRootStackNavigator from './PhotoAndVideoSpaceRootStackNavigator';
 import CreateNewSpace from '../features/CreateNewSpace/pages/CreateNewSpace';
 import EmojiPicker from '../features/CreateNewSpace/components/CreateNewSpace/EmojiPicker';
 // special emoji picker
@@ -105,6 +106,25 @@ const RootStack = () => {
         <Stack.Screen
           name='PhotoSpaceRootStackNavigator'
           component={PhotoSpaceRootStackNavigator}
+          options={({ navigation }) => ({
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <Text style={{ color: primaryTextColor, fontSize: 20 }}>Close</Text>
+              </TouchableOpacity>
+            ),
+            headerTitle: '',
+            headerStyle: {
+              backgroundColor: 'black',
+            },
+            headerTitleStyle: {
+              fontWeight: 'bold',
+              color: primaryTextColor,
+            },
+          })}
+        />
+        <Stack.Screen
+          name='PhotoAndVideoSpaceRootStackNavigator'
+          component={PhotoAndVideoSpaceRootStackNavigator}
           options={({ navigation }) => ({
             headerLeft: () => (
               <TouchableOpacity onPress={() => navigation.goBack()}>

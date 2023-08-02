@@ -1,5 +1,7 @@
 import React, { useContext } from 'react';
 import { TouchableOpacity, Text, View } from 'react-native';
+import Photos from '../features/Space/pages/Photos';
+import Videos from '../features/Space/pages/Videos';
 
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
@@ -26,19 +28,20 @@ const PhotoAndVideoSpaceRootStackNavigator = () => {
     //   },
     // }}
     >
+      {/* さらに奥に行きたい場合は、この上にさらにnavigatorをつけないといけないね。 */}
       <TopTab.Screen
         name='Photos'
-        component={MyMeetupsNavigator}
+        component={Photos}
         options={({ route }) => ({
-          tabBarLabel: 'Upcoming',
+          tabBarLabel: 'Photos',
           tabBarLabelStyle: { textTransform: 'none', fontWeight: 'bold', fontSize: 17 },
         })}
       />
       <TopTab.Screen
         name='Videos'
-        component={MyLibrariesNavigator}
+        component={Videos}
         options={({ route }) => ({
-          tabBarLabel: 'My Libraries',
+          tabBarLabel: 'Videos',
           tabBarLabelStyle: { textTransform: 'none', fontWeight: 'bold', fontSize: 17 },
           // tabBarLabelStyle: { padding: 5 },
         })}
