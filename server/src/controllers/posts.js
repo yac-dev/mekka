@@ -40,18 +40,20 @@ export const createPost = async (request, response) => {
 
 export const getPosts = async (request, response) => {
   try {
-    const posts = await Post.find({ spaceId: request.params.spaceId }).populate([
-      {
-        path: 'contents',
-        model: 'Content',
-        select: '_id data type',
-      },
-      {
-        path: 'createdBy',
-        model: 'User',
-        select: '_id name avatar',
-      },
-    ]);
+    const posts = await Post.find({ spaceId: request.params.spaceId })
+      .select({ _id: true, contents: true, caption: true, spaceId: true, createdBy: true, createdAt: true })
+      .populate([
+        {
+          path: 'contents',
+          model: 'Content',
+          select: '_id data type',
+        },
+        {
+          path: 'createdBy',
+          model: 'User',
+          select: '_id name avatar',
+        },
+      ]);
     response.status(200).json({
       posts,
     });
