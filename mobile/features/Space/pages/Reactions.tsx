@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, ActivityIndicator, ScrollView } from 'react-native';
 import backendAPI from '../../../apis/backend';
 import { RouteProp, ParamListBase } from '@react-navigation/native';
+import { ReactionsContext } from '../contexts/ReactionsContext';
+import ReactionOptions from '../components/ReactionOptions';
 
 type ReactionsProps = {
   route: RouteProp<ParamListBase, string> | undefined;
@@ -38,56 +40,14 @@ const Reactions: React.FC<ReactionsProps> = (props) => {
     getReactionStatuses();
   }, []);
 
-  const renderReactionStatues = () => {
-    if (reactionStatuses.length) {
-      const list = reactionStatuses.map((reactionStatus, index) => {
-        return (
-          <TouchableOpacity
-            key={index}
-            style={{
-              backgroundColor: 'blue',
-              borderRadius: 10,
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginRight: 10,
-              padding: 5,
-              marginBottom: 10,
-            }}
-          >
-            {reactionStatus.reaction.emojiType === 'normal' ? (
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Text style={{ fontSize: 30 }}>{reactionStatus.reaction.emoji}</Text>
-                <Text style={{ color: 'white' }}>10</Text>
-              </View>
-            ) : (
-              <Text>Custom here</Text>
-            )}
-          </TouchableOpacity>
-        );
-      });
-
-      return (
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            borderBottomWidth: 0.3,
-            marginBottom: 20,
-            borderBottomColor: 'white',
-          }}
-        >
-          <ScrollView horizontal={true}>{list}</ScrollView>
-        </View>
-      );
-    } else {
-      return <Text>No reaction</Text>;
-    }
-  };
-
   return (
-    <View style={{ flex: 1, backgroundColor: 'rgb(40, 40,40)', padding: 10 }}>
-      {areReactionStatusesFetched ? renderReactionStatues() : <ActivityIndicator />}
-    </View>
+    <ReactionsContext.Provider
+      value={{ reactionStatuses, setReactionStatuses, areReactionStatusesFetched, setAreReactionStatusesFetched }}
+    >
+      <View style={{ flex: 1, backgroundColor: 'rgb(40, 40,40)', padding: 10 }}>
+        {areReactionStatusesFetched ? <ReactionOptions /> : <ActivityIndicator />}
+      </View>
+    </ReactionsContext.Provider>
   );
 };
 
