@@ -8,6 +8,8 @@ import AddLocation from '../components/Post/AddLocation';
 import { NavigationProp, ParamListBase, RouteProp } from '@react-navigation/native';
 import backendAPI from '../../../apis/backend';
 
+type SpaceType = {};
+
 type ContentType = {
   uri: string;
   type: string; // photo or video ここのliteral型かも書いた方がいいかもな。。。

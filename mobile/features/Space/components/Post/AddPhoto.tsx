@@ -1,20 +1,38 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { PostContext } from '../../contexts/PostContext';
 import * as ImagePicker from 'expo-image-picker';
 import { AntDesign } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 
 const AddPhoto = () => {
-  const { formData, setFormData } = useContext(PostContext);
+  const { formData, setFormData, route } = useContext(PostContext);
+
+  // useEffect(() => {
+  //   setAllowedMedia(() => {
+  //     if(route?.params?.space.contentType === 'photo'){
+  //       setAllowedMedia(ImagePicker.MediaTypeOptions.All)
+  //     } else if(route?.params?.space.contentType === 'video'){
+  //       setAllowedMedia(ImagePicker.MediaTypeOptions.All)
+  //     } else {
+
+  //     }
+  //   })
+  // },[])
 
   const pickAndSendImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      // allowsEditing: true,
-      // aspect: [16, 9],
+    const pickerOption = {
+      mediaTypes:
+        route?.params?.space.contentType === 'photo'
+          ? ImagePicker.MediaTypeOptions.Images
+          : route?.params?.space.contentType === 'video'
+          ? ImagePicker.MediaTypeOptions.Videos
+          : ImagePicker.MediaTypeOptions.All,
       allowsMultipleSelection: true,
       quality: 1,
-    });
+      duration: route?.params?.space.videoLength ? 3000 : null,
+    };
+    let result = await ImagePicker.launchImageLibraryAsync(pickerOption);
     if (!result.canceled && result.assets) {
       // result assets それぞれのassetに対して、dataを作る様にすると。
       setFormData((previous) => {
@@ -57,16 +75,39 @@ const AddPhoto = () => {
     if (formData.contents.length) {
       const list = formData.contents.map((content, index) => {
         return (
-          <Image
-            key={index}
-            source={{ uri: content.uri }}
-            style={{ width: 90, height: 90, borderRadius: 12, marginRight: 10 }}
-          />
+          <View key={index}>
+            <Image source={{ uri: content.uri }} style={{ width: 90, height: 90, borderRadius: 12, marginRight: 10 }} />
+            <TouchableOpacity
+              style={{
+                position: 'absolute',
+                top: -10,
+                right: 0,
+                backgroundColor: 'red',
+                width: 30,
+                height: 30,
+                borderRadius: 15,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+              onPress={() =>
+                setFormData((previous) => {
+                  const updating = [...previous.contents];
+                  const updated = updating.filter((content, idx) => index !== idx);
+                  return {
+                    ...previous,
+                    contents: updated,
+                  };
+                })
+              }
+            >
+              <Ionicons name='trash' size={20} color={'white'} />
+            </TouchableOpacity>
+          </View>
         );
       });
 
       return (
-        <ScrollView horizontal={true}>
+        <ScrollView horizontal={true} style={{ paddingTop: 10, paddingBottom: 10 }}>
           <View style={{ flexDirection: 'row' }}>{list}</View>
         </ScrollView>
       );
