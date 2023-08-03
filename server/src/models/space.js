@@ -44,6 +44,7 @@ const spaceSchema = mongoose.Schema({
   ],
   totalPosts: Number,
   totalMembers: Number,
+  rate: Number,
   createdBy: {
     type: mongoose.Schema.ObjectId,
     ref: 'User',

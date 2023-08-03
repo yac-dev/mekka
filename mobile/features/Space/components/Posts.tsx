@@ -105,7 +105,7 @@ const Posts = () => {
     }
   };
 
-  return <View>{arePostsFetched ? renderPosts() : <ActivityIndicator />}</View>;
+  return <ScrollView>{arePostsFetched ? renderPosts() : <ActivityIndicator />}</ScrollView>;
 };
 
 export default Posts;

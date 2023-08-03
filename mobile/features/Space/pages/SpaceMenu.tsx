@@ -2,8 +2,9 @@ import React, { useMemo, useContext } from 'react';
 import { SpaceContext } from '../contexts/SpaceContext';
 import { View, Text, TouchableOpacity } from 'react-native';
 import GorhomBottomSheet, { BottomSheetView, BottomSheetBackdrop } from '@gorhom/bottom-sheet';
-import SpaceIcon from '../components/SpaceIcon';
-import SpaceMenus from '../components/SpaceMenus';
+import Header from '../components/SpaceMenu/Header';
+import Menus from '../components/SpaceMenu/Menus';
+import About from '../components/SpaceMenu/About';
 
 // rgb(35, 35, 35)
 const SpaceMenu = () => {
@@ -20,13 +21,14 @@ const SpaceMenu = () => {
         <BottomSheetBackdrop {...backdropProps} appearsOnIndex={0} disappearsOnIndex={-1} />
       )}
       enablePanDownToClose={true}
-      backgroundStyle={{ backgroundColor: 'rgb(35, 35, 35)' }}
+      backgroundStyle={{ backgroundColor: 'rgb(40, 40, 40)' }}
       handleIndicatorStyle={{ backgroundColor: 'white' }}
       // onClose={() => onSelectedItemBottomSheetClose()}
     >
       <BottomSheetView style={{ paddingLeft: 10, paddingRight: 10, flex: 1 }}>
-        <SpaceIcon />
-        <SpaceMenus />
+        <Header />
+        <Menus />
+        <About />
       </BottomSheetView>
     </GorhomBottomSheet>
   );

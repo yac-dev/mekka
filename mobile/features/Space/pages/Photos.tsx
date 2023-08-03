@@ -75,11 +75,9 @@ const Photos: React.FC<HomeProps> = (props) => {
       }}
     >
       <GestureHandlerRootView style={{ flex: 1, backgroundColor: 'black', padding: 10 }}>
-        <ScrollView>
-          <Posts />
-          <SpaceIconMenuButton />
-          <SpaceMenu />
-        </ScrollView>
+        <Posts />
+        <SpaceIconMenuButton />
+        <SpaceMenu />
       </GestureHandlerRootView>
     </SpaceContext.Provider>
   );
