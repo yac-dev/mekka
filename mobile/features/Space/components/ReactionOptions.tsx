@@ -1,8 +1,10 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { View, Text, TouchableOpacity, ActivityIndicator, ScrollView } from 'react-native';
+import { GlobalContext } from '../../../contexts/GlobalContext';
 import { ReactionsContext } from '../contexts/ReactionsContext';
 import { RouteProp, ParamListBase } from '@react-navigation/native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import backendAPI from '../../../apis/backend';
 
 type ReactionsProps = {
   route: RouteProp<ParamListBase, string> | undefined;
@@ -22,10 +24,21 @@ type ReactionStatusType = {
 };
 
 const ReactionOptions = () => {
+  const { authData } = useContext(GlobalContext);
   const { reactionStatuses, setReactionStatuses } = useContext(ReactionsContext);
   console.log(JSON.stringify(reactionStatuses, null, 4));
 
-  const addReaction = (reaction: ReactionStatusType) => {};
+  const upvoteReaction = async (reactionStatus: ReactionStatusType, index: number) => {
+    const result = await backendAPI.post(
+      `/userandreactionrelationships/user/${authData._id}/post/${reactionStatus.post}`,
+      { reactionId: reactionStatus.reaction._id }
+    );
+    setReactionStatuses((previous) => {
+      const updating = [...previous];
+      updating[index].count++;
+      return updating;
+    });
+  };
 
   // とりあえず、1以上のものだけ、0のものをextractする感じでいいか。
   const renderReactionStatuses = () => {
@@ -43,13 +56,7 @@ const ReactionOptions = () => {
               padding: 5,
               marginBottom: 10,
             }}
-            onPress={() =>
-              setReactionStatuses((previous) => {
-                const updating = [...previous];
-                updating[index].count++;
-                return updating;
-              })
-            }
+            onPress={() => upvoteReaction(reactionStatus, index)}
           >
             {reactionStatus.reaction.emojiType === 'normal' ? (
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
