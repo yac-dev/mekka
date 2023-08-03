@@ -61,20 +61,27 @@ const IconForm: React.FC = (props) => {
       </View>
       {accordion ? (
         <View style={{ marginTop: 10 }}>
+          <Text style={{ color: 'white', marginBottom: 10 }}>Please choose an icon to represent your space.</Text>
           <TouchableOpacity
             style={{
-              width: '100%',
+              width: 100,
               aspectRatio: 1,
               backgroundColor: inputBackgroundColor,
-              borderRadius: 7,
+              borderRadius: 15,
               marginBottom: 10,
+              justifyContent: 'center',
+              alignItems: 'center',
+              alignSelf: 'center',
             }}
             onPress={() => pickAndSendImage()}
           >
             {formData.icon ? (
-              <Image source={{ uri: formData.icon }} style={{ width: '100%', aspectRatio: 1, borderRadius: 5 }} />
+              <Image source={{ uri: formData.icon }} style={{ width: 100, aspectRatio: 1, borderRadius: 15 }} />
             ) : (
-              <Text style={{ color: 'white', textAlign: 'center' }}>Select</Text>
+              <>
+                <AntDesign name='plus' size={25} color={'white'} style={{ marginBottom: 5 }} />
+                <Text style={{ color: 'white' }}>Select an image</Text>
+              </>
             )}
           </TouchableOpacity>
         </View>

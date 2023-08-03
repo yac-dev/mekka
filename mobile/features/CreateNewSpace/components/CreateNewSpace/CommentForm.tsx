@@ -41,11 +41,11 @@ const CommentForm = () => {
       </TouchableOpacity>
       {accordion ? (
         <View style={{ marginTop: 10 }}>
-          <Text style={{ marginBottom: 10, color: 'white' }}>What kind of content can you share in this space?</Text>
+          <Text style={{ marginBottom: 10, color: 'white' }}>Do you allow each member to comment on post?</Text>
           <View style={{ flexDirection: 'row', width: '100%' }}>
             <View style={{ width: '50%', padding: 2 }}>
               <TouchableOpacity
-                style={{ backgroundColor: 'blue', padding: 5, borderRadius: 5 }}
+                style={{ backgroundColor: 'rgb(88,88,88)', padding: 10, borderRadius: 5 }}
                 onPress={() =>
                   setFormData((previous) => {
                     return {
@@ -55,7 +55,7 @@ const CommentForm = () => {
                   })
                 }
               >
-                <Text>Yes</Text>
+                <Text style={{ color: 'white', textAlign: 'center' }}>Yes</Text>
                 {formData.isCommentAvailable ? (
                   <Ionicons
                     name='checkmark-circle'
@@ -68,7 +68,7 @@ const CommentForm = () => {
             </View>
             <View style={{ width: '50%', padding: 2 }}>
               <TouchableOpacity
-                style={{ backgroundColor: 'blue', padding: 5, borderRadius: 5 }}
+                style={{ backgroundColor: 'rgb(88,88,88)', padding: 10, borderRadius: 5 }}
                 onPress={() =>
                   setFormData((previous) => {
                     return {
@@ -78,7 +78,7 @@ const CommentForm = () => {
                   })
                 }
               >
-                <Text>No</Text>
+                <Text style={{ color: 'white', textAlign: 'center' }}>No</Text>
                 {!formData.isCommentAvailable ? (
                   <Ionicons
                     name='checkmark-circle'

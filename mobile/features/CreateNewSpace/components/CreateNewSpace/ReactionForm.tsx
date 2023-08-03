@@ -1,10 +1,10 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { HomeContext } from '../../../Home/contexts/HomeContext';
 import { CreateNewSpaceContext } from '../../contexts/CreateNewSpace';
 import { Ionicons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { iconColorTable, iconParameterBackgroundColorTable, inputBackgroundColor } from '../../../../themes/color';
 
 const ReactionForm: React.FC = (props) => {
@@ -54,6 +54,15 @@ const ReactionForm: React.FC = (props) => {
                 position: 'absolute',
                 top: -7,
                 right: -7,
+              }}
+              onPress={() => {
+                setFormData((previous) => {
+                  const updating = [...previous.reactions].filter((reaction, idx) => index !== idx);
+                  return {
+                    ...previous,
+                    reactions: updating,
+                  };
+                });
               }}
             >
               <Ionicons name='trash' size={15} color='white' />
@@ -106,7 +115,7 @@ const ReactionForm: React.FC = (props) => {
           <View style={{ flexDirection: 'row', width: '100%', marginBottom: 15 }}>
             <View style={{ width: '50%', padding: 2 }}>
               <TouchableOpacity
-                style={{ backgroundColor: 'blue', padding: 5, borderRadius: 5 }}
+                style={{ backgroundColor: 'rgb(88,88,88)', padding: 10, borderRadius: 5 }}
                 onPress={() =>
                   setFormData((previous) => {
                     return {
@@ -116,7 +125,7 @@ const ReactionForm: React.FC = (props) => {
                   })
                 }
               >
-                <Text>Yes</Text>
+                <Text style={{ color: 'white', textAlign: 'center' }}>Yes</Text>
                 {formData.isReactionAvailable ? (
                   <Ionicons
                     name='checkmark-circle'
@@ -129,7 +138,7 @@ const ReactionForm: React.FC = (props) => {
             </View>
             <View style={{ width: '50%', padding: 2 }}>
               <TouchableOpacity
-                style={{ backgroundColor: 'blue', padding: 5, borderRadius: 5 }}
+                style={{ backgroundColor: 'rgb(88,88,88)', padding: 10, borderRadius: 5 }}
                 onPress={() =>
                   setFormData((previous) => {
                     return {
@@ -139,7 +148,7 @@ const ReactionForm: React.FC = (props) => {
                   })
                 }
               >
-                <Text>No</Text>
+                <Text style={{ color: 'white', textAlign: 'center' }}>No</Text>
                 {!formData.isReactionAvailable ? (
                   <Ionicons
                     name='checkmark-circle'
@@ -151,21 +160,40 @@ const ReactionForm: React.FC = (props) => {
               </TouchableOpacity>
             </View>
           </View>
-          <Text style={{ color: 'white' }}>Please select the reaction options that can be used in this space.</Text>
-          <View style={{ flexDirection: 'row', marginBottom: 15 }}>
-            <TouchableOpacity
-              style={{ backgroundColor: 'blue', padding: 10, borderRadius: 5, marginRight: 10 }}
-              onPress={() => navigation?.navigate('EmojiPicker')}
-            >
-              <Text style={{ color: 'white' }}>Add Emoji</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{ backgroundColor: 'blue', padding: 10, borderRadius: 5 }}
-              onPress={() => navigation?.navigate('EmojiPicker')}
-            >
-              <Text style={{ color: 'white' }}>Add Special Emoji</Text>
-            </TouchableOpacity>
-          </View>
+          {formData.isReactionAvailable ? (
+            <>
+              <Text style={{ color: 'white', marginBottom: 10 }}>
+                Please select the reaction options that can be used in this space.
+              </Text>
+              <View style={{ flexDirection: 'row', width: '100%', marginBottom: 10 }}>
+                <View style={{ width: '50%', padding: 2 }}>
+                  <TouchableOpacity
+                    style={{
+                      backgroundColor: 'rgb(88,88,88)',
+                      padding: 10,
+                      borderRadius: 5,
+                    }}
+                    onPress={() => navigation?.navigate('EmojiPicker')}
+                  >
+                    <Text style={{ color: 'white', textAlign: 'center' }}>Add emoji😁</Text>
+                    {/* <MaterialCommunityIcons name='chevron-down' size={20} color='white' /> */}
+                  </TouchableOpacity>
+                </View>
+                <View style={{ width: '50%', padding: 2 }}>
+                  <TouchableOpacity
+                    style={{ backgroundColor: 'rgb(88,88,88)', padding: 10, borderRadius: 5 }}
+                    onPress={() => navigation?.navigate('EmojiPicker')}
+                  >
+                    <Text style={{ color: 'white', textAlign: 'center' }}>Add special emoji😎</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+              <Text style={{ color: 'rgb(170, 170, 170)', alignSelf: 'flex-end', marginBottom: 15 }}>
+                {formData.reactions.length}/6
+              </Text>
+            </>
+          ) : null}
+
           {renderAddedReactions()}
         </View>
       ) : null}

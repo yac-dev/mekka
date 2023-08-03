@@ -47,7 +47,7 @@ const CreateNewSpace: React.FC<RouterProps> = (props) => {
     isCommentAvailable: true,
     isReactionAvailable: true,
     videoLength: 60,
-    stay: 'permanent',
+    stay: '',
     reactions: [],
     tags: [],
   });
@@ -107,8 +107,25 @@ const CreateNewSpace: React.FC<RouterProps> = (props) => {
 
   return (
     <CreateNewSpaceContext.Provider value={{ formData, setFormData, navigation: props.navigation, route: props.route }}>
-      <SafeAreaView style={{ flex: 1, backgroundColor: modalBackgroundColor }}>
-        <View style={{ flex: 1, backgroundColor: modalBackgroundColor, padding: 10 }}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: 'black' }}>
+        <View style={{ flex: 1, backgroundColor: 'black', padding: 10 }}>
+          <View style={{ paddingLeft: 30, paddingRight: 30, paddingTop: 20, paddingBottom: 20 }}>
+            <Text
+              style={{
+                color: 'white',
+                textAlign: 'center',
+                fontWeight: 'bold',
+                fontSize: 20,
+                marginBottom: 10,
+              }}
+            >
+              Create new Space
+            </Text>
+            <Text style={{ textAlign: 'center', color: 'rgb(180, 180, 180)' }}>
+              The space is where you and your friends get together and share photos/videos. {'\n'}Make yours and start
+              sharing.
+            </Text>
+          </View>
           <Form />
         </View>
       </SafeAreaView>

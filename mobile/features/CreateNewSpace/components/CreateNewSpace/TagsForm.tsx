@@ -52,6 +52,15 @@ const TagsFrom: React.FC = (props) => {
                 right: -12,
                 top: -7,
               }}
+              onPress={() =>
+                setFormData((previous) => {
+                  const updating = [...previous.tags].filter((tag, idx) => index !== idx);
+                  return {
+                    ...previous,
+                    tags: updating,
+                  };
+                })
+              }
             >
               <Ionicons name='trash' color={'white'} size={15} />
             </TouchableOpacity>
@@ -98,13 +107,19 @@ const TagsFrom: React.FC = (props) => {
       </TouchableOpacity>
       {accordion ? (
         <View style={{ marginTop: 10 }}>
-          <Text style={{ marginBottom: 10, color: 'white' }}>Please add tags.</Text>
+          <Text style={{ marginBottom: 10, color: 'white' }}>
+            Please add tags that can be available on this space. (optional)
+          </Text>
           <TouchableOpacity
-            style={{ width: '100%', backgroundColor: 'red', padding: 10, marginBottom: 10 }}
+            style={{ width: '100%', backgroundColor: 'rgb(88,88,88)', padding: 10, marginBottom: 10, borderRadius: 5 }}
             onPress={() => navigation?.navigate('AddTag')}
           >
-            <Text>Add tag</Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center', alignSelf: 'center' }}>
+              <AntDesign name='plus' size={20} color='white' style={{ marginRight: 5 }} />
+              <Text style={{ color: 'white' }}>Add tag</Text>
+            </View>
           </TouchableOpacity>
+          <Text style={{ color: 'rgb(170, 170, 170)', alignSelf: 'flex-end' }}>{formData.tags.length}/5</Text>
           {renderTags()}
         </View>
       ) : null}

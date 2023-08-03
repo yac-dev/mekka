@@ -28,7 +28,7 @@ export const createPost = async (request, response) => {
     const post = await Post.create({
       contents: contentIds,
       caption,
-      spaceId,
+      space: spaceId,
       location,
       createdBy,
       createdAt,
@@ -54,7 +54,7 @@ export const createPost = async (request, response) => {
 
 export const getPosts = async (request, response) => {
   try {
-    const posts = await Post.find({ spaceId: request.params.spaceId })
+    const posts = await Post.find({ space: request.params.spaceId })
       .select({ _id: true, contents: true, caption: true, spaceId: true, createdBy: true, createdAt: true })
       .populate([
         {

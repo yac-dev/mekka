@@ -45,7 +45,7 @@ const VisibilityForm = () => {
           <View style={{ flexDirection: 'row', width: '100%' }}>
             <View style={{ width: '50%', padding: 2 }}>
               <TouchableOpacity
-                style={{ backgroundColor: 'blue', padding: 5, borderRadius: 5 }}
+                style={{ backgroundColor: 'rgb(88, 88, 88)', padding: 10, borderRadius: 5 }}
                 onPress={() =>
                   setFormData((previous) => {
                     return {
@@ -55,7 +55,7 @@ const VisibilityForm = () => {
                   })
                 }
               >
-                <Text>Public</Text>
+                <Text style={{ color: 'white', textAlign: 'center' }}>Public</Text>
                 {formData.isPublic ? (
                   <Ionicons
                     name='checkmark-circle'
@@ -68,7 +68,7 @@ const VisibilityForm = () => {
             </View>
             <View style={{ width: '50%', padding: 2 }}>
               <TouchableOpacity
-                style={{ backgroundColor: 'blue', padding: 5, borderRadius: 5 }}
+                style={{ backgroundColor: 'rgb(88, 88, 88)', padding: 10, borderRadius: 5 }}
                 onPress={() =>
                   setFormData((previous) => {
                     return {
@@ -78,7 +78,7 @@ const VisibilityForm = () => {
                   })
                 }
               >
-                <Text>Private</Text>
+                <Text style={{ color: 'white', textAlign: 'center' }}>Private</Text>
                 {!formData.isPublic ? (
                   <Ionicons
                     name='checkmark-circle'

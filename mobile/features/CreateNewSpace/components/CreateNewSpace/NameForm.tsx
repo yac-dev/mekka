@@ -38,7 +38,7 @@ const NameForm: React.FC = (props) => {
           >
             <Ionicons name='home' color={iconColorTable['red1']} size={20} />
           </View>
-          <Text style={{ color: 'white', fontSize: 18 }}>Name</Text>
+          <Text style={{ color: 'white', fontSize: 18, fontWeight: 'bold' }}>Name</Text>
         </View>
         {accordion ? (
           <MaterialCommunityIcons name='chevron-up' color='white' size={20} />
@@ -51,7 +51,7 @@ const NameForm: React.FC = (props) => {
           <Text style={{ marginBottom: 10, color: 'white' }}>Please write the space name. Be unique.</Text>
           <TextInput
             placeholder='In 40 characters long'
-            placeholderTextColor={'white'}
+            placeholderTextColor={'rgb(180, 180, 180)'}
             value={formData.name}
             onChangeText={(text) =>
               setFormData((previous) => {

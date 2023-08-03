@@ -23,9 +23,9 @@ const EmojiPicker: React.FC = (props) => {
         >
           <Text
             style={{
-              color: selectedEmoji ? 'white' : 'red',
+              color: selectedEmoji ? 'white' : 'rgb(117, 117, 117)',
               fontSize: 20,
-              fontWeight: selectedEmoji ? 'bold' : null,
+              fontWeight: 'bold',
             }}
           >
             Done
@@ -101,7 +101,7 @@ const EmojiPicker: React.FC = (props) => {
               style={{
                 width: '100%',
                 height: '100%',
-                backgroundColor: filterOption === 'smileyAndPeople' ? iconParameterBackgroundColorTable['blue1'] : null,
+                backgroundColor: filterOption === 'smileyAndPeople' ? 'rgba(45, 209, 40, 0.85)' : null,
                 justifyContent: 'center',
                 alignItems: 'center',
                 borderRadius: 5,
@@ -116,8 +116,7 @@ const EmojiPicker: React.FC = (props) => {
               style={{
                 width: '100%',
                 height: '100%',
-                backgroundColor:
-                  filterOption === 'animalsAndNature' ? iconParameterBackgroundColorTable['blue1'] : null,
+                backgroundColor: filterOption === 'animalsAndNature' ? 'rgba(45, 209, 40, 0.85)' : null,
                 justifyContent: 'center',
                 alignItems: 'center',
                 borderRadius: 5,
@@ -132,7 +131,7 @@ const EmojiPicker: React.FC = (props) => {
               style={{
                 width: '100%',
                 height: '100%',
-                backgroundColor: filterOption === 'foodAndDrink' ? iconParameterBackgroundColorTable['blue1'] : null,
+                backgroundColor: filterOption === 'foodAndDrink' ? 'rgba(45, 209, 40, 0.85)' : null,
                 justifyContent: 'center',
                 alignItems: 'center',
                 borderRadius: 5,
@@ -147,7 +146,7 @@ const EmojiPicker: React.FC = (props) => {
               style={{
                 width: '100%',
                 height: '100%',
-                backgroundColor: filterOption === 'activity' ? iconParameterBackgroundColorTable['blue1'] : null,
+                backgroundColor: filterOption === 'activity' ? 'rgba(45, 209, 40, 0.85)' : null,
                 justifyContent: 'center',
                 alignItems: 'center',
                 borderRadius: 5,
@@ -162,7 +161,7 @@ const EmojiPicker: React.FC = (props) => {
               style={{
                 width: '100%',
                 height: '100%',
-                backgroundColor: filterOption === 'travelAndPlaces' ? iconParameterBackgroundColorTable['blue1'] : null,
+                backgroundColor: filterOption === 'travelAndPlaces' ? 'rgba(45, 209, 40, 0.85)' : null,
                 justifyContent: 'center',
                 alignItems: 'center',
                 borderRadius: 5,
@@ -177,7 +176,7 @@ const EmojiPicker: React.FC = (props) => {
               style={{
                 width: '100%',
                 height: '100%',
-                backgroundColor: filterOption === 'objects' ? iconParameterBackgroundColorTable['blue1'] : null,
+                backgroundColor: filterOption === 'objects' ? 'rgba(45, 209, 40, 0.85)' : null,
                 justifyContent: 'center',
                 alignItems: 'center',
                 borderRadius: 5,
@@ -192,7 +191,7 @@ const EmojiPicker: React.FC = (props) => {
               style={{
                 width: '100%',
                 height: '100%',
-                backgroundColor: filterOption === 'symbols' ? iconParameterBackgroundColorTable['blue1'] : null,
+                backgroundColor: filterOption === 'symbols' ? 'rgba(45, 209, 40, 0.85)' : null,
                 justifyContent: 'center',
                 alignItems: 'center',
                 borderRadius: 5,
@@ -207,7 +206,7 @@ const EmojiPicker: React.FC = (props) => {
               style={{
                 width: '100%',
                 height: '100%',
-                backgroundColor: filterOption === 'flags' ? iconParameterBackgroundColorTable['blue1'] : null,
+                backgroundColor: filterOption === 'flags' ? 'rgba(45, 209, 40, 0.85)' : null,
                 justifyContent: 'center',
                 alignItems: 'center',
                 borderRadius: 5,

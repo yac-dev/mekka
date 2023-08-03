@@ -18,9 +18,9 @@ const AddTag = (props) => {
         >
           <Text
             style={{
-              color: tagName.length ? 'white' : 'red',
+              color: tagName.length ? 'white' : 'rgb(117, 117, 117)',
               fontSize: 20,
-              fontWeight: tagName.length ? 'bold' : null,
+              fontWeight: 'bold',
             }}
           >
             Done
@@ -32,12 +32,14 @@ const AddTag = (props) => {
 
   return (
     <View style={{ flex: 1, backgroundColor: 'black', padding: 10 }}>
-      <Text style={{ color: 'white' }}>Add tag</Text>
+      <Text style={{ color: 'white', marginBottom: 10 }}>Write tag name and press Done.</Text>
       <TextInput
-        placeholder='tag name here ...'
-        style={{ backgroundColor: inputBackgroundColor, padding: 10, borderRadius: 8 }}
+        placeholder='Tag name ...'
+        placeholderTextColor={'rgb(180, 180, 180)'}
+        style={{ backgroundColor: inputBackgroundColor, padding: 10, borderRadius: 8, color: 'white' }}
         value={tagName}
         onChangeText={(text) => setTagName(text)}
+        autoCapitalize='none'
       />
     </View>
   );

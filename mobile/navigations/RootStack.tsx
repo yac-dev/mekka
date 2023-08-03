@@ -150,7 +150,7 @@ const RootStack = () => {
                 <Text style={{ color: primaryTextColor, fontSize: 20 }}>Close</Text>
               </TouchableOpacity>
             ),
-            headerTitle: 'Create new space',
+            headerTitle: '',
             headerStyle: {
               backgroundColor: primaryBackgroundColor,
             },
