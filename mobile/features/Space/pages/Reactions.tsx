@@ -3,7 +3,8 @@ import { View, Text, TouchableOpacity, ActivityIndicator, ScrollView } from 'rea
 import backendAPI from '../../../apis/backend';
 import { RouteProp, ParamListBase } from '@react-navigation/native';
 import { ReactionsContext } from '../contexts/ReactionsContext';
-import ReactionOptions from '../components/ReactionOptions';
+import ReactionOptions from '../components/Reactions/ReactionOptions';
+import CommentInput from '../components/Reactions/CommentInput';
 
 type ReactionsProps = {
   route: RouteProp<ParamListBase, string> | undefined;
@@ -26,6 +27,7 @@ type ReactionStatusType = {
 const Reactions: React.FC<ReactionsProps> = (props) => {
   const [reactionStatuses, setReactionStatuses] = useState<ReactionStatusType[]>([]);
   const [areReactionStatusesFetched, setAreReactionStatusesFetched] = useState(false);
+  const [comments, setComments] = useState('');
   // ここのts error気になるな。
   console.log(props.route?.params?.postId);
 
@@ -45,7 +47,14 @@ const Reactions: React.FC<ReactionsProps> = (props) => {
       value={{ reactionStatuses, setReactionStatuses, areReactionStatusesFetched, setAreReactionStatusesFetched }}
     >
       <View style={{ flex: 1, backgroundColor: 'rgb(40, 40,40)', padding: 10 }}>
-        {areReactionStatusesFetched ? <ReactionOptions /> : <ActivityIndicator />}
+        {areReactionStatusesFetched ? (
+          <>
+            <ReactionOptions />
+            <CommentInput />
+          </>
+        ) : (
+          <ActivityIndicator />
+        )}
       </View>
     </ReactionsContext.Provider>
   );

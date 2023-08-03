@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { View, Text, TouchableOpacity, ActivityIndicator, ScrollView } from 'react-native';
-import { GlobalContext } from '../../../contexts/GlobalContext';
-import { ReactionsContext } from '../contexts/ReactionsContext';
+import { GlobalContext } from '../../../../contexts/GlobalContext';
+import { ReactionsContext } from '../../contexts/ReactionsContext';
 import { RouteProp, ParamListBase } from '@react-navigation/native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import backendAPI from '../../../apis/backend';
+import backendAPI from '../../../../apis/backend';
 
 type ReactionsProps = {
   route: RouteProp<ParamListBase, string> | undefined;
@@ -91,7 +91,11 @@ const ReactionOptions = () => {
 
       return (
         <View
-          style={{ flexDirection: 'row', alignItems: 'center', borderBottomWidth: 0.3, borderBottomColor: 'white' }}
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            borderBottomColor: 'white',
+          }}
         >
           {list}
         </View>
