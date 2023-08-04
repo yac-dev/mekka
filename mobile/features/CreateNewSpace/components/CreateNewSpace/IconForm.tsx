@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { CreateNewSpaceContext } from '../../contexts/CreateNewSpace';
@@ -7,11 +7,30 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { inputBackgroundColor } from '../../../../themes/color';
 import { iconColorTable, iconParameterBackgroundColorTable } from '../../../../themes/color';
 import { Foundation } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 // image pickerを使おう。
 
 const IconForm: React.FC = (props) => {
   const [accordion, setAccordion] = useState(false);
-  const { formData, setFormData } = useContext(CreateNewSpaceContext);
+  const { formData, setFormData, validation, setValidation } = useContext(CreateNewSpaceContext);
+
+  useEffect(() => {
+    if (formData.icon) {
+      setValidation((previous) => {
+        return {
+          ...previous,
+          icon: true,
+        };
+      });
+    } else {
+      setValidation((previous) => {
+        return {
+          ...previous,
+          icon: false,
+        };
+      });
+    }
+  }, [formData.icon]);
 
   const pickAndSendImage = async () => {
     let pickedImage = await ImagePicker.launchImageLibraryAsync({
@@ -57,7 +76,18 @@ const IconForm: React.FC = (props) => {
           </View>
           <Text style={{ color: 'white', fontSize: 18 }}>Icon</Text>
         </View>
-        <MaterialCommunityIcons name='chevron-down' color='white' size={20} />
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Ionicons
+            name='checkmark-circle'
+            size={20}
+            color={validation.icon ? 'rgba(45, 209, 40, 0.85)' : 'rgb(117, 117, 117)'}
+          />
+          {accordion ? (
+            <MaterialCommunityIcons name='chevron-up' color='white' size={20} />
+          ) : (
+            <MaterialCommunityIcons name='chevron-down' color='white' size={20} />
+          )}
+        </View>
       </View>
       {accordion ? (
         <View style={{ marginTop: 10 }}>

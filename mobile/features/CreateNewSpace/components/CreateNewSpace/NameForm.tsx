@@ -12,11 +12,23 @@ const NameForm: React.FC = (props) => {
   const [accordion, setAccordion] = useState<boolean>(false);
   // でも、これtopで持ってないとダメだな。
 
-  // // validationは後でいいや。
-  // useEffect(() => {
-  //   if (formData.name.length) {
-  //   }
-  // }, [formData.name]);
+  useEffect(() => {
+    if (formData.name.length && formData.name.length <= 41) {
+      setValidation((previous) => {
+        return {
+          ...previous,
+          name: true,
+        };
+      });
+    } else {
+      setValidation((previous) => {
+        return {
+          ...previous,
+          name: false,
+        };
+      });
+    }
+  }, [formData.name]);
 
   return (
     <TouchableOpacity
@@ -40,11 +52,18 @@ const NameForm: React.FC = (props) => {
           </View>
           <Text style={{ color: 'white', fontSize: 18, fontWeight: 'bold' }}>Name</Text>
         </View>
-        {accordion ? (
-          <MaterialCommunityIcons name='chevron-up' color='white' size={20} />
-        ) : (
-          <MaterialCommunityIcons name='chevron-down' color='white' size={20} />
-        )}
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Ionicons
+            name='checkmark-circle'
+            size={20}
+            color={validation.name ? 'rgba(45, 209, 40, 0.85)' : 'rgb(117, 117, 117)'}
+          />
+          {accordion ? (
+            <MaterialCommunityIcons name='chevron-up' color='white' size={20} />
+          ) : (
+            <MaterialCommunityIcons name='chevron-down' color='white' size={20} />
+          )}
+        </View>
       </View>
       {accordion ? (
         <View style={{ marginTop: 10 }}>

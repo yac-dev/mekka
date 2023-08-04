@@ -1,4 +1,4 @@
-import React, { useReducer, useContext, useState, useEffect } from 'react';
+import React, { useReducer, useContext, useState, useEffect, useCallback } from 'react';
 import { View, Text, TextInput, TouchableOpacity, SafeAreaView } from 'react-native';
 import { GlobalContext } from '../../../contexts/GlobalContext';
 import { primaryBackgroundColor, inputBackgroundColor, modalBackgroundColor } from '../../../themes/color';
@@ -60,6 +60,17 @@ const CreateNewSpace: React.FC<RouterProps> = (props) => {
     stay: false,
     reactions: false,
   });
+  // objectのvalueが全部trueかをチェックするだけね。
+
+  const validateForm = useCallback(() => {
+    const bools = Object.values(validation);
+    for (let bool of bools) {
+      if (!bool) {
+        return false;
+      }
+    }
+    return true;
+  }, [validation]);
 
   useEffect(() => {
     props.navigation.setOptions({
@@ -67,7 +78,7 @@ const CreateNewSpace: React.FC<RouterProps> = (props) => {
         <TouchableOpacity onPress={() => onDonePress()} disabled={false}>
           <Text
             style={{
-              color: 'white',
+              color: validateForm() ? 'white' : 'rgb(117,117, 117)',
               fontSize: 20,
               fontWeight: 'bold',
             }}
