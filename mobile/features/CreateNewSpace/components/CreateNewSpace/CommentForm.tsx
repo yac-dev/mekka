@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -9,7 +9,25 @@ import { Ionicons } from '@expo/vector-icons';
 
 const CommentForm = () => {
   const [accordion, setAccordion] = useState(false);
-  const { formData, setFormData } = useContext(CreateNewSpaceContext);
+  const { formData, setFormData, validation, setValidation } = useContext(CreateNewSpaceContext);
+
+  useEffect(() => {
+    if (formData.isCommentAvailable === undefined) {
+      setValidation((previous) => {
+        return {
+          ...previous,
+          isCommentAvailable: false,
+        };
+      });
+    } else {
+      setValidation((previous) => {
+        return {
+          ...previous,
+          isCommentAvailable: true,
+        };
+      });
+    }
+  }, [formData.isCommentAvailable]);
 
   return (
     <View style={{ padding: 7, borderRadius: 5, marginBottom: 10, backgroundColor: 'rgb(50,50,50)' }}>
@@ -33,11 +51,18 @@ const CommentForm = () => {
           </View>
           <Text style={{ color: 'white', fontSize: 18 }}>Comment</Text>
         </View>
-        {accordion ? (
-          <MaterialCommunityIcons name='chevron-up' color='white' size={20} />
-        ) : (
-          <MaterialCommunityIcons name='chevron-down' color='white' size={20} />
-        )}
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Ionicons
+            name='checkmark-circle'
+            size={20}
+            color={validation.isCommentAvailable ? 'rgba(45, 209, 40, 0.85)' : 'rgb(117, 117, 117)'}
+          />
+          {accordion ? (
+            <MaterialCommunityIcons name='chevron-up' color='white' size={20} />
+          ) : (
+            <MaterialCommunityIcons name='chevron-down' color='white' size={20} />
+          )}
+        </View>
       </TouchableOpacity>
       {accordion ? (
         <View style={{ marginTop: 10 }}>
@@ -56,11 +81,11 @@ const CommentForm = () => {
                 }
               >
                 <Text style={{ color: 'white', textAlign: 'center' }}>Yes</Text>
-                {formData.isCommentAvailable ? (
+                {formData.isCommentAvailable === undefined ? null : formData.isCommentAvailable ? (
                   <Ionicons
                     name='checkmark-circle'
                     size={20}
-                    color={'green'}
+                    color={'rgba(45, 209, 40, 0.85)'}
                     style={{ position: 'absolute', top: 0, right: 0 }}
                   />
                 ) : null}
@@ -79,14 +104,14 @@ const CommentForm = () => {
                 }
               >
                 <Text style={{ color: 'white', textAlign: 'center' }}>No</Text>
-                {!formData.isCommentAvailable ? (
+                {formData.isCommentAvailable === undefined ? null : formData.isCommentAvailable ? null : (
                   <Ionicons
                     name='checkmark-circle'
                     size={20}
-                    color={'green'}
+                    color={'rgba(45, 209, 40, 0.85)'}
                     style={{ position: 'absolute', top: 0, right: 0 }}
                   />
-                ) : null}
+                )}
               </TouchableOpacity>
             </View>
           </View>

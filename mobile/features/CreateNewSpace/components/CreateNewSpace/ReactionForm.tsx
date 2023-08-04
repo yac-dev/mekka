@@ -9,7 +9,7 @@ import { iconColorTable, iconParameterBackgroundColorTable, inputBackgroundColor
 
 const ReactionForm: React.FC = (props) => {
   const [accordion, setAccordion] = useState(false);
-  const { formData, setFormData, navigation, route } = useContext(CreateNewSpaceContext);
+  const { formData, setFormData, navigation, route, validation, setValidation } = useContext(CreateNewSpaceContext);
 
   // emojipickerから帰ってきたら、emojiをarrayに入れる。
   useEffect(() => {
@@ -25,6 +25,24 @@ const ReactionForm: React.FC = (props) => {
       });
     }
   }, [route?.params?.selectedEmoji]);
+
+  useEffect(() => {
+    if (formData.isReactionAvailable === undefined) {
+      setValidation((previous) => {
+        return {
+          ...previous,
+          isReactionAvailable: false,
+        };
+      });
+    } else {
+      setValidation((previous) => {
+        return {
+          ...previous,
+          isReactionAvailable: true,
+        };
+      });
+    }
+  }, [formData.isReactionAvailable]);
 
   const renderAddedReactions = () => {
     if (formData.reactions.length) {
@@ -103,11 +121,18 @@ const ReactionForm: React.FC = (props) => {
           </View>
           <Text style={{ color: 'white', fontSize: 18 }}>Reaction</Text>
         </View>
-        {accordion ? (
-          <MaterialCommunityIcons name='chevron-up' color='white' size={20} />
-        ) : (
-          <MaterialCommunityIcons name='chevron-down' color='white' size={20} />
-        )}
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Ionicons
+            name='checkmark-circle'
+            size={20}
+            color={validation.isReactionAvailable ? 'rgba(45, 209, 40, 0.85)' : 'rgb(117, 117, 117)'}
+          />
+          {accordion ? (
+            <MaterialCommunityIcons name='chevron-up' color='white' size={20} />
+          ) : (
+            <MaterialCommunityIcons name='chevron-down' color='white' size={20} />
+          )}
+        </View>
       </TouchableOpacity>
       {accordion ? (
         <View style={{ marginTop: 10 }}>
@@ -126,11 +151,11 @@ const ReactionForm: React.FC = (props) => {
                 }
               >
                 <Text style={{ color: 'white', textAlign: 'center' }}>Yes</Text>
-                {formData.isReactionAvailable ? (
+                {formData.isReactionAvailable === undefined ? null : formData.isReactionAvailable ? (
                   <Ionicons
                     name='checkmark-circle'
                     size={20}
-                    color={'green'}
+                    color={'rgba(45, 209, 40, 0.85)'}
                     style={{ position: 'absolute', top: 0, right: 0 }}
                   />
                 ) : null}
@@ -149,14 +174,14 @@ const ReactionForm: React.FC = (props) => {
                 }
               >
                 <Text style={{ color: 'white', textAlign: 'center' }}>No</Text>
-                {!formData.isReactionAvailable ? (
+                {formData.isReactionAvailable === undefined ? null : formData.isReactionAvailable ? null : (
                   <Ionicons
                     name='checkmark-circle'
                     size={20}
-                    color={'green'}
+                    color={'rgba(45, 209, 40, 0.85)'}
                     style={{ position: 'absolute', top: 0, right: 0 }}
                   />
-                ) : null}
+                )}
               </TouchableOpacity>
             </View>
           </View>

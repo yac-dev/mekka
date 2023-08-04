@@ -1,11 +1,11 @@
 import mongoose, { mongo } from 'mongoose';
 
 const reactionSchema = mongoose.Schema({
-  emojiType: String, // normal, specialEmoji
+  emojiType: String, // normal, custom
   emoji: String,
-  specialEmoji: {
+  customEmoji: {
     type: mongoose.Schema.ObjectId,
-    ref: 'SpecialEmoji',
+    ref: 'CustomEmoji',
   },
 });
 
