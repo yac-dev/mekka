@@ -35,12 +35,21 @@ const ReactionForm: React.FC = (props) => {
         };
       });
     } else {
-      setValidation((previous) => {
-        return {
-          ...previous,
-          isReactionAvailable: true,
-        };
-      });
+      if (formData.reactions.length) {
+        setValidation((previous) => {
+          return {
+            ...previous,
+            isReactionAvailable: true,
+          };
+        });
+      } else {
+        setValidation((previous) => {
+          return {
+            ...previous,
+            isReactionAvailable: false,
+          };
+        });
+      }
     }
   }, [formData.isReactionAvailable]);
 
@@ -188,9 +197,21 @@ const ReactionForm: React.FC = (props) => {
           {formData.isReactionAvailable ? (
             <>
               <Text style={{ color: 'white', marginBottom: 10 }}>
-                Please select the reaction options that can be used in this space.
+                Please select the reaction options that can be used in this space. (up to 6 options)
               </Text>
-              <View style={{ flexDirection: 'row', width: '100%', marginBottom: 10 }}>
+              <TouchableOpacity
+                style={{
+                  backgroundColor: 'rgb(88,88,88)',
+                  padding: 10,
+                  borderRadius: 5,
+                  width: '100%',
+                }}
+                onPress={() => navigation?.navigate('EmojiPicker')}
+              >
+                <Text style={{ color: 'white', textAlign: 'center' }}>😁Add</Text>
+                {/* <MaterialCommunityIcons name='chevron-down' size={20} color='white' /> */}
+              </TouchableOpacity>
+              {/* <View style={{ flexDirection: 'row', width: '100%', marginBottom: 10 }}>
                 <View style={{ width: '50%', padding: 2 }}>
                   <TouchableOpacity
                     style={{
@@ -201,7 +222,6 @@ const ReactionForm: React.FC = (props) => {
                     onPress={() => navigation?.navigate('EmojiPicker')}
                   >
                     <Text style={{ color: 'white', textAlign: 'center' }}>Add emoji😁</Text>
-                    {/* <MaterialCommunityIcons name='chevron-down' size={20} color='white' /> */}
                   </TouchableOpacity>
                 </View>
                 <View style={{ width: '50%', padding: 2 }}>
@@ -212,7 +232,7 @@ const ReactionForm: React.FC = (props) => {
                     <Text style={{ color: 'white', textAlign: 'center' }}>Add special emoji😎</Text>
                   </TouchableOpacity>
                 </View>
-              </View>
+              </View> */}
               <Text style={{ color: 'rgb(170, 170, 170)', alignSelf: 'flex-end', marginBottom: 15 }}>
                 {formData.reactions.length}/6
               </Text>

@@ -1,4 +1,4 @@
-import React, { useState, useContext, useCallback } from 'react';
+import React, { useState, useContext, useCallback, useEffect } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -12,13 +12,128 @@ const ContentTypeForm = () => {
   const [accordion, setAccordion] = useState(false);
   const { formData, setFormData, validation, setValidation } = useContext(CreateNewSpaceContext);
 
-  console.log(formData);
+  useEffect(() => {
+    if (!formData.contentType) {
+      setValidation((previous) => {
+        return {
+          ...previous,
+          contentType: false,
+        };
+      });
+    } else {
+      setValidation((previous) => {
+        return {
+          ...previous,
+          contentType: true,
+        };
+      });
+    }
+  }, [formData.contentType]);
 
   const renderVideoLength = useCallback(() => {
     return (
       <Text style={{ color: 'white', alignSelf: 'flex-end', marginBottom: 15 }}>{formData.videoLength} seconds</Text>
     );
   }, [formData.videoLength]);
+
+  const renderVideoSpec = () => {
+    if (formData.contentType === 'video' || 'photoAndVideo') {
+      return (
+        <>
+          <Text style={{ marginBottom: 10, color: 'white' }}>
+            ⏱ How many seconds of video can members post in this space?
+          </Text>
+          <Slider
+            style={{ width: '100%', height: 40 }}
+            minimumValue={5}
+            maximumValue={180}
+            minimumTrackTintColor='#FFFFFF'
+            maximumTrackTintColor='#000000'
+            step={1}
+            value={formData.videoLength}
+            lowerLimit={5}
+            onValueChange={(value) =>
+              setFormData((previous) => {
+                return {
+                  ...previous,
+                  videoLength: value,
+                };
+              })
+            }
+          />
+          {renderVideoLength()}
+          <Text style={{ color: 'white', marginBottom: 10 }}>⏳ How long will members' posts stay?</Text>
+          <View style={{ flexDirection: 'row' }}>
+            <TouchableOpacity
+              style={{ padding: 10, backgroundColor: 'rgb(88,88,88)', borderRadius: 5, marginRight: 10 }}
+              onPress={() =>
+                setFormData((previous) => {
+                  return {
+                    ...previous,
+                    stay: '',
+                  };
+                })
+              }
+            >
+              <Text style={{ color: 'white' }}>Permanent</Text>
+              {!formData.stay ? (
+                <Ionicons
+                  name='checkmark-circle'
+                  size={20}
+                  color={'rgba(45, 209, 40, 0.85)'}
+                  style={{ position: 'absolute', top: 0, right: 0 }}
+                />
+              ) : null}
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{ padding: 10, backgroundColor: 'rgb(88,88,88)', borderRadius: 5, marginRight: 10 }}
+              onPress={() =>
+                setFormData((previous) => {
+                  return {
+                    ...previous,
+                    stay: '1',
+                  };
+                })
+              }
+            >
+              <Text style={{ color: 'white' }}>1 hour</Text>
+              {formData.stay === '1' ? (
+                <Ionicons
+                  name='checkmark-circle'
+                  size={20}
+                  color={'rgba(45, 209, 40, 0.85)'}
+                  style={{ position: 'absolute', top: 0, right: 0 }}
+                />
+              ) : null}
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{ padding: 10, backgroundColor: 'rgb(88,88,88)', borderRadius: 5, marginRight: 10 }}
+              onPress={() =>
+                setFormData((previous) => {
+                  return {
+                    ...previous,
+                    stay: '24',
+                  };
+                })
+              }
+            >
+              <Text style={{ color: 'white' }}>24 hours</Text>
+              {formData.stay === '24' ? (
+                <Ionicons
+                  name='checkmark-circle'
+                  size={20}
+                  color={'rgba(45, 209, 40, 0.85)'}
+                  style={{ position: 'absolute', top: 0, right: 0 }}
+                />
+              ) : null}
+            </TouchableOpacity>
+          </View>
+        </>
+      );
+    } else {
+      return null;
+    }
+  };
 
   return (
     <View style={{ padding: 7, borderRadius: 5, marginBottom: 10, backgroundColor: 'rgb(50,50,50)' }}>
@@ -79,7 +194,7 @@ const ContentTypeForm = () => {
                 <Ionicons
                   name='checkmark-circle'
                   size={20}
-                  color={'green'}
+                  color={'rgba(45, 209, 40, 0.85)'}
                   style={{ position: 'absolute', top: 0, right: 0 }}
                 />
               ) : null}
@@ -102,7 +217,7 @@ const ContentTypeForm = () => {
                 <Ionicons
                   name='checkmark-circle'
                   size={20}
-                  color={'green'}
+                  color={'rgba(45, 209, 40, 0.85)'}
                   style={{ position: 'absolute', top: 0, right: 0 }}
                 />
               ) : null}
@@ -124,16 +239,15 @@ const ContentTypeForm = () => {
               <Ionicons
                 name='checkmark-circle'
                 size={20}
-                color={'green'}
+                color={'rgba(45, 209, 40, 0.85)'}
                 style={{ position: 'absolute', top: 0, right: 0 }}
               />
             ) : null}
           </TouchableOpacity>
-          {formData.contentType === 'video' ? (
+          {formData.contentType === 'video' || formData.contentType === 'photoAndVideo' ? (
             <>
               <Text style={{ marginBottom: 10, color: 'white' }}>
-                ⏱ How many seconds of video can members post in this space? e.g.) On tiktok, each video is limited up to
-                60 seconds.
+                ⏱ How many seconds of video can members post in this space?
               </Text>
               <Slider
                 style={{ width: '100%', height: 40 }}
@@ -154,10 +268,7 @@ const ContentTypeForm = () => {
                 }
               />
               {renderVideoLength()}
-              <Text style={{ color: 'white', marginBottom: 10 }}>
-                ⏳ How long will members' posts stay? e.g.) On instagram story, your post will be disappeard after 24
-                hours.
-              </Text>
+              <Text style={{ color: 'white', marginBottom: 10 }}>⏳ How long will members' posts stay?</Text>
               <View style={{ flexDirection: 'row' }}>
                 <TouchableOpacity
                   style={{ padding: 10, backgroundColor: 'rgb(88,88,88)', borderRadius: 5, marginRight: 10 }}
@@ -175,7 +286,7 @@ const ContentTypeForm = () => {
                     <Ionicons
                       name='checkmark-circle'
                       size={20}
-                      color={'green'}
+                      color={'rgba(45, 209, 40, 0.85)'}
                       style={{ position: 'absolute', top: 0, right: 0 }}
                     />
                   ) : null}
@@ -196,7 +307,7 @@ const ContentTypeForm = () => {
                     <Ionicons
                       name='checkmark-circle'
                       size={20}
-                      color={'green'}
+                      color={'rgba(45, 209, 40, 0.85)'}
                       style={{ position: 'absolute', top: 0, right: 0 }}
                     />
                   ) : null}
@@ -217,7 +328,7 @@ const ContentTypeForm = () => {
                     <Ionicons
                       name='checkmark-circle'
                       size={20}
-                      color={'green'}
+                      color={'rgba(45, 209, 40, 0.85)'}
                       style={{ position: 'absolute', top: 0, right: 0 }}
                     />
                   ) : null}
