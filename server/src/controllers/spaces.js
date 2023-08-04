@@ -21,7 +21,6 @@ export const createSpace = async (request, response) => {
       videoLength,
       reactions,
       stay,
-      tags,
     } = request.body;
     console.log(request.body);
 

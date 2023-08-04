@@ -23,13 +23,12 @@ type FormDataStateType = {
   name: string;
   icon: string;
   contentType: string;
-  isPublic: boolean;
-  isCommentAvailable: boolean;
-  isReactionAvailable: boolean;
+  isPublic: boolean | undefined;
+  isCommentAvailable: boolean | undefined;
+  isReactionAvailable: boolean | undefined;
   videoLength: number;
   stay: string;
   reactions: ReactionType[];
-  tags: string[];
 };
 
 type RouterProps = {
@@ -42,14 +41,24 @@ const CreateNewSpace: React.FC<RouterProps> = (props) => {
   const [formData, setFormData] = useState<FormDataStateType>({
     name: '',
     icon: '',
-    contentType: 'photo', // ここら辺は、全部選択式になる。
-    isPublic: true,
-    isCommentAvailable: true,
-    isReactionAvailable: true,
+    contentType: '', // ここら辺は、全部選択式になる。
+    isPublic: undefined,
+    isCommentAvailable: undefined,
+    isReactionAvailable: undefined,
     videoLength: 60,
     stay: '',
     reactions: [],
-    tags: [],
+  });
+  const [validation, setValidation] = useState({
+    name: false,
+    icon: false,
+    contentType: false,
+    isPublic: false,
+    isCommentAvailable: false,
+    isReactionAvailable: false,
+    videoLength: false,
+    stay: false,
+    reactions: false,
   });
 
   useEffect(() => {
@@ -89,7 +98,6 @@ const CreateNewSpace: React.FC<RouterProps> = (props) => {
     payload.append('isPublic', formData.isPublic.toString());
     payload.append('isCommentAvailable', formData.isCommentAvailable.toString());
     payload.append('isReactionAvailable', formData.isReactionAvailable.toString());
-    payload.append('tags', JSON.stringify(formData.tags));
     payload.append('reactions', JSON.stringify(formData.reactions));
     payload.append('videoLength', formData.videoLength.toString());
     payload.append('createdBy', authData._id);
@@ -106,7 +114,9 @@ const CreateNewSpace: React.FC<RouterProps> = (props) => {
   };
 
   return (
-    <CreateNewSpaceContext.Provider value={{ formData, setFormData, navigation: props.navigation, route: props.route }}>
+    <CreateNewSpaceContext.Provider
+      value={{ formData, setFormData, validation, setValidation, navigation: props.navigation, route: props.route }}
+    >
       <SafeAreaView style={{ flex: 1, backgroundColor: 'black' }}>
         <View style={{ flex: 1, backgroundColor: 'black', padding: 10 }}>
           <View style={{ paddingLeft: 30, paddingRight: 30, paddingTop: 20, paddingBottom: 20 }}>

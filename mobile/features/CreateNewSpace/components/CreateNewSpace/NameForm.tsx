@@ -8,11 +8,11 @@ import { iconColorTable, iconParameterBackgroundColorTable } from '../../../../t
 import { Ionicons } from '@expo/vector-icons';
 
 const NameForm: React.FC = (props) => {
-  const { formData, setFormData } = useContext(CreateNewSpaceContext);
+  const { formData, setFormData, validation, setValidation } = useContext(CreateNewSpaceContext);
   const [accordion, setAccordion] = useState<boolean>(false);
   // でも、これtopで持ってないとダメだな。
 
-  // validationは後でいいや。
+  // // validationは後でいいや。
   // useEffect(() => {
   //   if (formData.name.length) {
   //   }
@@ -48,7 +48,7 @@ const NameForm: React.FC = (props) => {
       </View>
       {accordion ? (
         <View style={{ marginTop: 10 }}>
-          <Text style={{ marginBottom: 10, color: 'white' }}>Please write the space name. Be unique.</Text>
+          <Text style={{ marginBottom: 10, color: 'white' }}>Please write the space name.</Text>
           <TextInput
             placeholder='In 40 characters long'
             placeholderTextColor={'rgb(180, 180, 180)'}

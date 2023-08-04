@@ -17,13 +17,24 @@ type FormDataStateType = {
   name: string;
   icon: string;
   contentType: string;
-  isPublic: boolean;
-  isCommentAvailable: boolean;
-  isReactionAvailable: boolean;
+  isPublic: boolean | undefined;
+  isCommentAvailable: boolean | undefined;
+  isReactionAvailable: boolean | undefined;
   videoLength: number;
   stay: string;
   reactions: ReactionType[];
-  tags: string[];
+};
+
+type ValidationType = {
+  name: boolean;
+  icon: boolean;
+  contentType: boolean;
+  isPublic: boolean;
+  isCommentAvailable: boolean;
+  isReactionAvailable: boolean;
+  videoLength: boolean;
+  stay: boolean;
+  reactions: boolean;
 };
 
 // { emoji: '' , icon: '' }
@@ -61,6 +72,8 @@ type FormDataStateType = {
 interface CreateNewSpaceProps {
   formData: FormDataStateType; // ここのstateの形というかtypeか。これを直さなきゃなんだね。。。
   setFormData: React.Dispatch<React.SetStateAction<FormDataStateType>>;
+  validation: ValidationType;
+  setValidation: React.Dispatch<React.SetStateAction<ValidationType>>;
   navigation: NavigationProp<ParamListBase> | undefined;
   route: RouteProp<ParamListBase, string> | undefined;
 }
@@ -70,16 +83,27 @@ export const CreateNewSpaceContext = createContext<CreateNewSpaceProps>({
   formData: {
     name: '',
     icon: '',
-    contentType: 'photo',
-    isPublic: true,
-    isCommentAvailable: true,
-    isReactionAvailable: true,
+    contentType: '',
+    isPublic: undefined,
+    isCommentAvailable: undefined,
+    isReactionAvailable: undefined,
     videoLength: 60,
-    stay: 'permanent',
+    stay: '',
     reactions: [],
-    tags: [],
   },
   setFormData: () => {},
+  validation: {
+    name: false,
+    icon: false,
+    contentType: false,
+    isPublic: false,
+    isCommentAvailable: false,
+    isReactionAvailable: false,
+    videoLength: false,
+    stay: false,
+    reactions: false,
+  },
+  setValidation: () => {},
   navigation: undefined,
   route: undefined,
 });

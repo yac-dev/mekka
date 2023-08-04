@@ -29,12 +29,6 @@ const spaceSchema = mongoose.Schema({
       ref: 'Reaction',
     },
   ],
-  tags: [
-    {
-      type: mongoose.Schema.ObjectId,
-      ref: 'Tag',
-    },
-  ], // mekkaに関するtagにもなるし、それぞれのビデオ、写真につけるtagにもなる。// このtagでも、それぞれのmekkaの特徴を表すことになる。
   roles: [
     // これいらないかな。。。
     {
