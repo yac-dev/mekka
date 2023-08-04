@@ -6,6 +6,7 @@ import { CreateNewSpaceContext } from '../../contexts/CreateNewSpace';
 import { Ionicons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { iconColorTable, iconParameterBackgroundColorTable, inputBackgroundColor } from '../../../../themes/color';
+import FastImage from 'react-native-fast-image';
 
 const ReactionForm: React.FC = (props) => {
   const [accordion, setAccordion] = useState(false);
@@ -19,7 +20,7 @@ const ReactionForm: React.FC = (props) => {
           ...previous,
           reactions: [
             ...previous.reactions,
-            { emojiType: 'normal', emoji: route.params?.selectedEmoji, specialEmoji: '' },
+            { emojiType: route?.params?.selectedEmoji.type, emoji: route.params?.selectedEmoji.emoji },
           ],
         };
       });
@@ -31,7 +32,7 @@ const ReactionForm: React.FC = (props) => {
       setValidation((previous) => {
         return {
           ...previous,
-          isReactionAvailable: false,
+          reactions: false,
         };
       });
     } else {
@@ -39,19 +40,19 @@ const ReactionForm: React.FC = (props) => {
         setValidation((previous) => {
           return {
             ...previous,
-            isReactionAvailable: true,
+            reactions: true,
           };
         });
       } else {
         setValidation((previous) => {
           return {
             ...previous,
-            isReactionAvailable: false,
+            reactions: false,
           };
         });
       }
     }
-  }, [formData.isReactionAvailable]);
+  }, [formData.isReactionAvailable, formData.reactions]);
 
   const renderAddedReactions = () => {
     if (formData.reactions.length) {
@@ -69,7 +70,11 @@ const ReactionForm: React.FC = (props) => {
               marginRight: 15,
             }}
           >
-            <Text style={{ fontSize: 40 }}>{reaction.emoji}</Text>
+            {reaction.emojiType === 'custom' ? (
+              <FastImage source={{ uri: reaction.emoji }} style={{ width: 35, height: 35 }} />
+            ) : (
+              <Text style={{ fontSize: 40 }}>{reaction.emoji}</Text>
+            )}
             <TouchableOpacity
               style={{
                 width: 26,
@@ -134,7 +139,7 @@ const ReactionForm: React.FC = (props) => {
           <Ionicons
             name='checkmark-circle'
             size={20}
-            color={validation.isReactionAvailable ? 'rgba(45, 209, 40, 0.85)' : 'rgb(117, 117, 117)'}
+            color={validation.reactions ? 'rgba(45, 209, 40, 0.85)' : 'rgb(117, 117, 117)'}
           />
           {accordion ? (
             <MaterialCommunityIcons name='chevron-up' color='white' size={20} />

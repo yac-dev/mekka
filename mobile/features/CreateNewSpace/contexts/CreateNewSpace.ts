@@ -31,10 +31,9 @@ type ValidationType = {
   contentType: boolean;
   isPublic: boolean;
   isCommentAvailable: boolean;
-  isReactionAvailable: boolean;
+  reactions: boolean;
   videoLength: boolean;
   stay: boolean;
-  reactions: boolean;
 };
 
 // { emoji: '' , icon: '' }
@@ -98,10 +97,9 @@ export const CreateNewSpaceContext = createContext<CreateNewSpaceProps>({
     contentType: false,
     isPublic: false,
     isCommentAvailable: false,
-    isReactionAvailable: false,
+    reactions: false,
     videoLength: false,
     stay: false,
-    reactions: false,
   },
   setValidation: () => {},
   navigation: undefined,

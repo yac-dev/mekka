@@ -55,10 +55,9 @@ const CreateNewSpace: React.FC<RouterProps> = (props) => {
     contentType: false,
     isPublic: false,
     isCommentAvailable: false,
-    isReactionAvailable: false,
+    reactions: false,
     videoLength: false,
     stay: false,
-    reactions: false,
   });
   // objectのvalueが全部trueかをチェックするだけね。
 
