@@ -122,9 +122,25 @@ const EmojiPicker: React.FC = (props) => {
       });
 
       return (
-        <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center' }}>{list}</View>
-        </ScrollView>
+        <View>
+          <View style={{ paddingLeft: 10, paddingRight: 10 }}>
+            <TouchableOpacity
+              style={{
+                width: '100%',
+                backgroundColor: 'rgb(88,88,88)',
+                padding: 10,
+                borderRadius: 8,
+                marginBottom: 10,
+              }}
+              onPress={() => props.navigation?.navigate('CreateCustomEmoji')}
+            >
+              <Text style={{ textAlign: 'center', color: 'white' }}>Create new?</Text>
+            </TouchableOpacity>
+            <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
+              <View style={{ flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center' }}>{list}</View>
+            </ScrollView>
+          </View>
+        </View>
       );
     }
   };

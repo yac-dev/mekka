@@ -13,6 +13,7 @@ import PhotoSpaceRootStackNavigator from './PhotoSpaceRootStackNavigator';
 import PhotoAndVideoSpaceRootStackNavigator from './PhotoAndVideoSpaceRootStackNavigator';
 import CreateNewSpace from '../features/CreateNewSpace/pages/CreateNewSpace';
 import EmojiPicker from '../features/CreateNewSpace/components/CreateNewSpace/EmojiPicker';
+import CreateCustomEmoji from '../features/CreateNewSpace/pages/CreateCustomEmoji';
 // special emoji picker
 import AddTag from '../features/CreateNewSpace/components/CreateNewSpace/AddTag';
 import Discover from '../features/Discover/pages/Spaces';
@@ -209,7 +210,26 @@ const RootStack = () => {
                 <Text style={{ color: primaryTextColor, fontSize: 20 }}>Close</Text>
               </TouchableOpacity>
             ),
-            headerTitle: 'Emoji picker',
+            headerTitle: '',
+            headerStyle: {
+              backgroundColor: primaryBackgroundColor,
+            },
+            headerTitleStyle: {
+              fontWeight: 'bold',
+              color: primaryTextColor,
+            },
+          })}
+        />
+        <Stack.Screen
+          name='CreateCustomEmoji'
+          component={CreateCustomEmoji}
+          options={({ navigation }) => ({
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <Text style={{ color: primaryTextColor, fontSize: 20 }}>Close</Text>
+              </TouchableOpacity>
+            ),
+            headerTitle: '',
             headerStyle: {
               backgroundColor: primaryBackgroundColor,
             },
