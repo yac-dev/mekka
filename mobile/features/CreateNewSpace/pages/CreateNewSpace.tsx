@@ -8,15 +8,15 @@ import backendAPI from '../../../apis/backend';
 import Form from '../components/Form';
 import { NavigationProp, RouteProp } from '@react-navigation/native';
 
-type SpecialEmojiType = {
+type StickerType = {
   name: string;
   url: string;
 };
 
 type ReactionType = {
-  emojiType: string;
+  type: 'emoji' | 'sticker';
   emoji: string;
-  specialEmoji: SpecialEmojiType | undefined;
+  sticker: StickerType | undefined;
 };
 
 type FormDataStateType = {

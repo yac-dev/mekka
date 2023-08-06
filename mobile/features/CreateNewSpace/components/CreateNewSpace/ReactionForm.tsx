@@ -14,18 +14,30 @@ const ReactionForm: React.FC = (props) => {
 
   // emojipickerから帰ってきたら、emojiをarrayに入れる。
   useEffect(() => {
-    if (route?.params?.selectedEmoji) {
+    if (route?.params?.selectedReaction) {
+      console.log(route?.params?.selectedReaction);
       setFormData((previous) => {
         return {
           ...previous,
           reactions: [
             ...previous.reactions,
-            { emojiType: route?.params?.selectedEmoji.type, emoji: route.params?.selectedEmoji.emoji },
+            {
+              type: route?.params?.selectedReaction.type,
+              emoji:
+                route?.params?.selectedReaction.type === 'emoji' ? route?.params?.selectedReaction.emoji : undefined,
+              sticker:
+                route?.params?.selectedReaction.type === 'sticker'
+                  ? {
+                      name: route?.params?.selectedReaction.sticker.name,
+                      url: route?.params?.selectedReaction.sticker.url,
+                    }
+                  : undefined,
+            },
           ],
         };
       });
     }
-  }, [route?.params?.selectedEmoji]);
+  }, [route?.params?.selectedReaction]);
 
   useEffect(() => {
     if (formData.isReactionAvailable === undefined) {
@@ -54,6 +66,8 @@ const ReactionForm: React.FC = (props) => {
     }
   }, [formData.isReactionAvailable, formData.reactions]);
 
+  console.log(formData.reactions);
+
   const renderAddedReactions = () => {
     if (formData.reactions.length) {
       const list = formData.reactions.map((reaction, index) => {
@@ -70,8 +84,8 @@ const ReactionForm: React.FC = (props) => {
               marginRight: 15,
             }}
           >
-            {reaction.emojiType === 'custom' ? (
-              <FastImage source={{ uri: reaction.emoji }} style={{ width: 35, height: 35 }} />
+            {reaction.type === 'sticker' ? (
+              <FastImage source={{ uri: reaction.sticker.url }} style={{ width: 35, height: 35 }} />
             ) : (
               <Text style={{ fontSize: 40 }}>{reaction.emoji}</Text>
             )}

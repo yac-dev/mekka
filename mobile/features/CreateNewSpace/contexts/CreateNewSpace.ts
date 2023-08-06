@@ -1,15 +1,15 @@
 import { createContext } from 'react';
 import { NavigationProp, ParamListBase, RouteProp } from '@react-navigation/native';
 
-type SpecialEmojiType = {
+type StickerType = {
   name: string;
   url: string;
 };
 
 type ReactionType = {
-  emojiType: string;
+  type: 'emoji' | 'sticker';
   emoji: string;
-  specialEmoji: SpecialEmojiType | undefined;
+  sticker: StickerType | undefined;
 };
 
 // stateとactionのtypeをまず設定すると。

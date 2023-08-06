@@ -9,10 +9,21 @@ import backendAPI from '../../../../apis/backend';
 
 // smilyAndPeople, animalsAndNature, foodAndDrink, objects, flags, symbols, travelAndPlaces, activity
 
+type StickerType = {
+  url: string;
+  name: string | undefined;
+};
+
+type ReactionType = {
+  type: 'emoji' | 'sticker';
+  emoji: string | undefined;
+  sticker: StickerType | undefined;
+} | null;
+
 const EmojiPicker: React.FC = (props) => {
   const { isIpad } = useContext(GlobalContext);
   const oneGridWidth = isIpad ? Dimensions.get('window').width / 15 : Dimensions.get('window').width / 8;
-  const [selectedEmoji, setSelectedEmoji] = useState(null);
+  const [selectedReaction, setSelectedReaction] = useState<ReactionType>(null);
   const [filterOption, setFilterOption] = useState('smileyAndPeople');
   const [stickers, setStickers] = useState({});
 
@@ -21,12 +32,14 @@ const EmojiPicker: React.FC = (props) => {
       headerRight: () => (
         <TouchableOpacity
           // このmergeって、初めて知ったな。
-          onPress={() => props.navigation.navigate({ name: 'CreateNewSpace', params: { selectedEmoji }, merge: true })}
-          disabled={selectedEmoji ? false : true}
+          onPress={() =>
+            props.navigation.navigate({ name: 'CreateNewSpace', params: { selectedReaction }, merge: true })
+          }
+          disabled={selectedReaction ? false : true}
         >
           <Text
             style={{
-              color: selectedEmoji ? 'white' : 'rgb(117, 117, 117)',
+              color: selectedReaction ? 'white' : 'rgb(117, 117, 117)',
               fontSize: 20,
               fontWeight: 'bold',
             }}
@@ -36,7 +49,7 @@ const EmojiPicker: React.FC = (props) => {
         </TouchableOpacity>
       ),
     });
-  }, [selectedEmoji]);
+  }, [selectedReaction]);
 
   const getStickers = async () => {
     const result = await backendAPI.get('/stickers');
@@ -56,9 +69,9 @@ const EmojiPicker: React.FC = (props) => {
     }
   }, [filterOption]);
 
-  const renderSelectedEmoji = () => {
-    if (selectedEmoji) {
-      if (selectedEmoji.type === 'sticker') {
+  const renderSelectedReaction = () => {
+    if (selectedReaction) {
+      if (selectedReaction.type === 'sticker') {
         return (
           <View
             style={{
@@ -73,7 +86,7 @@ const EmojiPicker: React.FC = (props) => {
               alignItems: 'center',
             }}
           >
-            <FastImage source={{ uri: selectedEmoji.emoji }} style={{ width: 65, height: 65 }} />
+            <FastImage source={{ uri: selectedReaction.sticker.url }} style={{ width: 65, height: 65 }} />
           </View>
         );
       } else {
@@ -91,7 +104,7 @@ const EmojiPicker: React.FC = (props) => {
               alignItems: 'center',
             }}
           >
-            <Text style={{ fontSize: 80 }}>{selectedEmoji.emoji}</Text>
+            <Text style={{ fontSize: 80 }}>{selectedReaction.emoji}</Text>
           </View>
         );
       }
@@ -103,7 +116,7 @@ const EmojiPicker: React.FC = (props) => {
   const renderStickers = () => {
     const stickersList = Object.values(stickers);
     if (stickersList.length) {
-      const list = stickersList.map((sticker, index) => {
+      const list = stickersList.map((sticker, index: number) => {
         return (
           <View key={index} style={{ width: oneGridWidth, aspectRatio: 1, padding: 3 }}>
             <TouchableOpacity
@@ -116,7 +129,11 @@ const EmojiPicker: React.FC = (props) => {
                 borderRadius: 5,
               }}
               onPress={() => {
-                setSelectedEmoji({ type: 'sticker', emoji: sticker.url });
+                setSelectedReaction({
+                  type: 'sticker',
+                  emoji: undefined,
+                  sticker: { url: sticker.url, name: sticker.name },
+                });
               }}
             >
               <FastImage source={{ uri: sticker.url }} style={{ width: 30, height: 30 }} />
@@ -150,7 +167,7 @@ const EmojiPicker: React.FC = (props) => {
   };
 
   const renderEmojis = () => {
-    const list = emojis[filterOption].map((emoji, index) => {
+    const list = emojis[filterOption].map((emoji: string, index: number) => {
       return (
         <View key={index} style={{ width: oneGridWidth, aspectRatio: 1, padding: 3 }}>
           <TouchableOpacity
@@ -163,10 +180,7 @@ const EmojiPicker: React.FC = (props) => {
               borderRadius: 5,
             }}
             onPress={() => {
-              setSelectedEmoji({
-                type: 'normal',
-                emoji,
-              });
+              setSelectedReaction({ type: 'emoji', emoji: emoji, sticker: undefined });
             }}
           >
             <Text style={{ fontSize: 35 }}>{emoji}</Text>
@@ -192,22 +206,7 @@ const EmojiPicker: React.FC = (props) => {
           post.
         </Text>
       </View>
-      {/* <View
-        style={{
-          width: 80,
-          height: 80,
-          backgroundColor: inputBackgroundColor,
-          borderRadius: 8,
-          marginTop: 10,
-          marginBottom: 10,
-          alignSelf: 'center',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <Text style={{ fontSize: 80 }}>{selectedEmoji.emoji}</Text>
-      </View> */}
-      {renderSelectedEmoji()}
+      {renderSelectedReaction()}
       {filterOption === 'sticker' ? renderStickers() : renderEmojis()}
       <ScrollView
         horizontal={true}
