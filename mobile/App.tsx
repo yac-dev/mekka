@@ -2,6 +2,7 @@ import React, { useState, useReducer, useEffect } from 'react';
 import { View, Platform, StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import * as SecureStore from 'expo-secure-store';
+import LoadingSpinner from './components/LoadingSpinner';
 import { GlobalContext } from './contexts/GlobalContext';
 import RootStack from './navigations/RootStack';
 import backendAPI from './apis/backend';
@@ -53,6 +54,7 @@ const App: React.FC = function () {
       <NavigationContainer>
         <RootStack />
       </NavigationContainer>
+      <LoadingSpinner />
     </GlobalContext.Provider>
   );
 };

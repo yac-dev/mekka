@@ -224,11 +224,6 @@ const RootStack = () => {
           name='CreateCustomEmoji'
           component={CreateCustomEmoji}
           options={({ navigation }) => ({
-            headerLeft: () => (
-              <TouchableOpacity onPress={() => navigation.goBack()}>
-                <Text style={{ color: primaryTextColor, fontSize: 20 }}>Close</Text>
-              </TouchableOpacity>
-            ),
             headerTitle: '',
             headerStyle: {
               backgroundColor: primaryBackgroundColor,

@@ -21,14 +21,6 @@ export const getCustomEmojis = async (request, response) => {
   }
 };
 
-export const generateCustomEmoji = async (request, response) => {
-  try {
-    // ここでremovebgのapiを動かすことになるね。
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 const executeRemoveBg = async (inputFilePath, fileName) => {
   return new Promise((resolve, reject) => {
     const outputPath = path.join(__dirname, '..', '..', 'buffer', `removed-${fileName}`);
@@ -61,13 +53,23 @@ const executeRemoveBg = async (inputFilePath, fileName) => {
 export const createEmojiPreview = async (request, response) => {
   try {
     // 今回はfile deleteね。
-    // if (request.body.exFileName) {
-    //   await unlinkFile(
-    //     path.join(__dirname, '..', '..', './reactionIconImages', `removed-${request.body.exFileName}.png`)
-    //   );
-    // }
+    if (request.body.exFileName) {
+      await unlinkFile(path.join(__dirname, '..', '..', 'buffer', `removed-${request.body.exFileName}.png`));
+    }
     const inpuFilePath = path.join(__dirname, '..', '..', 'buffer', request.file.filename);
     const res1 = await executeRemoveBg(inpuFilePath, request.file.filename);
+    response.status(200).json({
+      message: 'success',
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deleteEmojiPreview = async (request, response) => {
+  try {
+    console.log(request.body);
+    await unlinkFile(path.join(__dirname, '..', '..', 'buffer', `removed-${request.body.fileName}.png`));
     response.status(200).json({
       message: 'success',
     });

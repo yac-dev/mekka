@@ -13,8 +13,9 @@ const storage = multer.diskStorage({
   // これ、uuidも必要だな。
   filename: function (request, file, callback) {
     console.log(file.mimetype);
-    let extension = file.mimetype === 'image/jpeg' ? 'jpeg' : 'mp4';
-    const fileName = request.body.createdBy + '-' + uuidv4() + '-' + Date.now() + '.' + extension;
+    let extension = file.mimetype === 'image/jpeg' ? 'png' : 'mp4';
+    // const fileName = request.body.createdBy + '-' + uuidv4() + '-' + Date.now() + '.' + extension;
+    const fileName = file.originalname + '.' + extension;
     console.log(fileName);
     callback(null, fileName);
   },
