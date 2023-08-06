@@ -14,7 +14,7 @@ const EmojiPicker: React.FC = (props) => {
   const oneGridWidth = isIpad ? Dimensions.get('window').width / 15 : Dimensions.get('window').width / 8;
   const [selectedEmoji, setSelectedEmoji] = useState(null);
   const [filterOption, setFilterOption] = useState('smileyAndPeople');
-  const [customEmojis, setCustomEmojis] = useState({});
+  const [stickers, setStickers] = useState({});
 
   useEffect(() => {
     props.navigation.setOptions({
@@ -38,27 +38,27 @@ const EmojiPicker: React.FC = (props) => {
     });
   }, [selectedEmoji]);
 
-  const getCustomEmojis = async () => {
-    const result = await backendAPI.get('/customemojis');
-    const { customEmojis } = result.data;
-    setCustomEmojis((previous) => {
+  const getStickers = async () => {
+    const result = await backendAPI.get('/stickers');
+    const { stickers } = result.data;
+    setStickers((previous) => {
       const table = {};
-      customEmojis.forEach((customEmoji) => {
-        table[customEmoji._id] = customEmoji;
+      stickers.forEach((sticker) => {
+        table[sticker._id] = sticker;
       });
       return table;
     });
   };
 
   useEffect(() => {
-    if (filterOption === 'custom') {
-      getCustomEmojis();
+    if (filterOption === 'sticker') {
+      getStickers();
     }
   }, [filterOption]);
 
   const renderSelectedEmoji = () => {
     if (selectedEmoji) {
-      if (selectedEmoji.type === 'custom') {
+      if (selectedEmoji.type === 'sticker') {
         return (
           <View
             style={{
@@ -100,10 +100,10 @@ const EmojiPicker: React.FC = (props) => {
     }
   };
 
-  const renderCustomEmojis = () => {
-    const customEmojisList = Object.values(customEmojis);
-    if (customEmojisList.length) {
-      const list = customEmojisList.map((customEmoji, index) => {
+  const renderStickers = () => {
+    const stickersList = Object.values(stickers);
+    if (stickersList.length) {
+      const list = stickersList.map((sticker, index) => {
         return (
           <View key={index} style={{ width: oneGridWidth, aspectRatio: 1, padding: 3 }}>
             <TouchableOpacity
@@ -116,10 +116,10 @@ const EmojiPicker: React.FC = (props) => {
                 borderRadius: 5,
               }}
               onPress={() => {
-                setSelectedEmoji({ type: 'custom', emoji: customEmoji.url });
+                setSelectedEmoji({ type: 'sticker', emoji: sticker.url });
               }}
             >
-              <FastImage source={{ uri: customEmoji.url }} style={{ width: 30, height: 30 }} />
+              <FastImage source={{ uri: sticker.url }} style={{ width: 30, height: 30 }} />
             </TouchableOpacity>
           </View>
         );
@@ -136,7 +136,7 @@ const EmojiPicker: React.FC = (props) => {
                 borderRadius: 8,
                 marginBottom: 10,
               }}
-              onPress={() => props.navigation?.navigate('CreateCustomEmoji')}
+              onPress={() => props.navigation?.navigate('CreateSticker')}
             >
               <Text style={{ textAlign: 'center', color: 'white' }}>Create new?</Text>
             </TouchableOpacity>
@@ -185,11 +185,11 @@ const EmojiPicker: React.FC = (props) => {
     <View style={{ flex: 1, backgroundColor: 'black' }}>
       <View style={{ paddingTop: 20, paddingLeft: 30, paddingRight: 30 }}>
         <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold', textAlign: 'center', marginBottom: 10 }}>
-          Choose a reaction icon
+          Choose a reaction
         </Text>
         <Text style={{ color: 'rgb(170, 170, 170)', textAlign: 'center', marginBottom: 20 }}>
-          Instead of using traditional heart icon button, you use the emoji or custom emoji option to give a reaction to
-          each post.
+          Instead of using traditional heart icon button, you use the emoji or sticker option to give a reaction to each
+          post.
         </Text>
       </View>
       {/* <View
@@ -208,7 +208,7 @@ const EmojiPicker: React.FC = (props) => {
         <Text style={{ fontSize: 80 }}>{selectedEmoji.emoji}</Text>
       </View> */}
       {renderSelectedEmoji()}
-      {filterOption === 'custom' ? renderCustomEmojis() : renderEmojis()}
+      {filterOption === 'sticker' ? renderStickers() : renderEmojis()}
       <ScrollView
         horizontal={true}
         style={{ backgroundColor: 'rgb(40,40,40)', position: 'absolute', width: '100%', bottom: 0 }}
@@ -228,12 +228,12 @@ const EmojiPicker: React.FC = (props) => {
               style={{
                 width: '100%',
                 height: '100%',
-                backgroundColor: filterOption === 'custom' ? 'rgba(45, 209, 40, 0.85)' : null,
+                backgroundColor: filterOption === 'sticker' ? 'rgba(45, 209, 40, 0.85)' : null,
                 justifyContent: 'center',
                 alignItems: 'center',
                 borderRadius: 5,
               }}
-              onPress={() => setFilterOption('custom')}
+              onPress={() => setFilterOption('sticker')}
             >
               <FastImage source={require('../../../../assets/forApp/elon-wtf.png')} style={{ width: 30, height: 30 }} />
             </TouchableOpacity>

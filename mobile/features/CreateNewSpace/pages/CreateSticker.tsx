@@ -94,10 +94,10 @@ const CreateCustomEmoji = (props) => {
     <View style={{ flex: 1, backgroundColor: 'black', padding: 10 }}>
       <View style={{ paddingLeft: 30, paddingRight: 30, paddingTop: 20, marginBottom: 20 }}>
         <Text style={{ color: 'white', textAlign: 'center', fontWeight: 'bold', fontSize: 20, marginBottom: 10 }}>
-          Create custom emoji
+          Create sticker
         </Text>
         <Text style={{ color: 'rgb(170, 170, 170)', textAlign: 'center' }}>
-          Couldn't find the sticker you want to use? Now you can create one from an image easily and quickly.
+          Couldn't find the sticker you want to use? Now create one from an image easily and quickly.
         </Text>
       </View>
       <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 30, alignSelf: 'center' }}>

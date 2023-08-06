@@ -13,7 +13,7 @@ import PhotoSpaceRootStackNavigator from './PhotoSpaceRootStackNavigator';
 import PhotoAndVideoSpaceRootStackNavigator from './PhotoAndVideoSpaceRootStackNavigator';
 import CreateNewSpace from '../features/CreateNewSpace/pages/CreateNewSpace';
 import EmojiPicker from '../features/CreateNewSpace/components/CreateNewSpace/EmojiPicker';
-import CreateCustomEmoji from '../features/CreateNewSpace/pages/CreateCustomEmoji';
+import CreateSticker from '../features/CreateNewSpace/pages/CreateSticker';
 // special emoji picker
 import AddTag from '../features/CreateNewSpace/components/CreateNewSpace/AddTag';
 import Discover from '../features/Discover/pages/Spaces';
@@ -221,8 +221,8 @@ const RootStack = () => {
           })}
         />
         <Stack.Screen
-          name='CreateCustomEmoji'
-          component={CreateCustomEmoji}
+          name='CreateSticker'
+          component={CreateSticker}
           options={({ navigation }) => ({
             headerTitle: '',
             headerStyle: {
