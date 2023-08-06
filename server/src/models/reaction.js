@@ -1,7 +1,10 @@
 import mongoose, { mongo } from 'mongoose';
 
 const reactionSchema = mongoose.Schema({
-  type: String, // emoji, sticker
+  type: {
+    type: String,
+    enum: ['emoji', 'sticker'],
+  },
   emoji: String,
   sticker: {
     type: mongoose.Schema.ObjectId,

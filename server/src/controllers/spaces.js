@@ -14,74 +14,55 @@ export const createSpace = async (request, response) => {
     const {
       name,
       contentType,
+      videoLength,
+      disappearAfter,
       isPublic,
       isCommentAvailable,
       isReactionAvailable,
-      createdBy,
-      videoLength,
       reactions,
-      stay,
+      createdBy,
     } = request.body;
     console.log(request.body);
 
     const space = new Space({
       name,
-      icon: `https://mekka-${process.env.NODE_ENV}.s3.us-east-2.amazonaws.com/photos/${request.file.filename}`,
+      icon: `https://mekka-${process.env.NODE_ENV}.s3.us-east-2.amazonaws.com/icons/${request.file.filename}`,
       contentType,
-      isPublic,
-      isCommentAvailable,
-      isReactionAvailable,
-      stay,
+      isPublic: Boolean(isPublic),
+      isCommentAvailable: Boolean(isCommentAvailable),
+      isReactionAvailable: Boolean(isReactionAvailable),
       createdBy,
       createdAt: new Date(),
     });
-    if (contentType === 'video') {
+    if (contentType === 'video' || contentType === 'photoAndVideo') {
       space.videoLength = videoLength;
+    }
+    // stayがない、つまりpermananetならここのfieldは埋めない。
+    if (Number(disappearAfter)) {
+      space.disappearAfter = Number(disappearAfter);
     }
 
     // reactionを作る。
     if (isReactionAvailable && reactions.length) {
       const reactionOptions = JSON.parse(reactions).map((reaction) => {
-        if (reaction.emojiType === 'normal') {
+        if (reaction.type === 'emoji') {
           return {
             space: space._id,
-            emojiType: 'normal',
+            type: 'emoji',
             emoji: reaction.emoji,
           };
-        } else if (reaction.iconType === 'specialEmoji') {
+        } else if (reaction.type === 'sticker') {
           return {
             space: space._id,
-            emojiType: 'specialEmoji',
-            specialEmoji: reaction.specialEmoji._id,
+            type: 'sticker',
+            sticker: reaction.sticker._id,
           };
         }
       });
       const createdReactions = await Reaction.insertMany(reactionOptions);
       const reactionIds = createdReactions.map((reaction) => reaction._id);
-      // ここでreactionのidだけ入れる。そんで、↓でsaveする。
       space.reactions = reactionIds; // spaceに直接idを入れる。
     }
-
-    // tagを作る。
-    // {icon: '', name: '', color: ''} // defaultでは、iconは無しでいい。
-    const tagObjects = JSON.parse(tags).map((tag) => {
-      return {
-        icon: '',
-        name: tag,
-        color: '',
-      };
-    });
-    const tagDocuments = await Tag.insertMany(tagObjects);
-    const tagIds = tagDocuments.map((tag) => tag._id);
-    const tagSpaceRels = tagIds.map((tagId) => {
-      return {
-        tag: tagId,
-        space: space._id,
-      };
-    });
-    space.tags = tagIds;
-
-    const tagAndSpaceRelationships = await TagAndSpaceRelationship.insertMany(tagSpaceRels);
 
     const spaceAndUserRelationship = await SpaceAndUserRelationship.create({
       space: space._id,
@@ -92,8 +73,34 @@ export const createSpace = async (request, response) => {
     uploadPhoto(request.file.filename);
 
     response.status(201).json({
-      space,
+      spaceAndUserRelationship: {
+        _id: spaceAndUserRelationship._id,
+        name: space.name,
+        icon: space.icon,
+        contentType: space.contentType,
+      },
     });
+
+    // tagを作る。
+    // {icon: '', name: '', color: ''} // defaultでは、iconは無しでいい。
+    // const tagObjects = JSON.parse(tags).map((tag) => {
+    //   return {
+    //     icon: '',
+    //     name: tag,
+    //     color: '',
+    //   };
+    // });
+    // const tagDocuments = await Tag.insertMany(tagObjects);
+    // const tagIds = tagDocuments.map((tag) => tag._id);
+    // const tagSpaceRels = tagIds.map((tagId) => {
+    //   return {
+    //     tag: tagId,
+    //     space: space._id,
+    //   };
+    // });
+    // space.tags = tagIds;
+
+    // const tagAndSpaceRelationships = await TagAndSpaceRelationship.insertMany(tagSpaceRels);
   } catch (error) {
     console.log(error);
   }

@@ -10,6 +10,7 @@ import backendAPI from '../../../../apis/backend';
 // smilyAndPeople, animalsAndNature, foodAndDrink, objects, flags, symbols, travelAndPlaces, activity
 
 type StickerType = {
+  _id: string;
   url: string;
   name: string | undefined;
 };
@@ -132,7 +133,7 @@ const EmojiPicker: React.FC = (props) => {
                 setSelectedReaction({
                   type: 'sticker',
                   emoji: undefined,
-                  sticker: { url: sticker.url, name: sticker.name },
+                  sticker: { _id: sticker._id, url: sticker.url, name: sticker.name },
                 });
               }}
             >

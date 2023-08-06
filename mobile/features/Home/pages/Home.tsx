@@ -6,16 +6,17 @@ import { HomeContext } from '../contexts/HomeContext';
 import { primaryBackgroundColor } from '../../../themes/color';
 import { primaryTextColor } from '../../../themes/text';
 import { icons } from '../../../utils/icons';
-import { NavigationProp } from '@react-navigation/native';
+import { NavigationProp, RouteProp } from '@react-navigation/native';
 import AuthButtons from '../components/AuthButtons';
 import Button from '../../../components/Button/Button';
 import Spaces from '../components/Spaces';
 import backendAPI from '../../../apis/backend';
 import MenuButtons from '../components/MenuButtons';
 
-interface RouterProps {
+type RouterProps = {
   navigation: NavigationProp<any, any>;
-}
+  route: RouteProp<any, any>;
+};
 
 type SpaceType = {
   _id: string;
@@ -39,6 +40,12 @@ const MySpaces: React.FC<RouterProps> = (props) => {
   const oneGridWidth = isIpad ? Dimensions.get('window').width / 6 : Dimensions.get('window').width / 4;
   const oneGridHeight = isIpad ? Dimensions.get('window').height / 7.5 : Dimensions.get('window').height / 7;
   const iconWidth = oneGridWidth * 0.7;
+
+  useEffect(() => {
+    if (props.route?.params?.createdSpace) {
+      setSpaceAndMeRelationships((previous) => [...previous, props.route?.params?.createdSpace]);
+    }
+  }, [props.route?.params?.createdSpace]);
 
   const getMySpaces = async () => {
     const result = await backendAPI.get(`/spaceanduserrelationships/users/${authData._id}`);

@@ -70,7 +70,7 @@ const ContentTypeForm = () => {
                 setFormData((previous) => {
                   return {
                     ...previous,
-                    stay: '',
+                    stay: 0,
                   };
                 })
               }
@@ -91,13 +91,13 @@ const ContentTypeForm = () => {
                 setFormData((previous) => {
                   return {
                     ...previous,
-                    stay: '1',
+                    stay: 1,
                   };
                 })
               }
             >
               <Text style={{ color: 'white' }}>1 hour</Text>
-              {formData.stay === '1' ? (
+              {formData.stay === 1 ? (
                 <Ionicons
                   name='checkmark-circle'
                   size={20}
@@ -112,13 +112,13 @@ const ContentTypeForm = () => {
                 setFormData((previous) => {
                   return {
                     ...previous,
-                    stay: '24',
+                    stay: 24,
                   };
                 })
               }
             >
               <Text style={{ color: 'white' }}>24 hours</Text>
-              {formData.stay === '24' ? (
+              {formData.stay === 24 ? (
                 <Ionicons
                   name='checkmark-circle'
                   size={20}
@@ -268,6 +268,10 @@ const ContentTypeForm = () => {
                 }
               />
               {renderVideoLength()}
+            </>
+          ) : null}
+          {formData.contentType ? (
+            <>
               <Text style={{ color: 'white', marginBottom: 10 }}>⏳ How long will members' posts stay?</Text>
               <View style={{ flexDirection: 'row' }}>
                 <TouchableOpacity
@@ -276,13 +280,13 @@ const ContentTypeForm = () => {
                     setFormData((previous) => {
                       return {
                         ...previous,
-                        stay: '',
+                        disappearAfter: 0,
                       };
                     })
                   }
                 >
                   <Text style={{ color: 'white' }}>Permanent</Text>
-                  {!formData.stay ? (
+                  {!formData.disappearAfter ? (
                     <Ionicons
                       name='checkmark-circle'
                       size={20}
@@ -297,13 +301,13 @@ const ContentTypeForm = () => {
                     setFormData((previous) => {
                       return {
                         ...previous,
-                        stay: '1',
+                        disappearAfter: 1,
                       };
                     })
                   }
                 >
                   <Text style={{ color: 'white' }}>1 hour</Text>
-                  {formData.stay === '1' ? (
+                  {formData.disappearAfter === 1 ? (
                     <Ionicons
                       name='checkmark-circle'
                       size={20}
@@ -318,13 +322,13 @@ const ContentTypeForm = () => {
                     setFormData((previous) => {
                       return {
                         ...previous,
-                        stay: '24',
+                        disappearAfter: 24,
                       };
                     })
                   }
                 >
                   <Text style={{ color: 'white' }}>24 hours</Text>
-                  {formData.stay === '24' ? (
+                  {formData.disappearAfter === 24 ? (
                     <Ionicons
                       name='checkmark-circle'
                       size={20}

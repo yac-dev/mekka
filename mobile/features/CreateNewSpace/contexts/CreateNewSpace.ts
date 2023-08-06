@@ -2,6 +2,7 @@ import { createContext } from 'react';
 import { NavigationProp, ParamListBase, RouteProp } from '@react-navigation/native';
 
 type StickerType = {
+  _id: string;
   name: string;
   url: string;
 };
@@ -21,7 +22,7 @@ type FormDataStateType = {
   isCommentAvailable: boolean | undefined;
   isReactionAvailable: boolean | undefined;
   videoLength: number;
-  stay: string;
+  disappearAfter: number;
   reactions: ReactionType[];
 };
 
@@ -33,7 +34,7 @@ type ValidationType = {
   isCommentAvailable: boolean;
   reactions: boolean;
   videoLength: boolean;
-  stay: boolean;
+  disappearAfter: boolean;
 };
 
 // { emoji: '' , icon: '' }
@@ -87,7 +88,7 @@ export const CreateNewSpaceContext = createContext<CreateNewSpaceProps>({
     isCommentAvailable: undefined,
     isReactionAvailable: undefined,
     videoLength: 60,
-    stay: '',
+    disappearAfter: 0,
     reactions: [],
   },
   setFormData: () => {},
@@ -99,7 +100,7 @@ export const CreateNewSpaceContext = createContext<CreateNewSpaceProps>({
     isCommentAvailable: false,
     reactions: false,
     videoLength: false,
-    stay: false,
+    disappearAfter: false,
   },
   setValidation: () => {},
   navigation: undefined,

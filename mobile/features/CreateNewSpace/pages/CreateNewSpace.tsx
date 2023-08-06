@@ -1,6 +1,7 @@
 import React, { useReducer, useContext, useState, useEffect, useCallback } from 'react';
 import { View, Text, TextInput, TouchableOpacity, SafeAreaView } from 'react-native';
 import { GlobalContext } from '../../../contexts/GlobalContext';
+import LoadingSpinner from '../../../components/LoadingSpinner';
 import { primaryBackgroundColor, inputBackgroundColor, modalBackgroundColor } from '../../../themes/color';
 import { primaryTextColor, placeholderTextColor } from '../../../themes/text';
 import { CreateNewSpaceContext } from '../contexts/CreateNewSpace';
@@ -9,6 +10,7 @@ import Form from '../components/Form';
 import { NavigationProp, RouteProp } from '@react-navigation/native';
 
 type StickerType = {
+  _id: string;
   name: string;
   url: string;
 };
@@ -27,7 +29,7 @@ type FormDataStateType = {
   isCommentAvailable: boolean | undefined;
   isReactionAvailable: boolean | undefined;
   videoLength: number;
-  stay: string;
+  disappearAfter: number;
   reactions: ReactionType[];
 };
 
@@ -37,7 +39,7 @@ type RouterProps = {
 };
 
 const CreateNewSpace: React.FC<RouterProps> = (props) => {
-  const { authData } = useContext(GlobalContext);
+  const { authData, setLoading } = useContext(GlobalContext);
   const [formData, setFormData] = useState<FormDataStateType>({
     name: '',
     icon: '',
@@ -46,7 +48,7 @@ const CreateNewSpace: React.FC<RouterProps> = (props) => {
     isCommentAvailable: undefined,
     isReactionAvailable: undefined,
     videoLength: 60,
-    stay: '',
+    disappearAfter: 0,
     reactions: [],
   });
   const [validation, setValidation] = useState({
@@ -57,7 +59,7 @@ const CreateNewSpace: React.FC<RouterProps> = (props) => {
     isCommentAvailable: false,
     reactions: false,
     videoLength: false,
-    stay: false,
+    disappearAfter: false,
   });
   // objectのvalueが全部trueかをチェックするだけね。
 
@@ -110,17 +112,22 @@ const CreateNewSpace: React.FC<RouterProps> = (props) => {
     payload.append('isReactionAvailable', formData.isReactionAvailable.toString());
     payload.append('reactions', JSON.stringify(formData.reactions));
     payload.append('videoLength', formData.videoLength.toString());
+    payload.append('disappearAfter', formData.disappearAfter.toString());
     payload.append('createdBy', authData._id);
     const iconData = {
-      name: `64ab71ebc5bab81dcfe7d2fd-${new Date()}`,
+      name: `${authData._id}-${new Date()}`,
       uri: formData.icon,
       type: 'image/jpeg',
     };
 
     payload.append('icon', JSON.parse(JSON.stringify(iconData)));
+    setLoading(true);
     const result = await backendAPI.post('/spaces', payload, {
       headers: { 'Content-type': 'multipart/form-data' },
     });
+    setLoading(false);
+    const { spaceAndUserRelationship } = result.data;
+    props.navigation.navigate('Home', { params: { createdSpace: spaceAndUserRelationship }, merge: true });
   };
 
   return (
@@ -149,6 +156,7 @@ const CreateNewSpace: React.FC<RouterProps> = (props) => {
           <Form />
         </View>
       </SafeAreaView>
+      <LoadingSpinner />
     </CreateNewSpaceContext.Provider>
   );
 };

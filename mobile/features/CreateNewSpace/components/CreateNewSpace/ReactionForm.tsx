@@ -28,6 +28,7 @@ const ReactionForm: React.FC = (props) => {
               sticker:
                 route?.params?.selectedReaction.type === 'sticker'
                   ? {
+                      _id: route?.params?.selectedReaction.sticker._id,
                       name: route?.params?.selectedReaction.sticker.name,
                       url: route?.params?.selectedReaction.sticker.url,
                     }

@@ -1,4 +1,4 @@
-import React, { useContext, useCallback } from 'react';
+import React, { useContext, useCallback, useEffect } from 'react';
 import { View, Text, TouchableOpacity, Image, FlatList, Dimensions, ScrollView } from 'react-native';
 import { GlobalContext } from '../../../contexts/GlobalContext';
 import { HomeContext } from '../contexts/HomeContext';
