@@ -40,6 +40,17 @@ const ReactionForm: React.FC = (props) => {
   }, [route?.params?.selectedReaction]);
 
   useEffect(() => {
+    if (route?.params?.generatedReaction) {
+      setFormData((previous) => {
+        return {
+          ...previous,
+          reactions: [...previous.reactions, route?.params?.generatedReaction],
+        };
+      });
+    }
+  }, [route?.params?.generatedReaction]);
+
+  useEffect(() => {
     if (formData.isReactionAvailable === undefined) {
       setValidation((previous) => {
         return {

@@ -1,16 +1,18 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TouchableOpacity, Image, TextInput } from 'react-native';
 import { GlobalContext } from '../../../contexts/GlobalContext';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import backendAPI from '../../../apis/backend';
 import baseURL from '../../../apis/baseURL';
 import { Ionicons } from '@expo/vector-icons';
+import LoadingSpinner from '../../../components/LoadingSpinner';
 
 const CreateCustomEmoji = (props) => {
   const { authData, setLoading } = useContext(GlobalContext);
   const [previewEmoji, setPreviewEmoji] = useState('');
   const [fileName, setFileName] = useState('');
+  // const [stickerName, setStickerName] = useState('');
 
   const onClose = async () => {
     if (fileName) {
@@ -36,11 +38,7 @@ const CreateCustomEmoji = (props) => {
   useEffect(() => {
     props.navigation.setOptions({
       headerRight: () => (
-        <TouchableOpacity
-          // このmergeって、初めて知ったな。
-          onPress={() => props.navigation.navigate({ name: 'CreateNewSpace', params: { fileName }, merge: true })}
-          disabled={fileName ? false : true}
-        >
+        <TouchableOpacity onPress={() => createSticker()} disabled={fileName ? false : true}>
           <Text
             style={{
               color: fileName ? 'white' : 'rgb(117, 117, 117)',
@@ -48,19 +46,19 @@ const CreateCustomEmoji = (props) => {
               fontWeight: 'bold',
             }}
           >
-            Done
+            Add
           </Text>
         </TouchableOpacity>
       ),
     });
   }, [fileName]);
 
-  console.log(fileName);
-
   // pickしたら、その画像をそのままserverに送って、removebgのcodeを動かす感じ。
   const pickImage = async () => {
     let pickedImage = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
     });
     let creatingFileName = `${authData._id}-${Date.now()}`;
     if (!pickedImage.canceled && pickedImage.assets[0].uri) {
@@ -76,9 +74,11 @@ const CreateCustomEmoji = (props) => {
         type: 'image/jpeg',
       };
       payload.append('originalEmojiImage', JSON.parse(JSON.stringify(iconData)));
+      setLoading(true);
       const result = await backendAPI.post('/customemojis/preview', payload, {
         headers: { 'Content-type': 'multipart/form-data' },
       });
+      setLoading(false);
       // const { previewEmoji } = result.data;
       setFileName(creatingFileName);
       // setPreviewEmoji(previewEmoji);
@@ -88,6 +88,19 @@ const CreateCustomEmoji = (props) => {
     // let creatingFileName = `${auth.data._id}-${Date.now()}`;
     // if (!pickedImage.cancelled && pickedImage.uri) {
     // }
+  };
+
+  const createSticker = async () => {
+    setLoading(true);
+    const result = await backendAPI.post('/stickers', { fileName, userId: authData._id });
+    setLoading(false);
+    const { sticker } = result.data;
+    props.navigation.navigate('CreateNewSpace');
+    props.navigation.navigate({
+      name: 'CreateNewSpace',
+      params: { generatedReaction: { type: 'sticker', emoji: undefined, sticker } },
+      merge: true,
+    });
   };
 
   return (
@@ -123,6 +136,7 @@ const CreateCustomEmoji = (props) => {
           style={{
             width: 80,
             height: 80,
+            alignSelf: 'center',
           }}
           source={{
             uri: `${baseURL}/buffer/customemojis/removed-${fileName}.png`,
@@ -130,6 +144,15 @@ const CreateCustomEmoji = (props) => {
           }}
         />
       ) : null}
+
+      {/* <TextInput
+        placeholder='Sticker name...'
+        placeholderTextColor='rgb(170,170,170)'
+        style={{ color: 'white', padding: 10, backgroundColor: 'rgb(88,88,88)', borderRadius: 5 }}
+        onChangeText={(text) => setStickerName(text)}
+        value={stickerName}
+      /> */}
+      <LoadingSpinner />
     </View>
   );
 };

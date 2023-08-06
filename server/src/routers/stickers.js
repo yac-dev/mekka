@@ -1,9 +1,9 @@
 import express from 'express';
 const router = express.Router();
-import { getStickers, createStickerPreview, deleteStickerPreview } from '../controllers/stickers';
+import { getStickers, createSticker, createStickerPreview, deleteStickerPreview } from '../controllers/stickers';
 import multerParser from '../middlewares/multer';
 
-router.route('/').get(getStickers);
+router.route('/').get(getStickers).post(createSticker);
 router
   .route('/preview')
   .post(multerParser.single('originalStickerImage'), createStickerPreview)

@@ -1,4 +1,5 @@
 import Sticker from '../models/sticker';
+import S3 from 'aws-sdk/clients/s3';
 import path from 'path';
 import axios from 'axios';
 import FormData from 'form-data';
@@ -9,6 +10,12 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 import util from 'util';
 const unlinkFile = util.promisify(fs.unlink);
+
+const s3 = new S3({
+  region: process.env.AWS_S3_BUCKET_REGION,
+  accessKeyId: process.env.AWS_S3_BUCKET_ACCESS_KEY, // このexpress appのbucketにアクセスするためのunique name。
+  secretAccessKey: process.env.AWS_S3_BUCKET_SECRET_KEY, // そして、それのpassword。
+});
 
 export const getStickers = async (request, response) => {
   try {
@@ -84,7 +91,7 @@ export const createSticker = async (request, response) => {
     const fileStream = fs.createReadStream(imagePath);
 
     const uploadParams = {
-      Bucket: process.env.AWS_S3BUCKET_NAME,
+      Bucket: process.env.AWS_S3_BUCKET_NAME,
       Body: fileStream,
       Key: `stickers/removed-${request.body.fileName}.png`,
     };
@@ -93,6 +100,7 @@ export const createSticker = async (request, response) => {
     const sticker = await Sticker.create({
       url: `https://mekka-${process.env.NODE_ENV}.s3.us-east-2.amazonaws.com/stickers/removed-${request.body.fileName}.png`,
       name: `removed-${request.body.fileName}.png`,
+      createdBy: request.body.userId,
     });
     response.status(200).json({
       sticker,
