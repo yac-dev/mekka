@@ -1,22 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
+import { GlobalContext } from '../../../contexts/GlobalContext';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
+import backendAPI from '../../../apis/backend';
 
 const CreateCustomEmoji = (props) => {
-  const [generatedEmoji, setGeneratedEmoji] = useState('');
+  const { authData } = useContext(GlobalContext);
+  const [previewEmoji, setPreviewEmoji] = useState('');
 
   useEffect(() => {
     props.navigation.setOptions({
       headerRight: () => (
         <TouchableOpacity
           // このmergeって、初めて知ったな。
-          onPress={() => props.navigation.navigate({ name: 'EmojiPicker', params: { generatedEmoji }, merge: true })}
-          disabled={generatedEmoji ? false : true}
+          onPress={() => props.navigation.navigate({ name: 'EmojiPicker', params: { previewEmoji }, merge: true })}
+          disabled={previewEmoji ? false : true}
         >
           <Text
             style={{
-              color: generatedEmoji ? 'white' : 'rgb(117, 117, 117)',
+              color: previewEmoji ? 'white' : 'rgb(117, 117, 117)',
               fontSize: 20,
               fontWeight: 'bold',
             }}
@@ -26,7 +29,7 @@ const CreateCustomEmoji = (props) => {
         </TouchableOpacity>
       ),
     });
-  }, [generatedEmoji]);
+  }, [previewEmoji]);
 
   // pickしたら、その画像をそのままserverに送って、removebgのcodeを動かす感じ。
   const pickImage = async () => {
@@ -34,8 +37,22 @@ const CreateCustomEmoji = (props) => {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
     });
     if (!pickedImage.canceled && pickedImage.assets[0].uri) {
-      console.log(pickedImage);
+      const payload = new FormData();
+
+      const iconData = {
+        name: `${authData._id}-${new Date()}`,
+        uri: pickedImage.assets[0].uri,
+        type: 'image/jpeg',
+      };
+      payload.append('createdBy', authData._id);
+      payload.append('originalEmojiImage', JSON.parse(JSON.stringify(iconData)));
+      const result = await backendAPI.post('/customemojis/preview', payload, {
+        headers: { 'Content-type': 'multipart/form-data' },
+      });
+      const { previewEmoji } = result.data;
+      setPreviewEmoji(previewEmoji);
     }
+
     // user idと日付でfile名を確保しておく。
     // let creatingFileName = `${auth.data._id}-${Date.now()}`;
     // if (!pickedImage.cancelled && pickedImage.uri) {
