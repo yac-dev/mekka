@@ -12,7 +12,7 @@ import backendAPI from '../../../../apis/backend';
 const EmojiPicker: React.FC = (props) => {
   const { isIpad } = useContext(GlobalContext);
   const oneGridWidth = isIpad ? Dimensions.get('window').width / 15 : Dimensions.get('window').width / 8;
-  const [selectedEmoji, setSelectedEmoji] = useState({});
+  const [selectedEmoji, setSelectedEmoji] = useState(null);
   const [filterOption, setFilterOption] = useState('smileyAndPeople');
   const [customEmojis, setCustomEmojis] = useState({});
 
@@ -31,7 +31,7 @@ const EmojiPicker: React.FC = (props) => {
               fontWeight: 'bold',
             }}
           >
-            Done
+            Add
           </Text>
         </TouchableOpacity>
       ),
@@ -57,42 +57,46 @@ const EmojiPicker: React.FC = (props) => {
   }, [filterOption]);
 
   const renderSelectedEmoji = () => {
-    if (selectedEmoji.type === 'custom') {
-      return (
-        <View
-          style={{
-            width: 80,
-            height: 80,
-            backgroundColor: inputBackgroundColor,
-            borderRadius: 8,
-            marginTop: 10,
-            marginBottom: 10,
-            alignSelf: 'center',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <FastImage source={{ uri: selectedEmoji.emoji }} style={{ width: 65, height: 65 }} />
-        </View>
-      );
+    if (selectedEmoji) {
+      if (selectedEmoji.type === 'custom') {
+        return (
+          <View
+            style={{
+              width: 80,
+              height: 80,
+              backgroundColor: inputBackgroundColor,
+              borderRadius: 8,
+              marginTop: 10,
+              marginBottom: 10,
+              alignSelf: 'center',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <FastImage source={{ uri: selectedEmoji.emoji }} style={{ width: 65, height: 65 }} />
+          </View>
+        );
+      } else {
+        return (
+          <View
+            style={{
+              width: 80,
+              height: 80,
+              backgroundColor: inputBackgroundColor,
+              borderRadius: 8,
+              marginTop: 10,
+              marginBottom: 10,
+              alignSelf: 'center',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <Text style={{ fontSize: 80 }}>{selectedEmoji.emoji}</Text>
+          </View>
+        );
+      }
     } else {
-      return (
-        <View
-          style={{
-            width: 80,
-            height: 80,
-            backgroundColor: inputBackgroundColor,
-            borderRadius: 8,
-            marginTop: 10,
-            marginBottom: 10,
-            alignSelf: 'center',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <Text style={{ fontSize: 80 }}>{selectedEmoji.emoji}</Text>
-        </View>
-      );
+      return null;
     }
   };
 
@@ -180,10 +184,10 @@ const EmojiPicker: React.FC = (props) => {
   return (
     <View style={{ flex: 1, backgroundColor: 'black' }}>
       <View style={{ paddingTop: 20, paddingLeft: 30, paddingRight: 30 }}>
-        <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold', textAlign: 'center', marginBottom: 5 }}>
+        <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold', textAlign: 'center', marginBottom: 10 }}>
           Choose a reaction icon
         </Text>
-        <Text style={{ color: 'rgb(170, 170, 170)', textAlign: 'center' }}>
+        <Text style={{ color: 'rgb(170, 170, 170)', textAlign: 'center', marginBottom: 20 }}>
           Instead of using traditional heart icon button, you use the emoji or custom emoji option to give a reaction to
           each post.
         </Text>

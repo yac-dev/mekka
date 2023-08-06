@@ -5,6 +5,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import backendAPI from '../../../apis/backend';
 import baseURL from '../../../apis/baseURL';
+import { Ionicons } from '@expo/vector-icons';
 
 const CreateCustomEmoji = (props) => {
   const { authData, setLoading } = useContext(GlobalContext);
@@ -37,7 +38,7 @@ const CreateCustomEmoji = (props) => {
       headerRight: () => (
         <TouchableOpacity
           // このmergeって、初めて知ったな。
-          onPress={() => props.navigation.navigate({ name: 'EmojiPicker', params: { fileName }, merge: true })}
+          onPress={() => props.navigation.navigate({ name: 'CreateNewSpace', params: { fileName }, merge: true })}
           disabled={fileName ? false : true}
         >
           <Text
@@ -92,12 +93,20 @@ const CreateCustomEmoji = (props) => {
   return (
     <View style={{ flex: 1, backgroundColor: 'black', padding: 10 }}>
       <View style={{ paddingLeft: 30, paddingRight: 30, paddingTop: 20, marginBottom: 20 }}>
-        <Text style={{ color: 'white', textAlign: 'center', fontWeight: 'bold', fontSize: 20 }}>
+        <Text style={{ color: 'white', textAlign: 'center', fontWeight: 'bold', fontSize: 20, marginBottom: 10 }}>
           Create custom emoji
         </Text>
-        <Text style={{ color: 'rgb(170, 170, 170)' }}>
-          You can create an emoji icon from an image and use it in your space.
+        <Text style={{ color: 'rgb(170, 170, 170)', textAlign: 'center' }}>
+          Couldn't find the sticker you want to use? Now you can create one from an image easily and quickly.
         </Text>
+      </View>
+      <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 30, alignSelf: 'center' }}>
+        <Image
+          source={require('../../../assets/forApp/elon-wtf-original.png')}
+          style={{ width: 100, height: 70, marginRight: 20 }}
+        />
+        <Ionicons name='arrow-forward-circle' color='rgb(170,170, 170)' size={25} style={{ marginRight: 20 }} />
+        <Image source={require('../../../assets/forApp/elon-wtf.png')} style={{ width: 70, height: 70 }} />
       </View>
       <TouchableOpacity
         style={{ backgroundColor: 'rgb(88,88,88)', padding: 10, borderRadius: 5, marginBottom: 30 }}
@@ -108,6 +117,7 @@ const CreateCustomEmoji = (props) => {
           <Text style={{ color: 'white' }}>Choose from library</Text>
         </View>
       </TouchableOpacity>
+
       {fileName ? (
         <Image
           style={{

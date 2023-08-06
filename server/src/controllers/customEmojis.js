@@ -78,26 +78,26 @@ export const deleteEmojiPreview = async (request, response) => {
   }
 };
 
-// export const createReactionIcon = async (request, response) => {
-//   try {
-//     const imagePath = path.join(__dirname, '..', '..', './reactionIconImages', `removed-${request.body.fileName}.png`);
-//     const fileStream = fs.createReadStream(imagePath);
+export const createReactionIcon = async (request, response) => {
+  try {
+    const imagePath = path.join(__dirname, '..', '..', 'buffer', `removed-${request.body.fileName}.png`);
+    const fileStream = fs.createReadStream(imagePath);
 
-//     const uploadParams = {
-//       Bucket: process.env.AWS_S3BUCKET_NAME,
-//       Body: fileStream,
-//       Key: `reactionIcons/removed-${request.body.fileName}.png`,
-//     };
-//     await s3.upload(uploadParams).promise();
-//     await unlinkFile(imagePath);
-//     const reactionIcon = await ReactionIcon.create({
-//       url: `https://lampost-${process.env.NODE_ENV}.s3.us-east-2.amazonaws.com/reactionIcons/removed-${request.body.fileName}.png`,
-//       name: `removed-${request.body.fileName}.png`,
-//     });
-//     response.status(200).json({
-//       reactionIcon,
-//     });
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
+    const uploadParams = {
+      Bucket: process.env.AWS_S3BUCKET_NAME,
+      Body: fileStream,
+      Key: `reactionIcons/removed-${request.body.fileName}.png`,
+    };
+    await s3.upload(uploadParams).promise();
+    await unlinkFile(imagePath);
+    const reactionIcon = await ReactionIcon.create({
+      url: `https://lampost-${process.env.NODE_ENV}.s3.us-east-2.amazonaws.com/reactionIcons/removed-${request.body.fileName}.png`,
+      name: `removed-${request.body.fileName}.png`,
+    });
+    response.status(200).json({
+      reactionIcon,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
