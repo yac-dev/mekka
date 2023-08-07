@@ -76,6 +76,7 @@ export const createSpace = async (request, response) => {
       spaceAndUserRelationship: {
         _id: spaceAndUserRelationship._id,
         space: {
+          _id: space._id,
           name: space.name,
           icon: space.icon,
           contentType: space.contentType,

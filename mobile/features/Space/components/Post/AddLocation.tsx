@@ -24,7 +24,7 @@ const AddLocation = () => {
         flexDirection: 'row',
         alignItems: 'center',
         padding: 10,
-        backgroundColor: 'rgb(44,44,44)',
+        backgroundColor: 'rgb(88,88,88)',
         borderRadius: 8,
       }}
       // これで、locationをaddする。地図が必要だ。そのために。

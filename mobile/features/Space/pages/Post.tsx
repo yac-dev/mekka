@@ -7,6 +7,7 @@ import AddCaption from '../components/Post/AddCaption';
 import AddLocation from '../components/Post/AddLocation';
 import { NavigationProp, ParamListBase, RouteProp } from '@react-navigation/native';
 import backendAPI from '../../../apis/backend';
+import LoadingSpinner from '../../../components/LoadingSpinner';
 
 type SpaceType = {};
 
@@ -34,7 +35,7 @@ type FormType = {
 
 // 多分、spaceのobjectを全部渡した方がいいのかも。idだけではなくて。
 const Post: React.FC<PostProps> = (props) => {
-  const { authData } = useContext(GlobalContext);
+  const { authData, setLoading } = useContext(GlobalContext);
   const [formData, setFormData] = useState<FormType>({
     contents: [],
     caption: '',
@@ -78,10 +79,13 @@ const Post: React.FC<PostProps> = (props) => {
       payload.append('contents', JSON.parse(JSON.stringify(obj)));
     }
     console.log(payload);
-
+    setLoading(true);
     const result = await backendAPI.post('/posts', payload, {
       headers: { 'Content-type': 'multipart/form-data' },
     });
+    setLoading(false);
+    const { post } = result.data;
+    // navigate({name: 'Photos', params: {createdPost: post}, merge: true)
   };
 
   return (
@@ -90,6 +94,7 @@ const Post: React.FC<PostProps> = (props) => {
         <AddPhoto />
         <AddCaption />
         <AddLocation />
+        <LoadingSpinner />
       </View>
     </PostContext.Provider>
   );

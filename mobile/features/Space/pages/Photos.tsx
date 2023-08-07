@@ -43,6 +43,16 @@ const Photos: React.FC<HomeProps> = (props) => {
   const [arePostsFetched, setArePostsFetched] = useState<boolean>(false);
   const menuBottomSheetRef = useRef(null);
 
+  useEffect(() => {
+    if (props.route?.params?.createdPost) {
+      setPosts((previous) => {
+        const updating = [...previous];
+        updating.unshift(props.route?.params?.createdPost);
+        return updating;
+      });
+    }
+  }, [props.route?.params?.createdPost]);
+
   const getSpace = async () => {
     const result = await backendAPI.get(`/spaces/${props.route?.params?.spaceId}`);
     const { space } = result.data;

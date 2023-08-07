@@ -127,7 +127,7 @@ const AddPhoto = () => {
           style={{
             width: 90,
             height: 90,
-            backgroundColor: 'rgb(44, 44, 44)',
+            backgroundColor: 'rgb(88,88,88)',
             justifyContent: 'center',
             alignItems: 'center',
             borderRadius: 12,

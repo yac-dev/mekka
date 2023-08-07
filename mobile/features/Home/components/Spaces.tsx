@@ -44,11 +44,20 @@ const Spaces: React.FC = (props) => {
           // contentTypeによって、いくnavigatorが変わるわけですよ。。。そう、つまりここでnavigatingを分ければいいわけね。
           onPress={() => navigate(relationship)}
         >
-          <FastImage
-            style={{ width: iconWidth, aspectRatio: 1, borderRadius: 15, marginBottom: 5 }}
-            source={{ uri: relationship.space.icon }}
-            resizeMode={FastImage.resizeMode.contain}
-          />
+          <View style={{ width: iconWidth, aspectRatio: 1, marginBottom: 5 }}>
+            <FastImage
+              style={{ width: '100%', height: '100%', borderRadius: 10 }}
+              source={{ uri: relationship.space.icon }}
+              resizeMode={FastImage.resizeMode.contain}
+            />
+            <Text style={{ position: 'absolute', bottom: 0, right: 3 }}>
+              {relationship.space.contentType === 'photo'
+                ? '📸'
+                : relationship.space.contentType === 'video'
+                ? '🎥'
+                : '📸🎥'}
+            </Text>
+          </View>
           <Text style={{ color: 'white' }}>{relationship.space.name}</Text>
         </TouchableOpacity>
       );
