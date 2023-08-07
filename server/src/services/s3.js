@@ -6,8 +6,8 @@ import path from 'path';
 
 const s3 = new S3({
   region: process.env.AWS_S3_BUCKET_REGION,
-  accessKeyId: process.env.AWS_S3_BUCKET_ACCESS_KEY_FOR_SERVER,
-  secretAccessKey: process.env.AWS_S3_BUCKET_SECRET_KEY_FOR_SERVER,
+  accessKeyId: process.env.AWS_S3_BUCKET_ACCESS_KEY,
+  secretAccessKey: process.env.AWS_S3_BUCKET_SECRET_KEY,
 });
 
 export const uploadPhoto = async (fileName, contentType) => {
@@ -15,10 +15,12 @@ export const uploadPhoto = async (fileName, contentType) => {
   const filePath = path.join(__dirname, 'buffer', fileName);
   const fileStream = fs.createReadStream(filePath);
 
+  const Key = contentType === 'icon' ? `icons/${fileName}` : 'photo' ? `photos/${fileName}` : `videos/${fileName}`;
+
   const uploadParams = {
-    Bucket: process.env.AWS_S3BUCKET_NAME,
+    Bucket: process.env.AWS_S3_BUCKET_NAME,
     Body: fileStream,
-    Key: contentType === 'photo' ? `photos/${fileName}` : `video/${fileName}`,
+    Key: Key,
   };
   await s3.upload(uploadParams).promise();
   console.log('content uploaded');

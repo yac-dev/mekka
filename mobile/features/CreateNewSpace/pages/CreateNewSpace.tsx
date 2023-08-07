@@ -89,7 +89,7 @@ const CreateNewSpace: React.FC<RouterProps> = (props) => {
         </TouchableOpacity>
       ),
     });
-  }, [formData]);
+  }, [formData, validation]);
 
   const onDonePress = async () => {
     // const payload = {

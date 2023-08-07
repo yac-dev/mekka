@@ -46,6 +46,7 @@ const MySpaces: React.FC<RouterProps> = (props) => {
       setSpaceAndMeRelationships((previous) => [...previous, props.route?.params?.createdSpace]);
     }
   }, [props.route?.params?.createdSpace]);
+  console.log(spaceAndMeRelationships);
 
   const getMySpaces = async () => {
     const result = await backendAPI.get(`/spaceanduserrelationships/users/${authData._id}`);

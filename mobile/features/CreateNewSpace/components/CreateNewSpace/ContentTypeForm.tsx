@@ -272,7 +272,10 @@ const ContentTypeForm = () => {
           ) : null}
           {formData.contentType ? (
             <>
-              <Text style={{ color: 'white', marginBottom: 10 }}>⏳ How long will members' posts stay?</Text>
+              <Text style={{ color: 'white', marginBottom: 10 }}>
+                ⏰ How long can members view each post?
+                {/* You can choose between 1–10 seconds, or choose ∞ to let them view it for as long as they’d like! */}
+              </Text>
               <View style={{ flexDirection: 'row' }}>
                 <TouchableOpacity
                   style={{ padding: 10, backgroundColor: 'rgb(88,88,88)', borderRadius: 5, marginRight: 10 }}
