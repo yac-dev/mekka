@@ -70,14 +70,16 @@ export const createSpace = async (request, response) => {
       createdAt: new Date(),
     });
     space.save();
-    uploadPhoto(request.file.filename, 'icon');
+    await uploadPhoto(request.file.filename, 'icon');
 
     response.status(201).json({
       spaceAndUserRelationship: {
         _id: spaceAndUserRelationship._id,
-        name: space.name,
-        icon: space.icon,
-        contentType: space.contentType,
+        space: {
+          name: space.name,
+          icon: space.icon,
+          contentType: space.contentType,
+        },
       },
     });
 

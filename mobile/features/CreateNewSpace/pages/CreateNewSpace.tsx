@@ -63,7 +63,17 @@ const CreateNewSpace: React.FC<RouterProps> = (props) => {
   });
   // objectのvalueが全部trueかをチェックするだけね。
 
-  const validateForm = useCallback(() => {
+  // const validateForm = useCallback(() => {
+  //   const bools = Object.values(validation);
+  //   for (let bool of bools) {
+  //     if (!bool) {
+  //       return false;
+  //     }
+  //   }
+  //   return true;
+  // }, [validation]);
+
+  const validateForm = () => {
     const bools = Object.values(validation);
     for (let bool of bools) {
       if (!bool) {
@@ -71,15 +81,35 @@ const CreateNewSpace: React.FC<RouterProps> = (props) => {
       }
     }
     return true;
-  }, [validation]);
+  };
 
   useEffect(() => {
     props.navigation.setOptions({
       headerRight: () => (
-        <TouchableOpacity onPress={() => onDonePress()} disabled={false}>
+        <TouchableOpacity
+          onPress={() => onDonePress()}
+          disabled={
+            validation.name &&
+            validation.icon &&
+            validation.contentType &&
+            validation.isPublic &&
+            validation.isCommentAvailable &&
+            validation.reactions
+              ? false
+              : true
+          }
+        >
           <Text
             style={{
-              color: validateForm() ? 'white' : 'rgb(117,117, 117)',
+              color:
+                validation.name &&
+                validation.icon &&
+                validation.contentType &&
+                validation.isPublic &&
+                validation.isCommentAvailable &&
+                validation.reactions
+                  ? 'white'
+                  : 'rgb(117,117, 117)',
               fontSize: 20,
               fontWeight: 'bold',
             }}
@@ -115,7 +145,7 @@ const CreateNewSpace: React.FC<RouterProps> = (props) => {
     payload.append('disappearAfter', formData.disappearAfter.toString());
     payload.append('createdBy', authData._id);
     const iconData = {
-      name: `${authData._id}-${new Date()}`,
+      name: `${authData._id}-${Date.now()}`,
       uri: formData.icon,
       type: 'image/jpeg',
     };
@@ -127,7 +157,7 @@ const CreateNewSpace: React.FC<RouterProps> = (props) => {
     });
     setLoading(false);
     const { spaceAndUserRelationship } = result.data;
-    props.navigation.navigate('Home', { params: { createdSpace: spaceAndUserRelationship }, merge: true });
+    props.navigation.navigate({ name: 'Home', params: { createdSpace: spaceAndUserRelationship }, merge: true });
   };
 
   return (

@@ -78,62 +78,64 @@ const ReactionForm: React.FC = (props) => {
     }
   }, [formData.isReactionAvailable, formData.reactions]);
 
-  console.log(formData.reactions);
-
   const renderAddedReactions = () => {
-    if (formData.reactions.length) {
-      const list = formData.reactions.map((reaction, index) => {
-        return (
-          <View
-            key={index}
-            style={{
-              width: 50,
-              height: 50,
-              backgroundColor: inputBackgroundColor,
-              borderRadius: 8,
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginRight: 15,
-            }}
-          >
-            {reaction.type === 'sticker' ? (
-              <FastImage source={{ uri: reaction.sticker.url }} style={{ width: 35, height: 35 }} />
-            ) : (
-              <Text style={{ fontSize: 40 }}>{reaction.emoji}</Text>
-            )}
-            <TouchableOpacity
+    if (formData.isReactionAvailable) {
+      if (formData.reactions.length) {
+        const list = formData.reactions.map((reaction, index) => {
+          return (
+            <View
+              key={index}
               style={{
-                width: 26,
-                height: 26,
-                borderRadius: 13,
+                width: 50,
+                height: 50,
+                backgroundColor: inputBackgroundColor,
+                borderRadius: 8,
                 justifyContent: 'center',
                 alignItems: 'center',
-                backgroundColor: 'red',
-                position: 'absolute',
-                top: -7,
-                right: -7,
-              }}
-              onPress={() => {
-                setFormData((previous) => {
-                  const updating = [...previous.reactions].filter((reaction, idx) => index !== idx);
-                  return {
-                    ...previous,
-                    reactions: updating,
-                  };
-                });
+                marginRight: 15,
               }}
             >
-              <Ionicons name='trash' size={15} color='white' />
-            </TouchableOpacity>
-          </View>
-        );
-      });
+              {reaction.type === 'sticker' ? (
+                <FastImage source={{ uri: reaction.sticker.url }} style={{ width: 35, height: 35 }} />
+              ) : (
+                <Text style={{ fontSize: 40 }}>{reaction.emoji}</Text>
+              )}
+              <TouchableOpacity
+                style={{
+                  width: 26,
+                  height: 26,
+                  borderRadius: 13,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor: 'red',
+                  position: 'absolute',
+                  top: -7,
+                  right: -7,
+                }}
+                onPress={() => {
+                  setFormData((previous) => {
+                    const updating = [...previous.reactions].filter((reaction, idx) => index !== idx);
+                    return {
+                      ...previous,
+                      reactions: updating,
+                    };
+                  });
+                }}
+              >
+                <Ionicons name='trash' size={15} color='white' />
+              </TouchableOpacity>
+            </View>
+          );
+        });
 
-      return (
-        <ScrollView style={{ paddingTop: 10 }} horizontal={true}>
-          <View style={{ flexDirection: 'row' }}>{list}</View>
-        </ScrollView>
-      );
+        return (
+          <ScrollView style={{ paddingTop: 10 }} horizontal={true}>
+            <View style={{ flexDirection: 'row' }}>{list}</View>
+          </ScrollView>
+        );
+      } else {
+        return null;
+      }
     } else {
       return null;
     }
