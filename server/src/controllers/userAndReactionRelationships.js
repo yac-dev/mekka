@@ -27,3 +27,30 @@ export const createReaction = async (request, response) => {
     console.log(error);
   }
 };
+
+export const getUserReactions = async (request, response) => {
+  try {
+    const userAndReactionRelationships = await UserAndReactionRelationship.find({
+      post: request.params.postId,
+    }).populate([
+      {
+        path: 'user',
+        model: 'User',
+      },
+      {
+        path: 'reaction',
+        model: 'Reaction',
+        populate: {
+          path: 'sticker',
+          model: 'Sticker',
+        },
+      },
+    ]);
+
+    response.status(200).json({
+      userAndReactionRelationships,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};

@@ -7,6 +7,7 @@ const stickerSchema = mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: 'User',
   },
+  isPublic: Boolean, // app内の人も使えるようにするかどうか。
 });
 
 const Sticker = mongoose.model('Sticker', stickerSchema);

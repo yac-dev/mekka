@@ -5,10 +5,17 @@ type ReactionsProps = {
   route: RouteProp<ParamListBase, string> | undefined;
 };
 
+type StickerType = {
+  _id: string;
+  url: string;
+  name: string;
+};
+
 type ReactionType = {
   _id: string;
-  emoji: string;
-  emojiType: string;
+  type: 'emoji' | 'sticker';
+  emoji: string | null;
+  sticker: StickerType | null;
 };
 
 type ReactionStatusType = {

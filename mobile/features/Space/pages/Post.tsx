@@ -85,7 +85,8 @@ const Post: React.FC<PostProps> = (props) => {
     });
     setLoading(false);
     const { post } = result.data;
-    // navigate({name: 'Photos', params: {createdPost: post}, merge: true)
+    //ここのcomponentは、photos. video or photoAndVideoどれかになる。
+    props.navigation.navigate({ name: 'Photos', params: { createdPost: post }, merge: true });
   };
 
   return (

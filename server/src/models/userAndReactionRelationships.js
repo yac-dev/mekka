@@ -13,7 +13,6 @@ const userAndReactionRelationshipSchema = mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: 'Post',
   },
-  comment: String,
   createdAt: Date,
 });
 

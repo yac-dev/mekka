@@ -29,7 +29,7 @@ type PostType = {
 
 const Posts = () => {
   const { isIpad } = useContext(GlobalContext);
-  const { posts, arePostsFetched, navigation } = useContext(SpaceContext);
+  const { posts, arePostsFetched, navigation, space } = useContext(SpaceContext);
   const oneGridWidth = isIpad ? Dimensions.get('window').width / 4 : Dimensions.get('window').width / 2;
   // console.log(JSON.stringify(posts, null, 4));
 
@@ -90,7 +90,11 @@ const Posts = () => {
             {renderHeader(post)}
             {renderContents(post.contents)}
             <View>
-              <TouchableOpacity onPress={() => navigation?.navigate('Reactions', { postId: post._id })}>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation?.navigate('Reactions', { postId: post._id, reactionOptions: space.reactions })
+                }
+              >
                 <MaterialCommunityIcons name='plus' size={20} color='white' />
               </TouchableOpacity>
               <Text style={{ color: 'white', fontSize: 17 }}>{post.caption}</Text>

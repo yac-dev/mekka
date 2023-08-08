@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, ActivityIndicator, ScrollView } from 'rea
 import backendAPI from '../../../apis/backend';
 import { RouteProp, ParamListBase } from '@react-navigation/native';
 import { ReactionsContext } from '../contexts/ReactionsContext';
+import UserReactions from '../components/Reactions/UserReactions';
 import ReactionOptions from '../components/Reactions/ReactionOptions';
 import CommentInput from '../components/Reactions/CommentInput';
 
@@ -10,10 +11,17 @@ type ReactionsProps = {
   route: RouteProp<ParamListBase, string> | undefined;
 };
 
+type StickerType = {
+  _id: string;
+  url: string;
+  name: string;
+};
+
 type ReactionType = {
   _id: string;
-  emoji: string;
-  emojiType: string;
+  type: 'emoji' | 'sticker';
+  emoji: string | null;
+  sticker: StickerType | null;
 };
 
 type ReactionStatusType = {
@@ -27,9 +35,18 @@ type ReactionStatusType = {
 const Reactions: React.FC<ReactionsProps> = (props) => {
   const [reactionStatuses, setReactionStatuses] = useState<ReactionStatusType[]>([]);
   const [areReactionStatusesFetched, setAreReactionStatusesFetched] = useState(false);
+  const [userReactions, setUserReactions] = useState([]);
+  const [areUserReactionsFetched, setAreUserReactionsFetched] = useState(false);
   const [comments, setComments] = useState('');
   // ここのts error気になるな。
   console.log(props.route?.params?.postId);
+
+  const getUserReactions = async () => {
+    const result = await backendAPI.get(`/userandreactionrelationships/post/${props.route?.params?.postId}`);
+    const { userAndReactionRelationships } = result.data;
+    setUserReactions(userAndReactionRelationships);
+    setAreUserReactionsFetched(true);
+  };
 
   const getReactionStatuses = async () => {
     const result = await backendAPI.get(`/reactionstatuses/post/${props.route?.params?.postId}`);
@@ -39,16 +56,24 @@ const Reactions: React.FC<ReactionsProps> = (props) => {
   };
 
   useEffect(() => {
-    getReactionStatuses();
+    getUserReactions();
+    // getReactionStatuses();
   }, []);
 
   return (
     <ReactionsContext.Provider
-      value={{ reactionStatuses, setReactionStatuses, areReactionStatusesFetched, setAreReactionStatusesFetched }}
+      value={{
+        userReactions,
+        setUserReactions,
+        areUserReactionsFetched,
+        setAreUserReactionsFetched,
+        reactionOptions: props.reactionOptions,
+      }}
     >
       <View style={{ flex: 1, backgroundColor: 'rgb(40, 40,40)', padding: 10 }}>
-        {areReactionStatusesFetched ? (
+        {areUserReactionsFetched ? (
           <>
+            <UserReactions />
             <ReactionOptions />
             <CommentInput />
           </>

@@ -12,6 +12,7 @@ export const createPost = async (request, response) => {
     const files = request.files;
     const createdAt = new Date();
     const contentIds = [];
+    const contents = [];
     for (let file of files) {
       const content = await Content.create({
         data: `https://mekka-${process.env.NODE_ENV}.s3.us-east-2.amazonaws.com/${
@@ -21,6 +22,7 @@ export const createPost = async (request, response) => {
         createdBy,
         createdAt,
       });
+      contents.push(content);
       contentIds.push(content._id);
       uploadPhoto(file.filename, content.type);
     }
@@ -45,7 +47,14 @@ export const createPost = async (request, response) => {
     const reactionAndStatuses = await ReactionStatus.insertMany(reacionStatusObjects);
 
     response.status(201).json({
-      message: 'success',
+      post: {
+        _id: post._id,
+        contents,
+        caption: post.caption,
+        createdBy: {
+          _id: createdBy,
+        },
+      },
     });
   } catch (error) {
     console.log(error);

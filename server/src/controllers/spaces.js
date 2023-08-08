@@ -122,7 +122,14 @@ export const getSpaces = async (request, response) => {
 
 export const getSpace = async (request, response) => {
   try {
-    const space = await Space.findById(request.params.spaceId);
+    const space = await Space.findById(request.params.spaceId).populate({
+      path: 'reactions',
+      model: 'Reaction',
+      populate: {
+        path: 'sticker',
+        model: 'Sticker',
+      },
+    });
     response.status(200).json({
       space,
     });
