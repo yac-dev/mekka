@@ -91,9 +91,7 @@ const Posts = () => {
             {renderContents(post.contents)}
             <View>
               <TouchableOpacity
-                onPress={() =>
-                  navigation?.navigate('Reactions', { postId: post._id, reactionOptions: space.reactions })
-                }
+                onPress={() => navigation?.navigate('Reactions', { postId: post._id, thumbnail: post.contents[0] })}
               >
                 <MaterialCommunityIcons name='plus' size={20} color='white' />
               </TouchableOpacity>

@@ -3,9 +3,11 @@ import { View, Text, TouchableOpacity, ActivityIndicator, ScrollView } from 'rea
 import backendAPI from '../../../apis/backend';
 import { RouteProp, ParamListBase } from '@react-navigation/native';
 import { ReactionsContext } from '../contexts/ReactionsContext';
+import FastImage from 'react-native-fast-image';
 import UserReactions from '../components/Reactions/UserReactions';
 import ReactionOptions from '../components/Reactions/ReactionOptions';
 import CommentInput from '../components/Reactions/CommentInput';
+import LoadingSpinner from '../../../components/LoadingSpinner';
 
 type ReactionsProps = {
   route: RouteProp<ParamListBase, string> | undefined;
@@ -41,13 +43,14 @@ const Reactions: React.FC<ReactionsProps> = (props) => {
   // ここのts error気になるな。
   console.log(props.route?.params?.postId);
 
-  const getUserReactions = async () => {
-    const result = await backendAPI.get(`/userandreactionrelationships/post/${props.route?.params?.postId}`);
-    const { userAndReactionRelationships } = result.data;
-    setUserReactions(userAndReactionRelationships);
-    setAreUserReactionsFetched(true);
-  };
+  // const getUserReactions = async () => {
+  //   const result = await backendAPI.get(`/userandreactionrelationships/post/${props.route?.params?.postId}`);
+  //   const { userAndReactionRelationships } = result.data;
+  //   setUserReactions(userAndReactionRelationships);
+  //   setAreUserReactionsFetched(true);
+  // };
 
+  // props.route?.params?.thumbnail
   const getReactionStatuses = async () => {
     const result = await backendAPI.get(`/reactionstatuses/post/${props.route?.params?.postId}`);
     const { reactionStatuses } = result.data;
@@ -56,30 +59,34 @@ const Reactions: React.FC<ReactionsProps> = (props) => {
   };
 
   useEffect(() => {
-    getUserReactions();
-    // getReactionStatuses();
+    // getUserReactions();
+    getReactionStatuses();
   }, []);
 
   return (
     <ReactionsContext.Provider
       value={{
-        userReactions,
-        setUserReactions,
-        areUserReactionsFetched,
-        setAreUserReactionsFetched,
-        reactionOptions: props.reactionOptions,
+        reactionStatuses,
+        setReactionStatuses,
+        areReactionStatusesFetched,
+        setAreReactionStatusesFetched,
+        // reactionOptions: props.reactionOptions,
       }}
     >
       <View style={{ flex: 1, backgroundColor: 'rgb(40, 40,40)', padding: 10 }}>
-        {areUserReactionsFetched ? (
+        {areReactionStatusesFetched ? (
           <>
-            <UserReactions />
+            <FastImage
+              source={{ uri: props.route?.params?.thumbnail.data }}
+              style={{ width: 80, height: 80, alignSelf: 'center', marginBottom: 30, borderRadius: 10 }}
+            />
             <ReactionOptions />
             <CommentInput />
           </>
         ) : (
           <ActivityIndicator />
         )}
+        <LoadingSpinner />
       </View>
     </ReactionsContext.Provider>
   );

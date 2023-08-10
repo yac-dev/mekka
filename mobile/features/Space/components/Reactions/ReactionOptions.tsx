@@ -32,21 +32,23 @@ type ReactionStatusType = {
 };
 
 const ReactionOptions = () => {
-  const { authData } = useContext(GlobalContext);
-  const { reactionOptions } = useContext(ReactionsContext);
+  const { authData, setLoading } = useContext(GlobalContext);
+  const { reactionStatuses, setReactionStatuses } = useContext(ReactionsContext);
   // console.log(JSON.stringify(reactionStatuses, null, 4));
 
-  // const upvoteReaction = async (reactionStatus: ReactionStatusType, index: number) => {
-  //   const result = await backendAPI.post(
-  //     `/userandreactionrelationships/user/${authData._id}/post/${reactionStatus.post}`,
-  //     { reactionId: reactionStatus.reaction._id }
-  //   );
-  //   setReactionStatuses((previous) => {
-  //     const updating = [...previous];
-  //     updating[index].count++;
-  //     return updating;
-  //   });
-  // };
+  const upvoteReaction = async (reactionStatus: ReactionStatusType, index: number) => {
+    setLoading(true);
+    const result = await backendAPI.post(
+      `/userandreactionrelationships/user/${authData._id}/post/${reactionStatus.post}`,
+      { reactionId: reactionStatus.reaction._id }
+    );
+    setLoading(false);
+    setReactionStatuses((previous) => {
+      const updating = [...previous];
+      updating[index].count++;
+      return updating;
+    });
+  };
 
   // とりあえず、1以上のものだけ、0のものをextractする感じでいいか。
   const renderReactionStatuses = () => {
@@ -74,14 +76,20 @@ const ReactionOptions = () => {
                 {reactionStatus.count ? <Text style={{ color: 'white' }}>{reactionStatus.count}</Text> : null}
               </View>
             ) : (
-              <Text>Custom here</Text>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <FastImage
+                  source={{ uri: reactionStatus.reaction.sticker.url }}
+                  style={{ width: 35, height: 35, marginRight: reactionStatus.count ? 10 : 0 }}
+                />
+                {reactionStatus.count ? <Text style={{ color: 'white' }}>{reactionStatus.count}</Text> : null}
+              </View>
             )}
             {reactionStatus.count ? null : (
               <View
                 style={{
                   width: 16,
                   height: 16,
-                  backgroundColor: 'green',
+                  backgroundColor: 'rgba(45, 209, 40, 0.85)',
                   borderRadius: 8,
                   position: 'absolute',
                   top: -5,
@@ -113,23 +121,23 @@ const ReactionOptions = () => {
     }
   };
 
-  const renderReactionOptions = () => {
-    const list = reactionOptions.map((reaction, index) => {
-      return (
-        <View>
-          {reaction.type === 'emoji' ? (
-            <Text>{reaction.emoji}</Text>
-          ) : (
-            <FastImage source={{ uri: reaction.sticker.url }} style={{ width: 30, height: 30 }} />
-          )}
-        </View>
-      );
-    });
+  // const renderReactionOptions = () => {
+  //   const list = reactionOptions.map((reaction, index) => {
+  //     return (
+  //       <View>
+  //         {reaction.type === 'emoji' ? (
+  //           <Text>{reaction.emoji}</Text>
+  //         ) : (
+  //           <FastImage source={{ uri: reaction.sticker.url }} style={{ width: 30, height: 30 }} />
+  //         )}
+  //       </View>
+  //     );
+  //   });
 
-    return <View style={{ flexDirection: 'row' }}>{list}</View>;
-  };
+  //   return <View style={{ flexDirection: 'row' }}>{list}</View>;
+  // };
 
-  return <>{renderReactionOptions()}</>;
+  return <>{renderReactionStatuses()}</>;
 };
 
 export default ReactionOptions;

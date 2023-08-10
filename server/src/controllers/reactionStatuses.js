@@ -8,6 +8,10 @@ export const getReactionStatuses = async (request, response) => {
     }).populate({
       path: 'reaction',
       model: 'Reaction',
+      populate: {
+        path: 'sticker',
+        model: 'Sticker',
+      },
     });
 
     response.status(200).json({
