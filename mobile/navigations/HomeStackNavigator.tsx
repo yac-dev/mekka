@@ -6,8 +6,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator();
 import Home from '../features/Home/pages/Home';
 import Signup from '../features/Home/pages/Signup';
-import Space from '../features/Home/pages/Space';
-import CreateNewSpace from '../features/Discover/pages/CreateNewSpace';
+import PhotoSpaceRootStackNavigator from './PhotoSpaceRootStackNavigator';
 import { primaryBackgroundColor } from '../themes/color';
 import { primaryTextColor } from '../themes/text';
 
@@ -44,17 +43,17 @@ const HomeStackNavigator: React.FC = () => {
           })}
         />
         <Stack.Screen
-          name='Space'
-          component={Space}
+          name='PhotoSpaceRootStackNavigator'
+          component={PhotoSpaceRootStackNavigator}
           options={({ navigation }) => ({
             headerLeft: () => (
               <TouchableOpacity onPress={() => navigation.goBack()}>
                 <Text style={{ color: primaryTextColor, fontSize: 20 }}>Close</Text>
               </TouchableOpacity>
             ),
-            headerTitle: 'Space',
+            headerTitle: '',
             headerStyle: {
-              backgroundColor: 'rgb(40, 40, 40)',
+              backgroundColor: 'black',
             },
             headerTitleStyle: {
               fontWeight: 'bold',

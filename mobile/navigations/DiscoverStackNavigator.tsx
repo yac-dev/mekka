@@ -3,7 +3,7 @@ import { TouchableOpacity, Text } from 'react-native';
 import { icons } from '../utils/icons';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator();
-import Spaces from '../features/Discover/pages/Spaces';
+import Discover from '../features/Discover/pages/Spaces';
 import CreateNewSpace from '../features/Discover/pages/CreateNewSpace';
 import SpaceDetail from '../features/Discover/pages/SpaceDetail';
 import SpaceDetailStackNavigator from './SpaceDetailStackNavigator';
@@ -15,8 +15,8 @@ const DiscoverStackNavigator: React.FC = () => {
     <Stack.Navigator>
       <Stack.Group>
         <Stack.Screen
-          name='Spaces'
-          component={Spaces}
+          name='Discover'
+          component={Discover}
           options={({ navigation }) => ({
             headerShown: false,
           })}
@@ -46,7 +46,7 @@ const DiscoverStackNavigator: React.FC = () => {
       </Stack.Group>
       <Stack.Group screenOptions={{ presentation: 'fullScreenModal' }}>
         <Stack.Screen
-          name='Create new space'
+          name='CreateNewSpace'
           component={CreateNewSpace}
           options={({ navigation }) => ({
             headerLeft: () => (

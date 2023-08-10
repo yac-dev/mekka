@@ -42,10 +42,10 @@ const BottomTab: React.FC = () => {
           return (
             // 今はこれでとりあえず。
             <View style={{ flexDirection: 'row' }}>
-              <TouchableOpacity style={{ marginRight: 10 }} onPress={() => navigation.navigate('Profile Top')}>
+              <TouchableOpacity style={{ marginRight: 10 }} onPress={() => console.log('hello')}>
                 <ET name='bell' size={25} color={'white'} />
               </TouchableOpacity>
-              <TouchableOpacity style={{ marginRight: 10 }} onPress={() => navigation.navigate('Profile Top')}>
+              <TouchableOpacity style={{ marginRight: 10 }} onPress={() => console.log('hello')}>
                 <MCI name='account-circle' size={25} color={'white'} />
               </TouchableOpacity>
             </View>
@@ -61,7 +61,7 @@ const BottomTab: React.FC = () => {
       })}
     >
       <Tab.Screen
-        name='Home'
+        name='HomeStackNavigator'
         component={HomeStackNavigator}
         options={({ navigation }) => ({
           headerShown: true,
@@ -72,7 +72,7 @@ const BottomTab: React.FC = () => {
         })}
       />
       <Tab.Screen
-        name='Discover'
+        name='DiscoverStackNavigator'
         component={DiscoverStackNavigator}
         options={({ navigation }) => ({
           headerShown: true,

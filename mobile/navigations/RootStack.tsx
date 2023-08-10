@@ -7,15 +7,11 @@ import BottomTab from './BottomTab';
 import Home from '../features/Home/pages/Home';
 import Signup from '../features/Home/pages/Signup';
 import Login from '../features/Home/pages/Login';
-// import Space from '../features/Home/pages/Space';
-// import SpaceTopTabNavigator from '../navigations/SpaceTopTabNavigator';
 import PhotoSpaceRootStackNavigator from './PhotoSpaceRootStackNavigator';
 import PhotoAndVideoSpaceRootStackNavigator from './PhotoAndVideoSpaceRootStackNavigator';
 import CreateNewSpace from '../features/CreateNewSpace/pages/CreateNewSpace';
 import EmojiPicker from '../features/CreateNewSpace/components/CreateNewSpace/EmojiPicker';
 import CreateSticker from '../features/CreateNewSpace/pages/CreateSticker';
-// special emoji picker
-import AddTag from '../features/CreateNewSpace/components/CreateNewSpace/AddTag';
 import Discover from '../features/Discover/pages/Spaces';
 import { Entypo } from '@expo/vector-icons';
 import { primaryBackgroundColor } from '../themes/color';
@@ -26,44 +22,45 @@ const { MCI, II } = icons;
 const RootStack = () => {
   return (
     <Stack.Navigator>
-      {/* <Stack.Screen
+      <Stack.Screen
         name='BottomTab'
         component={BottomTab}
         options={({ navigation }) => ({
           headerShown: false,
           // いや、ここで設定すると、BottomTabっていう上のtabに対する設定になってしまうね。
-          // headerRight: () => {
-          //   if (state.authData) {
-          //     return (
-          //       <TouchableOpacity style={{ marginRight: 10 }} onPress={() => navigation.navigate('Profile Top')}>
-          //         <MCI name='account-circle' size={30} color={'white'} />
-          //       </TouchableOpacity>
-          //     );
-          //   } else {
-          //     return null;
-          //   }
-          // },
-          // headerLeft: () => {
-          //   return (
-          //     <TouchableOpacity style={{ marginLeft: 10 }} onPress={() => navigation.navigate('About Lampost')}>
-          //       <MCI name='information' size={25} color={'white'} />
-          //     </TouchableOpacity>
-          //   );
-          // },
-          // title: 'Mekka',
-          // headerTintColor: 'white',
-          // headerStyle: {
-          //   backgroundColor: 'black',
-          //   borderBottomWidth: 0,
-          // },
-          // tabBarLabel: 'Home',
-          // tabBarStyle: {
-          //   backgroundColor: 'black',
-          //   borderTopWidth: 0,
-          // },
+          headerRight: () => {
+            // if (state.authData) {
+
+            // } else {
+            //   return null;
+            // }
+            return (
+              <TouchableOpacity style={{ marginRight: 10 }} onPress={() => navigation.navigate('Profile Top')}>
+                <MCI name='account-circle' size={30} color={'white'} />
+              </TouchableOpacity>
+            );
+          },
+          headerLeft: () => {
+            return (
+              <TouchableOpacity style={{ marginLeft: 10 }} onPress={() => navigation.navigate('About Lampost')}>
+                <MCI name='information' size={25} color={'white'} />
+              </TouchableOpacity>
+            );
+          },
+          title: 'Mekka',
+          headerTintColor: 'white',
+          headerStyle: {
+            backgroundColor: 'black',
+            borderBottomWidth: 0,
+          },
+          tabBarLabel: 'Home',
+          tabBarStyle: {
+            backgroundColor: 'black',
+            borderTopWidth: 0,
+          },
         })}
-      /> */}
-      <Stack.Group>
+      />
+      {/* <Stack.Group>
         <Stack.Screen
           name='Home'
           component={Home}
@@ -234,26 +231,7 @@ const RootStack = () => {
             },
           })}
         />
-        <Stack.Screen
-          name='AddTag'
-          component={AddTag}
-          options={({ navigation }) => ({
-            headerLeft: () => (
-              <TouchableOpacity onPress={() => navigation.goBack()}>
-                <Text style={{ color: primaryTextColor, fontSize: 20 }}>Close</Text>
-              </TouchableOpacity>
-            ),
-            headerTitle: 'Add tag',
-            headerStyle: {
-              backgroundColor: primaryBackgroundColor,
-            },
-            headerTitleStyle: {
-              fontWeight: 'bold',
-              color: primaryTextColor,
-            },
-          })}
-        />
-      </Stack.Group>
+      </Stack.Group> */}
     </Stack.Navigator>
   );
 };
