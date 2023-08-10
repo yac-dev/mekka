@@ -33,7 +33,7 @@ type ReactionStatusType = {
 
 const ReactionOptions = () => {
   const { authData, setLoading } = useContext(GlobalContext);
-  const { reactionStatuses, setReactionStatuses } = useContext(ReactionsContext);
+  const { reactionStatuses, setReactionStatuses, areReactionStatusesFetched } = useContext(ReactionsContext);
   // console.log(JSON.stringify(reactionStatuses, null, 4));
 
   const upvoteReaction = async (reactionStatus: ReactionStatusType, index: number) => {
@@ -111,6 +111,7 @@ const ReactionOptions = () => {
             flexDirection: 'row',
             alignItems: 'center',
             borderBottomColor: 'white',
+            marginBottom: 10,
           }}
         >
           {list}
@@ -121,23 +122,7 @@ const ReactionOptions = () => {
     }
   };
 
-  // const renderReactionOptions = () => {
-  //   const list = reactionOptions.map((reaction, index) => {
-  //     return (
-  //       <View>
-  //         {reaction.type === 'emoji' ? (
-  //           <Text>{reaction.emoji}</Text>
-  //         ) : (
-  //           <FastImage source={{ uri: reaction.sticker.url }} style={{ width: 30, height: 30 }} />
-  //         )}
-  //       </View>
-  //     );
-  //   });
-
-  //   return <View style={{ flexDirection: 'row' }}>{list}</View>;
-  // };
-
-  return <>{renderReactionStatuses()}</>;
+  return <>{areReactionStatusesFetched ? renderReactionStatuses() : <ActivityIndicator />}</>;
 };
 
 export default ReactionOptions;

@@ -39,7 +39,8 @@ const Reactions: React.FC<ReactionsProps> = (props) => {
   const [areReactionStatusesFetched, setAreReactionStatusesFetched] = useState(false);
   const [userReactions, setUserReactions] = useState([]);
   const [areUserReactionsFetched, setAreUserReactionsFetched] = useState(false);
-  const [comments, setComments] = useState('');
+  const [comments, setComments] = useState([]);
+  const [areCommentsFetched, setAreCommentsFetched] = useState(false);
   // ここのts error気になるな。
   console.log(props.route?.params?.postId);
 
@@ -58,6 +59,10 @@ const Reactions: React.FC<ReactionsProps> = (props) => {
     setAreReactionStatusesFetched(true);
   };
 
+  const getComments = async () => {
+    const result = await backendAPI.get(`/posts/${props.route?.params?.postId}`);
+  };
+
   useEffect(() => {
     // getUserReactions();
     getReactionStatuses();
@@ -70,22 +75,20 @@ const Reactions: React.FC<ReactionsProps> = (props) => {
         setReactionStatuses,
         areReactionStatusesFetched,
         setAreReactionStatusesFetched,
+        comments,
+        setComments,
+        areCommentsFetched,
+        setAreCommentsFetched,
         // reactionOptions: props.reactionOptions,
       }}
     >
       <View style={{ flex: 1, backgroundColor: 'rgb(40, 40,40)', padding: 10 }}>
-        {areReactionStatusesFetched ? (
-          <>
-            <FastImage
-              source={{ uri: props.route?.params?.thumbnail.data }}
-              style={{ width: 80, height: 80, alignSelf: 'center', marginBottom: 30, borderRadius: 10 }}
-            />
-            <ReactionOptions />
-            <CommentInput />
-          </>
-        ) : (
-          <ActivityIndicator />
-        )}
+        <FastImage
+          source={{ uri: props.route?.params?.thumbnail.data }}
+          style={{ width: 80, height: 80, alignSelf: 'center', marginBottom: 20, borderRadius: 10 }}
+        />
+        <ReactionOptions />
+        <CommentInput />
         <LoadingSpinner />
       </View>
     </ReactionsContext.Provider>

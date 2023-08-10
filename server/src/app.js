@@ -13,6 +13,7 @@ import spacesRouter from './routers/spaces';
 import postsRouter from './routers/posts';
 import reactionStatusesRouter from './routers/reactionStatuses';
 import stickersRouter from './routers/stickers';
+import commentsRouter from './routers/comment';
 import userAndReactionRelationshipsRouter from './routers/userAndReactionRelationships';
 import spaceAndUserRelationshipsRouter from './routers/spaceAndUserRelationships';
 
@@ -31,6 +32,7 @@ app.use('/api/spaces', spacesRouter);
 app.use('/api/posts', postsRouter);
 app.use('/api/reactionstatuses', reactionStatusesRouter);
 app.use('/api/stickers', stickersRouter);
+app.use('/api/comments', commentsRouter);
 app.use('/api/userandreactionrelationships', userAndReactionRelationshipsRouter);
 app.use('/api/spaceanduserrelationships', spaceAndUserRelationshipsRouter);
 
