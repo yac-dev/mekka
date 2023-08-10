@@ -11,6 +11,7 @@ import HomeStackNavigator from './HomeStackNavigator';
 import DiscoverStackNavigator from './DiscoverStackNavigator';
 const { MCI, MI, ET } = icons;
 
+// bottomの線が消えねー。
 const BottomTab: React.FC = () => {
   // navigatorってさ、多分scope chainやらprototype chain的な働きなのかね。。。同じstack内で名前が見つからなかったら、上のnavigatorを探す、てきな動きをするのだろう、、、と仮定してみる。
   return (
@@ -23,12 +24,13 @@ const BottomTab: React.FC = () => {
         tabBarLabelStyle: {
           fontSize: 12,
         },
-        tabBarActiveTintColor: 'white',
+        title: 'Mekka',
         headerTintColor: 'white',
         headerStyle: {
-          backgroundColor: primaryBackgroundColor,
+          backgroundColor: 'black',
           borderBottomWidth: 0,
         },
+        tabBarLabel: 'Home',
         headerRight: () => {
           // if (globalState.authData) {
           //   return (
@@ -64,11 +66,20 @@ const BottomTab: React.FC = () => {
         name='HomeStackNavigator'
         component={HomeStackNavigator}
         options={({ navigation }) => ({
-          headerShown: true,
+          title: 'Mekka',
+          headerTintColor: 'white',
+          headerStyle: {
+            backgroundColor: 'black',
+            borderBottomWidth: 0,
+          },
+          tabBarLabel: 'Home',
+          tabBarStyle: {
+            backgroundColor: 'black',
+            borderTopWidth: 0,
+          },
           tabBarIcon: ({ size, color, focused }) => (
             <MI name='apps' color={focused ? 'white' : 'rgb(102, 104, 109)'} size={size} />
           ),
-          title: 'Home',
         })}
       />
       <Tab.Screen

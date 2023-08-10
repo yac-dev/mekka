@@ -26,6 +26,7 @@ const RootStack = () => {
         name='BottomTab'
         component={BottomTab}
         options={({ navigation }) => ({
+          // headerShown: true,
           headerShown: false,
           // いや、ここで設定すると、BottomTabっていう上のtabに対する設定になってしまうね。
           headerRight: () => {

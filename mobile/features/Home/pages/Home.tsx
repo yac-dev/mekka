@@ -66,7 +66,7 @@ const MySpaces: React.FC<RouterProps> = (props) => {
         value={{ spaceAndMeRelationships, setSpaceAndMeRelationships, navigation: props.navigation }}
       >
         <View style={{ flex: 1, backgroundColor: primaryBackgroundColor }}>
-          <MenuButtons />
+          {/* <MenuButtons /> */}
           <Spaces />
         </View>
       </HomeContext.Provider>

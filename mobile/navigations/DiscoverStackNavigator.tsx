@@ -4,7 +4,9 @@ import { icons } from '../utils/icons';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator();
 import Discover from '../features/Discover/pages/Spaces';
-import CreateNewSpace from '../features/Discover/pages/CreateNewSpace';
+import CreateNewSpace from '../features/CreateNewSpace/pages/CreateNewSpace';
+import EmojiPicker from '../features/CreateNewSpace/components/CreateNewSpace/EmojiPicker';
+import CreateSticker from '../features/CreateNewSpace/pages/CreateSticker';
 import SpaceDetail from '../features/Discover/pages/SpaceDetail';
 import SpaceDetailStackNavigator from './SpaceDetailStackNavigator';
 import { primaryBackgroundColor, modalBackgroundColor } from '../themes/color';
@@ -26,6 +28,46 @@ const DiscoverStackNavigator: React.FC = () => {
         <Stack.Screen
           name='SpaceDetailStackNavigator'
           component={SpaceDetailStackNavigator}
+          options={({ navigation }) => ({
+            headerShown: false,
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <Text style={{ color: primaryTextColor, fontSize: 20 }}>Close</Text>
+              </TouchableOpacity>
+            ),
+            headerTitle: 'Space detail',
+            headerStyle: {
+              backgroundColor: primaryBackgroundColor,
+            },
+            headerTitleStyle: {
+              fontWeight: 'bold',
+              color: primaryTextColor,
+            },
+          })}
+        />
+        <Stack.Screen
+          name='EmojiPicker'
+          component={EmojiPicker}
+          options={({ navigation }) => ({
+            headerShown: false,
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <Text style={{ color: primaryTextColor, fontSize: 20 }}>Close</Text>
+              </TouchableOpacity>
+            ),
+            headerTitle: 'Space detail',
+            headerStyle: {
+              backgroundColor: primaryBackgroundColor,
+            },
+            headerTitleStyle: {
+              fontWeight: 'bold',
+              color: primaryTextColor,
+            },
+          })}
+        />
+        <Stack.Screen
+          name='CreateSticker'
+          component={CreateSticker}
           options={({ navigation }) => ({
             headerShown: false,
             headerLeft: () => (
