@@ -7,6 +7,7 @@ import FastImage from 'react-native-fast-image';
 import UserReactions from '../components/Reactions/UserReactions';
 import ReactionOptions from '../components/Reactions/ReactionOptions';
 import CommentInput from '../components/Reactions/CommentInput';
+import Comments from '../components/Reactions/Comments';
 import LoadingSpinner from '../../../components/LoadingSpinner';
 
 type ReactionsProps = {
@@ -60,12 +61,15 @@ const Reactions: React.FC<ReactionsProps> = (props) => {
   };
 
   const getComments = async () => {
-    const result = await backendAPI.get(`/posts/${props.route?.params?.postId}`);
+    const result = await backendAPI.get(`/comments/post/${props.route?.params?.postId}`);
+    const { comments } = result.data;
+    setComments(comments);
+    setAreCommentsFetched(true);
   };
 
   useEffect(() => {
-    // getUserReactions();
     getReactionStatuses();
+    getComments();
   }, []);
 
   return (
@@ -89,6 +93,7 @@ const Reactions: React.FC<ReactionsProps> = (props) => {
         />
         <ReactionOptions />
         <CommentInput />
+        <Comments />
         <LoadingSpinner />
       </View>
     </ReactionsContext.Provider>
