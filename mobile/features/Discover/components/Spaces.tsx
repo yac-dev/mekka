@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { View, Text, FlatList } from 'react-native';
-import { SpacesContext } from '../contexts/SpacesContext';
+import { SpacesContext } from '../contexts/DiscoverContext';
 
 const Spaces = () => {
   const { spaces } = useContext(SpacesContext);

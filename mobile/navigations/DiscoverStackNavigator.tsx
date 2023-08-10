@@ -3,7 +3,7 @@ import { TouchableOpacity, Text } from 'react-native';
 import { icons } from '../utils/icons';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator();
-import Discover from '../features/Discover/pages/Spaces';
+import Discover from '../features/Discover/pages/Discover';
 import CreateNewSpace from '../features/CreateNewSpace/pages/CreateNewSpace';
 import EmojiPicker from '../features/CreateNewSpace/components/CreateNewSpace/EmojiPicker';
 import CreateSticker from '../features/CreateNewSpace/pages/CreateSticker';
@@ -49,13 +49,12 @@ const DiscoverStackNavigator: React.FC = () => {
           name='EmojiPicker'
           component={EmojiPicker}
           options={({ navigation }) => ({
-            headerShown: false,
             headerLeft: () => (
               <TouchableOpacity onPress={() => navigation.goBack()}>
                 <Text style={{ color: primaryTextColor, fontSize: 20 }}>Close</Text>
               </TouchableOpacity>
             ),
-            headerTitle: 'Space detail',
+            headerTitle: '',
             headerStyle: {
               backgroundColor: primaryBackgroundColor,
             },
@@ -69,13 +68,7 @@ const DiscoverStackNavigator: React.FC = () => {
           name='CreateSticker'
           component={CreateSticker}
           options={({ navigation }) => ({
-            headerShown: false,
-            headerLeft: () => (
-              <TouchableOpacity onPress={() => navigation.goBack()}>
-                <Text style={{ color: primaryTextColor, fontSize: 20 }}>Close</Text>
-              </TouchableOpacity>
-            ),
-            headerTitle: 'Space detail',
+            headerTitle: '',
             headerStyle: {
               backgroundColor: primaryBackgroundColor,
             },
@@ -96,11 +89,9 @@ const DiscoverStackNavigator: React.FC = () => {
                 <Text style={{ color: primaryTextColor, fontSize: 20 }}>Close</Text>
               </TouchableOpacity>
             ),
-            headerTitle: 'Create new space',
-            headerTransparent: true,
+            headerTitle: '',
             headerStyle: {
-              backgroundColor: modalBackgroundColor,
-              borderBottomWidth: 0,
+              backgroundColor: primaryBackgroundColor,
             },
             headerTitleStyle: {
               fontWeight: 'bold',

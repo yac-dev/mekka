@@ -5,11 +5,11 @@ import backendAPI from '../../../apis/backend';
 import { primaryBackgroundColor } from '../../../themes/color';
 import { primaryTextColor } from '../../../themes/text';
 import CreateNewButton from '../components/CreateNewButton';
-import { SpacesContext } from '../contexts/SpacesContext';
+import { DiscoverContext } from '../contexts/DiscoverContext';
 
-interface RouterProps {
+type RouterProps = {
   navigation: NavigationProp<any, any>;
-}
+};
 
 type SpaceType = {
   _id: string;
@@ -18,7 +18,7 @@ type SpaceType = {
 };
 
 // client上では,mekkaとかそういう表現を使うことにする。
-const Spaces: React.FC<RouterProps> = (props) => {
+const Discover: React.FC<RouterProps> = (props) => {
   const [spaces, setSpaces] = useState<SpaceType[]>([]);
   const [areSpacesFetched, setAreSpacesFetched] = useState(false);
 
@@ -53,17 +53,18 @@ const Spaces: React.FC<RouterProps> = (props) => {
   }, []);
 
   return (
-    <SpacesContext.Provider value={{ spaces, setSpaces }}>
+    <DiscoverContext.Provider value={{ spaces, setSpaces, navigation: props.navigation }}>
       <View style={{ flex: 1, backgroundColor: primaryBackgroundColor, padding: 10 }}>
         <FlatList
           data={spaces}
           renderItem={({ item }) => renderSpace(item)}
           keyExtractor={(item, index) => `${item._id}-${index}`}
         />
-        {/* <CreateNewButton onButtonPress={onButtonPress} /> */}
+
+        <CreateNewButton />
       </View>
-    </SpacesContext.Provider>
+    </DiscoverContext.Provider>
   );
 };
 
-export default Spaces;
+export default Discover;

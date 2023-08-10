@@ -12,7 +12,7 @@ import PhotoAndVideoSpaceRootStackNavigator from './PhotoAndVideoSpaceRootStackN
 import CreateNewSpace from '../features/CreateNewSpace/pages/CreateNewSpace';
 import EmojiPicker from '../features/CreateNewSpace/components/CreateNewSpace/EmojiPicker';
 import CreateSticker from '../features/CreateNewSpace/pages/CreateSticker';
-import Discover from '../features/Discover/pages/Spaces';
+import Discover from '../features/Discover/pages/Discover';
 import { Entypo } from '@expo/vector-icons';
 import { primaryBackgroundColor } from '../themes/color';
 import { primaryTextColor } from '../themes/text';

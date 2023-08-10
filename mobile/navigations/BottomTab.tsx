@@ -6,7 +6,7 @@ const Tab = createBottomTabNavigator();
 import { primaryBackgroundColor } from '../themes/color';
 import { icons } from '../utils/icons';
 import MySpaces from '../features/Home/pages/Home';
-import Mekkas from '../features/Discover/pages/Spaces';
+import Mekkas from '../features/Discover/pages/Discover';
 import HomeStackNavigator from './HomeStackNavigator';
 import DiscoverStackNavigator from './DiscoverStackNavigator';
 const { MCI, MI, ET } = icons;

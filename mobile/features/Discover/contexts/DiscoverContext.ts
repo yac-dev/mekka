@@ -13,7 +13,7 @@ type SpacesContextProps = {
   // ここのsetSpaceの書き方がいまいちよく分からんがまあ、これでいいだろう。
 };
 
-export const SpacesContext = createContext<SpacesContextProps>({
+export const DiscoverContext = createContext<SpacesContextProps>({
   spaces: [],
   setSpaces: () => {},
 });

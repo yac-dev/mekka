@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
+import { DiscoverContext } from '../contexts/DiscoverContext';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { primaryButtonColor } from '../../../themes/color';
 
@@ -8,6 +9,8 @@ interface CreateNewMekkaButtonProps {
 }
 
 const CreateNewButton: React.FC<CreateNewMekkaButtonProps> = (props) => {
+  const { navigation } = useContext(DiscoverContext);
+
   return (
     <TouchableOpacity
       style={{
@@ -21,7 +24,7 @@ const CreateNewButton: React.FC<CreateNewMekkaButtonProps> = (props) => {
         alignItems: 'center',
         backgroundColor: primaryButtonColor,
       }}
-      onPress={() => props.onButtonPress()}
+      onPress={() => navigation.navigate('CreateNewSpace')}
     >
       <MaterialCommunityIcons name='plus' size={25} color='white' />
     </TouchableOpacity>
