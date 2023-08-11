@@ -8,7 +8,7 @@ const Header = () => {
 
   return (
     <View style={{ padding: 10 }}>
-      <View style={{ width: '100%', height: 220 }}>
+      <View style={{ width: '100%', height: 200 }}>
         <FastImage
           source={{ uri: space.icon }}
           style={{ width: '100%', height: '100%', borderRadius: 10 }}
