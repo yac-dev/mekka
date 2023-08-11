@@ -23,7 +23,7 @@ const SpaceDetail: React.FC<RouterProps> = (props) => {
   }, []);
 
   return (
-    <View style={{ flex: 1, backgroundColor: 'black' }}>
+    <View style={{ flex: 1, backgroundColor: 'rgb(38, 38, 38)' }}>
       <Text>Space detail</Text>
       <Text style={{ color: 'white' }}>{space.name}</Text>
       <TouchableOpacity onPress={() => props.navigation.navigate('Members')}>

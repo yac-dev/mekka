@@ -37,7 +37,7 @@ const DiscoverStackNavigator: React.FC = () => {
             ),
             headerTitle: 'Space detail',
             headerStyle: {
-              backgroundColor: primaryBackgroundColor,
+              backgroundColor: 'rgb(38, 38, 38)',
             },
             headerTitleStyle: {
               fontWeight: 'bold',

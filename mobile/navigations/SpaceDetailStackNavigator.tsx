@@ -22,7 +22,7 @@ const SpaceDetailStackNavigator: React.FC = () => {
           headerShown: true,
           headerTitle: 'Space detail',
           headerStyle: {
-            backgroundColor: primaryBackgroundColor,
+            backgroundColor: 'rgb(38, 38, 38)',
           },
           headerTitleStyle: {
             fontWeight: 'bold',
