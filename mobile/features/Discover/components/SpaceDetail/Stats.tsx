@@ -30,7 +30,7 @@ const Stats = () => {
           <Text style={{ color: 'rgb(170, 170, 170)', fontSize: 17 }}>{space.rate}</Text>
         </View>
       </View>
-      <Text style={{ color: 'white', paddingRight: 10, paddingLeft: 10 }}>{space.description}</Text>
+      {/* <Text style={{ color: 'white', paddingRight: 10, paddingLeft: 10 }}>{space.description}</Text> */}
     </View>
   );
 };

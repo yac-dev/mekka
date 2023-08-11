@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, Text, TouchableOpacity, ActivityIndicator, ScrollView } from 'react-native';
 import { NavigationProp, RouteProp } from '@react-navigation/native';
 import backendAPI from '../../../apis/backend';
 import { SpaceDetailContext } from '../contexts/SpaceDetailContext';
 import Header from '../components/SpaceDetail/Header';
 import Stats from '../components/SpaceDetail/Stats';
+import Description from '../components/SpaceDetail/Description';
+import ContentType from '../components/SpaceDetail/ContentType';
+import Disapper from '../components/SpaceDetail/Disapper';
+import Reactions from '../components/SpaceDetail/Reactions';
 
 // props.route.params.spaceIdでくるよね。
 interface RouterProps {
@@ -67,11 +71,17 @@ const SpaceDetail: React.FC<RouterProps> = (props) => {
 
   return (
     <SpaceDetailContext.Provider value={{ space }}>
-      <View style={{ flex: 1, backgroundColor: 'rgb(38, 38, 38)' }}>
+      <ScrollView style={{ flex: 1, backgroundColor: 'rgb(38, 38, 38)' }}>
         {isSpaceFetched && space ? (
           <>
             <Header />
             <Stats />
+            <View style={{ paddingLeft: 10, paddingRight: 10 }}>
+              <Description />
+              <ContentType />
+              <Disapper />
+              <Reactions />
+            </View>
             {/* <TouchableOpacity onPress={() => props.navigation.navigate('Members')}>
               <Text style={{ color: 'white' }}>Press to route members</Text>
             </TouchableOpacity> */}
@@ -84,7 +94,7 @@ const SpaceDetail: React.FC<RouterProps> = (props) => {
         ) : (
           <ActivityIndicator />
         )}
-      </View>
+      </ScrollView>
     </SpaceDetailContext.Provider>
   );
 };
