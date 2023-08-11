@@ -65,12 +65,14 @@ const SpaceDetail: React.FC<RouterProps> = (props) => {
     setIsSpaceFetched(true);
   };
 
+  // headerRightでjoin buttonをつけておこうか。
+
   useEffect(() => {
     getSpace();
   }, []);
 
   return (
-    <SpaceDetailContext.Provider value={{ space }}>
+    <SpaceDetailContext.Provider value={{ space, navigation: props.navigation }}>
       <ScrollView style={{ flex: 1, backgroundColor: 'rgb(38, 38, 38)' }}>
         {isSpaceFetched && space ? (
           <>
