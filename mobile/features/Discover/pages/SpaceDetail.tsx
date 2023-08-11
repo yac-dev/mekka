@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { NavigationProp, RouteProp } from '@react-navigation/native';
 import backendAPI from '../../../apis/backend';
 import { SpaceDetailContext } from '../contexts/SpaceDetailContext';
 import Header from '../components/SpaceDetail/Header';
+import Stats from '../components/SpaceDetail/Stats';
 
 // props.route.params.spaceIdでくるよね。
 interface RouterProps {
@@ -50,31 +51,39 @@ type SpaceType = {
 
 // ここに、spaceのthumbnailから始まり、
 const SpaceDetail: React.FC<RouterProps> = (props) => {
-  const [space, setSpace] = useState({});
+  const [space, setSpace] = useState(null);
+  const [isSpaceFetched, setIsSpaceFetched] = useState(false);
 
   const getSpace = async () => {
     const result = await backendAPI.get(`/spaces/${props.route.params.spaceId}`);
     const { space } = result.data;
     setSpace(space);
+    setIsSpaceFetched(true);
   };
+
   useEffect(() => {
     getSpace();
   }, []);
-  console.log(space);
 
   return (
     <SpaceDetailContext.Provider value={{ space }}>
       <View style={{ flex: 1, backgroundColor: 'rgb(38, 38, 38)' }}>
-        <Header />
-        <Text style={{ color: 'white' }}>{space.name}</Text>
-        <TouchableOpacity onPress={() => props.navigation.navigate('Members')}>
-          <Text style={{ color: 'white' }}>Press to route members</Text>
-        </TouchableOpacity>
-        <View style={{ width: '100%', position: 'absolute', bottom: 0, padding: 10, backgroundColor: 'red' }}>
-          <TouchableOpacity style={{ backgroundColor: 'blue', padding: 10, borderRadius: 8 }}>
-            <Text style={{ color: 'white' }}>Join this space</Text>
-          </TouchableOpacity>
-        </View>
+        {isSpaceFetched && space ? (
+          <>
+            <Header />
+            <Stats />
+            {/* <TouchableOpacity onPress={() => props.navigation.navigate('Members')}>
+              <Text style={{ color: 'white' }}>Press to route members</Text>
+            </TouchableOpacity> */}
+            {/* <View style={{ width: '100%', position: 'absolute', bottom: 0, padding: 10, backgroundColor: 'red' }}>
+              <TouchableOpacity style={{ backgroundColor: 'blue', padding: 10, borderRadius: 8 }}>
+                <Text style={{ color: 'white' }}>Join this space</Text>
+              </TouchableOpacity>
+            </View> */}
+          </>
+        ) : (
+          <ActivityIndicator />
+        )}
       </View>
     </SpaceDetailContext.Provider>
   );

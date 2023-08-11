@@ -10,6 +10,7 @@ const spaceSchema = mongoose.Schema({
     type: String,
     enum: ['photo', 'video', 'photoAndVideo'],
   },
+  description: String,
   videoLength: Number,
   disappearAfter: Number,
   isPublic: {

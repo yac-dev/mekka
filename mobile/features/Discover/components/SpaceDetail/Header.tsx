@@ -9,7 +9,11 @@ const Header = () => {
   return (
     <View style={{ padding: 10 }}>
       <View style={{ width: '100%', height: 220 }}>
-        <FastImage source={{ uri: space.icon }} style={{ width: '100%', height: '100%' }} resizeMode='cover' />
+        <FastImage
+          source={{ uri: space.icon }}
+          style={{ width: '100%', height: '100%', borderRadius: 10 }}
+          resizeMode='cover'
+        />
         <View style={{ position: 'absolute', bottom: 10, left: 10 }}>
           <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 24, marginBottom: 10 }}>{space.name}</Text>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>

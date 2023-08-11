@@ -14,6 +14,7 @@ export const createSpace = async (request, response) => {
     const {
       name,
       contentType,
+      description,
       videoLength,
       disappearAfter,
       isPublic,
@@ -33,6 +34,9 @@ export const createSpace = async (request, response) => {
       isReactionAvailable: Boolean(isReactionAvailable),
       createdBy,
       createdAt: new Date(),
+      totalPosts: 0,
+      totalMembers: 1,
+      rate: 0,
     });
     if (contentType === 'video' || contentType === 'photoAndVideo') {
       space.videoLength = videoLength;
