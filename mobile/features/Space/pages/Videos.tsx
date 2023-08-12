@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, Dimensions, FlatList } from 'react-native';
 import backendAPI from '../../../apis/backend';
 import { VideoSpaceContext } from '../contexts/VideoSpaceContext';
+import VideoPosts from '../components/VideoPosts';
 
 const Videos = (props) => {
   const [space, setSpace] = useState({ name: '' });
@@ -28,9 +29,7 @@ const Videos = (props) => {
 
   return (
     <VideoSpaceContext.Provider value={{ space, setSpace, posts, setPosts, arePostsFetched, setArePostsFetched }}>
-      <View>
-        <Text>Videos here</Text>
-      </View>
+      <VideoPosts />
     </VideoSpaceContext.Provider>
   );
 };
