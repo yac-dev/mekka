@@ -7,6 +7,7 @@ const Stack = createNativeStackNavigator();
 import Home from '../features/Home/pages/Home';
 import Signup from '../features/Home/pages/Signup';
 import PhotoSpaceRootStackNavigator from './PhotoSpaceRootStackNavigator';
+import VideoSpaceRootStackNavigator from './VideoSpaceRootStackNavigator';
 import { primaryBackgroundColor } from '../themes/color';
 import { primaryTextColor } from '../themes/text';
 
@@ -45,6 +46,25 @@ const HomeStackNavigator: React.FC = () => {
         <Stack.Screen
           name='PhotoSpaceRootStackNavigator'
           component={PhotoSpaceRootStackNavigator}
+          options={({ navigation }) => ({
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <Text style={{ color: primaryTextColor, fontSize: 20 }}>Close</Text>
+              </TouchableOpacity>
+            ),
+            headerTitle: '',
+            headerStyle: {
+              backgroundColor: 'black',
+            },
+            headerTitleStyle: {
+              fontWeight: 'bold',
+              color: primaryTextColor,
+            },
+          })}
+        />
+        <Stack.Screen
+          name='VideoSpaceRootStackNavigator'
+          component={VideoSpaceRootStackNavigator}
           options={({ navigation }) => ({
             headerLeft: () => (
               <TouchableOpacity onPress={() => navigation.goBack()}>

@@ -1,6 +1,7 @@
 import React, { useReducer, useState, useEffect, useContext, useCallback } from 'react';
 import { View, Text, FlatList, TouchableOpacity } from 'react-native';
 import { NavigationProp } from '@react-navigation/native';
+import { GlobalContext } from '../../../contexts/GlobalContext';
 import backendAPI from '../../../apis/backend';
 import { primaryBackgroundColor } from '../../../themes/color';
 import { primaryTextColor } from '../../../themes/text';
@@ -19,8 +20,15 @@ type SpaceType = {
 
 // client上では,mekkaとかそういう表現を使うことにする。
 const Discover: React.FC<RouterProps> = (props) => {
+  // const { setSpaceAndMeRelationships } = useContext(GlobalContext);
   const [spaces, setSpaces] = useState<SpaceType[]>([]);
   const [areSpacesFetched, setAreSpacesFetched] = useState(false);
+
+  // useEffect(() => {
+  //   if (props.route?.params?.createdSpace) {
+  //     setSpaceAndMeRelationships((previous) => [...previous, props.route?.params?.createdSpace]);
+  //   }
+  // }, [props.route?.params?.createdSpace]);
 
   const onButtonPress = () => {
     props.navigation.navigate('Create new space');
