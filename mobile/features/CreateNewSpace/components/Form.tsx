@@ -6,7 +6,7 @@ import VisibilityForm from './CreateNewSpace/VisibilityForm';
 import ContentTypeForm from './CreateNewSpace/ContentTypeForm';
 import CommentForm from './CreateNewSpace/CommentForm';
 import ReactionForm from './CreateNewSpace/ReactionForm';
-import TagsFrom from './CreateNewSpace/TagsForm';
+import Description from './CreateNewSpace/DescriptionForm';
 
 const Form = () => {
   return (
@@ -17,7 +17,7 @@ const Form = () => {
       <ContentTypeForm />
       <CommentForm />
       <ReactionForm />
-      {/* <TagsFrom /> */}
+      <Description />
     </ScrollView>
   );
 };

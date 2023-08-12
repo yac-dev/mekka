@@ -78,6 +78,7 @@ const DiscoverStackNavigator: React.FC = () => {
             },
           })}
         />
+        {/* write descriptionをここに。 */}
       </Stack.Group>
       <Stack.Group screenOptions={{ presentation: 'fullScreenModal' }}>
         <Stack.Screen

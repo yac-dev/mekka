@@ -29,6 +29,7 @@ export const createSpace = async (request, response) => {
       name,
       icon: `https://mekka-${process.env.NODE_ENV}.s3.us-east-2.amazonaws.com/icons/${request.file.filename}`,
       contentType,
+      description,
       isPublic: Boolean(isPublic),
       isCommentAvailable: Boolean(isCommentAvailable),
       isReactionAvailable: Boolean(isReactionAvailable),

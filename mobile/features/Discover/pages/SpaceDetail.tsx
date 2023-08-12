@@ -65,7 +65,23 @@ const SpaceDetail: React.FC<RouterProps> = (props) => {
     setIsSpaceFetched(true);
   };
 
-  // headerRightでjoin buttonをつけておこうか。
+  useEffect(() => {
+    props.navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity onPress={() => console.log('join')}>
+          <Text
+            style={{
+              color: 'white',
+              fontSize: 20,
+              fontWeight: 'bold',
+            }}
+          >
+            Join
+          </Text>
+        </TouchableOpacity>
+      ),
+    });
+  }, []);
 
   useEffect(() => {
     getSpace();

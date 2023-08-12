@@ -24,6 +24,7 @@ type FormDataStateType = {
   videoLength: number;
   disappearAfter: number;
   reactions: ReactionType[];
+  description: string;
 };
 
 type ValidationType = {
@@ -35,6 +36,7 @@ type ValidationType = {
   reactions: boolean;
   videoLength: boolean;
   disappearAfter: boolean;
+  description: boolean;
 };
 
 // { emoji: '' , icon: '' }
@@ -90,6 +92,7 @@ export const CreateNewSpaceContext = createContext<CreateNewSpaceProps>({
     videoLength: 60,
     disappearAfter: 0,
     reactions: [],
+    description: '',
   },
   setFormData: () => {},
   validation: {
@@ -101,6 +104,7 @@ export const CreateNewSpaceContext = createContext<CreateNewSpaceProps>({
     reactions: false,
     videoLength: false,
     disappearAfter: false,
+    description: false,
   },
   setValidation: () => {},
   navigation: undefined,

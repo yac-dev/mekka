@@ -31,6 +31,7 @@ type FormDataStateType = {
   videoLength: number;
   disappearAfter: number;
   reactions: ReactionType[];
+  description: string;
 };
 
 type RouterProps = {
@@ -50,6 +51,7 @@ const CreateNewSpace: React.FC<RouterProps> = (props) => {
     videoLength: 60,
     disappearAfter: 0,
     reactions: [],
+    description: 'default',
   });
   const [validation, setValidation] = useState({
     name: false,
@@ -60,6 +62,7 @@ const CreateNewSpace: React.FC<RouterProps> = (props) => {
     reactions: false,
     videoLength: false,
     disappearAfter: false,
+    description: false,
   });
   // objectのvalueが全部trueかをチェックするだけね。
 
@@ -94,7 +97,8 @@ const CreateNewSpace: React.FC<RouterProps> = (props) => {
             validation.contentType &&
             validation.isPublic &&
             validation.isCommentAvailable &&
-            validation.reactions
+            validation.reactions &&
+            validation.description
               ? false
               : true
           }
@@ -107,7 +111,8 @@ const CreateNewSpace: React.FC<RouterProps> = (props) => {
                 validation.contentType &&
                 validation.isPublic &&
                 validation.isCommentAvailable &&
-                validation.reactions
+                validation.reactions &&
+                validation.description
                   ? 'white'
                   : 'rgb(117,117, 117)',
               fontSize: 20,
@@ -143,6 +148,7 @@ const CreateNewSpace: React.FC<RouterProps> = (props) => {
     payload.append('reactions', JSON.stringify(formData.reactions));
     payload.append('videoLength', formData.videoLength.toString());
     payload.append('disappearAfter', formData.disappearAfter.toString());
+    payload.append('disappearAfter', formData.description);
     payload.append('createdBy', authData._id);
     const iconData = {
       name: `${authData._id}-${Date.now()}`,
@@ -157,7 +163,7 @@ const CreateNewSpace: React.FC<RouterProps> = (props) => {
     });
     setLoading(false);
     const { spaceAndUserRelationship } = result.data;
-    props.navigation.navigate({ name: 'Home', params: { createdSpace: spaceAndUserRelationship }, merge: true });
+    props.navigation.navigate({ name: 'Discover', params: { createdSpace: spaceAndUserRelationship }, merge: true });
   };
 
   return (
