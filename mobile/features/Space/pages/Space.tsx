@@ -7,6 +7,7 @@ import PostThumbnail from '../components/PostThumbnail';
 import Gallery from '../components/Gallery';
 import SpaceIconMenuButton from '../components/SpaceIconMenuButton';
 import SpaceMenu from './SpaceMenu';
+import TagMenus from '../components/TagMenus';
 import { SpaceContext } from '../contexts/SpaceContext';
 
 const Space = (props) => {
@@ -14,18 +15,19 @@ const Space = (props) => {
   const oneAssetWidth = isIpad ? Dimensions.get('window').width / 6 : Dimensions.get('window').width / 3;
   const [posts, setPosts] = useState([]);
   const [space, setSpace] = useState({ name: '' });
+  const [selectedTag, setSelectedTag] = useState(null);
   const [arePostsFetched, setArePostsFetched] = useState(false);
   const menuBottomSheetRef = useRef(null);
 
-  // useEffect(() => {
-  //   if (props.route?.params?.createdPost) {
-  //     setPosts((previous) => {
-  //       const updating = [...previous];
-  //       updating.unshift(props.route?.params?.createdPost);
-  //       return updating;
-  //     });
-  //   }
-  // }, [props.route?.params?.createdPost]);
+  useEffect(() => {
+    if (props.route?.params?.createdPost) {
+      setPosts((previous) => {
+        const updating = [...previous];
+        updating.unshift(props.route?.params?.createdPost);
+        return updating;
+      });
+    }
+  }, [props.route?.params?.createdPost]);
 
   const getSpace = async () => {
     const result = await backendAPI.get(`/spaces/${props.route?.params?.spaceId}`);
@@ -67,6 +69,7 @@ const Space = (props) => {
       }}
     >
       <GestureHandlerRootView style={{ flex: 1, backgroundColor: 'black' }}>
+        <TagMenus />
         <Gallery />
         <SpaceIconMenuButton />
         <SpaceMenu />

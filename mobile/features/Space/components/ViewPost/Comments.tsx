@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { View, Text, ActivityIndicator } from 'react-native';
+import { View, Text, ActivityIndicator, TextInput } from 'react-native';
 import { ViewPostContext } from '../../contexts/ViewPostContext';
 
 const Comments = () => {
@@ -17,7 +17,7 @@ const Comments = () => {
 
       return <View>{list}</View>;
     } else {
-      return <Text style={{ color: 'white' }}>Be the first to comment.</Text>;
+      return <Text style={{ color: 'white', fontSize: 17, textAlign: 'center' }}>Be the first to comment.</Text>;
     }
   };
 

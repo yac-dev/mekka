@@ -1,14 +1,32 @@
 import React from 'react';
-import { TouchableOpacity, View, Text } from 'react-native';
+import { TouchableOpacity, View, Text, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
 
 const TagMenus = () => {
   return (
-    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-      <TouchableOpacity style={{ backgroundColor: 'red', padding: 10, flexDirection: 'row', alignItems: 'center' }}>
-        <Ionicons name='' size={15} style={{}} />
-        <Text style={{ color: 'white' }}>All</Text>
-      </TouchableOpacity>
+    <View>
+      <ScrollView horizontal={true}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', padding: 10 }}>
+          <TouchableOpacity style={{ padding: 10, flexDirection: 'row', alignItems: 'center', marginRight: 10 }}>
+            <MaterialCommunityIcons name='dots-grid' size={20} style={{ marginRight: 7 }} color={'white'} />
+            <Text style={{ color: 'white' }}>All</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={{ padding: 10, flexDirection: 'row', alignItems: 'center', marginRight: 10 }}>
+            <Feather name='hash' size={20} style={{ marginRight: 7 }} color={'white'} />
+            <Text style={{ color: 'white' }}>Nice</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={{ padding: 10, flexDirection: 'row', alignItems: 'center', marginRight: 10 }}>
+            <Ionicons name='airplane' size={20} style={{ marginRight: 7 }} color={'white'} />
+            <Text style={{ color: 'white' }}>Trip</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={{ padding: 10, flexDirection: 'row', alignItems: 'center', marginRight: 10 }}>
+            <MaterialCommunityIcons name='ninja' size={20} style={{ marginRight: 7 }} color={'white'} />
+            <Text style={{ color: 'white' }}>Tokyo</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
     </View>
   );
 };

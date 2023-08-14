@@ -108,6 +108,7 @@ export const getPost = async (request, response) => {
       .populate({
         path: 'createdBy',
         model: 'User',
+        select: '_id name avatar',
       });
 
     response.status(200).json({

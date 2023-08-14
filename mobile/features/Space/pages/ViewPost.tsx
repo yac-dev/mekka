@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 import backendAPI from '../../../apis/backend';
 import { ViewPostContext } from '../contexts/ViewPostContext';
 import Content from '../components/ViewPost/Content';
@@ -59,12 +59,12 @@ const ViewPost = (props) => {
         areCommentsFetched,
       }}
     >
-      <View style={{ flex: 1, backgroundColor: 'black' }}>
+      <ScrollView style={{ flex: 1, backgroundColor: 'black' }}>
         <Content />
         <ReactionOptions />
         <Comments />
         <LoadingSpinner />
-      </View>
+      </ScrollView>
     </ViewPostContext.Provider>
   );
 };

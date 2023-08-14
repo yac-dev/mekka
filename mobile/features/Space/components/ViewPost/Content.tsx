@@ -22,7 +22,7 @@ const Content = (props) => {
           <TouchableOpacity
             key={index}
             style={{
-              marginBottom: 10,
+              marginRight: 10,
               borderRadius: 11,
               borderWidth: viewingContent._id === content._id ? 3 : null,
               borderColor: viewingContent._id === content._id ? 'blue' : null,
@@ -35,9 +35,9 @@ const Content = (props) => {
       });
 
       return (
-        <View style={{ position: 'absolute', right: 10, top: 20 }}>
-          <ScrollView>{list}</ScrollView>
-        </View>
+        <ScrollView horizontal={true} style={{ marginBottom: 10 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>{list}</View>
+        </ScrollView>
       );
     } else {
       return null;
@@ -50,8 +50,11 @@ const Content = (props) => {
         <View style={{ marginBottom: 20 }}>
           <Video source={{ uri: viewingContent.data }} style={{ width: '100%' }} />
           <View style={{ position: 'absolute', bottom: 10, left: 10 }}>
-            <Text style={{ color: 'white', fontSize: 20 }}>{post.caption}</Text>
-            <Text style={{ color: 'white', fontSize: 20 }}>{post.createdAt}</Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <FastImage />
+              <Text style={{ color: 'white', fontSize: 20 }}>{post.caption}</Text>
+              <Text style={{ color: 'white', fontSize: 20 }}></Text>
+            </View>
           </View>
           {renderContentOptions()}
         </View>
@@ -61,13 +64,9 @@ const Content = (props) => {
         <View style={{ marginBottom: 20 }}>
           <FastImage
             source={{ uri: viewingContent.data }}
-            style={{ width: '100%', aspectRatio: 1 }}
+            style={{ width: '100%', aspectRatio: 1, marginBottom: 20 }}
             resizeMode='cover'
           />
-          <View style={{ position: 'absolute', bottom: 10, left: 10 }}>
-            <Text style={{ color: 'white', fontSize: 20 }}>{post.caption}</Text>
-            <Text style={{ color: 'white', fontSize: 20 }}>{post.createdAt}</Text>
-          </View>
           {renderContentOptions()}
         </View>
       );
