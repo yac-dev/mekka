@@ -5,6 +5,7 @@ import { PostContext } from '../contexts/PostContext';
 import AddPhoto from '../components/Post/AddPhoto';
 import AddCaption from '../components/Post/AddCaption';
 import AddLocation from '../components/Post/AddLocation';
+import AddTags from '../components/Post/AddTags';
 import { NavigationProp, ParamListBase, RouteProp } from '@react-navigation/native';
 import backendAPI from '../../../apis/backend';
 import LoadingSpinner from '../../../components/LoadingSpinner';
@@ -40,7 +41,10 @@ const Post: React.FC<PostProps> = (props) => {
     contents: [],
     caption: '',
     location: { type: 'Point', coordinates: [] },
+    tags: [],
   });
+  const [createdTags, setCreatedTags] = useState([]);
+  const [tagOptions, setTagOptions] = useState([]);
 
   useEffect(() => {
     props.navigation.setOptions({
@@ -59,6 +63,16 @@ const Post: React.FC<PostProps> = (props) => {
       ),
     });
   }, [formData]);
+
+  const getTags = async () => {
+    const result = await backendAPI.get(`/tags/${props.route?.params?.space._id}`);
+    const { tags } = result.data;
+    setTagOptions(tags);
+  };
+
+  useEffect(() => {
+    getTags();
+  }, []);
 
   const onDonePress = async () => {
     // console.log('this is the space object', JSON.stringify(props.route?.params?.space));
@@ -90,11 +104,23 @@ const Post: React.FC<PostProps> = (props) => {
   };
 
   return (
-    <PostContext.Provider value={{ formData, setFormData, navigation: props.navigation, route: props.route }}>
+    <PostContext.Provider
+      value={{
+        formData,
+        setFormData,
+        navigation: props.navigation,
+        route: props.route,
+        createdTags,
+        setCreatedTags,
+        tagOptions,
+        setTagOptions,
+      }}
+    >
       <View style={{ flex: 1, padding: 10, backgroundColor: 'black' }}>
         <AddPhoto />
         <AddCaption />
         <AddLocation />
+        <AddTags />
         <LoadingSpinner />
       </View>
     </PostContext.Provider>

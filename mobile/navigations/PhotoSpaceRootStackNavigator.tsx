@@ -10,6 +10,7 @@ import Space from '../features/Space/pages/Space';
 import ViewPost from '../features/Space/pages/ViewPost';
 import Photos from '../features/Space/pages/Photos';
 import AddLoaction from '../features/Space/pages/AddLocation';
+import CreateTag from '../features/Space/pages/CreateTag';
 import Reactions from '../features/Space/pages/Reactions';
 import Albums from '../features/Space/pages/Albums';
 import CrearePost from '../features/Space/pages/CreatePost';
@@ -95,10 +96,30 @@ const PhotoSpaceRootStackNavigator = () => {
             headerShown: true, // ここtrueにすると、,,,
             headerLeft: () => (
               <TouchableOpacity onPress={() => navigation.goBack()}>
-                <Text style={{ color: primaryTextColor, fontSize: 20 }}>Close</Text>
+                <Ionicons name='close-circle-outline' size={27} color={'white'} />
               </TouchableOpacity>
             ),
             headerTitle: 'Add location',
+            headerStyle: {
+              backgroundColor: 'black',
+            },
+            headerTitleStyle: {
+              fontWeight: 'bold',
+              color: 'white',
+            },
+          })}
+        />
+        <Stack.Screen
+          name='CreateTag'
+          component={CreateTag}
+          options={({ navigation }) => ({
+            headerShown: true, // ここtrueにすると、,,,
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <Ionicons name='close-circle-outline' size={27} color={'white'} />
+              </TouchableOpacity>
+            ),
+            headerTitle: '',
             headerStyle: {
               backgroundColor: 'black',
             },
@@ -137,10 +158,10 @@ const PhotoSpaceRootStackNavigator = () => {
             headerShown: true, // ここtrueにすると、,,,
             headerLeft: () => (
               <TouchableOpacity onPress={() => navigation.goBack()}>
-                <Text style={{ color: primaryTextColor, fontSize: 20 }}>Close</Text>
+                <Ionicons name='close-circle-outline' size={27} color={'white'} />
               </TouchableOpacity>
             ),
-            headerTitle: 'Post',
+            headerTitle: 'Create post',
             headerStyle: {
               backgroundColor: 'black',
             },

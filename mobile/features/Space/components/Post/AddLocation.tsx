@@ -26,6 +26,7 @@ const AddLocation = () => {
         padding: 10,
         backgroundColor: 'rgb(88,88,88)',
         borderRadius: 8,
+        marginBottom: 20,
       }}
       // これで、locationをaddする。地図が必要だ。そのために。
       onPress={() => navigation?.navigate('AddLocation')}

@@ -14,6 +14,14 @@ const TagMenus = () => {
             <Text style={{ color: 'white' }}>All</Text>
           </TouchableOpacity>
           <TouchableOpacity style={{ padding: 10, flexDirection: 'row', alignItems: 'center', marginRight: 10 }}>
+            <MaterialCommunityIcons name='map' size={20} style={{ marginRight: 7 }} color={'white'} />
+            <Text style={{ color: 'white' }}>Map</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={{ padding: 10, flexDirection: 'row', alignItems: 'center', marginRight: 10 }}>
+            <MaterialCommunityIcons name='calendar-month' size={20} style={{ marginRight: 7 }} color={'white'} />
+            <Text style={{ color: 'white' }}>Calendar</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={{ padding: 10, flexDirection: 'row', alignItems: 'center', marginRight: 10 }}>
             <Feather name='hash' size={20} style={{ marginRight: 7 }} color={'white'} />
             <Text style={{ color: 'white' }}>Nice</Text>
           </TouchableOpacity>
