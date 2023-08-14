@@ -9,7 +9,7 @@ import { primaryTextColor } from '../themes/text';
 import Videos from '../features/Space/pages/Videos';
 import AddLoaction from '../features/Space/pages/AddLocation';
 import Reactions from '../features/Space/pages/Reactions';
-import Post from '../features/Space/pages/Post';
+import Post from '../features/Space/pages/CreatePost';
 
 const { MCI, II } = icons;
 

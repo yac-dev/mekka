@@ -4,11 +4,12 @@ import FastImage from 'react-native-fast-image';
 // import * as VideoThumbnails from 'expo-video-thumbnails';
 import { Video } from 'expo-av';
 import { GlobalContext } from '../../../contexts/GlobalContext';
+import { SpaceContext } from '../contexts/SpaceContext';
 
 const PostThumbnail = (props) => {
   const { isIpad } = useContext(GlobalContext);
   const oneAssetWidth = isIpad ? Dimensions.get('window').width / 6 : Dimensions.get('window').width / 3;
-  const [image, setImage] = useState(null);
+  const { navigation } = useContext(SpaceContext);
 
   // const generateThumbnail = async () => {
   //   try {
@@ -29,13 +30,19 @@ const PostThumbnail = (props) => {
 
   if (props.post.content.type === 'video') {
     return (
-      <TouchableOpacity style={{ width: oneAssetWidth, height: oneAssetWidth }}>
+      <TouchableOpacity
+        style={{ width: oneAssetWidth, height: oneAssetWidth }}
+        onPress={() => navigation.navigate('ViewPost', { postId: props.post._id, type: props.post.content.type })}
+      >
         <Video source={{ uri: props.post.content.data }} style={{ width: '100%', height: '100%', borderRadius: 5 }} />;
       </TouchableOpacity>
     );
   } else {
     return (
-      <TouchableOpacity style={{ width: oneAssetWidth, height: oneAssetWidth }}>
+      <TouchableOpacity
+        style={{ width: oneAssetWidth, height: oneAssetWidth }}
+        onPress={() => navigation.navigate('ViewPost', { postId: props.post._id, type: props.post.content.type })}
+      >
         <FastImage
           source={{ uri: props.post.content.data }}
           style={{ width: '100%', height: '100%', borderRadius: 5 }}

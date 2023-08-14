@@ -6,12 +6,13 @@ const Stack = createNativeStackNavigator();
 import SpaceTopTabNavigator from './SpaceTopTabNavigator';
 import { primaryBackgroundColor } from '../themes/color';
 import { primaryTextColor } from '../themes/text';
-import Gallery from '../features/Space/pages/Gallery';
+import Space from '../features/Space/pages/Space';
+import ViewPost from '../features/Space/pages/ViewPost';
 import Photos from '../features/Space/pages/Photos';
 import AddLoaction from '../features/Space/pages/AddLocation';
 import Reactions from '../features/Space/pages/Reactions';
 import Albums from '../features/Space/pages/Albums';
-import Post from '../features/Space/pages/Post';
+import CrearePost from '../features/Space/pages/CreatePost';
 
 const { MCI, II } = icons;
 
@@ -32,7 +33,14 @@ const PhotoSpaceRootStackNavigator = () => {
     <Stack.Navigator>
       <Stack.Screen
         name='Photos'
-        component={Gallery}
+        component={Space}
+        options={({ navigation }) => ({
+          headerShown: false, // ここtrueにすると、,,,
+        })}
+      />
+      <Stack.Screen
+        name='ViewPost'
+        component={ViewPost}
         options={({ navigation }) => ({
           headerShown: false, // ここtrueにすると、,,,
         })}
@@ -96,8 +104,8 @@ const PhotoSpaceRootStackNavigator = () => {
       </Stack.Group>
       <Stack.Group screenOptions={{ presentation: 'fullScreenModal' }}>
         <Stack.Screen
-          name='Post'
-          component={Post}
+          name='CreatePost'
+          component={CrearePost}
           options={({ navigation }) => ({
             headerShown: true, // ここtrueにすると、,,,
             headerLeft: () => (
