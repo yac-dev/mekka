@@ -13,6 +13,7 @@ import AddLoaction from '../features/Space/pages/AddLocation';
 import Reactions from '../features/Space/pages/Reactions';
 import Albums from '../features/Space/pages/Albums';
 import CrearePost from '../features/Space/pages/CreatePost';
+import { Ionicons } from '@expo/vector-icons';
 
 const { MCI, II } = icons;
 
@@ -35,7 +36,20 @@ const PhotoSpaceRootStackNavigator = () => {
         name='Photos'
         component={Space}
         options={({ navigation }) => ({
-          headerShown: false, // ここtrueにすると、,,,
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Ionicons name='close-circle-outline' size={27} color={'white'} />
+            </TouchableOpacity>
+          ),
+          headerShown: true,
+          headerTitle: 'Space detail',
+          headerStyle: {
+            backgroundColor: 'black',
+          },
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            color: primaryTextColor,
+          },
         })}
       />
       <Stack.Screen
@@ -43,6 +57,19 @@ const PhotoSpaceRootStackNavigator = () => {
         component={ViewPost}
         options={({ navigation }) => ({
           // headerShown: false, // ここtrueにすると、,,,
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Ionicons name='chevron-back' size={30} color={'white'} />
+            </TouchableOpacity>
+          ),
+          headerTitle: '',
+          headerStyle: {
+            backgroundColor: 'black',
+          },
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            color: primaryTextColor,
+          },
         })}
       />
       {/* <Stack.Screen

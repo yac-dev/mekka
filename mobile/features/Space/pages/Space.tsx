@@ -5,6 +5,7 @@ import { GlobalContext } from '../../../contexts/GlobalContext';
 import backendAPI from '../../../apis/backend';
 import PostThumbnail from '../components/PostThumbnail';
 import Gallery from '../components/Gallery';
+import SpaceIconMenuButton from '../components/SpaceIconMenuButton';
 import SpaceMenu from './SpaceMenu';
 import { SpaceContext } from '../contexts/SpaceContext';
 
@@ -67,6 +68,7 @@ const Space = (props) => {
     >
       <GestureHandlerRootView style={{ flex: 1, backgroundColor: 'black' }}>
         <Gallery />
+        <SpaceIconMenuButton />
         <SpaceMenu />
       </GestureHandlerRootView>
     </SpaceContext.Provider>

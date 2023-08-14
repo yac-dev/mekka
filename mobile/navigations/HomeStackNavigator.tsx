@@ -47,6 +47,7 @@ const HomeStackNavigator: React.FC = () => {
           name='PhotoSpaceRootStackNavigator'
           component={PhotoSpaceRootStackNavigator}
           options={({ navigation }) => ({
+            headerShown: false,
             headerLeft: () => (
               <TouchableOpacity onPress={() => navigation.goBack()}>
                 <Text style={{ color: primaryTextColor, fontSize: 20 }}>Close</Text>
