@@ -1,17 +1,20 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text } from 'react-native';
 import backendAPI from '../../../apis/backend';
-// import {ViewPostContext} from '../contexts/ViewPostContext'
+import { ViewPostContext } from '../contexts/ViewPostContext';
+import Content from '../components/ViewPost/Content';
 
-const Post = (props) => {
+const ViewPost = (props) => {
   const [post, setPost] = useState({});
+  const [isPostFetched, setIsPostFetched] = useState(false);
   const [reactionStatuses, setReactionStatuses] = useState([]);
   const [comments, setComments] = useState([]);
 
   const getPost = async () => {
-    const result = await backendAPI.get(`/posts/${props.route.params.postId}`);
+    const result = await backendAPI.get(`/posts/${props.route.params.post._id}`);
     const { post } = result.data;
     setPost(post);
+    setIsPostFetched(true);
   };
 
   // reactionとcommentを全部とってくるようにする。
@@ -34,11 +37,20 @@ const Post = (props) => {
   //   getComments();
   // }, []);
   //
+  useEffect(() => {
+    getPost();
+  }, []);
+
   return (
-    <View>
-      <Text>Post</Text>
-    </View>
+    <ViewPostContext.Provider
+      value={{ post, setPost, isPostFetched, setIsPostFetched, reactionStatuses, setReactionStatuses }}
+    >
+      <View style={{ flex: 1, backgroundColor: 'black' }}>
+        <Content />
+        <Text style={{ color: 'red' }}>OK???</Text>
+      </View>
+    </ViewPostContext.Provider>
   );
 };
 
-export default Post;
+export default ViewPost;

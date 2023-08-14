@@ -32,8 +32,9 @@ const PostThumbnail = (props) => {
     return (
       <TouchableOpacity
         style={{ width: oneAssetWidth, height: oneAssetWidth }}
-        onPress={() => navigation.navigate('ViewPost', { postId: props.post._id, type: props.post.content.type })}
+        onPress={() => navigation.navigate({ name: 'ViewPost', params: { post: props.post } })}
       >
+        {/* { name: 'Photos', params: { createdPost: post }, merge: true } */}
         <Video source={{ uri: props.post.content.data }} style={{ width: '100%', height: '100%', borderRadius: 5 }} />;
       </TouchableOpacity>
     );
@@ -41,7 +42,7 @@ const PostThumbnail = (props) => {
     return (
       <TouchableOpacity
         style={{ width: oneAssetWidth, height: oneAssetWidth }}
-        onPress={() => navigation.navigate('ViewPost', { postId: props.post._id, type: props.post.content.type })}
+        onPress={() => navigation.navigate({ name: 'ViewPost', params: { post: props.post } })}
       >
         <FastImage
           source={{ uri: props.post.content.data }}

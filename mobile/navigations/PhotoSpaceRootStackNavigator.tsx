@@ -42,7 +42,7 @@ const PhotoSpaceRootStackNavigator = () => {
         name='ViewPost'
         component={ViewPost}
         options={({ navigation }) => ({
-          headerShown: false, // ここtrueにすると、,,,
+          // headerShown: false, // ここtrueにすると、,,,
         })}
       />
       {/* <Stack.Screen

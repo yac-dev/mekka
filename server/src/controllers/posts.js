@@ -96,3 +96,24 @@ export const getPosts = async (request, response) => {
     console.log(error);
   }
 };
+
+export const getPost = async (request, response) => {
+  try {
+    const document = await Post.findById(request.params.postId)
+      .populate({
+        path: 'contents',
+        model: 'Content',
+        select: '_id data type',
+      })
+      .populate({
+        path: 'createdBy',
+        model: 'User',
+      });
+
+    response.status(200).json({
+      post: document,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
