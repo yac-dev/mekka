@@ -6,6 +6,7 @@ const Stack = createNativeStackNavigator();
 import SpaceTopTabNavigator from './SpaceTopTabNavigator';
 import { primaryBackgroundColor } from '../themes/color';
 import { primaryTextColor } from '../themes/text';
+import Gallery from '../features/Space/pages/Gallery';
 import Photos from '../features/Space/pages/Photos';
 import AddLoaction from '../features/Space/pages/AddLocation';
 import Reactions from '../features/Space/pages/Reactions';
@@ -31,11 +32,18 @@ const PhotoSpaceRootStackNavigator = () => {
     <Stack.Navigator>
       <Stack.Screen
         name='Photos'
-        component={Photos}
+        component={Gallery}
         options={({ navigation }) => ({
           headerShown: false, // ここtrueにすると、,,,
         })}
       />
+      {/* <Stack.Screen
+        name='Photos'
+        component={Photos}
+        options={({ navigation }) => ({
+          headerShown: false, // ここtrueにすると、,,,
+        })}
+      /> */}
       <Stack.Screen
         name='Albums'
         component={Albums}

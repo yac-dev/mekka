@@ -6,6 +6,10 @@ const contentSchema = mongoose.Schema({
     type: String,
     enum: ['photo', 'video'], // launchedは、portでのchat用ね。
   },
+  post: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'Post',
+  },
   duration: Number,
   createdBy: { type: mongoose.Schema.ObjectId, ref: 'User' },
   createdAt: Date,

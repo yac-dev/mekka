@@ -63,7 +63,7 @@ export const createPost = async (request, response) => {
 
 export const getPosts = async (request, response) => {
   try {
-    const posts = await Post.find({ space: request.params.spaceId })
+    const documents = await Post.find({ space: request.params.spaceId })
       .select({ _id: true, contents: true, caption: true, spaceId: true, createdBy: true, createdAt: true })
       .populate([
         {
@@ -77,6 +77,18 @@ export const getPosts = async (request, response) => {
           select: '_id name avatar',
         },
       ]);
+    // postのidと、contents[0]のdata, typeだけ欲しい。
+    // {post: postId, content: {data: "....", type: "video"}}
+    const posts = documents.map((post, index) => {
+      return {
+        _id: post._id,
+        content: {
+          data: post.contents[0].data,
+          type: post.contents[0].type,
+        },
+      };
+    });
+
     response.status(200).json({
       posts,
     });
