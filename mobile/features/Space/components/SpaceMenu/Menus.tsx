@@ -29,7 +29,7 @@ const SpaceMenus = () => {
             }}
             onPress={() => {
               menuBottomSheetRef?.current.close();
-              navigation?.navigate('CreatePost', { space });
+              navigation?.navigate({ name: 'CreatePost', params: { space: space }, merge: true });
             }}
           >
             <AntDesign name='plus' size={25} color='white' />

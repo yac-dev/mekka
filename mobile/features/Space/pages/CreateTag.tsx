@@ -23,7 +23,7 @@ const CreateTag = (props) => {
   }, [tagName]);
 
   const onDonePress = () => {
-    props.navigation.navigate('CreatePost', { createdTag: tagName });
+    props.navigation.navigate({ name: 'CreatePost', params: { createdTag: tagName }, merge: true });
   };
 
   return (

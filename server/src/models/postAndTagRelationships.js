@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 
 const postAndTagRelationshipSchema = mongoose.Schema({
   post: { type: mongoose.Schema.ObjectId, ref: 'Post' },
-  tags: { type: mongoose.Schema.ObjectId, ref: 'Tag' },
+  tag: { type: mongoose.Schema.ObjectId, ref: 'Tag' },
 });
 
 const PostAndTagRelationship = mongoose.model('PostAndTagRelationship', postAndTagRelationshipSchema);

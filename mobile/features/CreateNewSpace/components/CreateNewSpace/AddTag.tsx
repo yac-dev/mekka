@@ -10,7 +10,6 @@ const AddTag = (props) => {
     props.navigation.setOptions({
       headerRight: () => (
         <TouchableOpacity
-          // このmergeって、初めて知ったな。
           onPress={() =>
             props.navigation.navigate({ name: 'CreateNewSpace', params: { addedTag: tagName }, merge: true })
           }

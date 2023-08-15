@@ -32,7 +32,6 @@ const EmojiPicker: React.FC = (props) => {
     props.navigation.setOptions({
       headerRight: () => (
         <TouchableOpacity
-          // このmergeって、初めて知ったな。
           onPress={() =>
             props.navigation.navigate({ name: 'CreateNewSpace', params: { selectedReaction }, merge: true })
           }

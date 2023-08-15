@@ -17,6 +17,8 @@ const Space = (props) => {
   const [space, setSpace] = useState({ name: '' });
   const [selectedTag, setSelectedTag] = useState(null);
   const [arePostsFetched, setArePostsFetched] = useState(false);
+  const [tags, setTags] = useState([]);
+  const [areTagsFetched, setAreTagsFetched] = useState(false);
   const menuBottomSheetRef = useRef(null);
 
   useEffect(() => {
@@ -42,18 +44,26 @@ const Space = (props) => {
     setArePostsFetched(true);
   };
 
+  const getTags = async () => {
+    const result = await backendAPI.get(`/tags/space/${props.route?.params?.spaceId}`);
+    const { tags } = result.data;
+    setTags(tags);
+    setAreTagsFetched(true);
+  };
+
   useEffect(() => {
     getSpace();
     getPosts();
+    getTags();
   }, []);
 
-  const renderItem = useCallback((post) => {
-    return (
-      <View>
-        <PostThumbnail post={post} />
-      </View>
-    );
-  }, []);
+  // const renderItem = useCallback((post) => {
+  //   return (
+  //     <View>
+  //       <PostThumbnail post={post} />
+  //     </View>
+  //   );
+  // }, []);
 
   return (
     <SpaceContext.Provider
@@ -64,6 +74,9 @@ const Space = (props) => {
         setPosts,
         arePostsFetched,
         setArePostsFetched,
+        tags,
+        setTags,
+        areTagsFetched,
         navigation: props.navigation,
         menuBottomSheetRef,
       }}

@@ -5,11 +5,16 @@ import { Entypo } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 
 const AddTags = () => {
-  const { navigation, route, setFormData, formData, createdTags, setCreatedTags, tagOptions } = useContext(PostContext);
+  const { navigation, route, setFormData, formData, tagOptions } = useContext(PostContext);
 
   useEffect(() => {
     if (route?.params?.createdTag) {
-      setCreatedTags((previous) => [...previous, route?.params?.createdTag]);
+      setFormData((previous) => {
+        return {
+          ...previous,
+          createdTags: [...previous.createdTags, route?.params?.createdTag],
+        };
+      });
     }
   }, [route?.params?.createdTag]);
 
@@ -34,8 +39,8 @@ const AddTags = () => {
   };
 
   const renderAddedTags = () => {
-    if (formData.tags.length) {
-      const list = formData.tags.map((tag, index) => {
+    if (formData.addedTags.length) {
+      const list = formData.addedTags.map((tag, index) => {
         return (
           <TouchableOpacity key={index}>
             <Text style={{ color: 'white' }}>{tag.name}</Text>
@@ -54,8 +59,8 @@ const AddTags = () => {
   };
 
   const renderCreatedTags = () => {
-    if (createdTags.length) {
-      const list = createdTags.map((tagName, index) => {
+    if (formData.createdTags.length) {
+      const list = formData.createdTags.map((tagName, index) => {
         return (
           <TouchableOpacity key={index} style={{ flexDirection: 'row', alignItems: 'center' }}>
             <Feather name='hash' size={20} style={{ marginRight: 7 }} color={'white'} />

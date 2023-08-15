@@ -7,7 +7,7 @@ import BottomTab from './BottomTab';
 import Home from '../features/Home/pages/Home';
 import Signup from '../features/Home/pages/Signup';
 import Login from '../features/Home/pages/Login';
-import PhotoSpaceRootStackNavigator from './PhotoSpaceRootStackNavigator';
+import PhotoSpaceRootStackNavigator from './SpaceRootStackNavigator';
 import PhotoAndVideoSpaceRootStackNavigator from './PhotoAndVideoSpaceRootStackNavigator';
 import CreateNewSpace from '../features/CreateNewSpace/pages/CreateNewSpace';
 import EmojiPicker from '../features/CreateNewSpace/components/CreateNewSpace/EmojiPicker';

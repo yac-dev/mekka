@@ -29,12 +29,12 @@ const styles = StyleSheet.create({
 });
 
 // シンプルに、というかあれか。spaceで持っておけばいいのか。photo, video, photoAndVideoって。
-const PhotoSpaceRootStackNavigator = () => {
+const SpaceRootStackNavigator = () => {
   // これ、めんどうだな。。。3つに分かれるのかね。。。パターンが。
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name='Photos'
+        name='Space'
         component={Space}
         options={({ navigation }) => ({
           headerLeft: () => (
@@ -43,7 +43,7 @@ const PhotoSpaceRootStackNavigator = () => {
             </TouchableOpacity>
           ),
           headerShown: true,
-          headerTitle: 'Space detail',
+          headerTitle: 'Space',
           headerStyle: {
             backgroundColor: 'black',
           },
@@ -176,4 +176,4 @@ const PhotoSpaceRootStackNavigator = () => {
   );
 };
 
-export default PhotoSpaceRootStackNavigator;
+export default SpaceRootStackNavigator;

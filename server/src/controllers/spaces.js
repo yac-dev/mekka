@@ -1,7 +1,5 @@
 import Space from '../models/space';
 import SpaceAndUserRelationship from '../models/spaceAndUserRelationship';
-import Tag from '../models/tag';
-import TagAndSpaceRelationship from '../models/tagAndSpaceRelationship';
 import Reaction from '../models/reaction';
 import { uploadPhoto } from '../services/s3';
 

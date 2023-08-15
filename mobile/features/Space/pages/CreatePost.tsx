@@ -41,9 +41,10 @@ const Post: React.FC<PostProps> = (props) => {
     contents: [],
     caption: '',
     location: { type: 'Point', coordinates: [] },
-    tags: [],
+    addedTags: [],
+    createdTags: [],
   });
-  const [createdTags, setCreatedTags] = useState([]);
+  // const [createdTags, setCreatedTags] = useState([]);
   const [tagOptions, setTagOptions] = useState([]);
 
   useEffect(() => {
@@ -62,10 +63,10 @@ const Post: React.FC<PostProps> = (props) => {
         </TouchableOpacity>
       ),
     });
-  }, [formData]);
+  }, [formData, props.route?.params?.space]);
 
   const getTags = async () => {
-    const result = await backendAPI.get(`/tags/${props.route?.params?.space._id}`);
+    const result = await backendAPI.get(`/tags/space/${props.route?.params?.space._id}`);
     const { tags } = result.data;
     setTagOptions(tags);
   };
@@ -74,33 +75,40 @@ const Post: React.FC<PostProps> = (props) => {
     getTags();
   }, []);
 
+  // ここまじで謎だよなー。なんで毎回undefinedになるんだろうか。。。
   const onDonePress = async () => {
-    // console.log('this is the space object', JSON.stringify(props.route?.params?.space));
+    // console.log('this is the space object', JSON.stringify(props.route?.params?.space._id));
     // console.log('this is the space reactios', props.route?.params?.space.reactions);
-    const payload = new FormData();
-    payload.append('reactions', JSON.stringify(props.route?.params?.space?.reactions));
-    payload.append('caption', formData.caption);
-    payload.append('location', JSON.stringify(formData.location));
-    payload.append('createdBy', authData._id);
-    payload.append('spaceId', props.route?.params?.space._id);
-    // // 前に面倒臭い開発やっていてよかったね。
-    for (let content of formData.contents) {
-      const obj = {
-        name: content.uri.split('/').pop(),
-        uri: content.uri,
-        type: content.type === 'image' ? 'image/jpg' : 'video/mp4',
-      };
-      payload.append('contents', JSON.parse(JSON.stringify(obj)));
+    try {
+      const payload = new FormData();
+      // 必ず、paramsを"merge"しろ。じゃないと、objectを上書きしちまう。
+      payload.append('reactions', JSON.stringify(props.route?.params?.space.reactions));
+      payload.append('caption', formData.caption);
+      payload.append('location', JSON.stringify(formData.location));
+      payload.append('createdTags', JSON.stringify(formData.createdTags));
+      payload.append('addedTags', JSON.stringify(formData.addedTags));
+      payload.append('createdBy', authData._id);
+      payload.append('spaceId', props.route?.params?.space._id);
+      for (let content of formData.contents) {
+        const obj = {
+          name: content.uri.split('/').pop(),
+          uri: content.uri,
+          type: content.type === 'image' ? 'image/jpg' : 'video/mp4',
+        };
+        payload.append('contents', JSON.parse(JSON.stringify(obj)));
+      }
+      console.log(payload);
+      setLoading(true);
+      const result = await backendAPI.post('/posts', payload, {
+        headers: { 'Content-type': 'multipart/form-data' },
+      });
+      setLoading(false);
+      const { post } = result.data;
+      //ここのcomponentは、photos. video or photoAndVideoどれかになる。
+      props.navigation.navigate({ name: 'Space', params: { createdPost: post }, merge: true });
+    } catch (error) {
+      console.log(error);
     }
-    console.log(payload);
-    setLoading(true);
-    const result = await backendAPI.post('/posts', payload, {
-      headers: { 'Content-type': 'multipart/form-data' },
-    });
-    setLoading(false);
-    const { post } = result.data;
-    //ここのcomponentは、photos. video or photoAndVideoどれかになる。
-    props.navigation.navigate({ name: 'Photos', params: { createdPost: post }, merge: true });
   };
 
   return (
@@ -110,8 +118,6 @@ const Post: React.FC<PostProps> = (props) => {
         setFormData,
         navigation: props.navigation,
         route: props.route,
-        createdTags,
-        setCreatedTags,
         tagOptions,
         setTagOptions,
       }}

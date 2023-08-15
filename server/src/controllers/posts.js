@@ -8,10 +8,10 @@ import { uploadPhoto } from '../services/s3';
 export const createPost = async (request, response) => {
   try {
     // postで、reactionを全部持っておかないとね。
-    const { caption, createdBy, location, spaceId, reactions, tags, createdTags } = request.body;
+    const { caption, createdBy, location, spaceId, reactions, addedTags, createdTags } = request.body;
     const parsedLocation = JSON.parse(location);
     const parsedReactions = JSON.parse(reactions);
-    const parsedTags = JSON.parse(tags);
+    const parsedTags = JSON.parse(addedTags);
     const parsedCreatedTags = JSON.parse(createdTags);
 
     const files = request.files;
@@ -30,7 +30,7 @@ export const createPost = async (request, response) => {
       });
       contents.push(content);
       contentIds.push(content._id);
-      uploadPhoto(file.filename, content.type);
+      await uploadPhoto(file.filename, content.type);
     }
     // 2,postを作る
     const post = await Post.create({
@@ -78,10 +78,10 @@ export const createPost = async (request, response) => {
 
     // tagIdsをもとにpostAndTagのrelationshipを作る、もちろん最終的にtagIdsのlengthがあったらね。
     if (tagIds.length) {
-      const postAndTagRelationshipObjects = tagDocuments.map((tagObject) => {
+      const postAndTagRelationshipObjects = tagIds.map((tagId) => {
         return {
           post: post._id,
-          tag: tagObject._id,
+          tag: tagId,
         };
       });
 
@@ -91,11 +91,15 @@ export const createPost = async (request, response) => {
     response.status(201).json({
       post: {
         _id: post._id,
-        contents,
-        caption: post.caption,
-        createdBy: {
-          _id: createdBy,
+        content: {
+          data: contents[0].data,
+          type: contents[0].type,
         },
+        // contents,
+        // caption: post.caption,
+        // createdBy: {
+        //   _id: createdBy,
+        // },
       },
     });
   } catch (error) {

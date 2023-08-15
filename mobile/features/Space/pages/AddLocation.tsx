@@ -31,12 +31,17 @@ const AddLocation: React.FC<AddLocationProps> = (props) => {
     //   return updating;
     // });
   };
-
   useEffect(() => {
     props.navigation?.setOptions({
       headerRight: () => (
         <TouchableOpacity
-          onPress={() => props.navigation?.navigate('CreatePost', { selectedLocation: selectingLocation })}
+          onPress={() =>
+            props.navigation?.navigate({
+              name: 'CreatePost',
+              params: { selectedLocation: selectingLocation },
+              merge: true,
+            })
+          }
           disabled={selectingLocation ? false : true}
         >
           <Text

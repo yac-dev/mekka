@@ -12,22 +12,26 @@ const Spaces: React.FC = (props) => {
   const iconWidth = oneGridWidth * 0.65;
 
   const navigate = (relationship) => {
-    if (relationship.space.contentType === 'photo') {
-      navigation?.navigate('PhotoSpaceRootStackNavigator', {
-        screen: 'Photos',
-        params: { spaceId: relationship.space._id },
-      });
-    } else if (relationship.space.contentType === 'video') {
-      navigation?.navigate('VideoSpaceRootStackNavigator', {
-        screen: 'Home',
-        params: { spaceId: relationship.space._id },
-      }); // いいや、とりあえず3つそれぞれでnavigationを分けようか。
-    } else {
-      navigation?.navigate('PhotoAndVideoSpaceRootStackNavigator', {
-        screen: 'Photos',
-        params: { spaceId: relationship.space._id },
-      });
-    }
+    // if (relationship.space.contentType === 'photo') {
+    //   navigation?.navigate('PhotoSpaceRootStackNavigator', {
+    //     screen: 'Photos',
+    //     params: { spaceId: relationship.space._id },
+    //   });
+    // } else if (relationship.space.contentType === 'video') {
+    //   navigation?.navigate('VideoSpaceRootStackNavigator', {
+    //     screen: 'Home',
+    //     params: { spaceId: relationship.space._id },
+    //   }); // いいや、とりあえず3つそれぞれでnavigationを分けようか。
+    // } else {
+    //   navigation?.navigate('PhotoAndVideoSpaceRootStackNavigator', {
+    //     screen: 'Photos',
+    //     params: { spaceId: relationship.space._id },
+    //   });
+    // }
+    navigation?.navigate('SpaceRootStackNavigator', {
+      screen: 'Space',
+      params: { spaceId: relationship.space._id },
+    });
   };
 
   const renderMySpaces = () => {
