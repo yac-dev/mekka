@@ -1,18 +1,24 @@
 import Post from '../models/post';
 import Content from '../models/content';
 import ReactionStatus from '../models/reactionStatus';
+import Tag from '../models/tag';
+import PostAndTagRelationship from '../models/postAndTagRelationships';
 import { uploadPhoto } from '../services/s3';
 
 export const createPost = async (request, response) => {
   try {
     // postで、reactionを全部持っておかないとね。
-    const { caption, createdBy, location, spaceId, reactions } = request.body;
+    const { caption, createdBy, location, spaceId, reactions, tags, createdTags } = request.body;
     const parsedLocation = JSON.parse(location);
     const parsedReactions = JSON.parse(reactions);
+    const parsedTags = JSON.parse(tags);
+    const parsedCreatedTags = JSON.parse(createdTags);
+
     const files = request.files;
     const createdAt = new Date();
     const contentIds = [];
     const contents = [];
+    // 1 contentsを作る。
     for (let file of files) {
       const content = await Content.create({
         data: `https://mekka-${process.env.NODE_ENV}.s3.us-east-2.amazonaws.com/${
@@ -26,17 +32,17 @@ export const createPost = async (request, response) => {
       contentIds.push(content._id);
       uploadPhoto(file.filename, content.type);
     }
-    // 2, 作ったcontentsを、今度はpostに入れる。
+    // 2,postを作る
     const post = await Post.create({
       contents: contentIds,
       caption,
       space: spaceId,
-      location,
+      location: parsedLocation,
       createdBy,
       createdAt,
     });
 
-    // objectを作って、insertManyをする感じか。
+    // 3 reactionのstatusを作る。
     const reacionStatusObjects = parsedReactions.map((reactionId) => {
       return {
         post: post,
@@ -45,6 +51,42 @@ export const createPost = async (request, response) => {
       };
     });
     const reactionAndStatuses = await ReactionStatus.insertMany(reacionStatusObjects);
+
+    const tagIds = [];
+
+    // 4 新しいtagを作る、もし、createdTagsがあったら。
+    if (parsedCreatedTags.length) {
+      const tagObjects = parsedCreatedTags.map((tagName) => {
+        return {
+          name: tagName,
+          count: 1,
+          space: spaceId,
+        };
+      });
+      const tagDocuments = await Tag.insertMany(tagObjects);
+      tagDocuments.forEach((tagDocument) => {
+        tagIds.push(tagDocument._id);
+      });
+    }
+
+    // だから、client側ではtagのidだけを入れておく感じな。
+    if (parsedTags.length) {
+      parsedTags.forEach((tagId) => {
+        tagIds.push(tagId);
+      });
+    }
+
+    // tagIdsをもとにpostAndTagのrelationshipを作る、もちろん最終的にtagIdsのlengthがあったらね。
+    if (tagIds.length) {
+      const postAndTagRelationshipObjects = tagDocuments.map((tagObject) => {
+        return {
+          post: post._id,
+          tag: tagObject._id,
+        };
+      });
+
+      const postAndTagRelationshipDocuments = await PostAndTagRelationship.insertMany(postAndTagRelationshipObjects);
+    }
 
     response.status(201).json({
       post: {

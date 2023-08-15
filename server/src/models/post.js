@@ -12,7 +12,7 @@ const postSchema = mongoose.Schema({
     coordinates: [Number],
   },
   space: { type: mongoose.Schema.ObjectId, ref: 'Space' },
-  tags: [{ type: mongoose.Schema.ObjectId, ref: 'Tag' }],
+  // tags: [{ type: mongoose.Schema.ObjectId, ref: 'Tag' }],
   createdBy: { type: mongoose.Schema.ObjectId, ref: 'User' },
   createdAt: Date,
 });

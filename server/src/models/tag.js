@@ -4,6 +4,7 @@ const tagSchema = mongoose.Schema({
   icon: String,
   name: String,
   color: String,
+  count: Number,
   space: {
     type: mongoose.Schema.ObjectId,
     ref: 'Space',
