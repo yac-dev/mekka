@@ -111,6 +111,7 @@ export const getPosts = async (request, response) => {
   try {
     const documents = await Post.find({ space: request.params.spaceId })
       .select({ _id: true, contents: true, caption: true, spaceId: true, createdBy: true, createdAt: true })
+      .sort({ createdAt: -1 })
       .populate([
         {
           path: 'contents',

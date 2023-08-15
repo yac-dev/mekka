@@ -9,7 +9,7 @@ import { iconColorTable, iconParameterBackgroundColorTable } from '../../../../t
 import { Ionicons } from '@expo/vector-icons';
 
 const Description: React.FC = (props) => {
-  const { formData, setFormData, validation, setValidation } = useContext(CreateNewSpaceContext);
+  const { formData, setFormData, validation, setValidation, navigation, route } = useContext(CreateNewSpaceContext);
   const [accordion, setAccordion] = useState<boolean>(false);
   // でも、これtopで持ってないとダメだな。
 
@@ -30,6 +30,17 @@ const Description: React.FC = (props) => {
       });
     }
   }, [formData.description]);
+
+  useEffect(() => {
+    if (route?.params?.writtenDescription) {
+      setFormData((previous) => {
+        return {
+          ...previous,
+          description: route?.params?.writtenDescription,
+        };
+      });
+    }
+  }, [route?.params?.writtenDescription]);
 
   return (
     <TouchableOpacity
@@ -69,7 +80,7 @@ const Description: React.FC = (props) => {
       {accordion ? (
         <View style={{ marginTop: 10 }}>
           <Text style={{ marginBottom: 10, color: 'white' }}>Please write the detail about this space.</Text>
-          <TextInput
+          {/* <TextInput
             placeholder='In 40 characters long'
             placeholderTextColor={'rgb(180, 180, 180)'}
             value={formData.description}
@@ -83,7 +94,14 @@ const Description: React.FC = (props) => {
             }
             autoCapitalize='none'
             style={{ backgroundColor: inputBackgroundColor, padding: 10, borderRadius: 5, color: 'white' }}
-          />
+          /> */}
+          <TouchableOpacity
+            style={{ backgroundColor: 'rgb(88,88,88)', padding: 10, borderRadius: 5, marginBottom: 15 }}
+            onPress={() => navigation?.navigate('WriteDescription', { description: formData.description })}
+          >
+            <Text style={{ color: 'white', textAlign: 'center' }}>Write from here</Text>
+          </TouchableOpacity>
+          <Text style={{ color: 'white' }}>{formData.description}</Text>
         </View>
       ) : null}
     </TouchableOpacity>
