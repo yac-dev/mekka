@@ -7,6 +7,7 @@ import ContentTypeForm from './CreateNewSpace/ContentTypeForm';
 import CommentForm from './CreateNewSpace/CommentForm';
 import ReactionForm from './CreateNewSpace/ReactionForm';
 import Description from './CreateNewSpace/DescriptionForm';
+import AddTagForm from './CreateNewSpace/AddTagForm';
 
 const Form = () => {
   return (
@@ -18,6 +19,7 @@ const Form = () => {
       <CommentForm />
       <ReactionForm />
       <Description />
+      <AddTagForm />
     </ScrollView>
   );
 };

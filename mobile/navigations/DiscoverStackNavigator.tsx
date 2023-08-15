@@ -8,6 +8,7 @@ import CreateNewSpace from '../features/CreateNewSpace/pages/CreateNewSpace';
 import EmojiPicker from '../features/CreateNewSpace/components/CreateNewSpace/EmojiPicker';
 import CreateSticker from '../features/CreateNewSpace/pages/CreateSticker';
 import WriteDescription from '../features/CreateNewSpace/pages/WriteDescription';
+import AddTag from '../features/CreateNewSpace/pages/AddTag';
 import SpaceDetail from '../features/Discover/pages/SpaceDetail';
 import SpaceDetailStackNavigator from './SpaceDetailStackNavigator';
 import { primaryBackgroundColor, modalBackgroundColor } from '../themes/color';
@@ -82,6 +83,25 @@ const DiscoverStackNavigator: React.FC = () => {
         <Stack.Screen
           name='WriteDescription'
           component={WriteDescription}
+          options={({ navigation }) => ({
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <Text style={{ color: primaryTextColor, fontSize: 20 }}>Close</Text>
+              </TouchableOpacity>
+            ),
+            headerTitle: '',
+            headerStyle: {
+              backgroundColor: primaryBackgroundColor,
+            },
+            headerTitleStyle: {
+              fontWeight: 'bold',
+              color: primaryTextColor,
+            },
+          })}
+        />
+        <Stack.Screen
+          name='AddTag'
+          component={AddTag}
           options={({ navigation }) => ({
             headerLeft: () => (
               <TouchableOpacity onPress={() => navigation.goBack()}>

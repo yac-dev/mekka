@@ -51,7 +51,8 @@ const CreateNewSpace: React.FC<RouterProps> = (props) => {
     videoLength: 60,
     disappearAfter: 0,
     reactions: [],
-    description: 'default',
+    description: '',
+    tags: [],
   });
   const [validation, setValidation] = useState({
     name: false,
