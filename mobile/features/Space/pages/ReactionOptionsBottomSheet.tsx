@@ -1,34 +1,34 @@
 import React, { useMemo, useContext } from 'react';
 import { View, Text, TouchableOpacity, ActivityIndicator, Dimensions, ScrollView } from 'react-native';
-
 import GorhomBottomSheet, { BottomSheetView, BottomSheetBackdrop } from '@gorhom/bottom-sheet';
 import { GlobalContext } from '../../../contexts/GlobalContext';
 import { ViewPostContext } from '../contexts/ViewPostContext';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import backendAPI from '../../../apis/backend';
 import FastImage from 'react-native-fast-image';
 
 // rgb(35, 35, 35)
 const ReactionOptionsBottomSheet = () => {
   const snapPoints = useMemo(() => ['50%'], []);
-  const { isIpad } = useContext(GlobalContext);
+  const { isIpad, setLoading, authData } = useContext(GlobalContext);
   const { reactionOptionsBottomSheetRef, reactionStatuses, setReactionStatuses, areReactionStatusesFetched } =
     useContext(ViewPostContext);
   const oneGridWidth = isIpad ? Dimensions.get('window').width / 6 : Dimensions.get('window').width / 3;
   const iconContainerWidth = oneGridWidth * 0.9;
 
-  // const upvoteReaction = async (reactionStatus index) => {
-  //   setLoading(true);
-  //   const result = await backendAPI.post(
-  //     `/userandreactionrelationships/user/${authData._id}/post/${reactionStatus.post}`,
-  //     { reactionId: reactionStatus.reaction._id }
-  //   );
-  //   setLoading(false);
-  //   setReactionStatuses((previous) => {
-  //     const updating = [...previous];
-  //     updating[index].count++;
-  //     return updating;
-  //   });
-  // };
+  const upvoteReaction = async (reactionStatus, index) => {
+    setLoading(true);
+    const result = await backendAPI.post(
+      `/userandreactionrelationships/user/${authData._id}/post/${reactionStatus.post}`,
+      { reactionId: reactionStatus.reaction._id }
+    );
+    setLoading(false);
+    setReactionStatuses((previous) => {
+      const updating = [...previous];
+      updating[index].count++;
+      return updating;
+    });
+  };
 
   // とりあえず、1以上のものだけ、0のものをextractする感じでいいか。
   const renderReactionStatuses = () => {
@@ -49,17 +49,17 @@ const ReactionOptionsBottomSheet = () => {
               padding: 10,
               // marginBottom: 10,
             }}
-            // onPress={() => upvoteReaction(reactionStatus, index)}
           >
             <TouchableOpacity
               style={{
-                backgroundColor: 'rgb(70, 70, 70)',
+                // backgroundColor: 'rgb(70, 70, 70)',
                 width: iconContainerWidth,
                 aspectRatio: 1,
                 borderRadius: 15,
                 justifyContent: 'center',
                 alignItems: 'center',
               }}
+              onPress={() => upvoteReaction(reactionStatus, index)}
             >
               {reactionStatus.reaction.type === 'emoji' ? (
                 <View style={{ flexDirection: 'column', alignItems: 'center' }}>
@@ -73,7 +73,7 @@ const ReactionOptionsBottomSheet = () => {
                     {reactionStatus.reaction.emoji}
                   </Text>
                   {reactionStatus.count ? (
-                    <Text style={{ color: 'white' }}>{reactionStatus.count}</Text>
+                    <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 18 }}>{reactionStatus.count}</Text>
                   ) : (
                     <View
                       style={{
@@ -101,7 +101,7 @@ const ReactionOptionsBottomSheet = () => {
                     }}
                   />
                   {reactionStatus.count ? (
-                    <Text style={{ color: 'white' }}>{reactionStatus.count}</Text>
+                    <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 18 }}>{reactionStatus.count}</Text>
                   ) : (
                     <View
                       style={{
@@ -158,8 +158,16 @@ const ReactionOptionsBottomSheet = () => {
       // onClose={() => onSelectedItemBottomSheetClose()}
     >
       <BottomSheetView style={{ flex: 1, paddingTop: 10 }}>
-        <TouchableOpacity style={{ marginBottom: 10, alignSelf: 'flex-end', marginRight: 20 }}>
-          <Text style={{ color: 'white' }}>View all</Text>
+        <TouchableOpacity
+          style={{
+            marginBottom: 10,
+            alignSelf: 'flex-end',
+            marginRight: 20,
+            borderBottomWidth: 0.3,
+            borderBottomColor: 'white',
+          }}
+        >
+          <Text style={{ color: 'white' }}>View all reactions</Text>
         </TouchableOpacity>
         {renderReactionStatuses()}
       </BottomSheetView>

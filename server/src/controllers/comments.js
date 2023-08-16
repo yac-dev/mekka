@@ -4,8 +4,8 @@ export const createComment = async (request, response) => {
   try {
     const comment = await Comment.create({
       content: request.body.content,
-      user: request.body.userId,
       post: request.body.postId,
+      createdBy: request.body.userId,
       createdAt: new Date(),
     });
 

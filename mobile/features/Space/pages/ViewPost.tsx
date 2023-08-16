@@ -21,6 +21,7 @@ const ViewPost = (props) => {
   const [areCommentsFetched, setAreCommentsFetched] = useState(false);
   const reactionOptionsBottomSheetRef = useRef(null);
   const commentInputBottomSheetRef = useRef(null);
+  const textInputRef = useRef(null);
 
   const getPost = async () => {
     const result = await backendAPI.get(`/posts/${props.route.params.post._id}`);
@@ -67,6 +68,7 @@ const ViewPost = (props) => {
         navigation: props.navigation,
         reactionOptionsBottomSheetRef,
         commentInputBottomSheetRef,
+        textInputRef,
       }}
     >
       <GestureHandlerRootView style={{ flex: 1, backgroundColor: 'black' }}>

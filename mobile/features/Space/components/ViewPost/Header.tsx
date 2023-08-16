@@ -22,7 +22,6 @@ const Header = () => {
       </View>
     );
   };
-  console.log(post);
 
   return (
     <View style={{ padding: 5 }}>

@@ -8,13 +8,24 @@ import { Ionicons } from '@expo/vector-icons';
 
 const BottomMenu = () => {
   const { isIpad } = useContext(GlobalContext);
-  const { navigation, reactionOptionsBottomSheetRef, commentInputBottomSheetRef } = useContext(ViewPostContext);
+  const { navigation, reactionOptionsBottomSheetRef, commentInputBottomSheetRef, textInputRef, reactionStatuses } =
+    useContext(ViewPostContext);
 
   const oneGridWidth = isIpad ? Dimensions.get('window').width / 6 : Dimensions.get('window').width / 4;
+
+  // const renderFirstTwoReactions = () => {
+  //   const list = reactionStatuses.slice()
+  // };
+
   return (
     <ScrollView
       horizontal={true}
-      style={{ backgroundColor: 'rgb(88,88,88)', position: 'absolute', width: '100%', bottom: 0 }}
+      style={{
+        backgroundColor: 'rgb(40,40,40)',
+        position: 'absolute',
+        width: '100%',
+        bottom: 0,
+      }}
     >
       <View
         style={{
@@ -28,35 +39,61 @@ const BottomMenu = () => {
         <View
           style={{
             width: oneGridWidth,
-            height: 80,
+            height: 40,
+            justifyContent: 'center',
+            alignItems: 'center',
+            // backgroundColor: 'red',
+          }}
+        >
+          <TouchableOpacity onPress={() => reactionOptionsBottomSheetRef.current.snapToIndex(0)}>
+            <Entypo name='emoji-happy' size={30} color={'white'} />
+          </TouchableOpacity>
+        </View>
+        <View
+          style={{
+            width: oneGridWidth,
+            height: 40,
             justifyContent: 'center',
             alignItems: 'center',
             // backgroundColor: 'red',
           }}
         >
           <TouchableOpacity
-            style={{
-              backgroundColor: 'red',
-              padding: 10,
-              borderRadius: 10,
-              width: 50,
-              height: 50,
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginBottom: 5,
+            onPress={() => {
+              commentInputBottomSheetRef?.current.snapToIndex(0);
+              textInputRef.current.focus();
             }}
-            onPress={() =>
-              // props.navigation.navigate('Add badges', { fromComponent: 'ADD_USER_BADGES', myBadges: userBadges })
-              // badgeMenuBottomSheetRef.current.snapToIndex(0)
-              reactionOptionsBottomSheetRef.current.snapToIndex(0)
-            }
           >
-            <MaterialCommunityIcons name='plus' size={20} color={'yellow'} />
+            <Entypo name='feather' size={20} color={'white'} />
           </TouchableOpacity>
-
-          <Text style={{ color: 'white', textAlign: 'center' }}>React</Text>
         </View>
         <View
+          style={{
+            width: oneGridWidth,
+            height: 40,
+            justifyContent: 'center',
+            alignItems: 'center',
+            // backgroundColor: 'red',
+          }}
+        >
+          <TouchableOpacity>
+            <MaterialCommunityIcons name='plus' size={30} color={'white'} />
+          </TouchableOpacity>
+        </View>
+        <View
+          style={{
+            width: oneGridWidth,
+            height: 40,
+            justifyContent: 'center',
+            alignItems: 'center',
+            // backgroundColor: 'red',
+          }}
+        >
+          <TouchableOpacity>
+            <MaterialCommunityIcons name='plus' size={30} color={'white'} />
+          </TouchableOpacity>
+        </View>
+        {/* <View
           style={{
             width: oneGridWidth,
             height: 80,
@@ -76,7 +113,10 @@ const BottomMenu = () => {
               alignItems: 'center',
               marginBottom: 5,
             }}
-            onPress={() => commentInputBottomSheetRef?.current.snapToIndex(0)}
+            onPress={() => {
+              commentInputBottomSheetRef?.current.snapToIndex(0);
+              textInputRef.current.focus();
+            }}
           >
             <Entypo name='feather' size={20} color={'yellow'} />
           </TouchableOpacity>
@@ -160,10 +200,39 @@ const BottomMenu = () => {
             <Ionicons name='settings' size={20} color={'yellow'} />
           </TouchableOpacity>
           <Text style={{ color: 'white', textAlign: 'center' }}>Setting</Text>
-        </View>
+        </View> */}
       </View>
     </ScrollView>
   );
 };
 
 export default BottomMenu;
+
+{
+  /* <View
+          style={{
+            width: oneGridWidth,
+            height: 80,
+            justifyContent: 'center',
+            alignItems: 'center',
+            // backgroundColor: 'red',
+          }}
+        >
+          <TouchableOpacity
+            style={{
+              backgroundColor: 'red',
+              padding: 10,
+              borderRadius: 10,
+              width: 50,
+              height: 50,
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginBottom: 5,
+            }}
+            // onPress={() => props.navigation.navigate('My friends')}
+          >
+            <MaterialCommunityIcons name='human-greeting-variant' size={20} color={'yellow'} />
+          </TouchableOpacity>
+          <Text style={{ color: 'white', textAlign: 'center' }}>Share</Text>
+        </View> */
+}

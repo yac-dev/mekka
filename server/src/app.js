@@ -13,7 +13,7 @@ import spacesRouter from './routers/spaces';
 import postsRouter from './routers/posts';
 import reactionStatusesRouter from './routers/reactionStatuses';
 import stickersRouter from './routers/stickers';
-import commentsRouter from './routers/comment';
+import commentsRouter from './routers/comments';
 import tagsRouter from './routers/tags';
 import postAndTagRelationshipsRouter from './routers/postAndTagRelationship';
 import userAndReactionRelationshipsRouter from './routers/userAndReactionRelationships';

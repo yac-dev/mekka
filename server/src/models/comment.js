@@ -2,13 +2,17 @@ import mongoose from 'mongoose';
 
 const commentSchema = mongoose.Schema({
   content: String,
-  user: {
-    type: mongoose.Schema.ObjectId,
-    ref: 'User',
-  },
   post: {
     type: mongoose.Schema.ObjectId,
     ref: 'Post',
+  },
+  reply: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'Comment',
+  },
+  createdBy: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'User',
   },
   createdAt: Date,
 });
