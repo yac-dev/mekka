@@ -1,10 +1,13 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 
-const Comments = () => {
+const Comments = (props) => {
   return (
     <View>
       <Text>Comments</Text>
+      <TouchableOpacity onPress={() => props.navigation.navigate('Dummy')}>
+        <Text>Route</Text>
+      </TouchableOpacity>
     </View>
   );
 };

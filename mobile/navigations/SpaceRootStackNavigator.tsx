@@ -15,6 +15,7 @@ import AddLoaction from '../features/Space/pages/AddLocation';
 import CreateTag from '../features/Space/pages/CreateTag';
 import Reactions from '../features/Space/pages/Reactions';
 import { Ionicons } from '@expo/vector-icons';
+import Dummy from '../features/Space/pages/Dummy';
 
 const { MCI, II } = icons;
 
@@ -73,6 +74,46 @@ const SpaceRootStackNavigator = () => {
           },
         })}
       />
+      <Stack.Screen
+        name='Comments'
+        component={Comments}
+        options={({ navigation }) => ({
+          headerShown: true, // ここtrueにすると、,,,
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Ionicons name='close-circle-outline' size={27} color={'white'} />
+            </TouchableOpacity>
+          ),
+          headerTitle: 'Comments',
+          headerStyle: {
+            backgroundColor: 'black',
+          },
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            color: 'white',
+          },
+        })}
+      />
+      <Stack.Screen
+        name='Reactions'
+        component={Reactions}
+        options={({ navigation }) => ({
+          headerShown: true, // ここtrueにすると、,,,
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Text style={{ color: primaryTextColor, fontSize: 20 }}>Close</Text>
+            </TouchableOpacity>
+          ),
+          headerTitle: 'Reactions',
+          headerStyle: {
+            backgroundColor: 'rgb(40, 40, 40)',
+          },
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            color: 'white',
+          },
+        })}
+      />
       {/* Postに関するmodal */}
       <Stack.Group screenOptions={{ presentation: 'modal', gestureEnabled: false }}>
         <Stack.Screen
@@ -117,7 +158,7 @@ const SpaceRootStackNavigator = () => {
         />
       </Stack.Group>
       {/* viewpostにかんするmenu */}
-      <Stack.Group screenOptions={{ presentation: 'modal', gestureEnabled: false }}>
+      {/* <Stack.Group screenOptions={{ presentation: 'modal', gestureEnabled: false }}>
         <Stack.Screen
           name='Comments'
           component={Comments}
@@ -128,7 +169,7 @@ const SpaceRootStackNavigator = () => {
                 <Ionicons name='close-circle-outline' size={27} color={'white'} />
               </TouchableOpacity>
             ),
-            headerTitle: '',
+            headerTitle: 'Comments',
             headerStyle: {
               backgroundColor: 'black',
             },
@@ -138,6 +179,7 @@ const SpaceRootStackNavigator = () => {
             },
           })}
         />
+
         <Stack.Screen
           name='Reactions'
           component={Reactions}
@@ -158,7 +200,7 @@ const SpaceRootStackNavigator = () => {
             },
           })}
         />
-      </Stack.Group>
+      </Stack.Group> */}
       <Stack.Group screenOptions={{ presentation: 'fullScreenModal' }}>
         <Stack.Screen
           name='CreatePost'

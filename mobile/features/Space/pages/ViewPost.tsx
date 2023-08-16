@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, ScrollView } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import backendAPI from '../../../apis/backend';
 import { ViewPostContext } from '../contexts/ViewPostContext';
 import Header from '../components/ViewPost/Header';
 import Content from '../components/ViewPost/Content';
+import ReactionOptionsBottomSheet from './ReactionOptionsBottomSheet';
+import CommentInputBottomSheet from './CommentInputBottomSheet';
 import BottomMenu from '../components/ViewPost/BottomMenu';
 import ReactionOptions from '../components/ViewPost/ReactionOptions';
 import Comments from '../components/ViewPost/Comments';
@@ -16,6 +19,8 @@ const ViewPost = (props) => {
   const [areReactionStatusesFetched, setAreReactionStatusesFetched] = useState(false);
   const [comments, setComments] = useState([]);
   const [areCommentsFetched, setAreCommentsFetched] = useState(false);
+  const reactionOptionsBottomSheetRef = useRef(null);
+  const commentInputBottomSheetRef = useRef(null);
 
   const getPost = async () => {
     const result = await backendAPI.get(`/posts/${props.route.params.post._id}`);
@@ -60,16 +65,20 @@ const ViewPost = (props) => {
         setComments,
         areCommentsFetched,
         navigation: props.navigation,
+        reactionOptionsBottomSheetRef,
+        commentInputBottomSheetRef,
       }}
     >
-      <View style={{ flex: 1, backgroundColor: 'black' }}>
+      <GestureHandlerRootView style={{ flex: 1, backgroundColor: 'black' }}>
         <Content />
         <Header />
         <BottomMenu />
+        <ReactionOptionsBottomSheet />
+        <CommentInputBottomSheet />
         {/* <ReactionOptions /> */}
         {/* <Comments /> */}
         <LoadingSpinner />
-      </View>
+      </GestureHandlerRootView>
     </ViewPostContext.Provider>
   );
 };

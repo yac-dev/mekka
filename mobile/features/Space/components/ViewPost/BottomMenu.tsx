@@ -8,7 +8,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 const BottomMenu = () => {
   const { isIpad } = useContext(GlobalContext);
-  const { navigation } = useContext(ViewPostContext);
+  const { navigation, reactionOptionsBottomSheetRef, commentInputBottomSheetRef } = useContext(ViewPostContext);
 
   const oneGridWidth = isIpad ? Dimensions.get('window').width / 6 : Dimensions.get('window').width / 4;
   return (
@@ -45,14 +45,11 @@ const BottomMenu = () => {
               alignItems: 'center',
               marginBottom: 5,
             }}
-            // onPress={() =>
-            //   // props.navigation.navigate('Add badges', { fromComponent: 'ADD_USER_BADGES', myBadges: userBadges })
-            //   // badgeMenuBottomSheetRef.current.snapToIndex(0)
-            //   props.navigation.navigate('Add badges', {
-            //     fromComponent: 'ADD_USER_BADGES',
-            //     myBadges: userBadges, // ここに原因がある。badgeidでのhash tableが必要になる。今は、それがまだできていない。
-            //   })
-            // }
+            onPress={() =>
+              // props.navigation.navigate('Add badges', { fromComponent: 'ADD_USER_BADGES', myBadges: userBadges })
+              // badgeMenuBottomSheetRef.current.snapToIndex(0)
+              reactionOptionsBottomSheetRef.current.snapToIndex(0)
+            }
           >
             <MaterialCommunityIcons name='plus' size={20} color={'yellow'} />
           </TouchableOpacity>
@@ -79,7 +76,7 @@ const BottomMenu = () => {
               alignItems: 'center',
               marginBottom: 5,
             }}
-            onPress={() => navigation?.navigate('Comments')}
+            onPress={() => commentInputBottomSheetRef?.current.snapToIndex(0)}
           >
             <Entypo name='feather' size={20} color={'yellow'} />
           </TouchableOpacity>
