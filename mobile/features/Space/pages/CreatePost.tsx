@@ -41,11 +41,11 @@ const Post: React.FC<PostProps> = (props) => {
     contents: [],
     caption: '',
     location: { type: 'Point', coordinates: [] },
-    addedTags: [],
+    addedTags: {},
     createdTags: [],
   });
   // const [createdTags, setCreatedTags] = useState([]);
-  const [tagOptions, setTagOptions] = useState([]);
+  const [tagOptions, setTagOptions] = useState({});
 
   useEffect(() => {
     props.navigation.setOptions({
@@ -68,7 +68,13 @@ const Post: React.FC<PostProps> = (props) => {
   const getTags = async () => {
     const result = await backendAPI.get(`/tags/space/${props.route?.params?.space._id}`);
     const { tags } = result.data;
-    setTagOptions(tags);
+    setTagOptions(() => {
+      const table = {};
+      tags.forEach((tag) => {
+        table[tag._id] = tag;
+      });
+      return table;
+    });
   };
 
   useEffect(() => {
@@ -86,7 +92,7 @@ const Post: React.FC<PostProps> = (props) => {
       payload.append('caption', formData.caption);
       payload.append('location', JSON.stringify(formData.location));
       payload.append('createdTags', JSON.stringify(formData.createdTags));
-      payload.append('addedTags', JSON.stringify(formData.addedTags));
+      payload.append('addedTags', JSON.stringify(Object.keys(formData.addedTags)));
       payload.append('createdBy', authData._id);
       payload.append('spaceId', props.route?.params?.space._id);
       for (let content of formData.contents) {

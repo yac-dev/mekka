@@ -116,10 +116,6 @@ const AddPhoto = () => {
     }
   };
 
-  const renderDescription = () => {
-    return <Text style={{ color: 'white' }}>{formData.contents.length ? 'Add more' : 'Add image'}</Text>;
-  };
-
   return (
     <View>
       <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
@@ -137,7 +133,7 @@ const AddPhoto = () => {
           onPress={() => pickAndSendImage()}
         >
           <AntDesign name='plus' size={25} color='white' style={{ marginBottom: 10 }} />
-          {renderDescription()}
+          <Text style={{ color: 'white' }}>{formData.contents.length ? 'Add more' : 'Add image'}</Text>
         </TouchableOpacity>
         {renderPhoto()}
       </View>

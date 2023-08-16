@@ -7,7 +7,7 @@ const AddCaption = () => {
 
   return (
     <TextInput
-      style={{ backgroundColor: 'rgb(88, 88, 88)', padding: 10, borderRadius: 8, marginBottom: 20, color: 'white' }}
+      style={{ backgroundColor: 'rgb(88, 88, 88)', padding: 10, borderRadius: 5, marginBottom: 20, color: 'white' }}
       placeholder='Add caption...'
       placeholderTextColor={'rgb(170,170,170)'}
       autoCapitalize='none'

@@ -32,7 +32,7 @@ const AddLocation = () => {
       onPress={() => navigation?.navigate('AddLocation')}
     >
       <Entypo name='globe' size={20} color='white' style={{ marginRight: 10 }} />
-      <Text style={{ color: 'white' }}>Add location</Text>
+      <Text style={{ color: 'white' }}>Add location (optional)</Text>
     </TouchableOpacity>
   );
 };
