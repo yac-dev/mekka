@@ -18,7 +18,7 @@ import backendAPI from '../../../apis/backend';
 const CommentInputBottomSheet = () => {
   const snapPoints = useMemo(() => ['80%'], []);
   const { isIpad, setLoading, authData } = useContext(GlobalContext);
-  const { commentInputBottomSheetRef, textInputRef, post } = useContext(ViewPostContext);
+  const { commentInputBottomSheetRef, textInputRef, post, navigation } = useContext(ViewPostContext);
   const oneGridWidth = isIpad ? Dimensions.get('window').width / 6 : Dimensions.get('window').width / 3;
   const iconContainerWidth = oneGridWidth * 0.9;
   const [commentInput, setCommentInput] = useState('');
@@ -34,8 +34,8 @@ const CommentInputBottomSheet = () => {
     const result = await backendAPI.post(`/comments/`, payload);
     setLoading(false);
     Keyboard.dismiss();
-    commentInputBottomSheetRef.current.close();
     setCommentInput('');
+    commentInputBottomSheetRef.current.close();
   };
   // まあ、bottomsheetが閉じないが、まあいいか。
 
@@ -62,6 +62,13 @@ const CommentInputBottomSheet = () => {
             marginRight: 20,
             borderBottomWidth: 0.3,
             borderBottomColor: 'white',
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}
+          onPress={() => {
+            navigation?.navigate('Comments', { post });
+            Keyboard.dismiss();
+            commentInputBottomSheetRef.current.close();
           }}
         >
           <Text style={{ color: 'white' }}>View all comments</Text>

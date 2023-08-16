@@ -40,7 +40,7 @@ const SpaceRootStackNavigator = () => {
         options={({ navigation }) => ({
           headerLeft: () => (
             <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Ionicons name='close-circle-outline' size={27} color={'white'} />
+              <Ionicons name='close-circle-sharp' size={30} color={'white'} />
             </TouchableOpacity>
           ),
           headerShown: true,
@@ -61,7 +61,7 @@ const SpaceRootStackNavigator = () => {
           // headerShown: false, // ここtrueにすると、,,,
           headerLeft: () => (
             <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Ionicons name='chevron-back' size={30} color={'white'} />
+              <Ionicons name='arrow-back-circle-sharp' size={30} color={'white'} />
             </TouchableOpacity>
           ),
           headerTitle: '',
@@ -81,7 +81,7 @@ const SpaceRootStackNavigator = () => {
           headerShown: true, // ここtrueにすると、,,,
           headerLeft: () => (
             <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Ionicons name='close-circle-outline' size={27} color={'white'} />
+              <Ionicons name='arrow-back-circle-sharp' size={30} color={'white'} />
             </TouchableOpacity>
           ),
           headerTitle: 'Comments',

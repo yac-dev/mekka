@@ -20,7 +20,10 @@ export const createComment = async (request, response) => {
 export const getComments = async (request, response) => {
   try {
     const { postId } = request.params;
-    const comments = await Comment.find({ post: postId });
+    const comments = await Comment.find({ post: postId }).populate([
+      { path: 'createdBy', model: 'User' },
+      { path: 'reply', model: 'Comment' },
+    ]);
     response.status(200).json({
       comments,
     });
