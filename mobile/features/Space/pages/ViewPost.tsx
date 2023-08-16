@@ -4,6 +4,7 @@ import backendAPI from '../../../apis/backend';
 import { ViewPostContext } from '../contexts/ViewPostContext';
 import Header from '../components/ViewPost/Header';
 import Content from '../components/ViewPost/Content';
+import BottomMenu from '../components/ViewPost/BottomMenu';
 import ReactionOptions from '../components/ViewPost/ReactionOptions';
 import Comments from '../components/ViewPost/Comments';
 import LoadingSpinner from '../../../components/LoadingSpinner';
@@ -58,15 +59,17 @@ const ViewPost = (props) => {
         comments,
         setComments,
         areCommentsFetched,
+        navigation: props.navigation,
       }}
     >
-      <ScrollView style={{ flex: 1, backgroundColor: 'black' }}>
-        <Header />
+      <View style={{ flex: 1, backgroundColor: 'black' }}>
         <Content />
-        <ReactionOptions />
-        <Comments />
+        <Header />
+        <BottomMenu />
+        {/* <ReactionOptions /> */}
+        {/* <Comments /> */}
         <LoadingSpinner />
-      </ScrollView>
+      </View>
     </ViewPostContext.Provider>
   );
 };

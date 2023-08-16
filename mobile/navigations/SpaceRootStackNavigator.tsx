@@ -8,12 +8,12 @@ import { primaryBackgroundColor } from '../themes/color';
 import { primaryTextColor } from '../themes/text';
 import Space from '../features/Space/pages/Space';
 import ViewPost from '../features/Space/pages/ViewPost';
+import Comments from '../features/Space/pages/Comments';
 import Photos from '../features/Space/pages/Photos';
+import CrearePost from '../features/Space/pages/CreatePost';
 import AddLoaction from '../features/Space/pages/AddLocation';
 import CreateTag from '../features/Space/pages/CreateTag';
 import Reactions from '../features/Space/pages/Reactions';
-import Albums from '../features/Space/pages/Albums';
-import CrearePost from '../features/Space/pages/CreatePost';
 import { Ionicons } from '@expo/vector-icons';
 
 const { MCI, II } = icons;
@@ -73,21 +73,7 @@ const SpaceRootStackNavigator = () => {
           },
         })}
       />
-      {/* <Stack.Screen
-        name='Photos'
-        component={Photos}
-        options={({ navigation }) => ({
-          headerShown: false, // ここtrueにすると、,,,
-        })}
-      /> */}
-      <Stack.Screen
-        name='Albums'
-        component={Albums}
-        options={({ navigation }) => ({
-          headerShown: false, // ここtrueにすると、,,,
-        })}
-      />
-      {/* Reactions */}
+      {/* Postに関するmodal */}
       <Stack.Group screenOptions={{ presentation: 'modal', gestureEnabled: false }}>
         <Stack.Screen
           name='AddLocation'
@@ -112,6 +98,29 @@ const SpaceRootStackNavigator = () => {
         <Stack.Screen
           name='CreateTag'
           component={CreateTag}
+          options={({ navigation }) => ({
+            headerShown: true, // ここtrueにすると、,,,
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <Ionicons name='close-circle-outline' size={27} color={'white'} />
+              </TouchableOpacity>
+            ),
+            headerTitle: '',
+            headerStyle: {
+              backgroundColor: 'black',
+            },
+            headerTitleStyle: {
+              fontWeight: 'bold',
+              color: 'white',
+            },
+          })}
+        />
+      </Stack.Group>
+      {/* viewpostにかんするmenu */}
+      <Stack.Group screenOptions={{ presentation: 'modal', gestureEnabled: false }}>
+        <Stack.Screen
+          name='Comments'
+          component={Comments}
           options={({ navigation }) => ({
             headerShown: true, // ここtrueにすると、,,,
             headerLeft: () => (
