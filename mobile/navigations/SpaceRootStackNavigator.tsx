@@ -123,7 +123,7 @@ const SpaceRootStackNavigator = () => {
             headerShown: true, // ここtrueにすると、,,,
             headerLeft: () => (
               <TouchableOpacity onPress={() => navigation.goBack()}>
-                <Ionicons name='close-circle-outline' size={27} color={'white'} />
+                <Ionicons name='close-circle-sharp' size={30} color={'white'} />
               </TouchableOpacity>
             ),
             headerTitle: 'Add location',
@@ -143,7 +143,7 @@ const SpaceRootStackNavigator = () => {
             headerShown: true, // ここtrueにすると、,,,
             headerLeft: () => (
               <TouchableOpacity onPress={() => navigation.goBack()}>
-                <Ionicons name='close-circle-outline' size={27} color={'white'} />
+                <Ionicons name='close-circle-sharp' size={30} color={'white'} />
               </TouchableOpacity>
             ),
             headerTitle: '',
@@ -209,7 +209,7 @@ const SpaceRootStackNavigator = () => {
             headerShown: true, // ここtrueにすると、,,,
             headerLeft: () => (
               <TouchableOpacity onPress={() => navigation.goBack()}>
-                <Ionicons name='close-circle-outline' size={27} color={'white'} />
+                <Ionicons name='close-circle-sharp' size={30} color={'white'} />
               </TouchableOpacity>
             ),
             headerTitle: 'Create post',

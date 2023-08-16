@@ -27,7 +27,7 @@ const SpaceMenu = () => {
     >
       <BottomSheetView style={{ paddingLeft: 10, paddingRight: 10, flex: 1 }}>
         <Header />
-        <Menus />
+        {/* <Menus /> */}
         <About />
       </BottomSheetView>
     </GorhomBottomSheet>

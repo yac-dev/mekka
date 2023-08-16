@@ -7,6 +7,7 @@ import PostThumbnail from '../components/PostThumbnail';
 import Gallery from '../components/Gallery';
 import SpaceIconMenuButton from '../components/SpaceIconMenuButton';
 import SpaceMenu from './SpaceMenu';
+import BottomMenu from '../components/BottomMenu';
 import TagMenus from '../components/TagMenus';
 import { SpaceContext } from '../contexts/SpaceContext';
 
@@ -57,14 +58,6 @@ const Space = (props) => {
     getTags();
   }, []);
 
-  // const renderItem = useCallback((post) => {
-  //   return (
-  //     <View>
-  //       <PostThumbnail post={post} />
-  //     </View>
-  //   );
-  // }, []);
-
   return (
     <SpaceContext.Provider
       value={{
@@ -84,7 +77,8 @@ const Space = (props) => {
       <GestureHandlerRootView style={{ flex: 1, backgroundColor: 'black' }}>
         <TagMenus />
         <Gallery />
-        <SpaceIconMenuButton />
+        {/* <SpaceIconMenuButton /> */}
+        <BottomMenu />
         <SpaceMenu />
       </GestureHandlerRootView>
     </SpaceContext.Provider>

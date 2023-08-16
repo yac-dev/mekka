@@ -7,7 +7,7 @@ const SpaceIconButton = () => {
   const { space, menuBottomSheetRef } = useContext(SpaceContext);
   return (
     <TouchableOpacity
-      style={{ position: 'absolute', bottom: 20, right: 20 }}
+      style={{ position: 'absolute', bottom: 60, right: 20 }}
       onPress={() => menuBottomSheetRef.current.snapToIndex(0)}
     >
       <FastImage source={{ uri: space.icon }} style={{ width: 60, height: 60, borderRadius: 15 }} />
