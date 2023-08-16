@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import backendAPI from '../../../apis/backend';
 import { ViewPostContext } from '../contexts/ViewPostContext';
+import Header from '../components/ViewPost/Header';
 import Content from '../components/ViewPost/Content';
 import ReactionOptions from '../components/ViewPost/ReactionOptions';
 import Comments from '../components/ViewPost/Comments';
 import LoadingSpinner from '../../../components/LoadingSpinner';
 
 const ViewPost = (props) => {
-  const [post, setPost] = useState({});
+  const [post, setPost] = useState(null);
   const [isPostFetched, setIsPostFetched] = useState(false);
   const [reactionStatuses, setReactionStatuses] = useState([]);
   const [areReactionStatusesFetched, setAreReactionStatusesFetched] = useState(false);
@@ -60,6 +61,7 @@ const ViewPost = (props) => {
       }}
     >
       <ScrollView style={{ flex: 1, backgroundColor: 'black' }}>
+        <Header />
         <Content />
         <ReactionOptions />
         <Comments />

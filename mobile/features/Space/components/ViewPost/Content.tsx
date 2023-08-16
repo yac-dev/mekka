@@ -47,7 +47,7 @@ const Content = (props) => {
   if (isPostFetched) {
     if (viewingContent.type === 'video') {
       return (
-        <View style={{ marginBottom: 20 }}>
+        <View style={{ marginBottom: 10 }}>
           <Video source={{ uri: viewingContent.data }} style={{ width: '100%' }} />
           <View style={{ position: 'absolute', bottom: 10, left: 10 }}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -61,13 +61,14 @@ const Content = (props) => {
       );
     } else if (viewingContent.type === 'photo') {
       return (
-        <View style={{ marginBottom: 20 }}>
+        <View style={{ marginBottom: 10 }}>
           <FastImage
             source={{ uri: viewingContent.data }}
-            style={{ width: '100%', aspectRatio: 1, marginBottom: 20 }}
+            style={{ width: '100%', aspectRatio: 1, marginBottom: 10 }}
             resizeMode='cover'
           />
-          {renderContentOptions()}
+          <View style={{ position: 'absolute', bottom: 20, alignSelf: 'center' }}>{renderContentOptions()}</View>
+          <Text style={{ color: 'white', marginLeft: 10, fontSize: 17 }}>{post.caption}</Text>
         </View>
       );
     }

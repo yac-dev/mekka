@@ -19,7 +19,7 @@ const Form = () => {
       <CommentForm />
       <ReactionForm />
       <Description />
-      <AddTagForm />
+      {/* <AddTagForm /> */}
     </ScrollView>
   );
 };

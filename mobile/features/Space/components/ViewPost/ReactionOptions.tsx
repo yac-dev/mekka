@@ -112,6 +112,7 @@ const ReactionOptions = () => {
             alignItems: 'center',
             borderBottomColor: 'white',
             marginBottom: 10,
+            alignSelf: 'center',
           }}
         >
           {list}

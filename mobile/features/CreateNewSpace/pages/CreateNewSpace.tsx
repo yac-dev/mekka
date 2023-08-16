@@ -52,7 +52,7 @@ const CreateNewSpace: React.FC<RouterProps> = (props) => {
     disappearAfter: 0,
     reactions: [],
     description: '',
-    tags: [],
+    // tags: [],
   });
   const [validation, setValidation] = useState({
     name: false,
