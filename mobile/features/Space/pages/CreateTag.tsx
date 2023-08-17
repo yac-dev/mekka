@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { removeEmojis } from '../utils/removeEmoji';
 
 const CreateTag = (props) => {
   const [tagName, setTagName] = useState('');
@@ -10,7 +11,7 @@ const CreateTag = (props) => {
         <TouchableOpacity onPress={() => onDonePress()} disabled={tagName.length ? false : true}>
           <Text
             style={{
-              color: tagName.length ? 'white' : 'rgb(117,117, 117)',
+              color: tagName.length && tagName.length <= 40 ? 'white' : 'rgb(117,117, 117)',
               fontSize: 20,
               fontWeight: 'bold',
             }}
@@ -23,7 +24,7 @@ const CreateTag = (props) => {
   }, [tagName]);
 
   const onDonePress = () => {
-    props.navigation.navigate({ name: 'CreatePost', params: { createdTag: tagName }, merge: true });
+    props.navigation.navigate({ name: 'CreatePost', params: { createdTag: removeEmojis(tagName) }, merge: true });
   };
 
   return (
@@ -41,11 +42,21 @@ const CreateTag = (props) => {
           Create tag
         </Text>
         <Text style={{ textAlign: 'center', color: 'rgb(180, 180, 180)' }}>
-          Couldn't find a tag you wanna add?{'\n'}Create one and share with members.
+          Couldn't find a tag you want to add?{'\n'}Create one and share with members.
         </Text>
       </View>
+      <Text
+        style={{
+          color: tagName.length <= 40 ? 'rgb(170,170,170)' : 'red',
+          alignSelf: 'flex-end',
+          marginRight: 10,
+          marginBottom: 10,
+        }}
+      >
+        {tagName.length}/30
+      </Text>
       <TextInput
-        placeholder='Type tag name and press "Done".'
+        placeholder='Type tag name and press "Done"'
         placeholderTextColor={'rgb(170, 170, 170)'}
         value={tagName}
         onChangeText={(text) => setTagName(text)}

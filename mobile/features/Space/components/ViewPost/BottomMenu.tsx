@@ -4,6 +4,7 @@ import { GlobalContext } from '../../../../contexts/GlobalContext';
 import { ViewPostContext } from '../../contexts/ViewPostContext';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 
 const BottomMenu = () => {
@@ -46,7 +47,7 @@ const BottomMenu = () => {
           }}
         >
           <TouchableOpacity onPress={() => reactionOptionsBottomSheetRef.current.snapToIndex(0)}>
-            <Entypo name='emoji-happy' size={30} color={'white'} />
+            <Entypo name='emoji-happy' size={25} color={'white'} />
           </TouchableOpacity>
         </View>
         <View
@@ -77,7 +78,7 @@ const BottomMenu = () => {
           }}
         >
           <TouchableOpacity>
-            <MaterialCommunityIcons name='plus' size={30} color={'white'} />
+            <MaterialCommunityIcons name='share-variant' size={25} color={'white'} />
           </TouchableOpacity>
         </View>
         <View
@@ -90,7 +91,7 @@ const BottomMenu = () => {
           }}
         >
           <TouchableOpacity>
-            <MaterialCommunityIcons name='plus' size={30} color={'white'} />
+            <Feather name='more-horizontal' size={25} color={'white'} />
           </TouchableOpacity>
         </View>
         {/* <View

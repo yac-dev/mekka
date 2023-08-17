@@ -13,6 +13,7 @@ import GorhomBottomSheet, { BottomSheetView, BottomSheetBackdrop, BottomSheetTex
 import { GlobalContext } from '../../../contexts/GlobalContext';
 import { ViewPostContext } from '../contexts/ViewPostContext';
 import backendAPI from '../../../apis/backend';
+import { Ionicons } from '@expo/vector-icons';
 
 // rgb(35, 35, 35)
 const CommentInputBottomSheet = () => {
@@ -55,6 +56,21 @@ const CommentInputBottomSheet = () => {
       keyboardBehavior={'extend'}
     >
       <BottomSheetView style={{ flex: 1, paddingTop: 10 }}>
+        <View style={{ borderBottomWidth: 0.3, borderColor: 'white', marginBottom: 10 }}>
+          <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 20, textAlign: 'center', marginBottom: 10 }}>
+            Write comment
+          </Text>
+          <TouchableOpacity
+            style={{ position: 'absolute', left: 0, top: -5, marginLeft: 10 }}
+            onPress={() => {
+              Keyboard.dismiss();
+              setCommentInput('');
+              commentInputBottomSheetRef.current.close();
+            }}
+          >
+            <Ionicons name='close-circle-sharp' size={25} color='white' />
+          </TouchableOpacity>
+        </View>
         <TouchableOpacity
           style={{
             marginBottom: 10,

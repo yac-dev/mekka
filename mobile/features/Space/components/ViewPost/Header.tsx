@@ -4,6 +4,7 @@ import FastImage from 'react-native-fast-image';
 import { Video } from 'expo-av';
 import { ViewPostContext } from '../../contexts/ViewPostContext';
 import { FadingTransition } from 'react-native-reanimated';
+import { iconColorTable } from '../../../../themes/color';
 
 const Header = () => {
   const { post, setIsPostFetched, isPostFetched } = useContext(ViewPostContext);
@@ -23,19 +24,35 @@ const Header = () => {
     );
   };
 
+  const renderDate = (date) => {
+    const d = new Date(date).toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+    return <Text style={{ fontWeight: 'bold', fontSize: 12, color: 'rgb(170, 170, 170)' }}>{d}</Text>;
+  };
+
   return (
-    <View style={{ padding: 5 }}>
+    <View style={{ padding: 10 }}>
       {post ? (
         <View>
-          <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 5 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
             <FastImage
               source={{ uri: post.createdBy.avatar }}
-              style={{ width: 30, height: 30, marginRight: 20, backgroundColor: 'rgba()' }}
+              style={{
+                width: 30,
+                height: 30,
+                marginRight: 20,
+                backgroundColor: iconColorTable['blue1'],
+                borderRadius: 5,
+              }}
               tintColor={'white'}
             />
             <View style={{ flexDirection: 'column' }}>
-              <Text style={{ color: 'white', marginBottom: 7 }}>{post.createdBy.name}</Text>
-              <Text style={{ color: 'white' }}>{post.createdAt}</Text>
+              <Text style={{ color: 'white', marginBottom: 10 }}>{post.createdBy.name}</Text>
+              <Text style={{ color: 'white' }}>{renderDate(post.createdAt)}</Text>
             </View>
           </View>
           <Text style={{ color: 'white', fontSize: 17 }}>{post.caption}</Text>

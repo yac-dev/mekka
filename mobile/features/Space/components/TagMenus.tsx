@@ -16,7 +16,7 @@ const TagMenus = () => {
             key={index}
             style={{ padding: 10, flexDirection: 'row', alignItems: 'center', marginRight: 10 }}
           >
-            <Feather name='hash' size={20} style={{ marginRight: 7 }} color={'white'} />
+            <Feather name='hash' size={15} style={{}} color={'white'} />
             <Text style={{ color: 'white' }}>{tag.name}</Text>
           </TouchableOpacity>
         );
@@ -32,10 +32,6 @@ const TagMenus = () => {
     <View>
       <ScrollView horizontal={true}>
         <View style={{ flexDirection: 'row', alignItems: 'center', padding: 10 }}>
-          <TouchableOpacity style={{ padding: 10, flexDirection: 'row', alignItems: 'center', marginRight: 10 }}>
-            <MaterialCommunityIcons name='dots-grid' size={20} style={{ marginRight: 7 }} color={'white'} />
-            <Text style={{ color: 'white' }}>All</Text>
-          </TouchableOpacity>
           <TouchableOpacity style={{ padding: 10, flexDirection: 'row', alignItems: 'center', marginRight: 10 }}>
             <MaterialCommunityIcons name='map' size={20} style={{ marginRight: 7 }} color={'white'} />
             <Text style={{ color: 'white' }}>Map</Text>

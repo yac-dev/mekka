@@ -4,12 +4,13 @@ import GorhomBottomSheet, { BottomSheetView, BottomSheetBackdrop } from '@gorhom
 import { GlobalContext } from '../../../contexts/GlobalContext';
 import { ViewPostContext } from '../contexts/ViewPostContext';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import backendAPI from '../../../apis/backend';
 import FastImage from 'react-native-fast-image';
 
 // rgb(35, 35, 35)
 const ReactionOptionsBottomSheet = () => {
-  const snapPoints = useMemo(() => ['50%'], []);
+  const snapPoints = useMemo(() => ['60%'], []);
   const { isIpad, setLoading, authData } = useContext(GlobalContext);
   const { reactionOptionsBottomSheetRef, reactionStatuses, setReactionStatuses, areReactionStatusesFetched } =
     useContext(ViewPostContext);
@@ -158,9 +159,19 @@ const ReactionOptionsBottomSheet = () => {
       // onClose={() => onSelectedItemBottomSheetClose()}
     >
       <BottomSheetView style={{ flex: 1, paddingTop: 10 }}>
+        <View style={{ borderBottomWidth: 0.3, borderColor: 'white', marginBottom: 10 }}>
+          <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 20, textAlign: 'center', marginBottom: 10 }}>
+            React
+          </Text>
+          <TouchableOpacity
+            style={{ position: 'absolute', left: 0, top: -5, marginLeft: 10 }}
+            onPress={() => reactionOptionsBottomSheetRef.current.close()}
+          >
+            <Ionicons name='close-circle-sharp' size={25} color='white' />
+          </TouchableOpacity>
+        </View>
         <TouchableOpacity
           style={{
-            marginBottom: 10,
             alignSelf: 'flex-end',
             marginRight: 20,
             borderBottomWidth: 0.3,
@@ -169,6 +180,7 @@ const ReactionOptionsBottomSheet = () => {
         >
           <Text style={{ color: 'white' }}>View all reactions</Text>
         </TouchableOpacity>
+
         {renderReactionStatuses()}
       </BottomSheetView>
     </GorhomBottomSheet>

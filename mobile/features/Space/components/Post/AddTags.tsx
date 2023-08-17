@@ -60,7 +60,7 @@ const AddTags = () => {
       });
 
       return (
-        <View style={{ padding: 10, backgroundColor: 'rgb(40,40,40)', borderRadius: 5 }}>
+        <View style={{ padding: 10, backgroundColor: 'rgb(70,70,70)', borderRadius: 5, marginBottom: 10 }}>
           <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold', marginBottom: 10 }}>Options</Text>
           <ScrollView horizontal={true} style={{ marginBottom: 10 }}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>{list}</View>
@@ -75,8 +75,9 @@ const AddTags = () => {
             paddingRight: 10,
             paddingTop: 20,
             paddingBottom: 20,
-            backgroundColor: 'rgb(40,40,40)',
+            backgroundColor: 'rgb(70,70,70)',
             borderRadius: 5,
+            marginBottom: 10,
           }}
         >
           <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold', marginBottom: 10 }}>Options</Text>
@@ -95,7 +96,7 @@ const AddTags = () => {
             style={{
               flexDirection: 'row',
               alignItems: 'center',
-              backgroundColor: 'rgb(88,88,88)',
+              backgroundColor: 'rgb(90,90,90)',
               padding: 10,
               borderRadius: 5,
               marginRight: 10,
