@@ -1,11 +1,15 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { PostContext } from '../../contexts/PostContext';
 import { Entypo } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { iconColorTable, iconParameterBackgroundColorTable } from '../../../../themes/color';
 
 const AddTags = () => {
-  const { navigation, route, setFormData, formData, tagOptions } = useContext(PostContext);
+  const { navigation, route, setFormData, formData, tagOptions, setTagOptions } = useContext(PostContext);
+  const [accordion, setAccordion] = useState(false);
 
   useEffect(() => {
     if (route?.params?.createdTag) {
@@ -27,12 +31,80 @@ const AddTags = () => {
             style={{
               flexDirection: 'row',
               alignItems: 'center',
-              backgroundColor: formData.addedTags[tag._id] ? 'red' : 'rgb(88,88,88)',
+              backgroundColor: 'rgb(88,88,88)',
               padding: 10,
               borderRadius: 5,
+              marginRight: 10,
             }}
             onPress={() => {
-              if (formData.addedTags[tag._id]) {
+              setFormData((previous) => {
+                return {
+                  ...previous,
+                  addedTags: {
+                    ...previous.addedTags,
+                    [tag._id]: tag,
+                  },
+                };
+              });
+              setTagOptions((previous) => {
+                const updating = { ...previous };
+                delete updating[tag._id];
+                return updating;
+              });
+            }}
+          >
+            <Feather name='hash' size={15} style={{}} color={'white'} />
+            <Text style={{ color: 'white' }}>{tag.name}</Text>
+          </TouchableOpacity>
+        );
+      });
+
+      return (
+        <View style={{ padding: 10, backgroundColor: 'rgb(40,40,40)', borderRadius: 5 }}>
+          <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold', marginBottom: 10 }}>Options</Text>
+          <ScrollView horizontal={true} style={{ marginBottom: 10 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>{list}</View>
+          </ScrollView>
+        </View>
+      );
+    } else {
+      return (
+        <View
+          style={{
+            paddingLeft: 10,
+            paddingRight: 10,
+            paddingTop: 20,
+            paddingBottom: 20,
+            backgroundColor: 'rgb(40,40,40)',
+            borderRadius: 5,
+          }}
+        >
+          <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold', marginBottom: 10 }}>Options</Text>
+          <Text style={{ color: 'white', textAlign: 'center' }}>No more tag options left.</Text>
+        </View>
+      );
+    }
+  };
+
+  const renderAddedTags = () => {
+    if (Object.values(formData.addedTags).length) {
+      const list = Object.values(formData.addedTags).map((tag, index) => {
+        return (
+          <View
+            key={index}
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              backgroundColor: 'rgb(88,88,88)',
+              padding: 10,
+              borderRadius: 5,
+              marginRight: 10,
+            }}
+          >
+            <Feather name='hash' size={15} style={{}} color={'white'} />
+            <Text style={{ color: 'white', marginRight: 10 }}>{tag.name}</Text>
+            <TouchableOpacity
+              onPress={() => {
                 setFormData((previous) => {
                   const updating = { ...previous.addedTags };
                   delete updating[tag._id];
@@ -41,81 +113,25 @@ const AddTags = () => {
                     addedTags: updating,
                   };
                 });
-              } else {
-                setFormData((previous) => {
+                setTagOptions((previous) => {
                   return {
                     ...previous,
-                    addedTags: {
-                      ...previous.addedTags,
-                      [tag._id]: tag,
-                    },
+                    [tag._id]: tag,
                   };
                 });
-              }
-            }}
-          >
-            <Feather name='hash' size={20} style={{ marginRight: 7 }} color={'white'} />
-            <Text style={{ color: 'white' }}>{tag.name}</Text>
-          </TouchableOpacity>
+              }}
+            >
+              <Ionicons name='close-circle-sharp' color='white' size={20} />
+            </TouchableOpacity>
+          </View>
         );
       });
 
       return (
         <View>
-          <ScrollView horizontal={true} style={{ marginBottom: 20 }}>
+          <ScrollView horizontal={true} style={{ marginBottom: 10 }}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>{list}</View>
           </ScrollView>
-          <Text style={{ color: 'white', marginBottom: 20, textAlign: 'center' }}>Or</Text>
-          <TouchableOpacity
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              padding: 10,
-              backgroundColor: 'rgb(88,88,88)',
-              borderRadius: 8,
-            }}
-            onPress={() => navigation?.navigate('CreateTag')}
-          >
-            <Entypo name='globe' size={20} color='white' style={{ marginRight: 10 }} />
-            <Text style={{ color: 'white' }}>Add tags</Text>
-          </TouchableOpacity>
-        </View>
-      );
-    } else {
-      return <Text style={{ color: 'white' }}>There are no created tags in this space.</Text>;
-    }
-  };
-
-  const renderAddedTags = () => {
-    if (formData.addedTags.length) {
-      const list = formData.addedTags.map((tag, index) => {
-        return (
-          <TouchableOpacity key={index} style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Feather name='hash' size={20} style={{ marginRight: 7 }} color={'white'} />
-            <Text style={{ color: 'white' }}>{tag.name}</Text>
-          </TouchableOpacity>
-        );
-      });
-
-      return (
-        <View>
-          <ScrollView horizontal={true} style={{ marginBottom: 20 }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap' }}>{list}</View>
-          </ScrollView>
-          <Text style={{ color: 'white', marginBottom: 20, textAlign: 'center' }}>or</Text>
-          <TouchableOpacity
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              padding: 10,
-              backgroundColor: 'rgb(88,88,88)',
-              borderRadius: 8,
-            }}
-            onPress={() => navigation?.navigate('CreateTag')}
-          >
-            <Entypo name='globe' size={20} color='white' style={{ marginRight: 10 }} />
-            <Text style={{ color: 'white' }}>Add tags</Text>
-          </TouchableOpacity>
         </View>
       );
     } else {
@@ -127,15 +143,38 @@ const AddTags = () => {
     if (formData.createdTags.length) {
       const list = formData.createdTags.map((tagName, index) => {
         return (
-          <TouchableOpacity key={index} style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Feather name='hash' size={20} style={{ marginRight: 7 }} color={'white'} />
-            <Text style={{ color: 'white' }}>{tagName}</Text>
-          </TouchableOpacity>
+          <View
+            key={index}
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              backgroundColor: 'rgb(88,88,88)',
+              padding: 10,
+              borderRadius: 5,
+              marginRight: 10,
+            }}
+          >
+            <Feather name='hash' size={15} style={{}} color={'white'} />
+            <Text style={{ color: 'white', marginRight: 10 }}>{tagName}</Text>
+            <TouchableOpacity
+              onPress={() => {
+                setFormData((previous) => {
+                  const updating = [...previous.createdTags].filter((tag, idx) => index !== idx);
+                  return {
+                    ...previous,
+                    createdTags: updating,
+                  };
+                });
+              }}
+            >
+              <Ionicons name='close-circle-sharp' color='white' size={20} />
+            </TouchableOpacity>
+          </View>
         );
       });
 
       return (
-        <ScrollView>
+        <ScrollView horizontal={true} style={{ marginBottom: 10 }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap' }}>{list}</View>
         </ScrollView>
       );
@@ -145,11 +184,58 @@ const AddTags = () => {
   };
 
   return (
-    <View>
-      <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 20, marginBottom: 15 }}>Add tags?</Text>
-      {renderTagOptions()}
-      {renderAddedTags()}
-      {/* {renderCreatedTags()} */}
+    <View style={{ padding: 7, borderRadius: 5, marginBottom: 10, backgroundColor: 'rgb(50,50,50)' }}>
+      <TouchableOpacity
+        style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}
+        onPress={() => setAccordion((previous) => !previous)}
+      >
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <View
+            style={{
+              width: 40,
+              height: 40,
+              justifyContent: 'center',
+              alignItems: 'center',
+              backgroundColor: iconParameterBackgroundColorTable['gray1'],
+              marginRight: 15,
+              borderRadius: 11,
+            }}
+          >
+            <Feather name='hash' color={iconColorTable['gray1']} size={20} />
+          </View>
+          <Text style={{ color: 'white', fontSize: 18, fontWeight: 'bold' }}>Tags</Text>
+        </View>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Text style={{ color: 'white', marginRight: 10, color: 'rgb(170, 170,170)' }}>Optional</Text>
+          {accordion ? (
+            <MaterialCommunityIcons name='chevron-up' color='white' size={20} />
+          ) : (
+            <MaterialCommunityIcons name='chevron-down' color='white' size={20} />
+          )}
+        </View>
+      </TouchableOpacity>
+      {accordion ? (
+        <View style={{ marginTop: 20 }}>
+          <Text style={{ marginBottom: 20, color: 'white' }}>Please add tags as you need.</Text>
+          {renderAddedTags()}
+          {renderCreatedTags()}
+          {renderTagOptions()}
+          <Text style={{ color: 'white', marginBottom: 10, textAlign: 'center' }}>Or</Text>
+          <TouchableOpacity
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              padding: 10,
+              backgroundColor: 'rgb(88,88,88)',
+              borderRadius: 8,
+            }}
+            onPress={() => navigation?.navigate('CreateTag')}
+          >
+            <Entypo name='globe' size={20} color='white' style={{ marginRight: 10 }} />
+            <Text style={{ color: 'white' }}>Create new tag</Text>
+          </TouchableOpacity>
+        </View>
+      ) : null}
     </View>
   );
 };

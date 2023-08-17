@@ -49,7 +49,7 @@ const BottomMenu = () => {
           <TouchableOpacity
             onPress={() => navigation?.navigate({ name: 'CreatePost', params: { space: space }, merge: true })}
           >
-            <MaterialCommunityIcons name='plus-box-multiple' size={30} color={'white'} />
+            <MaterialCommunityIcons name='plus-box-multiple' size={25} color={'white'} />
           </TouchableOpacity>
         </View>
         <View
@@ -62,7 +62,7 @@ const BottomMenu = () => {
           }}
         >
           <TouchableOpacity onPress={() => {}}>
-            <MaterialCommunityIcons name='human-greeting-variant' size={30} color='white' />
+            <MaterialCommunityIcons name='human-greeting-variant' size={25} color='white' />
           </TouchableOpacity>
         </View>
         <View
@@ -74,14 +74,14 @@ const BottomMenu = () => {
           }}
         >
           <TouchableOpacity>
-            <Foundation name='comments' size={30} color='white' />
+            <Foundation name='comments' size={25} color='white' />
           </TouchableOpacity>
         </View>
         <TouchableOpacity
           style={{ width: oneGridWidth, height: 40, justifyContent: 'center', alignItems: 'center' }}
           onPress={() => menuBottomSheetRef.current.snapToIndex(0)}
         >
-          <FastImage source={{ uri: space.icon }} style={{ width: 40, height: 40, borderRadius: 10 }} />
+          <FastImage source={{ uri: space.icon }} style={{ width: 35, height: 35, borderRadius: 10 }} />
         </TouchableOpacity>
       </View>
     </ScrollView>

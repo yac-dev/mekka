@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { GlobalContext } from '../../../contexts/GlobalContext';
 import { PostContext } from '../contexts/PostContext';
 import AddPhoto from '../components/Post/AddPhoto';
@@ -129,10 +129,28 @@ const Post: React.FC<PostProps> = (props) => {
       }}
     >
       <View style={{ flex: 1, padding: 10, backgroundColor: 'black' }}>
-        <AddPhoto />
-        <AddCaption />
-        <AddLocation />
-        <AddTags />
+        <View style={{ paddingLeft: 30, paddingRight: 30, paddingTop: 20, paddingBottom: 20 }}>
+          <Text
+            style={{
+              color: 'white',
+              textAlign: 'center',
+              fontWeight: 'bold',
+              fontSize: 20,
+              marginBottom: 10,
+            }}
+          >
+            Create new Post
+          </Text>
+          <Text style={{ textAlign: 'center', color: 'rgb(180, 180, 180)' }}>
+            Post your photo/video and enjoy sharing your moments with your peers.
+          </Text>
+        </View>
+        <ScrollView>
+          <AddPhoto />
+          <AddCaption />
+          <AddLocation />
+          <AddTags />
+        </ScrollView>
         <LoadingSpinner />
       </View>
     </PostContext.Provider>

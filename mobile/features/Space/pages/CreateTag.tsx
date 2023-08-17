@@ -49,7 +49,7 @@ const CreateTag = (props) => {
         placeholderTextColor={'rgb(170, 170, 170)'}
         value={tagName}
         onChangeText={(text) => setTagName(text)}
-        style={{ padding: 10, backgroundColor: 'rgb(88,88,88)', borderRadius: 8, color: 'white' }}
+        style={{ padding: 10, backgroundColor: 'rgb(88,88,88)', borderRadius: 5, color: 'white' }}
       />
     </View>
   );

@@ -212,7 +212,7 @@ const SpaceRootStackNavigator = () => {
                 <Ionicons name='close-circle-sharp' size={30} color={'white'} />
               </TouchableOpacity>
             ),
-            headerTitle: 'Create post',
+            headerTitle: '',
             headerStyle: {
               backgroundColor: 'black',
             },

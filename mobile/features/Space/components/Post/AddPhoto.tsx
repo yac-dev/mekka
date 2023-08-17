@@ -3,10 +3,15 @@ import { View, Text, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { PostContext } from '../../contexts/PostContext';
 import * as ImagePicker from 'expo-image-picker';
 import { AntDesign } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
+import { iconColorTable } from '../../../../themes/color';
+import { iconParameterBackgroundColorTable } from '../../../../themes/color';
 
 const AddPhoto = () => {
   const { formData, setFormData, route } = useContext(PostContext);
+  const [accordion, setAccordion] = useState<boolean>(true);
 
   // useEffect(() => {
   //   setAllowedMedia(() => {
@@ -117,26 +122,59 @@ const AddPhoto = () => {
   };
 
   return (
-    <View>
-      <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
-        <TouchableOpacity
-          style={{
-            width: 90,
-            height: 90,
-            backgroundColor: 'rgb(88,88,88)',
-            justifyContent: 'center',
-            alignItems: 'center',
-            borderRadius: 12,
-            alignSelf: 'center',
-            marginRight: 10,
-          }}
-          onPress={() => pickAndSendImage()}
-        >
-          <AntDesign name='plus' size={25} color='white' style={{ marginBottom: 10 }} />
-          <Text style={{ color: 'white' }}>{formData.contents.length ? 'Add more' : 'Add image'}</Text>
-        </TouchableOpacity>
-        {renderPhoto()}
-      </View>
+    <View style={{ padding: 7, borderRadius: 5, marginBottom: 10, backgroundColor: 'rgb(50,50,50)' }}>
+      <TouchableOpacity
+        style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}
+        onPress={() => setAccordion((previous) => !previous)}
+      >
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <View
+            style={{
+              width: 40,
+              height: 40,
+              justifyContent: 'center',
+              alignItems: 'center',
+              backgroundColor: iconParameterBackgroundColorTable['red1'],
+              marginRight: 15,
+              borderRadius: 11,
+            }}
+          >
+            <MaterialIcons name='add-to-photos' color={iconColorTable['red1']} size={20} />
+          </View>
+          <Text style={{ color: 'white', fontSize: 18, fontWeight: 'bold' }}>Photo / Video</Text>
+        </View>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          {accordion ? (
+            <MaterialCommunityIcons name='chevron-up' color='white' size={20} />
+          ) : (
+            <MaterialCommunityIcons name='chevron-down' color='white' size={20} />
+          )}
+        </View>
+      </TouchableOpacity>
+      {accordion ? (
+        <View style={{ marginTop: 20 }}>
+          <Text style={{ color: 'white', marginBottom: 20 }}>Please add photos or videos you wanna post.</Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
+            <TouchableOpacity
+              style={{
+                width: 90,
+                height: 90,
+                backgroundColor: 'rgb(88,88,88)',
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderRadius: 12,
+                alignSelf: 'center',
+                marginRight: 10,
+              }}
+              onPress={() => pickAndSendImage()}
+            >
+              <AntDesign name='plus' size={25} color='white' style={{ marginBottom: 10 }} />
+              <Text style={{ color: 'white' }}>{formData.contents.length ? 'Add more' : 'Add image'}</Text>
+            </TouchableOpacity>
+            {renderPhoto()}
+          </View>
+        </View>
+      ) : null}
     </View>
   );
 };
