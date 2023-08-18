@@ -123,6 +123,7 @@ export const getPosts = async (request, response) => {
         { disappearAt: { $gt: new Date() } }, // disapperAt greater than current time
         { disappearAt: null }, // disapperAt is null
       ],
+      createdBy: { $ne: null }, // 存在しないuserによるpostはfetchしない。
     })
       .select({ _id: true, contents: true, caption: true, spaceId: true, createdBy: true, createdAt: true })
       .sort({ createdAt: -1 })

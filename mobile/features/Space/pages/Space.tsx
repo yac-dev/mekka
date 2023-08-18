@@ -63,7 +63,7 @@ const Space = (props) => {
     // unmountはまた後でいいや。
   }, []);
 
-  // spaceが消されたらここは動かさん。
+  // spaceが消されたていたらここは動かさん。
   useEffect(() => {
     if (space) {
       getPosts();

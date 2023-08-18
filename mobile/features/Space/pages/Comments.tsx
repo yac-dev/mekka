@@ -7,7 +7,7 @@ import { Feather } from '@expo/vector-icons';
 
 const Comments = (props) => {
   const [comments, setComments] = useState([]);
-  const [areCommentsFetched, setAreCommentsFetched] = useState(false);
+  const [haveCommentsBeenFetched, setHaveCommentsBeenFetched] = useState(false);
 
   const renderDate = (date) => {
     const d = new Date(date).toLocaleDateString('en-US', {
@@ -23,7 +23,7 @@ const Comments = (props) => {
     const result = await backendAPI.get(`/comments/post/${props.route.params.post._id}`);
     const { comments } = result.data;
     setComments(comments);
-    setAreCommentsFetched(true);
+    setHaveCommentsBeenFetched(true);
   };
 
   useEffect(() => {
@@ -64,17 +64,23 @@ const Comments = (props) => {
     }
   };
 
-  return (
-    <View style={{ flex: 1, backgroundColor: 'black', padding: 10 }}>
-      {areCommentsFetched ? (
+  const renderComments = () => {
+    if (comments.length) {
+      return (
         <FlatList
           data={comments}
           renderItem={({ item }) => renderComment(item)}
           keyExtractor={(item, index) => `${item._id}-${index}`}
         />
-      ) : (
-        <ActivityIndicator />
-      )}
+      );
+    } else {
+      return <Text style={{ marginTop: 50, textAlign: 'center', color: 'white' }}>There are no comments yet.</Text>;
+    }
+  };
+
+  return (
+    <View style={{ flex: 1, backgroundColor: 'black', padding: 10 }}>
+      {haveCommentsBeenFetched ? renderComments() : <ActivityIndicator />}
     </View>
   );
 };

@@ -10,6 +10,10 @@ const reactionSchema = mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: 'Sticker',
   },
+  space: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'Reaction',
+  },
 });
 
 const Reaction = mongoose.model('Reaction', reactionSchema);
