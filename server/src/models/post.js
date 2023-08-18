@@ -14,6 +14,7 @@ const postSchema = mongoose.Schema({
   space: { type: mongoose.Schema.ObjectId, ref: 'Space' },
   // tags: [{ type: mongoose.Schema.ObjectId, ref: 'Tag' }],
   createdBy: { type: mongoose.Schema.ObjectId, ref: 'User' },
+  disappearAt: Date, // もしくはnull
   createdAt: Date,
 });
 

@@ -93,6 +93,7 @@ const Post: React.FC<PostProps> = (props) => {
       payload.append('location', JSON.stringify(formData.location));
       payload.append('createdTags', JSON.stringify(formData.createdTags));
       payload.append('addedTags', JSON.stringify(Object.keys(formData.addedTags)));
+      payload.append('disappearAfter', props.route?.params?.space.disappearAfter);
       payload.append('createdBy', authData._id);
       payload.append('spaceId', props.route?.params?.space._id);
       for (let content of formData.contents) {

@@ -12,7 +12,7 @@ const spaceSchema = mongoose.Schema({
   },
   description: String,
   videoLength: Number,
-  disappearAfter: Number,
+  disappearAfter: Number, // ここはminuteでいく。5, 60, 600, 1440って感じ。
   isPublic: {
     required: true,
     type: Boolean,

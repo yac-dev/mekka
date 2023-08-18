@@ -2,7 +2,11 @@ import SpaceAndUserRelationship from '../models/spaceAndUserRelationship';
 
 export const getMySpaces = async (request, response) => {
   try {
-    const spaceAndUserRelationships = await SpaceAndUserRelationship.find({ user: request.params.userId }).populate({
+    // spaceがnullのやつは除く。inner left
+    const spaceAndUserRelationships = await SpaceAndUserRelationship.find({
+      user: request.params.userId,
+      space: { $ne: null },
+    }).populate({
       path: 'space',
       select: '_id name icon contentType',
     });

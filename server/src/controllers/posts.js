@@ -1,3 +1,4 @@
+import Space from '../models/space';
 import Post from '../models/post';
 import Content from '../models/content';
 import ReactionStatus from '../models/reactionStatus';
@@ -8,17 +9,21 @@ import { uploadPhoto } from '../services/s3';
 export const createPost = async (request, response) => {
   try {
     // postで、reactionを全部持っておかないとね。
-    const { caption, createdBy, location, spaceId, reactions, addedTags, createdTags } = request.body;
+    const { caption, createdBy, location, spaceId, reactions, addedTags, createdTags, disappearAfter } = request.body;
+    console.log(disappearAfter);
+    const disappearAt = new Date(new Date().getTime() + Number(disappearAfter) * 60 * 1000);
+    // 現在の時間にdissaperAfter(minute)を足した日時を出す。
     const parsedLocation = JSON.parse(location);
     const parsedReactions = JSON.parse(reactions);
     const parsedTags = JSON.parse(addedTags);
     const parsedCreatedTags = JSON.parse(createdTags);
-
     const files = request.files;
     const createdAt = new Date();
     const contentIds = [];
     const contents = [];
+
     // 1 contentsを作る。
+    // clientからspaceのdisapperを送ればいい。単純に。
     for (let file of files) {
       const content = await Content.create({
         data: `https://mekka-${process.env.NODE_ENV}.s3.us-east-2.amazonaws.com/${
@@ -32,12 +37,15 @@ export const createPost = async (request, response) => {
       contentIds.push(content._id);
       await uploadPhoto(file.filename, content.type);
     }
+    // そもそも、これspaceもfetchしなきゃいけないよな。。。こういうの、すげー効率がなー。
+
     // 2,postを作る
     const post = await Post.create({
       contents: contentIds,
       caption,
       space: spaceId,
       location: parsedLocation,
+      disappearAt,
       createdBy,
       createdAt,
     });
@@ -109,7 +117,13 @@ export const createPost = async (request, response) => {
 
 export const getPosts = async (request, response) => {
   try {
-    const documents = await Post.find({ space: request.params.spaceId })
+    const documents = await Post.find({
+      space: request.params.spaceId,
+      $or: [
+        { disappearAt: { $gt: new Date() } }, // disapperAt greater than current time
+        { disappearAt: null }, // disapperAt is null
+      ],
+    })
       .select({ _id: true, contents: true, caption: true, spaceId: true, createdBy: true, createdAt: true })
       .sort({ createdAt: -1 })
       .populate([

@@ -1,6 +1,6 @@
 import React, { useContext, useCallback, useState, useEffect, useRef } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { View, Text, Dimensions, FlatList } from 'react-native';
+import { View, Text, Dimensions, FlatList, ActivityIndicator } from 'react-native';
 import { GlobalContext } from '../../../contexts/GlobalContext';
 import backendAPI from '../../../apis/backend';
 import PostThumbnail from '../components/PostThumbnail';
@@ -15,7 +15,8 @@ const Space = (props) => {
   const { isIpad } = useContext(GlobalContext);
   const oneAssetWidth = isIpad ? Dimensions.get('window').width / 6 : Dimensions.get('window').width / 3;
   const [posts, setPosts] = useState([]);
-  const [space, setSpace] = useState({ name: '' });
+  const [space, setSpace] = useState(null);
+  const [hasSpaceBeenFetched, setHasSpaceBeenFetched] = useState(false);
   const [selectedTag, setSelectedTag] = useState(null);
   const [arePostsFetched, setArePostsFetched] = useState(false);
   const [tags, setTags] = useState([]);
@@ -36,6 +37,7 @@ const Space = (props) => {
     const result = await backendAPI.get(`/spaces/${props.route?.params?.spaceId}`);
     const { space } = result.data;
     setSpace(space);
+    setHasSpaceBeenFetched(true);
   };
 
   const getPosts = async () => {
@@ -54,9 +56,20 @@ const Space = (props) => {
 
   useEffect(() => {
     getSpace();
-    getPosts();
-    getTags();
+
+    // return () => {
+    //   getSpace();
+    // };
+    // unmountはまた後でいいや。
   }, []);
+
+  // spaceが消されたらここは動かさん。
+  useEffect(() => {
+    if (space) {
+      getPosts();
+      getTags();
+    }
+  }, [space]);
 
   return (
     <SpaceContext.Provider
@@ -75,11 +88,20 @@ const Space = (props) => {
       }}
     >
       <GestureHandlerRootView style={{ flex: 1, backgroundColor: 'black' }}>
-        <TagMenus />
-        <Gallery />
-        {/* <SpaceIconMenuButton /> */}
-        <BottomMenu />
-        <SpaceMenu />
+        {hasSpaceBeenFetched ? (
+          space ? (
+            <>
+              <TagMenus />
+              <Gallery />
+              <BottomMenu />
+              <SpaceMenu />
+            </>
+          ) : (
+            <Text style={{ color: 'white', marginTop: 50, textAlign: 'center' }}>This space was deleted...</Text>
+          )
+        ) : (
+          <ActivityIndicator />
+        )}
       </GestureHandlerRootView>
     </SpaceContext.Provider>
   );
