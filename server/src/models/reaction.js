@@ -12,7 +12,7 @@ const reactionSchema = mongoose.Schema({
   },
   space: {
     type: mongoose.Schema.ObjectId,
-    ref: 'Reaction',
+    ref: 'Space',
   },
 });
 

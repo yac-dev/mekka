@@ -160,7 +160,7 @@ const ReactionOptionsBottomSheet = () => {
     >
       <BottomSheetView style={{ flex: 1, paddingTop: 10 }}>
         <View style={{ borderBottomWidth: 0.3, borderColor: 'white', marginBottom: 10 }}>
-          <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 20, textAlign: 'center', marginBottom: 10 }}>
+          <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 17, textAlign: 'center', marginBottom: 10 }}>
             React
           </Text>
           <TouchableOpacity
