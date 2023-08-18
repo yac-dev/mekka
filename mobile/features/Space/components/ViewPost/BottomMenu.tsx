@@ -6,6 +6,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
+import FastImage from 'react-native-fast-image';
 
 const BottomMenu = () => {
   const { isIpad } = useContext(GlobalContext);
@@ -17,6 +18,55 @@ const BottomMenu = () => {
   // const renderFirstTwoReactions = () => {
   //   const list = reactionStatuses.slice()
   // };
+
+  const renderReactionIcons = () => {
+    const list = reactionStatuses.slice(0, 2).map((reactionStatus, index) => {
+      if (reactionStatus.reaction.type === 'emoji') {
+        return (
+          <Text
+            key={index}
+            style={{
+              fontSize: 30,
+              // marginRight: 5,
+              position: 'absolute',
+              top: index === 0 ? -5 : null,
+              left: index === 0 ? -5 : null,
+              right: index === 0 ? null : -5,
+              bottom: index === 0 ? null : -5,
+            }}
+          >
+            {reactionStatus.reaction.emoji}
+          </Text>
+        );
+      } else if (reactionStatus.reaction.type === 'sticker') {
+        return (
+          <FastImage
+            key={index}
+            source={{ uri: reactionStatus.reaction.sticker.url }}
+            style={{
+              width: 30,
+              height: 30,
+              //  marginRight: 5
+              position: 'absolute',
+              top: index === 0 ? -5 : null,
+              left: index === 0 ? -5 : null,
+              right: index === 0 ? null : -5,
+              bottom: index === 0 ? null : -5,
+            }}
+          />
+        );
+      }
+    });
+
+    return (
+      <TouchableOpacity
+        onPress={() => reactionOptionsBottomSheetRef.current.snapToIndex(0)}
+        // style={{ flexDirection: 'row', alignItems: 'center' }}
+      >
+        {list}
+      </TouchableOpacity>
+    );
+  };
 
   return (
     <ScrollView
@@ -46,9 +96,10 @@ const BottomMenu = () => {
             // backgroundColor: 'red',
           }}
         >
-          <TouchableOpacity onPress={() => reactionOptionsBottomSheetRef.current.snapToIndex(0)}>
+          {/* <TouchableOpacity onPress={() => reactionOptionsBottomSheetRef.current.snapToIndex(0)}>
             <Entypo name='emoji-happy' size={25} color={'white'} />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
+          {renderReactionIcons()}
         </View>
         <View
           style={{
