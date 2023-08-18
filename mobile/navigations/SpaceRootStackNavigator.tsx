@@ -10,6 +10,8 @@ import Space from '../features/Space/pages/Space';
 import ViewPost from '../features/Space/pages/ViewPost';
 import Comments from '../features/Space/pages/Comments';
 import TaggedPosts from '../features/Space/pages/TaggedPosts';
+import ViewCalendar from '../features/Space/pages/ViewCalendar';
+import ViewMap from '../features/Space/pages/ViewMap';
 import Photos from '../features/Space/pages/Photos';
 import CrearePost from '../features/Space/pages/CreatePost';
 import AddLoaction from '../features/Space/pages/AddLocation';
@@ -118,6 +120,46 @@ const SpaceRootStackNavigator = () => {
       <Stack.Screen
         name='TaggedPosts'
         component={TaggedPosts}
+        options={({ navigation }) => ({
+          headerShown: true, // ここtrueにすると、,,,
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Ionicons name='arrow-back-circle-sharp' size={30} color={'white'} />
+            </TouchableOpacity>
+          ),
+          headerTitle: '',
+          headerStyle: {
+            backgroundColor: 'black',
+          },
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            color: 'white',
+          },
+        })}
+      />
+      <Stack.Screen
+        name='ViewCalendar'
+        component={ViewCalendar}
+        options={({ navigation }) => ({
+          headerShown: true, // ここtrueにすると、,,,
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Ionicons name='arrow-back-circle-sharp' size={30} color={'white'} />
+            </TouchableOpacity>
+          ),
+          headerTitle: '',
+          headerStyle: {
+            backgroundColor: 'black',
+          },
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            color: 'white',
+          },
+        })}
+      />
+      <Stack.Screen
+        name='ViewMap'
+        component={ViewMap}
         options={({ navigation }) => ({
           headerShown: true, // ここtrueにすると、,,,
           headerLeft: () => (
