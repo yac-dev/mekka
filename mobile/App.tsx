@@ -20,6 +20,7 @@ const App: React.FC = function () {
   const [isIpad, setIsIpad] = useState<boolean>(Platform.OS === 'ios' && Platform.isPad);
   const [loading, setLoading] = useState<boolean>(false);
   const [snackBar, setSnackBar] = useState<boolean>(false);
+  const [spaceAndUserRelationships, setSpaceAndUserRelationships] = useState([]);
 
   const loadMe = async () => {
     const jwt = await SecureStore.getItemAsync('secure_token');
@@ -30,9 +31,22 @@ const App: React.FC = function () {
       setIsAuthenticated(true);
     }
   };
+
+  const getMySpaces = async () => {
+    const result = await backendAPI.get(`/spaceanduserrelationships/users/${authData._id}`);
+    const { spaceAndUserRelationships } = result.data;
+    setSpaceAndUserRelationships(spaceAndUserRelationships);
+  };
+
   useEffect(() => {
     loadMe();
   }, []);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      getMySpaces();
+    }
+  }, [isAuthenticated]);
 
   return (
     <GlobalContext.Provider
@@ -47,6 +61,8 @@ const App: React.FC = function () {
         setLoading,
         snackBar,
         setSnackBar,
+        spaceAndUserRelationships,
+        setSpaceAndUserRelationships,
       }}
     >
       {/* <StatusBar hidden={false} translucent={true} backgroundColor='blue' barStyle='light-content' /> */}

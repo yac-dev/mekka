@@ -35,35 +35,38 @@ type SpaceAndMeRelationshipType = {
 // homeは、authされている状態、されていない状態でrenderを分けなきゃいけない。
 // authなら、自分が参加しているlibraryを全部renderするし、authじゃないならlogin or signupを表示する感じ。
 const MySpaces: React.FC<RouterProps> = (props) => {
-  const { authData, isIpad, isAuthenticated } = useContext(GlobalContext);
+  const { authData, isIpad, isAuthenticated, spaceAndUserRelationship } = useContext(GlobalContext);
   const [spaceAndMeRelationships, setSpaceAndMeRelationships] = useState<SpaceAndMeRelationshipType[]>([]);
   const oneGridWidth = isIpad ? Dimensions.get('window').width / 6 : Dimensions.get('window').width / 4;
   const oneGridHeight = isIpad ? Dimensions.get('window').height / 7.5 : Dimensions.get('window').height / 7;
   const iconWidth = oneGridWidth * 0.7;
 
-  useEffect(() => {
-    if (props.route?.params?.createdSpace) {
-      setSpaceAndMeRelationships((previous) => [...previous, props.route?.params?.createdSpace]);
-    }
-  }, [props.route?.params?.createdSpace]);
+  // useEffect(() => {
+  //   if (props.route?.params?.createdSpace) {
+  //     setSpaceAndMeRelationships((previous) => [...previous, props.route?.params?.createdSpace]);
+  //   }
+  // }, [props.route?.params?.createdSpace]);
 
-  const getMySpaces = async () => {
-    const result = await backendAPI.get(`/spaceanduserrelationships/users/${authData._id}`);
-    const { spaceAndUserRelationships } = result.data;
-    setSpaceAndMeRelationships(spaceAndUserRelationships);
-  };
+  // const getMySpaces = async () => {
+  //   const result = await backendAPI.get(`/spaceanduserrelationships/users/${authData._id}`);
+  //   const { spaceAndUserRelationships } = result.data;
+  //   setSpaceAndMeRelationships(spaceAndUserRelationships);
+  // };
 
-  // ここのauthDataの部分だね。ダメなのは。
-  useEffect(() => {
-    if (isAuthenticated) {
-      getMySpaces();
-    }
-  }, [isAuthenticated]);
+  // // ここのauthDataの部分だね。ダメなのは。
+  // useEffect(() => {
+  //   if (isAuthenticated) {
+  //     getMySpaces();
+  //   }
+  // }, [isAuthenticated]);
 
   if (isAuthenticated) {
     return (
       <HomeContext.Provider
-        value={{ spaceAndMeRelationships, setSpaceAndMeRelationships, navigation: props.navigation }}
+        value={{
+          // spaceAndMeRelationships, setSpaceAndMeRelationships,
+          navigation: props.navigation,
+        }}
       >
         <View style={{ flex: 1, backgroundColor: primaryBackgroundColor, paddingTop: 20 }}>
           {/* <MenuButtons /> */}
