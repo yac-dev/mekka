@@ -33,6 +33,24 @@ const Space = (props) => {
     }
   }, [props.route?.params?.createdPost]);
 
+  useEffect(() => {
+    if (space) {
+      props.navigation.setOptions({
+        headerTitle: () => (
+          <Text
+            style={{
+              color: 'white',
+              fontSize: 25,
+              fontWeight: 'bold',
+            }}
+          >
+            {space.name}
+          </Text>
+        ),
+      });
+    }
+  }, [space]);
+
   const getSpace = async () => {
     const result = await backendAPI.get(`/spaces/${props.route?.params?.spaceId}`);
     const { space } = result.data;

@@ -81,7 +81,7 @@ const BottomMenu = () => {
           style={{ width: oneGridWidth, height: 40, justifyContent: 'center', alignItems: 'center' }}
           onPress={() => menuBottomSheetRef.current.snapToIndex(0)}
         >
-          <FastImage source={{ uri: space.icon }} style={{ width: 35, height: 35, borderRadius: 10 }} />
+          <FastImage source={{ uri: space.icon }} style={{ width: 35, height: 35, borderRadius: 9 }} />
         </TouchableOpacity>
       </View>
     </ScrollView>

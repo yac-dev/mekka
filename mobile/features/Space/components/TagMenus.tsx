@@ -6,7 +6,7 @@ import { Feather } from '@expo/vector-icons';
 import { SpaceContext } from '../contexts/SpaceContext';
 
 const TagMenus = () => {
-  const { tags } = useContext(SpaceContext);
+  const { tags, navigation } = useContext(SpaceContext);
 
   const renderTags = () => {
     if (tags.length) {
@@ -15,6 +15,7 @@ const TagMenus = () => {
           <TouchableOpacity
             key={index}
             style={{ padding: 10, flexDirection: 'row', alignItems: 'center', marginRight: 10 }}
+            onPress={() => navigation?.navigate('TaggedPosts', { tag })}
           >
             <Feather name='hash' size={15} style={{}} color={'white'} />
             <Text style={{ color: 'white' }}>{tag.name}</Text>
