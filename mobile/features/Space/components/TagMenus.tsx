@@ -6,7 +6,7 @@ import { Feather } from '@expo/vector-icons';
 import { SpaceContext } from '../contexts/SpaceContext';
 
 const TagMenus = () => {
-  const { tags, navigation } = useContext(SpaceContext);
+  const { tags, navigation, space } = useContext(SpaceContext);
 
   const renderTags = () => {
     if (tags.length) {
@@ -29,41 +29,33 @@ const TagMenus = () => {
     }
   };
 
-  return (
-    <View>
-      <ScrollView horizontal={true}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', padding: 10 }}>
-          <TouchableOpacity
-            style={{ padding: 10, flexDirection: 'row', alignItems: 'center', marginRight: 10 }}
-            onPress={() => navigation?.navigate('ViewMap')}
-          >
-            <MaterialCommunityIcons name='map' size={20} style={{ marginRight: 7 }} color={'white'} />
-            <Text style={{ color: 'white' }}>Map</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{ padding: 10, flexDirection: 'row', alignItems: 'center', marginRight: 10 }}
-            onPress={() => navigation?.navigate('ViewCalendar')}
-          >
-            <MaterialCommunityIcons name='calendar-month' size={20} style={{ marginRight: 7 }} color={'white'} />
-            <Text style={{ color: 'white' }}>Calendar</Text>
-          </TouchableOpacity>
-          {/* <TouchableOpacity style={{ padding: 10, flexDirection: 'row', alignItems: 'center', marginRight: 10 }}>
-            <Feather name='hash' size={20} style={{ marginRight: 7 }} color={'white'} />
-            <Text style={{ color: 'white' }}>Nice</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={{ padding: 10, flexDirection: 'row', alignItems: 'center', marginRight: 10 }}>
-            <Ionicons name='airplane' size={20} style={{ marginRight: 7 }} color={'white'} />
-            <Text style={{ color: 'white' }}>Trip</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={{ padding: 10, flexDirection: 'row', alignItems: 'center', marginRight: 10 }}>
-            <MaterialCommunityIcons name='ninja' size={20} style={{ marginRight: 7 }} color={'white'} />
-            <Text style={{ color: 'white' }}>Tokyo</Text>
-          </TouchableOpacity> */}
-          {renderTags()}
-        </View>
-      </ScrollView>
-    </View>
-  );
+  if (space) {
+    return (
+      <View>
+        <ScrollView horizontal={true}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', padding: 10 }}>
+            <TouchableOpacity
+              style={{ padding: 10, flexDirection: 'row', alignItems: 'center', marginRight: 10 }}
+              onPress={() => navigation?.navigate('ViewMap', { spaceId: space._id })}
+            >
+              <MaterialCommunityIcons name='map' size={20} style={{ marginRight: 7 }} color={'white'} />
+              <Text style={{ color: 'white' }}>Map</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{ padding: 10, flexDirection: 'row', alignItems: 'center', marginRight: 10 }}
+              onPress={() => navigation?.navigate('ViewCalendar', { spaceId: space._id })}
+            >
+              <MaterialCommunityIcons name='calendar-month' size={20} style={{ marginRight: 7 }} color={'white'} />
+              <Text style={{ color: 'white' }}>Calendar</Text>
+            </TouchableOpacity>
+            {renderTags()}
+          </View>
+        </ScrollView>
+      </View>
+    );
+  } else {
+    return null;
+  }
 };
 
 export default TagMenus;

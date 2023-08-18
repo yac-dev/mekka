@@ -147,7 +147,7 @@ const SpaceRootStackNavigator = () => {
               <Ionicons name='arrow-back-circle-sharp' size={30} color={'white'} />
             </TouchableOpacity>
           ),
-          headerTitle: '',
+          headerTitle: 'Calendar view',
           headerStyle: {
             backgroundColor: 'black',
           },
@@ -167,7 +167,7 @@ const SpaceRootStackNavigator = () => {
               <Ionicons name='arrow-back-circle-sharp' size={30} color={'white'} />
             </TouchableOpacity>
           ),
-          headerTitle: '',
+          headerTitle: 'Map view',
           headerStyle: {
             backgroundColor: 'black',
           },
