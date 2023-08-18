@@ -103,11 +103,6 @@ export const createPost = async (request, response) => {
           data: contents[0].data,
           type: contents[0].type,
         },
-        // contents,
-        // caption: post.caption,
-        // createdBy: {
-        //   _id: createdBy,
-        // },
       },
     });
   } catch (error) {
@@ -153,6 +148,62 @@ export const getPosts = async (request, response) => {
 
     response.status(200).json({
       posts,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getPostsByYearAndMonth = async (request, response) => {
+  try {
+    const { yearAndMonth } = request.query;
+    const year = yearAndMonth.split('-')[0];
+    const month = yearAndMonth.split('-')[1];
+
+    const startDate = new Date(Date.UTC(year, month - 1, 1));
+    const endDate = new Date(Date.UTC(year, month, 1));
+
+    // const libraryAssets = [];
+    const documents = await Post.find({
+      space: request.params.spaceId,
+      createdAt: { $gte: startDate, $lt: endDate },
+    }).populate({
+      path: 'contents',
+      model: 'Content',
+      select: '_id data type',
+    });
+
+    const posts = documents.map((post, index) => {
+      return {
+        _id: post._id,
+        content: {
+          data: post.contents[0].data,
+          type: post.contents[0].type,
+        },
+      };
+    });
+
+    response.status(200).json({
+      posts,
+    });
+
+    // こっからどう返すかね。responseを。
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getPostsByDate = async (request, response) => {
+  try {
+    const { date } = request.query;
+    const year = date.split('-')[0];
+    const month = date.split('-')[1];
+    const day = date.split('-')[2];
+    const startDate = new Date(Date.UTC(year, month - 1, day, 0));
+    const endDate = new Date(Date.UTC(year, month - 1, day, 23, 59));
+    const posts = await Post.find({
+      space: request.params.spaceId,
+      createdAt: { $gte: startDate, $lt: endDate },
     });
   } catch (error) {
     console.log(error);

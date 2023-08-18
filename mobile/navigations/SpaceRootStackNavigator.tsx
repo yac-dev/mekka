@@ -147,7 +147,7 @@ const SpaceRootStackNavigator = () => {
               <Ionicons name='arrow-back-circle-sharp' size={30} color={'white'} />
             </TouchableOpacity>
           ),
-          headerTitle: 'Calendar view',
+          headerTitle: 'Travel back memories!',
           headerStyle: {
             backgroundColor: 'black',
           },
