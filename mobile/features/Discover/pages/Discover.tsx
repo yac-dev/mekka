@@ -7,6 +7,7 @@ import { primaryBackgroundColor } from '../../../themes/color';
 import { primaryTextColor } from '../../../themes/text';
 import CreateNewButton from '../components/CreateNewButton';
 import { DiscoverContext } from '../contexts/DiscoverContext';
+import SnackBar from '../../../components/SnackBar';
 
 type RouterProps = {
   navigation: NavigationProp<any, any>;
@@ -70,6 +71,7 @@ const Discover: React.FC<RouterProps> = (props) => {
         />
 
         <CreateNewButton />
+        <SnackBar />
       </View>
     </DiscoverContext.Provider>
   );

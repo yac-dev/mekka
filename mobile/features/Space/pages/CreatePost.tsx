@@ -36,7 +36,7 @@ type FormType = {
 
 // 多分、spaceのobjectを全部渡した方がいいのかも。idだけではなくて。
 const Post: React.FC<PostProps> = (props) => {
-  const { authData, setLoading } = useContext(GlobalContext);
+  const { authData, setLoading, setSnackBar } = useContext(GlobalContext);
   const [formData, setFormData] = useState<FormType>({
     contents: [],
     caption: '',
@@ -111,6 +111,12 @@ const Post: React.FC<PostProps> = (props) => {
       });
       setLoading(false);
       const { post } = result.data;
+      setSnackBar({
+        isVisible: true,
+        barType: 'success',
+        message: 'Post has been created successfully.',
+        duration: 7000,
+      });
       //ここのcomponentは、photos. video or photoAndVideoどれかになる。
       props.navigation.navigate({ name: 'Space', params: { createdPost: post }, merge: true });
     } catch (error) {

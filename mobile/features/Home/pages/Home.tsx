@@ -12,7 +12,6 @@ import Button from '../../../components/Button/Button';
 import Spaces from '../components/Spaces';
 import backendAPI from '../../../apis/backend';
 import MenuButtons from '../components/MenuButtons';
-import SnackBar from '../../../components/SnackBar';
 
 type RouterProps = {
   navigation: NavigationProp<any, any>;
@@ -72,7 +71,6 @@ const MySpaces: React.FC<RouterProps> = (props) => {
         <View style={{ flex: 1, backgroundColor: primaryBackgroundColor, paddingTop: 20 }}>
           <Spaces />
         </View>
-        <SnackBar />
       </HomeContext.Provider>
     );
   } else {

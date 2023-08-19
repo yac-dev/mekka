@@ -72,8 +72,8 @@ const App: React.FC = function () {
         <NavigationContainer>
           <RootStack />
         </NavigationContainer>
-        <LoadingSpinner />
-        <SnackBar />
+        {/* <LoadingSpinner /> */}
+        {/* <SnackBar /> */}
       </PaperProvider>
       {/* <StatusBar hidden={false} translucent={true} backgroundColor='blue' barStyle='light-content' /> */}
     </GlobalContext.Provider>

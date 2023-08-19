@@ -2,6 +2,7 @@ import React, { useReducer, useContext, useState, useEffect, useCallback } from 
 import { View, Text, TextInput, TouchableOpacity, SafeAreaView } from 'react-native';
 import { GlobalContext } from '../../../contexts/GlobalContext';
 import LoadingSpinner from '../../../components/LoadingSpinner';
+import SnackBar from '../../../components/SnackBar';
 import { primaryBackgroundColor, inputBackgroundColor, modalBackgroundColor } from '../../../themes/color';
 import { primaryTextColor, placeholderTextColor } from '../../../themes/text';
 import { CreateNewSpaceContext } from '../contexts/CreateNewSpace';
@@ -40,7 +41,7 @@ type RouterProps = {
 };
 
 const CreateNewSpace: React.FC<RouterProps> = (props) => {
-  const { authData, setLoading } = useContext(GlobalContext);
+  const { authData, setLoading, setSnackBar } = useContext(GlobalContext);
   const [formData, setFormData] = useState<FormDataStateType>({
     name: '',
     icon: '',
@@ -164,6 +165,12 @@ const CreateNewSpace: React.FC<RouterProps> = (props) => {
     });
     setLoading(false);
     const { spaceAndUserRelationship } = result.data;
+    setSnackBar({
+      isVisible: true,
+      barType: 'success',
+      message: 'The space has been created successfully. Invite your friends, share your moments and have fun.',
+      duration: 7000,
+    });
     props.navigation.navigate({ name: 'Discover', params: { createdSpace: spaceAndUserRelationship }, merge: true });
   };
 

@@ -42,7 +42,7 @@ const SnackBar = (props) => {
   if (snackBar.isVisible) {
     return (
       <Snackbar
-        wrapperStyle={{ top: 20 }}
+        wrapperStyle={{ top: 5 }}
         style={{
           backgroundColor: barTypeColor[snackBar.barType],
         }}

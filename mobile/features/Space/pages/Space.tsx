@@ -10,6 +10,7 @@ import SpaceMenu from './SpaceMenu';
 import BottomMenu from '../components/BottomMenu';
 import TagMenus from '../components/TagMenus';
 import { SpaceContext } from '../contexts/SpaceContext';
+import SnackBar from '../../../components/SnackBar';
 
 const Space = (props) => {
   const { isIpad } = useContext(GlobalContext);
@@ -113,6 +114,7 @@ const Space = (props) => {
               <Gallery />
               <BottomMenu />
               <SpaceMenu />
+              <SnackBar />
             </>
           ) : (
             <Text style={{ color: 'white', marginTop: 50, textAlign: 'center' }}>This space was deleted...</Text>
