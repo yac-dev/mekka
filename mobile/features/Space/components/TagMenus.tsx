@@ -20,8 +20,8 @@ const TagMenus = () => {
               flexDirection: 'row',
               alignItems: 'center',
               marginRight: 10,
-              // backgroundColor: selectedTag._id === tag._id ? 'red' : null,
-              // borderRadius: 5,
+              backgroundColor: selectedTag?._id === tag._id ? 'red' : null,
+              borderRadius: 5,
             }}
             // onPress={() => navigation?.navigate('TaggedPosts', { tag })}
             onPress={() => setSelectedTag(tag)}

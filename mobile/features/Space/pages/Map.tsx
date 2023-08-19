@@ -3,6 +3,7 @@ import { View, Text, Dimensions } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { SpaceRootContext } from '../contexts/SpaceRootContext';
 import TagMenus from '../components/TagMenus';
+import PostThumbnailMapMarkers from '../components/PostThumbnailMapMarkers';
 
 const Map = () => {
   const { tags } = useContext(SpaceRootContext);
@@ -36,7 +37,9 @@ const Map = () => {
         }}
         // provider='google'
         // provider={Platform.OS === 'android' ? MapView.PROVIDER_GOOGLE : MapView.PROVIDER_DEFAULT}
-      ></MapView>
+      >
+        <PostThumbnailMapMarkers />
+      </MapView>
     </View>
   );
 };

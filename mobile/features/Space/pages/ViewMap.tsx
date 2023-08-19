@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, Dimensions } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import backendAPI from '../../../apis/backend';
+import PostThumbnailMapMarkers from '../components/PostThumbnailMapMarkers';
 
 const ViewMap = () => {
-  const [posts, setPosts] = useState([]);
   const { height, width } = Dimensions.get('window');
   const LATITUDE = 40.74333; // Korea Town, New York, NY 10001
   const LONGITUDE = -73.99033; // Korea Town, New York, NY 10001
@@ -39,7 +39,9 @@ const ViewMap = () => {
         }}
         // provider='google'
         // provider={Platform.OS === 'android' ? MapView.PROVIDER_GOOGLE : MapView.PROVIDER_DEFAULT}
-      ></MapView>
+      >
+        <PostThumbnailMapMarkers />
+      </MapView>
     </View>
   );
 };

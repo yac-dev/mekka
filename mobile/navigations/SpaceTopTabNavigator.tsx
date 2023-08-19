@@ -22,7 +22,7 @@ const SpaceTopTabNavigator = (props) => {
   const [tags, setTags] = useState([]);
   const [haveTagsBeenFetched, setHaveTagsBeenFetched] = useState(false);
   const menuBottomSheetRef = useRef(null);
-
+  console.log(JSON.stringify(posts, null, 4));
   // useEffect(() => {
   //   if (props.route?.params?.createdPost) {
   //     setPosts((previous) => {
@@ -68,7 +68,6 @@ const SpaceTopTabNavigator = (props) => {
     setPosts(posts);
     setHavePostsBeenFetched(true);
   };
-  console.log(posts);
 
   // これも、spaceの方のapiに含めた方がいいな。principle的にね。
   const getTags = async () => {
