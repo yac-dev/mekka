@@ -4,12 +4,13 @@ import FastImage from 'react-native-fast-image';
 // import * as VideoThumbnails from 'expo-video-thumbnails';
 import { Video } from 'expo-av';
 import { GlobalContext } from '../../../contexts/GlobalContext';
-import { SpaceContext } from '../contexts/SpaceContext';
+// import { SpaceContext } from '../contexts/SpaceContext';
+import { SpaceRootContext } from '../contexts/SpaceRootContext';
 
 const PostThumbnail = (props) => {
   const { isIpad } = useContext(GlobalContext);
   const oneAssetWidth = isIpad ? Dimensions.get('window').width / 6 : Dimensions.get('window').width / 3;
-  const { navigation } = useContext(SpaceContext);
+  const { navigation } = useContext(SpaceRootContext);
 
   // const generateThumbnail = async () => {
   //   try {

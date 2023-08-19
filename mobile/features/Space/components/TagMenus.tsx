@@ -3,10 +3,11 @@ import { TouchableOpacity, View, Text, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
-import { SpaceContext } from '../contexts/SpaceContext';
+// import { SpaceContext } from '../contexts/SpaceContext';
+import { SpaceRootContext } from '../contexts/SpaceRootContext';
 
 const TagMenus = () => {
-  const { tags, navigation, space } = useContext(SpaceContext);
+  const { tags, space, selectedTag, setSelectedTag } = useContext(SpaceRootContext);
 
   const renderTags = () => {
     if (tags.length) {
@@ -14,11 +15,20 @@ const TagMenus = () => {
         return (
           <TouchableOpacity
             key={index}
-            style={{ padding: 10, flexDirection: 'row', alignItems: 'center', marginRight: 10 }}
-            onPress={() => navigation?.navigate('TaggedPosts', { tag })}
+            style={{
+              padding: 10,
+              flexDirection: 'row',
+              alignItems: 'center',
+              marginRight: 10,
+              // backgroundColor: selectedTag._id === tag._id ? 'red' : null,
+              // borderRadius: 5,
+            }}
+            // onPress={() => navigation?.navigate('TaggedPosts', { tag })}
+            onPress={() => setSelectedTag(tag)}
           >
             <Feather name='hash' size={15} style={{}} color={'white'} />
-            <Text style={{ color: 'white' }}>{tag.name}</Text>
+            <Text style={{ color: 'white', marginRight: 10 }}>{tag.name}</Text>
+            <Text style={{ color: 'white', marginRight: 10 }}>{tag.count}</Text>
           </TouchableOpacity>
         );
       });
@@ -34,13 +44,6 @@ const TagMenus = () => {
       <View>
         <ScrollView horizontal={true}>
           <View style={{ flexDirection: 'row', alignItems: 'center', padding: 10 }}>
-            <TouchableOpacity
-              style={{ padding: 10, flexDirection: 'row', alignItems: 'center', marginRight: 10 }}
-              // onPress={() => navigation?.navigate('ViewMap', { spaceId: space._id })}
-            >
-              <MaterialCommunityIcons name='dots-grid' size={20} style={{ marginRight: 7 }} color={'white'} />
-              <Text style={{ color: 'white' }}>All</Text>
-            </TouchableOpacity>
             {/* <TouchableOpacity
               style={{ padding: 10, flexDirection: 'row', alignItems: 'center', marginRight: 10 }}
               onPress={() => navigation?.navigate('ViewCalendar', { spaceId: space._id })}

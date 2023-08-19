@@ -3,7 +3,7 @@ import Post from '../models/post';
 import Content from '../models/content';
 import ReactionStatus from '../models/reactionStatus';
 import Tag from '../models/tag';
-import PostAndTagRelationship from '../models/postAndTagRelationships';
+import PostAndTagRelationship from '../models/postAndTagRelationship';
 import { uploadPhoto } from '../services/s3';
 
 export const createPost = async (request, response) => {
@@ -126,6 +126,40 @@ export const getPost = async (request, response) => {
 
     response.status(200).json({
       post: document,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getPostsByTagId = async (request, response) => {
+  try {
+    const postAndTagRelationships = await PostAndTagRelationship.find({
+      tag: request.params.tagId,
+    }).populate({
+      path: 'post',
+      model: 'Post',
+      select: '_id contents type location',
+      populate: {
+        path: 'contents',
+        model: 'Content',
+      },
+    });
+
+    const posts = postAndTagRelationships.map((relationship, index) => {
+      return {
+        _id: relationship.post._id,
+        content: {
+          data: relationship.post.contents[0].data,
+          type: relationship.post.contents[0].type,
+        },
+        location: relationship.post.location,
+      };
+    });
+    console.log(posts);
+
+    response.status(200).json({
+      posts,
     });
   } catch (error) {
     console.log(error);

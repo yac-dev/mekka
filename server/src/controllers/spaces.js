@@ -4,6 +4,8 @@ import Reaction from '../models/reaction';
 import { uploadPhoto } from '../services/s3';
 import Post from '../models/post';
 import Tag from '../models/tag';
+import PostAndTagRelationship from '../models/postAndTagRelationship';
+import SpaceAndTagAndPostRelationship from '../models/spaceAndTagAndPostRelationship';
 
 export const createSpace = async (request, response) => {
   try {
@@ -73,6 +75,14 @@ export const createSpace = async (request, response) => {
     space.save();
     await uploadPhoto(request.file.filename, 'icon');
 
+    // tagを作るだけでいいのかね。もしかしたら。
+    // tagの数は、結構多くの数になる。spaceが全部持っておくのはベストではないだろう。それよりも、他にdelegateする方がいい。
+    const tag = await Tag.create({
+      name: 'general',
+      space: space._id,
+      count: 1,
+    });
+
     response.status(201).json({
       spaceAndUserRelationship: {
         _id: spaceAndUserRelationship._id,
@@ -140,6 +150,22 @@ export const getSpace = async (request, response) => {
     response.status(200).json({
       space,
     });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const get = async (request, response) => {
+  try {
+    const { tagId } = request.query;
+    const spaceAndTagAndTagRelationship = await SpaceAndTagAndPostRelationship.find({
+      //spaceIdとtagがgeneralなやつをまずはfetchする。
+      space: request.params.spaceId,
+      tag: tagId,
+    }).populate([
+      { path: 'contents', model: 'Content' },
+      { path: 'createdBY', model: 'User' },
+    ]);
   } catch (error) {
     console.log(error);
   }

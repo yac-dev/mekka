@@ -7,13 +7,14 @@ import backendAPI from '../apis/backend';
 import { SpaceRootContext } from '../features/Space/contexts/SpaceRootContext';
 import Grid from '../features/Space/pages/Grid';
 import Map from '../features/Space/pages/Map';
+import SpaceMenu from '../features/Space/pages/SpaceMenu';
 import FastImage from 'react-native-fast-image';
 import { SpaceContext } from '../features/Space/contexts/SpaceContext';
 
 const Tab = createMaterialTopTabNavigator();
 
 const SpaceTopTabNavigator = (props) => {
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState({}); // ここ、{tagId1: [], tagId2:[], tagId3: []}みたいにcacheした方がいいな。わざわざloadの必要がなくなる。
   const [havePostsBeenFetched, setHavePostsBeenFetched] = useState(false);
   const [space, setSpace] = useState(null);
   const [hasSpaceBeenFetched, setHasSpaceBeenFetched] = useState(false);
@@ -61,19 +62,36 @@ const SpaceTopTabNavigator = (props) => {
     setHasSpaceBeenFetched(true);
   };
 
-  const getPostsBySpaceId = async () => {
+  const getPostsBySpaceIdAndTag = async () => {
     const result = await backendAPI.get(`/spaces/${props.route?.params?.spaceId}/posts`);
     const { posts } = result.data;
     setPosts(posts);
     setHavePostsBeenFetched(true);
   };
+  console.log(posts);
 
   // これも、spaceの方のapiに含めた方がいいな。principle的にね。
   const getTags = async () => {
     const result = await backendAPI.get(`/spaces/${props.route?.params?.spaceId}/tags`);
     const { tags } = result.data;
     setTags(tags);
+    setSelectedTag(tags[0]);
     setHaveTagsBeenFetched(true);
+  };
+
+  const getPostsByTagId = async () => {
+    if (!posts[selectedTag._id]) {
+      setHavePostsBeenFetched(false);
+      const result = await backendAPI.get(`/posts/tag/${selectedTag._id}`);
+      const { posts } = result.data;
+      setPosts((previous) => {
+        return {
+          ...previous,
+          [selectedTag._id]: posts,
+        };
+      });
+      setHavePostsBeenFetched(true);
+    }
   };
 
   useEffect(() => {
@@ -87,11 +105,18 @@ const SpaceTopTabNavigator = (props) => {
 
   // spaceが消されたていたらここは動かさん。
   useEffect(() => {
-    if (space) {
-      getPostsBySpaceId();
+    if (hasSpaceBeenFetched) {
       getTags();
     }
-  }, [space]);
+  }, [hasSpaceBeenFetched]);
+
+  // fetchされたtagを使って、queryくぉしていく。
+  // 最初は、generalのtagのidを使って、postAndTagRelからfetchしてくることになる。
+  useEffect(() => {
+    if (selectedTag) {
+      getPostsByTagId();
+    }
+  }, [selectedTag]);
 
   return (
     <SpaceRootContext.Provider
@@ -105,6 +130,8 @@ const SpaceTopTabNavigator = (props) => {
         tags,
         setTags,
         haveTagsBeenFetched,
+        selectedTag,
+        setSelectedTag,
         navigation: props.navigation,
         menuBottomSheetRef,
       }}
@@ -130,6 +157,7 @@ const SpaceTopTabNavigator = (props) => {
         <Tab.Screen name='Grid' component={Grid} />
         <Tab.Screen name='Map' component={Map} />
       </Tab.Navigator>
+      {/* <SpaceMenu /> */}
     </SpaceRootContext.Provider>
   );
 };

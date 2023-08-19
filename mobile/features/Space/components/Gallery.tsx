@@ -3,11 +3,12 @@ import { View, Text, Dimensions, FlatList, ActivityIndicator } from 'react-nativ
 import { GlobalContext } from '../../../contexts/GlobalContext';
 import backendAPI from '../../../apis/backend';
 import PostThumbnail from '../components/PostThumbnail';
-import { SpaceContext } from '../contexts/SpaceContext';
+// import { SpaceContext } from '../contexts/SpaceContext';
+import { SpaceRootContext } from '../contexts/SpaceRootContext';
 
 const Gallery = (props) => {
   const { isIpad } = useContext(GlobalContext);
-  const { posts, setPosts, arePostsFetched } = useContext(SpaceContext);
+  const { posts, setPosts, havePostsBeenFetched, selectedTag } = useContext(SpaceRootContext);
   const oneAssetWidth = isIpad ? Dimensions.get('window').width / 6 : Dimensions.get('window').width / 3;
 
   // useEffect(() => {
@@ -28,12 +29,12 @@ const Gallery = (props) => {
     );
   }, []);
 
-  if (arePostsFetched) {
-    if (posts.length) {
+  if (havePostsBeenFetched) {
+    if (posts[selectedTag._id]?.length) {
       return (
         <FlatList
           numColumns={3}
-          data={posts}
+          data={posts[selectedTag._id]}
           renderItem={({ item }) => renderItem(item)}
           keyExtractor={(item) => item._id}
         />

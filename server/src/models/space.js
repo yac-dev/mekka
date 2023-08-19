@@ -10,6 +10,10 @@ const spaceSchema = mongoose.Schema({
     type: String,
     enum: ['photo', 'video', 'photoAndVideo'],
   },
+  defaultTag: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'Tag',
+  },
   description: String,
   videoLength: Number,
   disappearAfter: Number, // ここはminuteでいく。5, 60, 600, 1440って感じ。
