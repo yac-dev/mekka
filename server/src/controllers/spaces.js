@@ -2,6 +2,7 @@ import Space from '../models/space';
 import SpaceAndUserRelationship from '../models/spaceAndUserRelationship';
 import Reaction from '../models/reaction';
 import { uploadPhoto } from '../services/s3';
+import Post from '../models/post';
 
 // space作りだが、、、
 // type付も、最初から完璧でなくともいいぞ。
@@ -141,6 +142,49 @@ export const getSpace = async (request, response) => {
       });
     response.status(200).json({
       space,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getPostsBySpaceIdAndYearAndMonth = async (request, response) => {
+  try {
+    const { yearAndMonth } = request.params;
+    const year = yearAndMonth.split('-')[0];
+    const month = yearAndMonth.split('-')[1];
+
+    const startDate = new Date(Date.UTC(year, month - 1, 1));
+    const endDate = new Date(Date.UTC(year, month, 1));
+
+    // const libraryAssets = [];
+    const documents = await Post.find({
+      space: request.params.spaceId,
+      createdAt: { $gte: startDate, $lt: endDate },
+      $or: [
+        { disappearAt: { $gt: new Date() } }, // disapperAt greater than current time
+        { disappearAt: null }, // disapperAt is null
+      ],
+      createdBy: { $ne: null },
+    }).populate({
+      path: 'contents',
+      model: 'Content',
+      select: '_id data type',
+    });
+
+    const posts = documents.map((post, index) => {
+      return {
+        _id: post._id,
+        content: {
+          data: post.contents[0].data,
+          type: post.contents[0].type,
+        },
+        createdAt: post.createdAt,
+      };
+    });
+
+    response.status(200).json({
+      posts,
     });
   } catch (error) {
     console.log(error);

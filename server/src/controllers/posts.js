@@ -180,6 +180,7 @@ export const getPostsByYearAndMonth = async (request, response) => {
           data: post.contents[0].data,
           type: post.contents[0].type,
         },
+        createdAt: post.createdAt,
       };
     });
 
