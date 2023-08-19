@@ -1,6 +1,6 @@
 import React, { useContext, useCallback, useState, useEffect, useRef } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { View, Text, Dimensions, FlatList, ActivityIndicator } from 'react-native';
+import { View, Text, Dimensions, FlatList, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { GlobalContext } from '../../../contexts/GlobalContext';
 import backendAPI from '../../../apis/backend';
 import PostThumbnail from '../components/PostThumbnail';
@@ -11,15 +11,15 @@ import BottomMenu from '../components/BottomMenu';
 import TagMenus from '../components/TagMenus';
 import { SpaceContext } from '../contexts/SpaceContext';
 import SnackBar from '../../../components/SnackBar';
+import FastImage from 'react-native-fast-image';
 
 const Space = (props) => {
   const { isIpad } = useContext(GlobalContext);
-  const oneAssetWidth = isIpad ? Dimensions.get('window').width / 6 : Dimensions.get('window').width / 3;
   const [posts, setPosts] = useState([]);
+  const [arePostsFetched, setArePostsFetched] = useState(false);
   const [space, setSpace] = useState(null);
   const [hasSpaceBeenFetched, setHasSpaceBeenFetched] = useState(false);
   const [selectedTag, setSelectedTag] = useState(null);
-  const [arePostsFetched, setArePostsFetched] = useState(false);
   const [tags, setTags] = useState([]);
   const [areTagsFetched, setAreTagsFetched] = useState(false);
   const menuBottomSheetRef = useRef(null);
@@ -37,6 +37,14 @@ const Space = (props) => {
   useEffect(() => {
     if (space) {
       props.navigation.setOptions({
+        headerRight: () => (
+          <TouchableOpacity
+            style={{ width: 40, height: 40, justifyContent: 'center', alignItems: 'center' }}
+            onPress={() => menuBottomSheetRef.current.snapToIndex(0)}
+          >
+            <FastImage source={{ uri: space.icon }} style={{ width: 35, height: 35, borderRadius: 9 }} />
+          </TouchableOpacity>
+        ),
         headerTitle: () => (
           <Text
             style={{
@@ -66,8 +74,8 @@ const Space = (props) => {
     setArePostsFetched(true);
   };
 
-  const getTags = async () => {
-    const result = await backendAPI.get(`/tags/space/${props.route?.params?.spaceId}`);
+  const getTagsBySpaceId = async () => {
+    const result = await backendAPI.get(`/spaces/${props.route?.params?.spaceId}/tags`);
     const { tags } = result.data;
     setTags(tags);
     setAreTagsFetched(true);

@@ -3,11 +3,8 @@ import SpaceAndUserRelationship from '../models/spaceAndUserRelationship';
 import Reaction from '../models/reaction';
 import { uploadPhoto } from '../services/s3';
 import Post from '../models/post';
+import Tag from '../models/tag';
 
-// space作りだが、、、
-// type付も、最初から完璧でなくともいいぞ。
-// 1, reactionを作って、
-// 2, tagを作る
 export const createSpace = async (request, response) => {
   try {
     const {
@@ -148,6 +145,50 @@ export const getSpace = async (request, response) => {
   }
 };
 
+export const getPostsBySpaceId = async (request, response) => {
+  try {
+    const documents = await Post.find({
+      space: request.params.spaceId,
+      $or: [
+        { disappearAt: { $gt: new Date() } }, // disapperAt greater than current time
+        { disappearAt: null }, // disapperAt is null
+      ],
+      createdBy: { $ne: null }, // 存在しないuserによるpostはfetchしない。
+    })
+      .select({ _id: true, contents: true, caption: true, spaceId: true, createdBy: true, createdAt: true })
+      .sort({ createdAt: -1 })
+      .populate([
+        {
+          path: 'contents',
+          model: 'Content',
+          select: '_id data type',
+        },
+        {
+          path: 'createdBy',
+          model: 'User',
+          select: '_id name avatar',
+        },
+      ]);
+    // postのidと、contents[0]のdata, typeだけ欲しい。
+    // {post: postId, content: {data: "....", type: "video"}}
+    const posts = documents.map((post, index) => {
+      return {
+        _id: post._id,
+        content: {
+          data: post.contents[0].data,
+          type: post.contents[0].type,
+        },
+      };
+    });
+
+    response.status(200).json({
+      posts,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const getPostsBySpaceIdAndYearAndMonth = async (request, response) => {
   try {
     const { yearAndMonth } = request.params;
@@ -185,6 +226,18 @@ export const getPostsBySpaceIdAndYearAndMonth = async (request, response) => {
 
     response.status(200).json({
       posts,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getTagsBySpaceId = async (request, response) => {
+  try {
+    // relationshipのtableでもないし、大丈夫か。
+    const documents = await Tag.find({ space: request.params.spaceId });
+    response.status(200).json({
+      tags: documents,
     });
   } catch (error) {
     console.log(error);

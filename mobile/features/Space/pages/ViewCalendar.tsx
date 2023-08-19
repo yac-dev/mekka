@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
+import ViewPostsByDateBottomSheet from './ViewPostsByDateBottomSheet';
 import backendAPI from '../../../apis/backend';
 import FastImage from 'react-native-fast-image';
 import { Video } from 'expo-av';
 
-const CalendarView = (props) => {
+const ViewCalendar = (props) => {
   const [currentYearAndMonth, setCurrentYearAndMonth] = useState('');
   const [postsTable, setPostsTable] = useState({});
-
-  console.log(postsTable);
+  const viewPostsByDateBottomSheetRef = useRef(null);
 
   useEffect(() => {
     const month = new Date().getMonth() + 1;
@@ -73,7 +74,10 @@ const CalendarView = (props) => {
               //   reactionOptions: library.reactions,
               //   isCommentAvailable: library.isCommentAvailable,
               // })
-              console.log(marking)
+              {
+                viewPostsByDateBottomSheetRef.current.snapToIndex(0);
+                console.log(marking);
+              }
             }
           >
             {marking.type === 'photo' ? (
@@ -110,7 +114,7 @@ const CalendarView = (props) => {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: 'black' }}>
+    <GestureHandlerRootView style={{ flex: 1, backgroundColor: 'black' }}>
       <Calendar
         style={{
           width: '100%',
@@ -132,8 +136,9 @@ const CalendarView = (props) => {
           textMonthFontWeight: 'bold',
         }}
       />
-    </View>
+      <ViewPostsByDateBottomSheet viewPostsByDateBottomSheetRef={viewPostsByDateBottomSheetRef} />
+    </GestureHandlerRootView>
   );
 };
 
-export default CalendarView;
+export default ViewCalendar;

@@ -49,7 +49,7 @@ const BottomMenu = () => {
           <TouchableOpacity
             onPress={() => navigation?.navigate({ name: 'CreatePost', params: { space: space }, merge: true })}
           >
-            <Ionicons name='add-circle' size={25} color={'white'} />
+            <Ionicons name='add-circle' size={23} color={'white'} />
           </TouchableOpacity>
         </View>
         <View
@@ -62,7 +62,19 @@ const BottomMenu = () => {
           }}
         >
           <TouchableOpacity onPress={() => {}}>
-            <MaterialCommunityIcons name='human-greeting-variant' size={25} color='white' />
+            <MaterialCommunityIcons name='human-greeting-variant' size={23} color='white' />
+          </TouchableOpacity>
+        </View>
+        <View
+          style={{
+            width: oneGridWidth,
+            height: 40,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <TouchableOpacity onPress={() => navigation?.navigate('ViewMap', { spaceId: space._id })}>
+            <MaterialCommunityIcons name='map' size={23} color={'white'} />
           </TouchableOpacity>
         </View>
         <View
@@ -74,15 +86,9 @@ const BottomMenu = () => {
           }}
         >
           <TouchableOpacity>
-            <Foundation name='comments' size={25} color='white' />
+            <Foundation name='comments' size={23} color='white' />
           </TouchableOpacity>
         </View>
-        <TouchableOpacity
-          style={{ width: oneGridWidth, height: 40, justifyContent: 'center', alignItems: 'center' }}
-          onPress={() => menuBottomSheetRef.current.snapToIndex(0)}
-        >
-          <FastImage source={{ uri: space.icon }} style={{ width: 35, height: 35, borderRadius: 9 }} />
-        </TouchableOpacity>
       </View>
     </ScrollView>
   );

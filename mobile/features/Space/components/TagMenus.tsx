@@ -36,18 +36,18 @@ const TagMenus = () => {
           <View style={{ flexDirection: 'row', alignItems: 'center', padding: 10 }}>
             <TouchableOpacity
               style={{ padding: 10, flexDirection: 'row', alignItems: 'center', marginRight: 10 }}
-              onPress={() => navigation?.navigate('ViewMap', { spaceId: space._id })}
+              // onPress={() => navigation?.navigate('ViewMap', { spaceId: space._id })}
             >
-              <MaterialCommunityIcons name='map' size={20} style={{ marginRight: 7 }} color={'white'} />
-              <Text style={{ color: 'white' }}>Map</Text>
+              <MaterialCommunityIcons name='dots-grid' size={20} style={{ marginRight: 7 }} color={'white'} />
+              <Text style={{ color: 'white' }}>All</Text>
             </TouchableOpacity>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={{ padding: 10, flexDirection: 'row', alignItems: 'center', marginRight: 10 }}
               onPress={() => navigation?.navigate('ViewCalendar', { spaceId: space._id })}
             >
               <MaterialCommunityIcons name='calendar-month' size={20} style={{ marginRight: 7 }} color={'white'} />
               <Text style={{ color: 'white' }}>Calendar</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             {renderTags()}
           </View>
         </ScrollView>

@@ -1,11 +1,12 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect, useRef } from 'react';
 import { TouchableOpacity, Text, View, Dimensions, StyleSheet } from 'react-native';
 import { icons } from '../utils/icons';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import FastImage from 'react-native-fast-image';
 const Stack = createNativeStackNavigator();
-import SpaceTopTabNavigator from './SpaceTopTabNavigator';
 import { primaryBackgroundColor } from '../themes/color';
 import { primaryTextColor } from '../themes/text';
+import SpaceTopTabNavigator from './SpaceTopTabNavigator';
 import Space from '../features/Space/pages/Space';
 import ViewPost from '../features/Space/pages/ViewPost';
 import Comments from '../features/Space/pages/Comments';
@@ -18,6 +19,7 @@ import AddLoaction from '../features/Space/pages/AddLocation';
 import CreateTag from '../features/Space/pages/CreateTag';
 import Reactions from '../features/Space/pages/Reactions';
 import { Ionicons } from '@expo/vector-icons';
+import backendAPI from '../apis/backend';
 import Dummy from '../features/Space/pages/Dummy';
 
 const { MCI, II } = icons;
@@ -32,14 +34,31 @@ const styles = StyleSheet.create({
   },
 });
 
-// シンプルに、というかあれか。spaceで持っておけばいいのか。photo, video, photoAndVideoって。
-const SpaceRootStackNavigator = () => {
-  // これ、めんどうだな。。。3つに分かれるのかね。。。パターンが。
+const SpaceRootStackNavigator = (props) => {
+  const [posts, setPosts] = useState([]);
+  const [havePostsBeenFetched, setHavePostsBeenFetched] = useState(false);
+  const [space, setSpace] = useState(null);
+  const [hasSpaceBeenFetched, setHasSpaceBeenFetched] = useState(false);
+  const [selectedTag, setSelectedTag] = useState(null);
+  const [tags, setTags] = useState([]);
+  const [haveTagsBeenFetched, setHaveTagsBeenFetched] = useState(false);
+  const menuBottomSheetRef = useRef(null);
+
+  // useEffect(() => {
+  //   if (props.route?.params?.createdPost) {
+  //     setPosts((previous) => {
+  //       const updating = [...previous];
+  //       updating.unshift(props.route?.params?.createdPost);
+  //       return updating;
+  //     });
+  //   }
+  // }, [props.route?.params?.createdPost]);
+
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name='Space'
-        component={Space}
+        name='SpaceTopTabNavigator'
+        component={SpaceTopTabNavigator}
         options={({ navigation }) => ({
           headerLeft: () => (
             <TouchableOpacity onPress={() => navigation.goBack()}>
