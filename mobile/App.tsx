@@ -1,9 +1,11 @@
 import React, { useState, useReducer, useEffect } from 'react';
 import { View, Platform, StatusBar } from 'react-native';
+import { GlobalContext } from './contexts/GlobalContext';
 import { NavigationContainer } from '@react-navigation/native';
+import { PaperProvider } from 'react-native-paper';
 import * as SecureStore from 'expo-secure-store';
 import LoadingSpinner from './components/LoadingSpinner';
-import { GlobalContext } from './contexts/GlobalContext';
+import SnackBar from './components/SnackBar';
 import RootStack from './navigations/RootStack';
 import backendAPI from './apis/backend';
 
@@ -19,7 +21,7 @@ const App: React.FC = function () {
   const [authData, setAuthData] = useState<AuthDataType>({ _id: '', name: '', email: '', avatar: '' });
   const [isIpad, setIsIpad] = useState<boolean>(Platform.OS === 'ios' && Platform.isPad);
   const [loading, setLoading] = useState<boolean>(false);
-  const [snackBar, setSnackBar] = useState<boolean>(false);
+  const [snackBar, setSnackBar] = useState({ isVisible: false, message: '', barType: '', duration: null });
   const [spaceAndUserRelationships, setSpaceAndUserRelationships] = useState([]);
 
   const loadMe = async () => {
@@ -65,12 +67,15 @@ const App: React.FC = function () {
         setSpaceAndUserRelationships,
       }}
     >
+      <PaperProvider>
+        <StatusBar hidden={false} translucent={true} backgroundColor='blue' barStyle='light-content' />
+        <NavigationContainer>
+          <RootStack />
+        </NavigationContainer>
+        <LoadingSpinner />
+        <SnackBar />
+      </PaperProvider>
       {/* <StatusBar hidden={false} translucent={true} backgroundColor='blue' barStyle='light-content' /> */}
-      <StatusBar hidden={false} translucent={true} backgroundColor='blue' barStyle='light-content' />
-      <NavigationContainer>
-        <RootStack />
-      </NavigationContainer>
-      <LoadingSpinner />
     </GlobalContext.Provider>
   );
 };

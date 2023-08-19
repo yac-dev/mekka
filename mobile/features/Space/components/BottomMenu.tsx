@@ -49,7 +49,7 @@ const BottomMenu = () => {
           <TouchableOpacity
             onPress={() => navigation?.navigate({ name: 'CreatePost', params: { space: space }, merge: true })}
           >
-            <MaterialCommunityIcons name='plus-box-multiple' size={25} color={'white'} />
+            <Ionicons name='add-circle' size={25} color={'white'} />
           </TouchableOpacity>
         </View>
         <View
