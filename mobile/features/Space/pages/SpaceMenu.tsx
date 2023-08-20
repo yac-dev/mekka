@@ -1,6 +1,8 @@
 import React, { useMemo, useContext } from 'react';
 import { SpaceContext } from '../contexts/SpaceContext';
+import { SpaceRootContext } from '../contexts/SpaceRootContext';
 import { View, Text, TouchableOpacity } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import GorhomBottomSheet, { BottomSheetView, BottomSheetBackdrop } from '@gorhom/bottom-sheet';
 import Header from '../components/SpaceMenu/Header';
 import Menus from '../components/SpaceMenu/Menus';
@@ -9,7 +11,7 @@ import About from '../components/SpaceMenu/About';
 // rgb(35, 35, 35)
 const SpaceMenu = () => {
   const snapPoints = useMemo(() => ['70%'], []);
-  const { menuBottomSheetRef, navigation } = useContext(SpaceContext);
+  const { menuBottomSheetRef, navigation } = useContext(SpaceRootContext);
 
   return (
     <GorhomBottomSheet

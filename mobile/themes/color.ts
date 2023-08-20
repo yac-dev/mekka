@@ -48,7 +48,7 @@ export const iconColorTable = {
   lightGreen1: 'rgba(45, 209, 40, 0.85)', // lg
   green1: 'rgba(8, 140, 4, 0.85)', // gr
   lightBlue1: 'rgba(4, 151, 219, 0.85)', //lb
-  gray1: 'rgba(155, 155, 155, 0.85)', // gy
+  gray1: 'rgba(95, 95, 95, 0.85)', // gy
   pink1: 'rgba(240, 103, 165, 0.85)',
   black1: 'rgba(70, 70, 70, 0.85)', // bl
   brown1: 'rgba(155, 81, 15, 0.85)',

@@ -9,6 +9,10 @@ const tagSchema = mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: 'Space',
   },
+  createdBy: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'User',
+  },
 });
 
 const Tag = mongoose.model('Tag', tagSchema);

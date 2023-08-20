@@ -37,6 +37,7 @@ const Gallery = (props) => {
           data={posts[selectedTag._id]}
           renderItem={({ item }) => renderItem(item)}
           keyExtractor={(item) => item._id}
+          style={{ marginTop: 60 }}
         />
       );
     } else {

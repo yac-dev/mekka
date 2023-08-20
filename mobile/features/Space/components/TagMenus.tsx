@@ -5,9 +5,10 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 // import { SpaceContext } from '../contexts/SpaceContext';
 import { SpaceRootContext } from '../contexts/SpaceRootContext';
+import { iconColorTable } from '../../../themes/color';
 
 const TagMenus = () => {
-  const { tags, space, selectedTag, setSelectedTag } = useContext(SpaceRootContext);
+  const { tags, space, selectedTag, setSelectedTag, topTabHeight } = useContext(SpaceRootContext);
 
   const renderTags = () => {
     if (tags.length) {
@@ -20,7 +21,7 @@ const TagMenus = () => {
               flexDirection: 'row',
               alignItems: 'center',
               marginRight: 10,
-              backgroundColor: selectedTag?._id === tag._id ? 'red' : null,
+              backgroundColor: selectedTag?._id === tag._id ? iconColorTable['gray1'] : null,
               borderRadius: 5,
             }}
             // onPress={() => navigation?.navigate('TaggedPosts', { tag })}
@@ -28,7 +29,7 @@ const TagMenus = () => {
           >
             <Feather name='hash' size={15} style={{}} color={'white'} />
             <Text style={{ color: 'white', marginRight: 10 }}>{tag.name}</Text>
-            <Text style={{ color: 'white', marginRight: 10 }}>{tag.count}</Text>
+            <Text style={{ color: 'white' }}>{tag.count}</Text>
           </TouchableOpacity>
         );
       });
@@ -41,9 +42,16 @@ const TagMenus = () => {
 
   if (space) {
     return (
-      <View>
+      <View style={{ position: 'absolute', width: '100%', top: topTabHeight }}>
         <ScrollView horizontal={true}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', padding: 10 }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              // padding: 5,
+              height: 60,
+            }}
+          >
             {/* <TouchableOpacity
               style={{ padding: 10, flexDirection: 'row', alignItems: 'center', marginRight: 10 }}
               onPress={() => navigation?.navigate('ViewCalendar', { spaceId: space._id })}
