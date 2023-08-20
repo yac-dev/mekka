@@ -5,7 +5,6 @@ const spaceUpdateLogSchema = mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: 'Space',
   },
-  type: [String], //post, tag createなど
   updatedBy: {
     type: mongoose.Schema.ObjectId,
     ref: 'User',

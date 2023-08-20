@@ -14,6 +14,7 @@ const tagSchema = mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: 'User',
   },
+  lastUpdated: Date,
 });
 
 const Tag = mongoose.model('Tag', tagSchema);
