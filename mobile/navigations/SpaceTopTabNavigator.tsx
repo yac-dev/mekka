@@ -13,6 +13,8 @@ import FastImage from 'react-native-fast-image';
 import TagMenus from '../features/Space/components/TagMenus';
 import BottomMenu from '../features/Space/components/BottomMenu';
 import { SpaceContext } from '../features/Space/contexts/SpaceContext';
+import { MaterialIcons } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -37,27 +39,27 @@ const SpaceTopTabNavigator = (props) => {
   //   }
   // }, [props.route?.params?.createdPost]);
 
-  useEffect(() => {
-    if (space) {
-      props.navigation.setOptions({
-        headerTitle: () => (
-          <TouchableOpacity
-            style={{
-              width: 50,
-              height: 50,
-              justifyContent: 'center',
-              alignItems: 'center',
-              // paddingTop: 10,
-              // paddingBottom: 10,
-            }}
-            onPress={() => menuBottomSheetRef.current.snapToIndex(0)}
-          >
-            <FastImage source={{ uri: space.icon }} style={{ width: 40, height: 40, borderRadius: 8 }} />
-          </TouchableOpacity>
-        ),
-      });
-    }
-  }, [space]);
+  // useEffect(() => {
+  //   if (space) {
+  //     props.navigation.setOptions({
+  //       headerTitle: () => (
+  //         <TouchableOpacity
+  //           style={{
+  //             width: 50,
+  //             height: 50,
+  //             justifyContent: 'center',
+  //             alignItems: 'center',
+  //             // paddingTop: 10,
+  //             // paddingBottom: 10,
+  //           }}
+  //           onPress={() => menuBottomSheetRef.current.snapToIndex(0)}
+  //         >
+  //           <FastImage source={{ uri: space.icon }} style={{ width: 40, height: 40, borderRadius: 8 }} />
+  //         </TouchableOpacity>
+  //       ),
+  //     });
+  //   }
+  // }, [space]);
 
   const getSpace = async () => {
     const result = await backendAPI.get(`/spaces/${props.route?.params?.spaceId}`);
@@ -160,12 +162,30 @@ const SpaceTopTabNavigator = (props) => {
             },
           })}
         >
-          <Tab.Screen name='Grid' component={Grid} />
-          <Tab.Screen name='Map' component={Map} />
+          <Tab.Screen
+            name='Grid'
+            component={Grid}
+            options={({ navigation }) => ({
+              tabBarShowLabel: false,
+              tabBarIcon: ({ size, color, focused }) => (
+                <MaterialIcons name='apps' color={focused ? 'white' : 'rgb(102, 104, 109)'} size={25} />
+              ),
+            })}
+          />
+          <Tab.Screen
+            name='Map'
+            component={Map}
+            options={({ navigation }) => ({
+              tabBarShowLabel: false,
+              tabBarIcon: ({ size, color, focused }) => (
+                <Entypo name='globe' color={focused ? 'white' : 'rgb(102, 104, 109)'} size={25} />
+              ),
+            })}
+          />
         </Tab.Navigator>
         <TagMenus />
-        <SpaceMenu />
         <BottomMenu />
+        <SpaceMenu />
       </GestureHandlerRootView>
     </SpaceRootContext.Provider>
   );

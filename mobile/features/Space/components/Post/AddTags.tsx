@@ -202,12 +202,12 @@ const AddTags = () => {
               borderRadius: 11,
             }}
           >
-            <Feather name='hash' color={iconColorTable['gray1']} size={20} />
+            <Feather name='hash' color={'rgba(155, 155, 155, 0.85)'} size={20} />
           </View>
           <Text style={{ color: 'white', fontSize: 18, fontWeight: 'bold' }}>Tags</Text>
         </View>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Text style={{ color: 'white', marginRight: 10, color: 'rgb(170, 170,170)' }}>Optional</Text>
+          {/* <Text style={{ color: 'white', marginRight: 10, color: 'rgb(170, 170,170)' }}>Optional</Text> */}
           {accordion ? (
             <MaterialCommunityIcons name='chevron-up' color='white' size={20} />
           ) : (
@@ -217,7 +217,7 @@ const AddTags = () => {
       </TouchableOpacity>
       {accordion ? (
         <View style={{ marginTop: 20 }}>
-          <Text style={{ marginBottom: 20, color: 'white' }}>Please add tags as you need.</Text>
+          <Text style={{ marginBottom: 20, color: 'white' }}>Please add at least one tag.</Text>
           {renderAddedTags()}
           {renderCreatedTags()}
           {renderTagOptions()}

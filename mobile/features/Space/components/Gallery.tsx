@@ -32,19 +32,28 @@ const Gallery = (props) => {
   if (havePostsBeenFetched) {
     if (posts[selectedTag._id]?.length) {
       return (
-        <FlatList
-          numColumns={3}
-          data={posts[selectedTag._id]}
-          renderItem={({ item }) => renderItem(item)}
-          keyExtractor={(item) => item._id}
-          style={{ marginTop: 60 }}
-        />
+        <View style={{ marginTop: 60 }}>
+          <FlatList
+            numColumns={3}
+            data={posts[selectedTag._id]}
+            renderItem={({ item }) => renderItem(item)}
+            keyExtractor={(item) => item._id}
+          />
+        </View>
       );
     } else {
-      return <Text>No posts</Text>;
+      return (
+        <View style={{ marginTop: 60 }}>
+          <Text style={{ marginTop: 50, textAlign: 'center', color: 'white' }}>No posts yet...</Text>
+        </View>
+      );
     }
   } else {
-    return <ActivityIndicator />;
+    return (
+      <View style={{ marginTop: 60 }}>
+        <ActivityIndicator />
+      </View>
+    );
   }
 };
 

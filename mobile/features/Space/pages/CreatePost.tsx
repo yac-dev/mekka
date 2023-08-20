@@ -45,15 +45,31 @@ const Post: React.FC<PostProps> = (props) => {
     createdTags: [],
   });
   // const [createdTags, setCreatedTags] = useState([]);
-  const [tagOptions, setTagOptions] = useState({});
+  const [tagOptions, setTagOptions] = useState(() => {
+    const table = {};
+    props.route?.params?.tags.forEach((tag) => {
+      table[tag._id] = tag;
+    });
+    return table;
+  });
 
   useEffect(() => {
     props.navigation.setOptions({
       headerRight: () => (
-        <TouchableOpacity onPress={() => onDonePress()} disabled={false}>
+        <TouchableOpacity
+          onPress={() => onDonePress()}
+          disabled={
+            formData.contents.length && (Object.keys(formData.addedTags).length || formData.createdTags.length)
+              ? false
+              : true
+          }
+        >
           <Text
             style={{
-              color: 'white',
+              color:
+                formData.contents.length && (Object.keys(formData.addedTags).length || formData.createdTags.length)
+                  ? 'white'
+                  : 'rgb(70,70,70)',
               fontSize: 20,
               fontWeight: 'bold',
             }}
@@ -65,21 +81,21 @@ const Post: React.FC<PostProps> = (props) => {
     });
   }, [formData, props.route?.params?.space]);
 
-  const getTags = async () => {
-    const result = await backendAPI.get(`/tags/space/${props.route?.params?.space._id}`);
-    const { tags } = result.data;
-    setTagOptions(() => {
-      const table = {};
-      tags.forEach((tag) => {
-        table[tag._id] = tag;
-      });
-      return table;
-    });
-  };
+  // const getTags = async () => {
+  //   const result = await backendAPI.get(`/tags/space/${props.route?.params?.space._id}`);
+  //   const { tags } = result.data;
+  //   setTagOptions(() => {
+  //     const table = {};
+  //     tags.forEach((tag) => {
+  //       table[tag._id] = tag;
+  //     });
+  //     return table;
+  //   });
+  // };
 
-  useEffect(() => {
-    getTags();
-  }, []);
+  // useEffect(() => {
+  //   getTags();
+  // }, []);
 
   // ここまじで謎だよなー。なんで毎回undefinedになるんだろうか。。。
   const onDonePress = async () => {
@@ -154,9 +170,9 @@ const Post: React.FC<PostProps> = (props) => {
         </View>
         <ScrollView>
           <AddPhoto />
+          <AddTags />
           <AddCaption />
           <AddLocation />
-          <AddTags />
         </ScrollView>
         <LoadingSpinner />
       </View>

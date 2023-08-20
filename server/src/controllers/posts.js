@@ -5,9 +5,16 @@ import ReactionStatus from '../models/reactionStatus';
 import Tag from '../models/tag';
 import PostAndTagRelationship from '../models/postAndTagRelationship';
 import { uploadPhoto } from '../services/s3';
+import mongoose from 'mongoose';
 
+// post時に何をするかだね。
+// transaction, atomicityの実装。atlasで使えるのかな？？
+// contentsを作って、postを作って、reactionStatusを作って、tagを作って、もしくはtagをupdateして、spaceLogを作って、tagLogを作る。
+// かなりのoperationが必要になるよな。。。
 export const createPost = async (request, response) => {
+  const session = await mongoose.startSession();
   try {
+    session.startTransaction();
     // postで、reactionを全部持っておかないとね。
     const { caption, createdBy, location, spaceId, reactions, addedTags, createdTags, disappearAfter } = request.body;
     console.log(disappearAfter);
@@ -23,82 +30,130 @@ export const createPost = async (request, response) => {
     const contents = [];
 
     // 1 contentsを作る。
-    // clientからspaceのdisapperを送ればいい。単純に。
-    for (let file of files) {
-      const content = await Content.create({
-        data: `https://mekka-${process.env.NODE_ENV}.s3.us-east-2.amazonaws.com/${
-          file.mimetype === 'image/jpeg' ? 'photos' : 'videos'
-        }/${file.filename}`,
-        type: file.mimetype === 'image/jpeg' ? 'photo' : 'video',
-        createdBy,
-        createdAt,
-      });
+    // batch creation
+    // そう言うことで言うと、contentsのidもだわ。。。
+    const contentPromises = files.map(async (file) => {
+      const contentId = new mongoose.Types.ObjectId();
+      contentIds.push(contentId);
+      const content = await Content.create(
+        [
+          {
+            _id: contentId,
+            data: `https://mekka-${process.env.NODE_ENV}.s3.us-east-2.amazonaws.com/${
+              file.mimetype === 'image/jpeg' ? 'photos' : 'videos'
+            }/${file.filename}`,
+            type: file.mimetype === 'image/jpeg' ? 'photo' : 'video',
+            createdBy,
+            createdAt,
+          },
+        ],
+        { session }
+      );
       contents.push(content);
-      contentIds.push(content._id);
+      // contentIds.push(content._id);
       await uploadPhoto(file.filename, content.type);
-    }
-    // そもそも、これspaceもfetchしなきゃいけないよな。。。こういうの、すげー効率がなー。
-
-    // 2,postを作る
-    const post = await Post.create({
-      contents: contentIds,
-      caption,
-      space: spaceId,
-      location: parsedLocation,
-      disappearAt,
-      createdBy,
-      createdAt,
+      return content;
     });
+    const contentDocuments = await Promise.all(contentPromises, { session });
+
+    // for (let file of files) {
+    //   const content = await Content.create({
+    //     data: `https://mekka-${process.env.NODE_ENV}.s3.us-east-2.amazonaws.com/${
+    //       file.mimetype === 'image/jpeg' ? 'photos' : 'videos'
+    //     }/${file.filename}`,
+    //     type: file.mimetype === 'image/jpeg' ? 'photo' : 'video',
+    //     createdBy,
+    //     createdAt,
+    //   });
+    //   contents.push(content);
+    //   contentIds.push(content._id);
+    //   await uploadPhoto(file.filename, content.type);
+    // }
+    // そもそも、これspaceもfetchしなきゃいけないよな。。。こういうの、すげー効率がなー。
+    var postId = new mongoose.Types.ObjectId();
+    // 2,postを作る
+    const post = await Post.create(
+      [
+        {
+          _id: postId,
+          contents: contentIds,
+          caption,
+          space: spaceId,
+          location: parsedLocation,
+          disappearAt,
+          createdBy,
+          createdAt,
+        },
+      ],
+      { session }
+    );
 
     // 3 reactionのstatusを作る。
     const reacionStatusObjects = parsedReactions.map((reactionId) => {
       return {
-        post: post,
+        post: postId,
         reaction: reactionId,
         count: 0,
       };
     });
-    const reactionAndStatuses = await ReactionStatus.insertMany(reacionStatusObjects);
+    const reactionAndStatuses = await ReactionStatus.insertMany(reacionStatusObjects, { session });
 
     const tagIds = [];
 
     // 4 新しいtagを作る、もし、createdTagsがあったら。
     if (parsedCreatedTags.length) {
       const tagObjects = parsedCreatedTags.map((tagName) => {
+        const tagId = new mongoose.Types.ObjectId();
+        tagIds.push(tagId);
         return {
+          _id: tagId,
           name: tagName,
           count: 1,
           space: spaceId,
         };
       });
-      const tagDocuments = await Tag.insertMany(tagObjects);
-      tagDocuments.forEach((tagDocument) => {
-        tagIds.push(tagDocument._id);
-      });
+      const tagDocuments = await Tag.insertMany(tagObjects, { session });
+      // tagDocuments.forEach((tagDocument) => {
+      //   tagIds.push(tagDocument._id);
+      // });
     }
 
     // だから、client側ではtagのidだけを入れておく感じな。
     if (parsedTags.length) {
-      parsedTags.forEach((tagId) => {
-        tagIds.push(tagId);
+      // parsedTags
+      const tags = await Tag.find({ _id: { $in: parsedTags } });
+      const updatePromises = tags.map((tag) => {
+        tag.count += 1;
+        return tag.save();
       });
+
+      // Execute all update promises in parallel
+      await Promise.all(updatePromises, { session });
+      tagIds.push(...parsedTags);
+      // parsedTags.forEach((tagId) => {
+      //   tagIds.push(tagId);
+      // });
     }
 
     // tagIdsをもとにpostAndTagのrelationshipを作る、もちろん最終的にtagIdsのlengthがあったらね。
+    // 最終的に、つけられたtagとpostのrelationshipを作る。
     if (tagIds.length) {
       const postAndTagRelationshipObjects = tagIds.map((tagId) => {
         return {
-          post: post._id,
+          post: postId,
           tag: tagId,
         };
       });
 
-      const postAndTagRelationshipDocuments = await PostAndTagRelationship.insertMany(postAndTagRelationshipObjects);
+      const postAndTagRelationshipDocuments = await PostAndTagRelationship.insertMany(postAndTagRelationshipObjects, {
+        session,
+      });
     }
+    await session.commitTransaction();
 
     response.status(201).json({
       post: {
-        _id: post._id,
+        _id: postId,
         content: {
           data: contents[0].data,
           type: contents[0].type,
@@ -106,7 +161,11 @@ export const createPost = async (request, response) => {
       },
     });
   } catch (error) {
+    await session.abortTransaction();
     console.log(error);
+    response.status(500).json({ error: 'An error occurred' });
+  } finally {
+    session.endSession();
   }
 };
 
@@ -136,6 +195,7 @@ export const getPostsByTagId = async (request, response) => {
   try {
     const postAndTagRelationships = await PostAndTagRelationship.find({
       tag: request.params.tagId,
+      // post: { $ne: null },  // これ意味ない。結局、mongoにはrdbmsにおけるjoin的な機能を持ち合わせていないから。
     }).populate({
       path: 'post',
       model: 'Post',
@@ -146,17 +206,18 @@ export const getPostsByTagId = async (request, response) => {
       },
     });
 
-    const posts = postAndTagRelationships.map((relationship, index) => {
-      return {
-        _id: relationship.post._id,
-        content: {
-          data: relationship.post.contents[0].data,
-          type: relationship.post.contents[0].type,
-        },
-        location: relationship.post.location,
-      };
-    });
-    console.log(posts);
+    const posts = postAndTagRelationships
+      .filter((relationship) => relationship.post !== null)
+      .map((relationship, index) => {
+        return {
+          _id: relationship.post._id,
+          content: {
+            data: relationship.post.contents[0].data,
+            type: relationship.post.contents[0].type,
+          },
+          location: relationship.post.location,
+        };
+      });
 
     response.status(200).json({
       posts,

@@ -66,7 +66,7 @@ const SpaceRootStackNavigator = (props) => {
             </TouchableOpacity>
           ),
           headerShown: true,
-          headerTitle: 'Space',
+          headerTitle: '',
           headerStyle: {
             backgroundColor: 'black',
           },

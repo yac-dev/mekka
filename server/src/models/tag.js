@@ -5,6 +5,7 @@ const tagSchema = mongoose.Schema({
   name: String,
   color: String,
   count: Number,
+  // lastUpdatedを持っておけばいいのかもしれないが、、、さらに数を出したいとなると、、、、
   space: {
     type: mongoose.Schema.ObjectId,
     ref: 'Space',

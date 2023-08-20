@@ -1,4 +1,5 @@
 import Comment from '../models/comment';
+import Post from '../models/post';
 
 export const createComment = async (request, response) => {
   try {
@@ -8,6 +9,10 @@ export const createComment = async (request, response) => {
       createdBy: request.body.userId,
       createdAt: new Date(),
     });
+
+    // const post = await Post.find({ _id: request.body.postId });
+    // post.totalComments++;
+    // post.save();
 
     response.status(201).json({
       comment,

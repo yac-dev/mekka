@@ -9,6 +9,7 @@ const spaceAndUserRelationshipSchema = mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: 'User',
   },
+  lastCheckedIn: Date,
   createdAt: Date,
 });
 
