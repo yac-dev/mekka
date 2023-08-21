@@ -21,7 +21,7 @@ const Spaces: React.FC = (props) => {
     // });
     navigation?.navigate('SpaceRootStackNavigator', {
       screen: 'SpaceTopTabNavigator',
-      params: { spaceId: relationship.space._id },
+      params: { spaceId: relationship.space._id, lastCheckedIn: relationship.lastCheckedIn },
     });
     // navigation?.navigate('SpaceRootStackNavigator', { spaceId: relationship.space._id });
   };

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { TouchableOpacity, Text } from 'react-native';
+import { TouchableOpacity, Text, View } from 'react-native';
 import { GlobalContext } from '../contexts/GlobalContext';
 import { icons } from '../utils/icons';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -9,14 +9,15 @@ import Signup from '../features/Home/pages/Signup';
 import SpaceRootStackNavigator from './SpaceRootStackNavigator';
 import { primaryBackgroundColor } from '../themes/color';
 import { primaryTextColor } from '../themes/text';
+import SpacesTopNavigator from './SpacesTopNavigator';
 
 const HomeStackNavigator: React.FC = () => {
   return (
     <Stack.Navigator>
       <Stack.Group>
         <Stack.Screen
-          name='Home'
-          component={Home}
+          name='SpacesTopNavigator'
+          component={SpacesTopNavigator}
           options={({ navigation }) => ({
             headerShown: false,
           })}

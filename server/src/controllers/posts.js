@@ -110,6 +110,7 @@ export const createPost = async (request, response) => {
           name: tagName,
           count: 1,
           space: spaceId,
+          updatedAt: new Date(),
         };
       });
       const tagDocuments = await Tag.insertMany(tagObjects, { session });
@@ -124,6 +125,7 @@ export const createPost = async (request, response) => {
       const tags = await Tag.find({ _id: { $in: parsedTags } });
       const updatePromises = tags.map((tag) => {
         tag.count += 1;
+        tag.updatedAt = new Date();
         return tag.save();
       });
 

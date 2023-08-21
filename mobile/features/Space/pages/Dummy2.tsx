@@ -1,13 +1,9 @@
 import React, { useEffect } from 'react';
 import { View, Text } from 'react-native';
-import { useRoute } from '@react-navigation/native';
 import backendAPI from '../../../apis/backend';
 
-const Dummy = (props) => {
-  // const route = useRoute();
-  // const tagId = route.params.relationship; // Access the tagId parameter
-
-  console.log('hello from dummy1');
+const Dummy2 = () => {
+  console.log('hello from dummy2');
 
   const a = async () => {
     const v = await backendAPI.get('http://192.168.11.30:3500/');
@@ -19,9 +15,9 @@ const Dummy = (props) => {
   }, []);
   return (
     <View>
-      <Text>Dummy</Text>
+      <Text>ko</Text>
     </View>
   );
 };
 
-export default Dummy;
+export default Dummy2;

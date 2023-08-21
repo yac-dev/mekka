@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 
+// だから、lastUpdateするのは、first tagだけでいいかも。。。
 const tagSchema = mongoose.Schema({
   icon: String,
   name: String,
@@ -14,7 +15,7 @@ const tagSchema = mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: 'User',
   },
-  lastUpdated: Date,
+  updatedAt: Date,
 });
 
 const Tag = mongoose.model('Tag', tagSchema);

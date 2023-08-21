@@ -66,6 +66,7 @@ const BottomTab: React.FC = () => {
         name='HomeStackNavigator'
         component={HomeStackNavigator}
         options={({ navigation }) => ({
+          headerShown: false,
           title: 'Mekka',
           headerTintColor: 'white',
           headerStyle: {

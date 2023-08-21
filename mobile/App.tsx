@@ -8,6 +8,7 @@ import LoadingSpinner from './components/LoadingSpinner';
 import SnackBar from './components/SnackBar';
 import RootStack from './navigations/RootStack';
 import backendAPI from './apis/backend';
+import BottomTab from './navigations/BottomTab';
 
 type AuthDataType = {
   _id: string;
@@ -23,6 +24,7 @@ const App: React.FC = function () {
   const [loading, setLoading] = useState<boolean>(false);
   const [snackBar, setSnackBar] = useState({ isVisible: false, message: '', barType: '', duration: null });
   const [spaceAndUserRelationships, setSpaceAndUserRelationships] = useState([]);
+  const [haveSpaceAndUserRelationshipsBeenFetched, setHaveSpaceAndUserRelationshipsBeenFetched] = useState(false);
 
   const loadMe = async () => {
     const jwt = await SecureStore.getItemAsync('secure_token');
@@ -38,6 +40,7 @@ const App: React.FC = function () {
     const result = await backendAPI.get(`/spaceanduserrelationships/users/${authData._id}`);
     const { spaceAndUserRelationships } = result.data;
     setSpaceAndUserRelationships(spaceAndUserRelationships);
+    setHaveSpaceAndUserRelationshipsBeenFetched(true);
   };
 
   useEffect(() => {
@@ -65,6 +68,8 @@ const App: React.FC = function () {
         setSnackBar,
         spaceAndUserRelationships,
         setSpaceAndUserRelationships,
+        haveSpaceAndUserRelationshipsBeenFetched,
+        setHaveSpaceAndUserRelationshipsBeenFetched,
       }}
     >
       <PaperProvider>

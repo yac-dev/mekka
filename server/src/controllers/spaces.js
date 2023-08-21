@@ -147,6 +147,7 @@ export const getSpace = async (request, response) => {
         model: 'User',
         select: '_id name avatar',
       });
+    console.log('hi');
     response.status(200).json({
       space,
     });

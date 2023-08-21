@@ -28,7 +28,6 @@ app.use('/buffer/customemojis', express.static(path.join(__dirname, '..', 'buffe
 app.get('/', (request, response) => {
   response.send('Hello guest');
 });
-
 app.use('/api/auth', authRouter);
 app.use('/api/spaces', spacesRouter);
 app.use('/api/posts', postsRouter);

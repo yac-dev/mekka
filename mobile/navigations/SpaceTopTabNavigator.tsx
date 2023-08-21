@@ -16,8 +16,11 @@ import { SpaceContext } from '../features/Space/contexts/SpaceContext';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import Dummy from '../features/Space/pages/Dummy';
+import Dummy2 from '../features/Space/pages/Dummy2';
 
 const Tab = createMaterialTopTabNavigator();
+
+// tags {tagId1: {tag: {_id: 1, name: 'Test1'}, hasNewPosts: true}, tagId2: {tag: {_id: 2, name: "tsest2"}, hasNewPosts: false}　的な感じかな。これのtypeづけをしよう。
 
 const SpaceTopTabNavigator = (props) => {
   const [posts, setPosts] = useState({}); // ここ、{tagId1: [], tagId2:[], tagId3: []}みたいにcacheした方がいいな。わざわざloadの必要がなくなる。
@@ -25,7 +28,7 @@ const SpaceTopTabNavigator = (props) => {
   const [space, setSpace] = useState(null);
   const [hasSpaceBeenFetched, setHasSpaceBeenFetched] = useState(false);
   const [selectedTag, setSelectedTag] = useState(null);
-  // const [tags, setTags] = useState([]);
+  const [tags, setTags] = useState({});
   const [haveTagsBeenFetched, setHaveTagsBeenFetched] = useState(false);
   const topTabHeight = 50;
   const menuBottomSheetRef = useRef(null);
@@ -76,12 +79,23 @@ const SpaceTopTabNavigator = (props) => {
     setHavePostsBeenFetched(true);
   };
 
+  // props.route?.params?.lastCheckedIn
   // これも、spaceの方のapiに含めた方がいいな。principle的にね。
   const getTags = async () => {
     const result = await backendAPI.get(`/spaces/${props.route?.params?.spaceId}/tags`);
     const { tags } = result.data;
-    // setTags(tags);
-    setSelectedTag(tags[0]);
+    setTags(() => {
+      const table = {};
+      tags.forEach((tag, index) => {
+        table[tag._id] = {
+          tag,
+          hasUnreadPosts: tag.updatedAt > props.route?.params?.lastCheckedIn ? true : false,
+        };
+      });
+
+      return table;
+    });
+    // setSelectedTag(tags[0]);
     setHaveTagsBeenFetched(true);
   };
 
@@ -112,118 +126,90 @@ const SpaceTopTabNavigator = (props) => {
   // spaceが消されたていたらここは動かさん。
   useEffect(() => {
     if (hasSpaceBeenFetched) {
-      // getTags();
+      getTags();
     }
   }, [hasSpaceBeenFetched]);
 
-  // fetchされたtagを使って、queryくぉしていく。
-  // 最初は、generalのtagのidを使って、postAndTagRelからfetchしてくることになる。
-  // useEffect(() => {
-  //   if (selectedTag) {
-  //     getPostsByTagId();
-  //   }
-  // }, [selectedTag]);
-
-  const tags = [
-    { _id: 1, name: 'test1' },
-    { _id: 2, name: 'test2' },
-    { _id: 4, name: 'test3' },
-    { _id: 5, name: 'test4' },
-    { _id: 6, name: 'test5' },
-    { _id: 7, name: 'test6' },
-    { _id: 8, name: 'test7' },
-    { _id: 9, name: 'test8' },
-    { _id: 10, name: 'test9' },
-    { _id: 11, name: 'test10' },
-  ];
-
-  const CustomTabBar = ({ state, descriptors, navigation }) => {
-    return (
-      <View>
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          // contentContainerStyle={{ paddingHorizontal: 10 }}
-          style={{ backgroundColor: 'black' }}
-        >
-          {state.routes.map((route, index) => {
-            const { options } = descriptors[route.key];
-            const label = options.tabBarLabel !== undefined ? options.tabBarLabel : route.name;
-
-            const isFocused = state.index === index;
-
-            const onPress = () => {
-              const event = navigation.emit({
-                type: 'tabPress',
-                target: route.key,
-                canPreventDefault: true,
-              });
-
-              if (!isFocused && !event.defaultPrevented) {
-                navigation.navigate(route.name);
-              }
-            };
-
-            return (
-              <View key={route.key} style={{ width: 80, paddingHorizontal: 10, backgroundColor: 'red' }}>
-                <Text onPress={onPress} style={{ color: isFocused ? 'blue' : 'white' }}>
-                  {label}
-                </Text>
-              </View>
-            );
-          })}
-        </ScrollView>
-      </View>
-    );
-  };
-
-  const DummyWithTagId = ({ tagId }) => {
-    return <Dummy tagId={tagId} />;
-  };
-
+  console.log(tags);
   const renderTabScreen = () => {
-    if (tags.length) {
-      const list = tags.map((tag, index) => {
-        return (
-          <Tab.Screen
-            name={tag.name}
-            component={DummyWithTagId}
-            initialParams={{ tagId: tag._id }}
-            options={({ navigation }) => ({
-              // tabBarShowLabel: false,
-              // tabBarIcon: ({ size, color, focused }) => (
-              //   <MaterialIcons name='apps' color={focused ? 'white' : 'rgb(102, 104, 109)'} size={25} />
-              // ),
-            })}
-          />
-        );
-      });
+    if (haveTagsBeenFetched) {
+      if (Object.keys(tags).length) {
+        const list = Object.values(tags).map((tagObject, index) => {
+          return (
+            <Tab.Screen
+              key={index}
+              name={tagObject.tag.name}
+              component={Dummy}
+              initialParams={{ tagId: tagObject.tag._id, hasUnreadPosts: tagObject.hasUnreadPosts }}
+              options={({ navigation }) => ({
+                // tabBarShowLabel: false,
+                tabBarIcon: ({ size, color, focused }) => (
+                  <MaterialIcons name='apps' color={focused ? 'white' : 'rgb(102, 104, 109)'} size={25} />
+                ),
+              })}
+            />
+          );
+        });
 
-      return (
-        // <Tab.Navigator
-        //   screenOptions={({ navigation }) => ({
-        //     tabBarStyle: {
-        //       backgroundColor: 'black',
-        //       borderTopWidth: 0,
-        //       height: topTabHeight,
-        //     },
-        //     tabBarLabelStyle: {
-        //       fontSize: 12,
-        //       color: 'white',
-        //     },
-        //     headerTintColor: 'white',
-        //     headerStyle: {
-        //       backgroundColor: 'black',
-        //       borderBottomWidth: 0,
-        //     },
-        //   })}
-        // >
-        <Tab.Navigator tabBar={(props) => <CustomTabBar {...props} />}>{list}</Tab.Navigator>
-      );
+        return (
+          <Tab.Navigator
+            tabBar={(props) => <CustomTabBar {...props} />}
+            initialRouteName={Object.values(tags)[0].tag.name}
+          >
+            <Tab.Screen
+              name={'example'}
+              component={Dummy2}
+              // initialParams={{ tagId: tagObject.tag._id, hasUnreadPosts: tagObject.hasUnreadPosts }}
+              options={({ navigation }) => ({
+                // tabBarShowLabel: false,
+                tabBarIcon: ({ size, color, focused }) => (
+                  <MaterialIcons name='apps' color={focused ? 'white' : 'rgb(102, 104, 109)'} size={25} />
+                ),
+              })}
+            />
+            {/* <Dummy2 /> */}
+            {list}
+          </Tab.Navigator>
+        );
+      } else {
+        return null;
+      }
     } else {
-      return null;
+      return <ActivityIndicator />;
     }
   };
+
+  // <Tab.Navigator
+  //           screenOptions={({ navigation }) => ({
+  //             tabBarStyle: {
+  //               backgroundColor: 'black',
+  //               borderTopWidth: 0,
+  //               height: topTabHeight,
+  //             },
+  //             tabBarLabelStyle: {
+  //               fontSize: 12,
+  //               color: 'white',
+  //             },
+  //             headerTintColor: 'white',
+  //             headerStyle: {
+  //               backgroundColor: 'black',
+  //               borderBottomWidth: 0,
+  //             },
+  //           })}
+  //         ></Tab.Navigator>
+
+  {
+    /* <Tab.Screen
+            name={'dummy'}
+            component={Dummy}
+            options={({ navigation }) => ({
+              // tabBarShowLabel: false,
+              tabBarIcon: ({ size, color, focused }) => (
+                <MaterialIcons name='apps' color={focused ? 'white' : 'rgb(102, 104, 109)'} size={25} />
+              ),
+            })}
+          /> */
+  }
 
   return (
     <SpaceRootContext.Provider
@@ -245,8 +231,8 @@ const SpaceTopTabNavigator = (props) => {
       }}
     >
       <GestureHandlerRootView style={{ flex: 1 }}>
-        {/* {haveTagsBeenFetched ?  : <ActivityIndicator />} */}
         {renderTabScreen()}
+
         {/* <Tab.Navigator
           // っていうか、viewの中にnavigatorって、できるのかよ。。。
           screenOptions={({ navigation }) => ({
@@ -296,3 +282,51 @@ const SpaceTopTabNavigator = (props) => {
 };
 
 export default SpaceTopTabNavigator;
+
+// const CustomTabBar = ({ state, descriptors, navigation }) => {
+//   return (
+//     <View>
+//       <ScrollView
+//         horizontal
+//         showsHorizontalScrollIndicator={false}
+//         // contentContainerStyle={{ paddingHorizontal: 10 }}
+//         // style={{ backgroundColor: 'black' }}
+//       >
+//         {state.routes.map((route, index) => {
+//           const { options } = descriptors[route.key];
+//           const label = options.tabBarLabel !== undefined ? options.tabBarLabel : route.name;
+
+//           const isFocused = state.index === index;
+
+//           const onPress = () => {
+//             const event = navigation.emit({
+//               type: 'tabPress',
+//               target: route.key,
+//               canPreventDefault: true,
+//             });
+
+//             if (!isFocused && !event.defaultPrevented) {
+//               navigation.navigate(route.name);
+//             }
+//           };
+
+//           console.log(route);
+//           return (
+//             <TouchableOpacity
+//               onPress={onPress}
+//               key={route.key}
+//               style={{ width: 150, padding: 10, flexDirection: 'row', alignItems: 'center' }}
+//             >
+//               <Text style={{ color: isFocused ? 'black' : 'rgb(170,170,170)' }}>{label}</Text>
+//               <Text>{route.params?.hasUnreadPosts ? 'has' : null}</Text>
+//             </TouchableOpacity>
+//           );
+//         })}
+//       </ScrollView>
+//     </View>
+//   );
+// };
+
+// const DummyWithTagId = ({ tagId }) => {
+//   return <Dummy tagId={tagId} />;
+// };
