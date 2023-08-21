@@ -208,6 +208,8 @@ export const getPostsByTagId = async (request, response) => {
       },
     });
 
+    console.log(postAndTagRelationships);
+
     const posts = postAndTagRelationships
       .filter((relationship) => relationship.post !== null)
       .map((relationship, index) => {

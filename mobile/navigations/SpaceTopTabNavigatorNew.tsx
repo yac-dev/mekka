@@ -3,6 +3,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import { View, Text, ActivityIndicator, TouchableOpacity, ScrollView } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import backendAPI from '../apis/backend';
+import GalleryNew from '../features/Space/components/GalleryNew';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -59,6 +60,7 @@ const SpaceTopTabNavigatorNew = (props) => {
           // contentContainerStyle={{ paddingHorizontal: 10 }}
           style={{
             backgroundColor: 'black',
+            padding: 10,
             // paddingTop: 40,
             // height: 100,
           }}
@@ -94,10 +96,11 @@ const SpaceTopTabNavigatorNew = (props) => {
               <TouchableOpacity
                 key={route.key}
                 style={{
-                  // backgroundColor: 'red',
+                  flexDirection: 'row',
                   alignItems: 'center',
-                  justifyContent: 'center',
                   marginRight: 10,
+                  // backgroundColor: 'red',
+                  padding: 10,
                 }}
                 // contentTypeによって、いくnavigatorが変わるわけですよ。。。そう、つまりここでnavigatingを分ければいいわけね。
                 onPress={onPress}
@@ -113,7 +116,11 @@ const SpaceTopTabNavigatorNew = (props) => {
   };
 
   if (!hasSpaceBeenFetched || !haveTagsBeenFetched) {
-    return <ActivityIndicator />; // Show loading indicator while fetching data
+    return (
+      <View style={{ flex: 1, backgroundColor: 'black' }}>
+        <ActivityIndicator />
+      </View>
+    ); // Show loading indicator while fetching data
   }
 
   return (
@@ -134,11 +141,7 @@ const SpaceTopTabNavigatorNew = (props) => {
           options={{ title: tagObject.tag.name }} // Set the tab title to the space name
           initialParams={{ tagObject }}
         >
-          {() => (
-            <View>
-              <Text style={{ color: 'red' }}>here is </Text>
-            </View>
-          )}
+          {() => <GalleryNew tagObject={tagObject} />}
         </Tab.Screen>
       ))}
     </Tab.Navigator>

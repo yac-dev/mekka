@@ -103,7 +103,11 @@ const SpacesMaterialTopNavigator = () => {
   };
 
   if (!haveSpaceAndUserRelationshipsBeenFetched) {
-    return <ActivityIndicator />; // Show loading indicator while fetching data
+    return (
+      <View style={{ flex: 1, backgroundColor: 'black' }}>
+        <ActivityIndicator />
+      </View>
+    ); // Show loading indicator while fetching data
   }
 
   return (
