@@ -9,17 +9,25 @@ import Signup from '../features/Home/pages/Signup';
 import SpaceRootStackNavigator from './SpaceRootStackNavigator';
 import { primaryBackgroundColor } from '../themes/color';
 import { primaryTextColor } from '../themes/text';
-import SpacesTopNavigator from './SpacesTopNavigator';
+import SpacesNavigator from './SpacesNavigator';
 
 const HomeStackNavigator: React.FC = () => {
   return (
     <Stack.Navigator>
       <Stack.Group>
         <Stack.Screen
-          name='SpacesTopNavigator'
-          component={SpacesTopNavigator}
+          name='SpacesNavigator'
+          component={SpacesNavigator}
           options={({ navigation }) => ({
-            headerShown: false,
+            headerShown: true,
+            headerStyle: {
+              backgroundColor: primaryBackgroundColor,
+            },
+            headerTitle: 'Mekka',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+              color: 'white',
+            },
           })}
         />
       </Stack.Group>

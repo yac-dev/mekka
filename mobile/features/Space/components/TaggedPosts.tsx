@@ -1,9 +1,11 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
 import { View, Text, FlatList, ActivityIndicator } from 'react-native';
 import backendAPI from '../../../apis/backend';
 import PostThumbnail from './PostThumbnail';
+import { SpaceRootContext } from '../contexts/SpaceRootContext';
 
-const GalleryNew = (props) => {
+const TaggedPosts = (props) => {
+  const { spaceAndUserRelationship } = useContext(SpaceRootContext);
   const [posts, setPosts] = useState([]);
   const [havePostsBeenFetched, setHavePostsBeenFetched] = useState(false);
 
@@ -37,12 +39,18 @@ const GalleryNew = (props) => {
             renderItem={({ item }) => renderItem(item)}
             keyExtractor={(item) => item._id}
           />
+          {/* <View style={{ position: 'absolute', bottom: 0, right: 0 }}>
+            <Text style={{ color: 'white' }}>{spaceAndUserRelationship.space.name}</Text>
+          </View> */}
         </View>
       );
     } else {
       return (
         <View style={{ flex: 1, backgroundColor: 'black', padding: 10 }}>
           <Text style={{ color: 'white' }}>No posts in this tag</Text>
+          {/* <View style={{ position: 'absolute', bottom: 0, right: 0 }}>
+            <Text style={{ color: 'white' }}>{spaceAndUserRelationship.space.name}</Text>
+          </View> */}
         </View>
       );
     }
@@ -55,4 +63,4 @@ const GalleryNew = (props) => {
   }
 };
 
-export default GalleryNew;
+export default TaggedPosts;

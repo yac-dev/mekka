@@ -10,6 +10,7 @@ const tagSchema = mongoose.Schema({
   space: {
     type: mongoose.Schema.ObjectId,
     ref: 'Space',
+    index: true,
   },
   createdBy: {
     type: mongoose.Schema.ObjectId,

@@ -8,6 +8,7 @@ const spaceAndUserRelationshipSchema = mongoose.Schema({
   user: {
     type: mongoose.Schema.ObjectId,
     ref: 'User',
+    index: true,
   },
   lastCheckedIn: Date,
   createdAt: Date,
