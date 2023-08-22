@@ -222,7 +222,7 @@ const SpaceTopTabNavigatorNew = (props) => {
                 // paddingTop: 10,
                 // paddingBottom: 10,
               }}
-              onPress={() => navigation.navigate('AboutSpace', { spaceAndUserRelationship })}
+              onPress={() => navigation.navigate('AboutSpaceStackNavigator', { spaceAndUserRelationship })}
             >
               <FastImage source={{ uri: space.icon }} style={{ width: 35, height: 35, borderRadius: 8 }} />
             </TouchableOpacity>

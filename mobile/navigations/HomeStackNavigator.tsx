@@ -12,7 +12,7 @@ import { primaryTextColor } from '../themes/text';
 import SpacesNavigator from './SpacesNavigator';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
-import AboutSpace from '../features/Space/pages/AboutSpace';
+import AboutSpaceStackNavigator from './AboutSpaceStackNavigator';
 import CreateNewSpace from '../features/CreateNewSpace/pages/CreateNewSpace';
 
 const HomeStackNavigator: React.FC = () => {
@@ -121,9 +121,10 @@ const HomeStackNavigator: React.FC = () => {
       </Stack.Group>
       <Stack.Group screenOptions={{ presentation: 'modal', gestureEnabled: false }}>
         <Stack.Screen
-          name='AboutSpace'
-          component={AboutSpace}
+          name='AboutSpaceStackNavigator'
+          component={AboutSpaceStackNavigator}
           options={({ navigation }) => ({
+            headerShown: false,
             headerLeft: () => (
               <TouchableOpacity onPress={() => navigation.goBack()}>
                 <Ionicons name='close-circle-sharp' size={30} color={'white'} />
