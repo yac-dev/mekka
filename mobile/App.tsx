@@ -1,4 +1,4 @@
-import React, { useState, useReducer, useEffect } from 'react';
+import React, { useState, useReducer, useEffect, useRef } from 'react';
 import { View, Platform, StatusBar } from 'react-native';
 import { GlobalContext } from './contexts/GlobalContext';
 import { NavigationContainer } from '@react-navigation/native';
@@ -25,6 +25,7 @@ const App: React.FC = function () {
   const [snackBar, setSnackBar] = useState({ isVisible: false, message: '', barType: '', duration: null });
   const [spaceAndUserRelationships, setSpaceAndUserRelationships] = useState([]);
   const [haveSpaceAndUserRelationshipsBeenFetched, setHaveSpaceAndUserRelationshipsBeenFetched] = useState(false);
+  const spaceMenuBottomSheetRef = useRef(null);
 
   const loadMe = async () => {
     const jwt = await SecureStore.getItemAsync('secure_token');
@@ -70,6 +71,7 @@ const App: React.FC = function () {
         setSpaceAndUserRelationships,
         haveSpaceAndUserRelationshipsBeenFetched,
         setHaveSpaceAndUserRelationshipsBeenFetched,
+        spaceMenuBottomSheetRef,
       }}
     >
       <PaperProvider>

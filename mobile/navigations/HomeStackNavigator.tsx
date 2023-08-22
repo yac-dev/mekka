@@ -10,6 +10,10 @@ import SpaceRootStackNavigator from './SpaceRootStackNavigator';
 import { primaryBackgroundColor } from '../themes/color';
 import { primaryTextColor } from '../themes/text';
 import SpacesNavigator from './SpacesNavigator';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
+import AboutSpace from '../features/Space/pages/AboutSpace';
+import CreateNewSpace from '../features/CreateNewSpace/pages/CreateNewSpace';
 
 const HomeStackNavigator: React.FC = () => {
   return (
@@ -19,6 +23,30 @@ const HomeStackNavigator: React.FC = () => {
           name='SpacesNavigator'
           component={SpacesNavigator}
           options={({ navigation }) => ({
+            headerRight: () => {
+              // if (state.authData) {
+
+              // } else {
+              //   return null;
+              // }
+              return (
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <TouchableOpacity style={{ marginRight: 10 }} onPress={() => navigation.navigate('Profile Top')}>
+                    <MaterialCommunityIcons name='account-circle' size={25} color={'white'} />
+                  </TouchableOpacity>
+                  <TouchableOpacity style={{ marginRight: 0 }} onPress={() => navigation.navigate('About Lampost')}>
+                    <MaterialCommunityIcons name='information' size={25} color={'white'} />
+                  </TouchableOpacity>
+                </View>
+              );
+            },
+            // headerLeft: () => {
+            //   return (
+            //     <TouchableOpacity style={{ marginLeft: 10 }} onPress={() => navigation.navigate('About Lampost')}>
+            //       <MaterialCommunityIcons name='information' size={20} color={'white'} />
+            //     </TouchableOpacity>
+            //   );
+            // },
             headerShown: true,
             headerStyle: {
               backgroundColor: primaryBackgroundColor,
@@ -38,10 +66,29 @@ const HomeStackNavigator: React.FC = () => {
           options={({ navigation }) => ({
             headerLeft: () => (
               <TouchableOpacity onPress={() => navigation.goBack()}>
-                <Text style={{ color: primaryTextColor, fontSize: 20 }}>Close</Text>
+                <Ionicons name='arrow-back-circle-sharp' size={30} color={'white'} />
               </TouchableOpacity>
             ),
             headerTitle: 'Signup',
+            headerStyle: {
+              backgroundColor: primaryBackgroundColor,
+            },
+            headerTitleStyle: {
+              fontWeight: 'bold',
+              color: primaryTextColor,
+            },
+          })}
+        />
+        <Stack.Screen
+          name='CreateNewSpace'
+          component={CreateNewSpace}
+          options={({ navigation }) => ({
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <Ionicons name='arrow-back-circle-sharp' size={30} color={'white'} />
+              </TouchableOpacity>
+            ),
+            headerTitle: '',
             headerStyle: {
               backgroundColor: primaryBackgroundColor,
             },
@@ -64,6 +111,27 @@ const HomeStackNavigator: React.FC = () => {
             headerTitle: '',
             headerStyle: {
               backgroundColor: 'black',
+            },
+            headerTitleStyle: {
+              fontWeight: 'bold',
+              color: primaryTextColor,
+            },
+          })}
+        />
+      </Stack.Group>
+      <Stack.Group screenOptions={{ presentation: 'modal', gestureEnabled: false }}>
+        <Stack.Screen
+          name='AboutSpace'
+          component={AboutSpace}
+          options={({ navigation }) => ({
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <Ionicons name='close-circle-sharp' size={30} color={'white'} />
+              </TouchableOpacity>
+            ),
+            headerTitle: 'About',
+            headerStyle: {
+              backgroundColor: primaryBackgroundColor,
             },
             headerTitleStyle: {
               fontWeight: 'bold',

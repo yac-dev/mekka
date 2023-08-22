@@ -7,13 +7,15 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import FastImage from 'react-native-fast-image';
 import SpaceTagsNavigator from './SpaceTagsNavigator';
 import { SpaceRootContext } from '../features/Space/contexts/SpaceRootContext';
+import SpaceMenuBottomSheet from '../features/Space/pages/SpaceMenuBottomSheet';
 
 const Tab = createMaterialTopTabNavigator();
 
-const SpacesMaterialTopNavigator = () => {
+const SpacesMaterialTopNavigator = (props) => {
   const { isIpad, spaceAndUserRelationships, haveSpaceAndUserRelationshipsBeenFetched } = useContext(GlobalContext);
   const oneGridWidth = isIpad ? Dimensions.get('window').width / 6 : Dimensions.get('window').width / 4;
   const oneGridHeight = isIpad ? Dimensions.get('window').height / 7.5 : Dimensions.get('window').height / 6.5;
+  const spaceMenuBottomSheetRef = useRef(null);
   const iconWidth = oneGridWidth * 0.65;
   const [focusedTab, setFocusedTab] = useState(null);
 
@@ -88,29 +90,32 @@ const SpacesMaterialTopNavigator = () => {
   }
 
   return (
-    <Tab.Navigator
-      tabBar={(props) => <CustomTabBar {...props} />}
-      screenOptions={({ route }) => ({
-        tabBarScrollEnabled: false,
-        lazy: true,
-        swipeEnabled: false,
-      })}
-    >
-      {spaceAndUserRelationships.map((spaceAndUserRelationship) => (
-        <Tab.Screen
-          key={spaceAndUserRelationship._id}
-          name={`SpaceTab_${spaceAndUserRelationship._id}`}
-          options={{ title: spaceAndUserRelationship.space.name }}
-          initialParams={{ spaceAndUserRelationship }}
-        >
-          {() => (
-            <SpaceRootContext.Provider value={{ spaceAndUserRelationship }}>
-              <SpaceTagsNavigator />
-            </SpaceRootContext.Provider>
-          )}
-        </Tab.Screen>
-      ))}
-    </Tab.Navigator>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <Tab.Navigator
+        tabBar={(props) => <CustomTabBar {...props} />}
+        screenOptions={({ route }) => ({
+          tabBarScrollEnabled: false,
+          lazy: true,
+          swipeEnabled: false,
+        })}
+      >
+        {spaceAndUserRelationships.map((spaceAndUserRelationship) => (
+          <Tab.Screen
+            key={spaceAndUserRelationship._id}
+            name={`SpaceTab_${spaceAndUserRelationship._id}`}
+            options={{ title: spaceAndUserRelationship.space.name }}
+            initialParams={{ spaceAndUserRelationship }}
+          >
+            {() => (
+              <SpaceRootContext.Provider value={{ spaceAndUserRelationship, navigation: props.navigation }}>
+                <SpaceTagsNavigator />
+                {/* <SpaceMenuBottomSheet /> */}
+              </SpaceRootContext.Provider>
+            )}
+          </Tab.Screen>
+        ))}
+      </Tab.Navigator>
+    </GestureHandlerRootView>
   );
 };
 

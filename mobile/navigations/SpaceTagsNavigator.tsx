@@ -1,23 +1,31 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { View, Text, ActivityIndicator, TouchableOpacity, ScrollView } from 'react-native';
+import { GlobalContext } from '../contexts/GlobalContext';
+import { View, Text, ActivityIndicator, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import backendAPI from '../apis/backend';
 import GalleryNew from '../features/Space/components/GalleryNew';
 import { SpaceRootContext } from '../features/Space/contexts/SpaceRootContext';
 import TaggedPosts from '../features/Space/components/TaggedPosts';
 import FastImage from 'react-native-fast-image';
+import { Ionicons } from '@expo/vector-icons';
+import { Foundation } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const Tab = createMaterialTopTabNavigator();
 
 const SpaceTopTabNavigatorNew = (props) => {
-  const { spaceAndUserRelationship } = useContext(SpaceRootContext);
-
+  const { spaceAndUserRelationship, navigation } = useContext(SpaceRootContext);
+  const { spaceMenuBottomSheetRef, isIpad } = useContext(GlobalContext);
+  const oneGridWidth = isIpad ? Dimensions.get('window').width / 6 : Dimensions.get('window').width / 4;
+  const oneGridHeight = isIpad ? Dimensions.get('window').height / 7.5 : Dimensions.get('window').height / 6.5;
   const route = useRoute();
   const [space, setSpace] = useState(null);
   const [tags, setTags] = useState({});
   const [hasSpaceBeenFetched, setHasSpaceBeenFetched] = useState(false);
   const [haveTagsBeenFetched, setHaveTagsBeenFetched] = useState(false);
+
+  console.log(props);
 
   const getSpaceById = async () => {
     const result = await backendAPI.get(`/spaces/${spaceAndUserRelationship.space._id}`);
@@ -138,10 +146,89 @@ const SpaceTopTabNavigatorNew = (props) => {
           </Tab.Screen>
         ))}
       </Tab.Navigator>
-      <TouchableOpacity style={{ position: 'absolute', bottom: 0, right: 0 }}>
-        <FastImage source={{ uri: spaceAndUserRelationship.space.icon }} style={{ width: 50, height: 50 }} />
-        {/* <Text style={{ color: 'white' }}>{spaceAndUserRelationship.space.name}</Text> */}
-      </TouchableOpacity>
+      {/* <TouchableOpacity
+        style={{ position: 'absolute', bottom: 20, right: 20 }}
+        onPress={() => spaceMenuBottomSheetRef.current.snapToIndex(0)}
+      >
+        <FastImage
+          source={{ uri: spaceAndUserRelationship.space.icon }}
+          style={{ width: 50, height: 50, borderRadius: 8 }}
+        />
+      </TouchableOpacity> */}
+      <ScrollView
+        horizontal={true}
+        style={{
+          backgroundColor: 'rgb(40,40,40)',
+          position: 'absolute',
+          width: '100%',
+          bottom: 0,
+        }}
+      >
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            alignSelf: 'center',
+            paddingTop: 5,
+            paddingBottom: 5,
+          }}
+        >
+          <TouchableOpacity
+            style={{
+              width: oneGridWidth,
+              height: 40,
+              justifyContent: 'center',
+              alignItems: 'center',
+              // backgroundColor: 'red',
+            }}
+            onPress={() => navigation?.navigate({ name: 'CreatePost', params: { space, tags }, merge: true })}
+          >
+            <View>
+              <Ionicons name='add-circle' size={23} color={'white'} />
+            </View>
+          </TouchableOpacity>
+          <View
+            style={{
+              width: oneGridWidth,
+              height: 40,
+              justifyContent: 'center',
+              alignItems: 'center',
+              // backgroundColor: 'red',
+            }}
+          >
+            <TouchableOpacity onPress={() => {}}>
+              <MaterialCommunityIcons name='human-greeting-variant' size={23} color='white' />
+            </TouchableOpacity>
+          </View>
+          <View
+            style={{
+              width: oneGridWidth,
+              height: 40,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <TouchableOpacity>
+              <Foundation name='comments' size={23} color='white' />
+            </TouchableOpacity>
+          </View>
+          {space ? (
+            <TouchableOpacity
+              style={{
+                width: oneGridWidth,
+                height: 40,
+                justifyContent: 'center',
+                alignItems: 'center',
+                // paddingTop: 10,
+                // paddingBottom: 10,
+              }}
+              onPress={() => navigation.navigate('AboutSpace', { spaceAndUserRelationship })}
+            >
+              <FastImage source={{ uri: space.icon }} style={{ width: 35, height: 35, borderRadius: 8 }} />
+            </TouchableOpacity>
+          ) : null}
+        </View>
+      </ScrollView>
     </View>
   );
 };
