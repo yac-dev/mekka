@@ -21,6 +21,7 @@ const AddTags = () => {
       });
     }
   }, [route?.params?.createdTag]);
+  
 
   const renderTagOptions = () => {
     if (Object.values(tagOptions).length) {

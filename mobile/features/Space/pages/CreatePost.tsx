@@ -45,13 +45,7 @@ const Post: React.FC<PostProps> = (props) => {
     createdTags: [],
   });
   // const [createdTags, setCreatedTags] = useState([]);
-  const [tagOptions, setTagOptions] = useState(() => {
-    const table = {};
-    props.route?.params?.tags.forEach((tag) => {
-      table[tag._id] = tag;
-    });
-    return table;
-  });
+  const [tagOptions, setTagOptions] = useState({});
 
   useEffect(() => {
     props.navigation.setOptions({
@@ -81,21 +75,22 @@ const Post: React.FC<PostProps> = (props) => {
     });
   }, [formData, props.route?.params?.space]);
 
-  // const getTags = async () => {
-  //   const result = await backendAPI.get(`/tags/space/${props.route?.params?.space._id}`);
-  //   const { tags } = result.data;
-  //   setTagOptions(() => {
-  //     const table = {};
-  //     tags.forEach((tag) => {
-  //       table[tag._id] = tag;
-  //     });
-  //     return table;
-  //   });
-  // };
+  const getTags = async () => {
+    const result = await backendAPI.get(`/spaces/${props.route.params.space._id}/tags`);
+    const { tags } = result.data;
+    setTagOptions(() => {
+      const table = {};
+      tags.forEach((tag, index) => {
+        table[tag._id] = tag;
+      });
 
-  // useEffect(() => {
-  //   getTags();
-  // }, []);
+      return table;
+    });
+  };
+
+  useEffect(() => {
+    getTags();
+  }, []);
 
   // ここまじで謎だよなー。なんで毎回undefinedになるんだろうか。。。
   const onDonePress = async () => {

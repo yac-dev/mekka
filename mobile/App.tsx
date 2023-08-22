@@ -1,5 +1,5 @@
 import React, { useState, useReducer, useEffect, useRef } from 'react';
-import { View, Platform, StatusBar } from 'react-native';
+import { View, Platform, StatusBar, TouchableOpacity } from 'react-native';
 import { GlobalContext } from './contexts/GlobalContext';
 import { NavigationContainer } from '@react-navigation/native';
 import { PaperProvider } from 'react-native-paper';
@@ -9,6 +9,10 @@ import SnackBar from './components/SnackBar';
 import RootStack from './navigations/RootStack';
 import backendAPI from './apis/backend';
 import BottomTab from './navigations/BottomTab';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+const Stack = createNativeStackNavigator();
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import HomeStackNavigator from './navigations/HomeStackNavigator';
 
 type AuthDataType = {
   _id: string;
@@ -25,6 +29,7 @@ const App: React.FC = function () {
   const [snackBar, setSnackBar] = useState({ isVisible: false, message: '', barType: '', duration: null });
   const [spaceAndUserRelationships, setSpaceAndUserRelationships] = useState([]);
   const [haveSpaceAndUserRelationshipsBeenFetched, setHaveSpaceAndUserRelationshipsBeenFetched] = useState(false);
+  const [currentSpaceAndUserRelationship, setCurrentSpaceAndUserRelationship] = useState(null);
   const spaceMenuBottomSheetRef = useRef(null);
 
   const loadMe = async () => {
@@ -41,6 +46,7 @@ const App: React.FC = function () {
     const result = await backendAPI.get(`/spaceanduserrelationships/users/${authData._id}`);
     const { spaceAndUserRelationships } = result.data;
     setSpaceAndUserRelationships(spaceAndUserRelationships);
+    setCurrentSpaceAndUserRelationship(spaceAndUserRelationships[0]);
     setHaveSpaceAndUserRelationshipsBeenFetched(true);
   };
 
@@ -72,12 +78,55 @@ const App: React.FC = function () {
         haveSpaceAndUserRelationshipsBeenFetched,
         setHaveSpaceAndUserRelationshipsBeenFetched,
         spaceMenuBottomSheetRef,
+        currentSpaceAndUserRelationship,
+        setCurrentSpaceAndUserRelationship,
       }}
     >
       <PaperProvider>
         <StatusBar hidden={false} translucent={true} backgroundColor='blue' barStyle='light-content' />
         <NavigationContainer>
-          <RootStack />
+          <Stack.Navigator>
+            <Stack.Screen
+              // bottomSheetをやめた。
+              name='HomeStackNavigator'
+              component={HomeStackNavigator}
+              options={({ navigation }) => ({
+                // headerShown: true,
+                headerShown: false,
+                // いや、ここで設定すると、BottomTabっていう上のtabに対する設定になってしまうね。
+                headerRight: () => {
+                  // if (state.authData) {
+
+                  // } else {
+                  //   return null;
+                  // }
+                  return (
+                    <TouchableOpacity style={{ marginRight: 10 }} onPress={() => navigation.navigate('ProfileTop')}>
+                      <MaterialCommunityIcons name='account-circle' size={30} color={'white'} />
+                    </TouchableOpacity>
+                  );
+                },
+                headerLeft: () => {
+                  return (
+                    <TouchableOpacity style={{ marginLeft: 10 }} onPress={() => navigation.navigate('About Lampost')}>
+                      <MaterialCommunityIcons name='information' size={25} color={'white'} />
+                    </TouchableOpacity>
+                  );
+                },
+                title: 'Mekka',
+                headerTintColor: 'red',
+                headerStyle: {
+                  backgroundColor: 'black',
+                  borderBottomWidth: 0,
+                },
+                tabBarLabel: 'Home',
+                tabBarStyle: {
+                  backgroundColor: 'black',
+                  borderTopWidth: 0,
+                },
+              })}
+            />
+          </Stack.Navigator>
         </NavigationContainer>
         {/* <LoadingSpinner /> */}
         {/* <SnackBar /> */}

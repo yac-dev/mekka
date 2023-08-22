@@ -8,33 +8,64 @@ import GorhomBottomSheet, { BottomSheetView, BottomSheetBackdrop } from '@gorhom
 import Header from '../components/SpaceMenu/Header';
 import Menus from '../components/SpaceMenu/Menus';
 import About from '../components/SpaceMenu/About';
+import { AntDesign } from '@expo/vector-icons';
+import { HomeStackNavContext } from '../../../contexts/HomeStackNavContext';
 
 // rgb(35, 35, 35)
-const SpaceMenu = () => {
+const SpaceMenuBottomSheet = (props) => {
   const snapPoints = useMemo(() => ['70%'], []);
-  const { spaceMenuBottomSheetRef } = useContext(GlobalContext);
+  // const { spaceMenuBottomSheetRef } = useContext(SpaceRootContext);
+  const { spaceMenuBottomSheetRef, currentSpaceAndUserRelationship, setCurrentSpaceAndUserRelationship } =
+    useContext(GlobalContext);
+  const { navigation } = useContext(HomeStackNavContext);
 
-  return (
-    <GorhomBottomSheet
-      index={-1}
-      enableOverDrag={true}
-      ref={spaceMenuBottomSheetRef}
-      snapPoints={snapPoints}
-      backdropComponent={(backdropProps) => (
-        <BottomSheetBackdrop {...backdropProps} appearsOnIndex={0} disappearsOnIndex={-1} />
-      )}
-      enablePanDownToClose={true}
-      backgroundStyle={{ backgroundColor: 'rgb(40, 40, 40)' }}
-      handleIndicatorStyle={{ backgroundColor: 'white' }}
-      // onClose={() => onSelectedItemBottomSheetClose()}
-    >
-      <BottomSheetView style={{ paddingLeft: 10, paddingRight: 10, flex: 1 }}>
-        <Header />
-        {/* <Menus /> */}
-        <About />
-      </BottomSheetView>
-    </GorhomBottomSheet>
-  );
+  if (currentSpaceAndUserRelationship) {
+    return (
+      <GorhomBottomSheet
+        index={-1}
+        enableOverDrag={true}
+        ref={spaceMenuBottomSheetRef}
+        snapPoints={snapPoints}
+        backdropComponent={(backdropProps) => (
+          <BottomSheetBackdrop {...backdropProps} appearsOnIndex={0} disappearsOnIndex={-1} />
+        )}
+        enablePanDownToClose={true}
+        backgroundStyle={{ backgroundColor: 'rgb(30, 30, 30)' }}
+        handleIndicatorStyle={{ backgroundColor: 'white' }}
+        // onClose={() => onSelectedItemBottomSheetClose()}
+      >
+        <BottomSheetView style={{ paddingLeft: 10, paddingRight: 10, flex: 1 }}>
+          <Text style={{ color: 'white' }}>{currentSpaceAndUserRelationship.space.name}</Text>
+          <TouchableOpacity
+            style={{
+              width: 60,
+              aspectRatio: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              backgroundColor: 'rgba(255, 51, 51, 0.3)',
+              borderRadius: 14,
+              marginBottom: 5,
+            }}
+            onPress={() => {
+              spaceMenuBottomSheetRef?.current.close();
+              navigation?.navigate({
+                name: 'CreatePost',
+                params: { space: currentSpaceAndUserRelationship.space },
+                merge: true,
+              });
+            }}
+          >
+            <AntDesign name='plus' size={25} color='white' />
+          </TouchableOpacity>
+          <Header />
+          <Menus />
+          {/* <About /> */}
+        </BottomSheetView>
+      </GorhomBottomSheet>
+    );
+  } else {
+    return null;
+  }
 };
 
-export default SpaceMenu;
+export default SpaceMenuBottomSheet;

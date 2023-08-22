@@ -12,12 +12,18 @@ import SpaceMenuBottomSheet from '../features/Space/pages/SpaceMenuBottomSheet';
 const Tab = createMaterialTopTabNavigator();
 
 const SpacesMaterialTopNavigator = (props) => {
-  const { isIpad, spaceAndUserRelationships, haveSpaceAndUserRelationshipsBeenFetched } = useContext(GlobalContext);
+  const {
+    isIpad,
+    spaceAndUserRelationships,
+    haveSpaceAndUserRelationshipsBeenFetched,
+    setCurrentSpaceAndUserRelationship,
+  } = useContext(GlobalContext);
   const oneGridWidth = isIpad ? Dimensions.get('window').width / 6 : Dimensions.get('window').width / 4;
   const oneGridHeight = isIpad ? Dimensions.get('window').height / 7.5 : Dimensions.get('window').height / 6.5;
   const spaceMenuBottomSheetRef = useRef(null);
   const iconWidth = oneGridWidth * 0.65;
   const [focusedTab, setFocusedTab] = useState(null);
+  const [currentSpace, setCurrentSpace] = useState(null);
 
   const CustomTabBar = ({ state, descriptors, navigation }) => {
     return (
@@ -42,6 +48,10 @@ const SpacesMaterialTopNavigator = (props) => {
                 target: route.key,
                 canPreventDefault: true,
               });
+
+              setCurrentSpaceAndUserRelationship(route.params?.spaceAndUserRelationship);
+
+              // setCurrentSpace(route.params?.spaceAndUserRelationship);
 
               if (!isFocused && !event.defaultPrevented) {
                 navigation.navigate(route.name);
@@ -107,14 +117,21 @@ const SpacesMaterialTopNavigator = (props) => {
             initialParams={{ spaceAndUserRelationship }}
           >
             {() => (
-              <SpaceRootContext.Provider value={{ spaceAndUserRelationship, navigation: props.navigation }}>
+              <SpaceRootContext.Provider
+                value={{
+                  spaceAndUserRelationship,
+                  navigation: props.navigation,
+                  spaceMenuBottomSheetRef,
+                  setCurrentSpace,
+                }}
+              >
                 <SpaceTagsNavigator />
-                {/* <SpaceMenuBottomSheet /> */}
               </SpaceRootContext.Provider>
             )}
           </Tab.Screen>
         ))}
       </Tab.Navigator>
+      {/* <SpaceMenuBottomSheet currentSpace={currentSpace} spaceMenuBottomSheetRef={spaceMenuBottomSheetRef} /> */}
     </GestureHandlerRootView>
   );
 };

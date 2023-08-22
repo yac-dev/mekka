@@ -15,8 +15,8 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 const Tab = createMaterialTopTabNavigator();
 
 const SpaceTopTabNavigatorNew = (props) => {
-  const { spaceAndUserRelationship, navigation } = useContext(SpaceRootContext);
-  const { spaceMenuBottomSheetRef, isIpad } = useContext(GlobalContext);
+  const { spaceAndUserRelationship, navigation, setCurrentSpace } = useContext(SpaceRootContext);
+  const { isIpad, spaceMenuBottomSheetRef } = useContext(GlobalContext);
   const oneGridWidth = isIpad ? Dimensions.get('window').width / 6 : Dimensions.get('window').width / 4;
   const oneGridHeight = isIpad ? Dimensions.get('window').height / 7.5 : Dimensions.get('window').height / 6.5;
   const route = useRoute();
@@ -146,16 +146,18 @@ const SpaceTopTabNavigatorNew = (props) => {
           </Tab.Screen>
         ))}
       </Tab.Navigator>
-      {/* <TouchableOpacity
+      <TouchableOpacity
         style={{ position: 'absolute', bottom: 20, right: 20 }}
-        onPress={() => spaceMenuBottomSheetRef.current.snapToIndex(0)}
+        onPress={() => {
+          spaceMenuBottomSheetRef.current.snapToIndex(0);
+        }}
       >
         <FastImage
           source={{ uri: spaceAndUserRelationship.space.icon }}
           style={{ width: 50, height: 50, borderRadius: 8 }}
         />
-      </TouchableOpacity> */}
-      <ScrollView
+      </TouchableOpacity>
+      {/* <ScrollView
         horizontal={true}
         style={{
           backgroundColor: 'rgb(40,40,40)',
@@ -181,7 +183,9 @@ const SpaceTopTabNavigatorNew = (props) => {
               alignItems: 'center',
               // backgroundColor: 'red',
             }}
-            onPress={() => navigation?.navigate({ name: 'CreatePost', params: { space, tags }, merge: true })}
+            onPress={() =>
+              navigation?.navigate({ name: 'CreatePost', params: { space, tags: Object.values(tags) }, merge: true })
+            }
           >
             <View>
               <Ionicons name='add-circle' size={23} color={'white'} />
@@ -228,7 +232,7 @@ const SpaceTopTabNavigatorNew = (props) => {
             </TouchableOpacity>
           ) : null}
         </View>
-      </ScrollView>
+      </ScrollView> */}
     </View>
   );
 };

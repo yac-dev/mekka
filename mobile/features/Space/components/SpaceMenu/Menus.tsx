@@ -1,14 +1,14 @@
 import React, { useContext } from 'react';
 import { View, Text, TouchableOpacity, Dimensions, ScrollView } from 'react-native';
 import { GlobalContext } from '../../../../contexts/GlobalContext';
-import { SpaceContext } from '../../contexts/SpaceContext';
+import { SpaceRootContext } from '../../contexts/SpaceRootContext';
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Octicons } from '@expo/vector-icons';
 
 const SpaceMenus = () => {
-  const { isIpad } = useContext(GlobalContext);
-  const { menuBottomSheetRef, navigation, space } = useContext(SpaceContext);
+  const { isIpad, spaceMenuBottomSheetRef } = useContext(GlobalContext);
+  const { navigation } = useContext(SpaceRootContext);
   const oneGridWidth = isIpad ? Dimensions.get('window').width / 6 : Dimensions.get('window').width / 4;
   const oneGridHeight = isIpad ? Dimensions.get('window').height / 7.5 : Dimensions.get('window').height / 7;
   const iconWidth = oneGridWidth * 0.7;
@@ -28,7 +28,7 @@ const SpaceMenus = () => {
               marginBottom: 5,
             }}
             onPress={() => {
-              menuBottomSheetRef?.current.close();
+              spaceMenuBottomSheetRef?.current.close();
               navigation?.navigate({ name: 'CreatePost', params: { space: space }, merge: true });
             }}
           >
