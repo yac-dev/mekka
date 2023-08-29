@@ -21,7 +21,8 @@ import Dummy from '../features/Space/pages/Dummy';
 import SpacesDrawerNavigator from './SpacesDrawerNavigator';
 import ViewPost from '../features/Space/pages/ViewPost';
 import Discover from '../features/Discover/pages/Discover';
-// import CreateNewPost from '../features/Space/pages/CreatePost';
+import ProfileStackNavigator from './ProfileStackNavigator';
+import CreateNewPost from '../features/CreateNewPost/pages/Form';
 
 import { HomeStackNavContext } from '../contexts/HomeStackNavContext';
 const HomeStackNavigator: React.FC = (props) => {
@@ -31,6 +32,7 @@ const HomeStackNavigator: React.FC = (props) => {
         <Stack.Navigator
           screenOptions={({ navigation }) => ({
             headerShown: false,
+            // headerShown: true,
           })}
         >
           <Stack.Group>
@@ -38,7 +40,7 @@ const HomeStackNavigator: React.FC = (props) => {
               name='SpacesDrawerNavigator'
               component={SpacesDrawerNavigator}
               options={({ navigation }) => ({
-                headerShown: false,
+                // headerShown: false,
               })}
             />
             <Stack.Screen
@@ -116,8 +118,28 @@ const HomeStackNavigator: React.FC = (props) => {
               })}
             />
             <Stack.Screen
-              name='CreatePost'
-              component={CreatePost}
+              name='CreateNewPost'
+              component={CreateNewPost}
+              options={({ navigation }) => ({
+                headerShown: true, // ここtrueにすると、,,,
+                headerLeft: () => (
+                  <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <Ionicons name='close-circle-sharp' size={30} color={'white'} />
+                  </TouchableOpacity>
+                ),
+                headerTitle: '',
+                headerStyle: {
+                  backgroundColor: 'black',
+                },
+                headerTitleStyle: {
+                  fontWeight: 'bold',
+                  color: 'white',
+                },
+              })}
+            />
+            <Stack.Screen
+              name='ProfileStackNavigator'
+              component={ProfileStackNavigator}
               options={({ navigation }) => ({
                 headerShown: true, // ここtrueにすると、,,,
                 headerLeft: () => (

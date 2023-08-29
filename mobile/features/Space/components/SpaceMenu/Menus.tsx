@@ -6,8 +6,8 @@ import { AntDesign } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Octicons } from '@expo/vector-icons';
 
-const SpaceMenus = () => {
-  const { isIpad, spaceMenuBottomSheetRef } = useContext(GlobalContext);
+const SpaceMenus = (props) => {
+  const { isIpad, spaceMenuBottomSheetRef, currentSpaceAndUserRelationship } = useContext(GlobalContext);
   const { navigation } = useContext(SpaceRootContext);
   const oneGridWidth = isIpad ? Dimensions.get('window').width / 6 : Dimensions.get('window').width / 4;
   const oneGridHeight = isIpad ? Dimensions.get('window').height / 7.5 : Dimensions.get('window').height / 7;
@@ -29,7 +29,11 @@ const SpaceMenus = () => {
             }}
             onPress={() => {
               spaceMenuBottomSheetRef?.current.close();
-              navigation?.navigate({ name: 'CreatePost', params: { space: space }, merge: true });
+              props.navigation?.navigate({
+                name: 'CreateNewPost',
+                params: { spaceAndUserRelationship: currentSpaceAndUserRelationship },
+                merge: true,
+              });
             }}
           >
             <AntDesign name='plus' size={25} color='white' />
@@ -56,6 +60,25 @@ const SpaceMenus = () => {
           <Text style={{ color: 'white', fontWeight: 'bold', textAlign: 'center' }}>Invite</Text>
         </View>
         <View style={{ width: 80, height: 80, justifyContent: 'center', alignItems: 'center' }}>
+          <TouchableOpacity
+            style={{
+              width: 60,
+              aspectRatio: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              backgroundColor: 'rgba(254, 115, 0, 0.3)',
+              borderRadius: 14,
+              marginBottom: 5,
+            }}
+            onPress={() => {
+              console.log('discussion');
+            }}
+          >
+            <Octicons name='comment-discussion' size={25} color='white' />
+          </TouchableOpacity>
+          <Text style={{ color: 'white', fontWeight: 'bold', textAlign: 'center' }}>Discussion</Text>
+        </View>
+        {/* <View style={{ width: 80, height: 80, justifyContent: 'center', alignItems: 'center' }}>
           <TouchableOpacity
             style={{
               width: 60,
@@ -93,26 +116,7 @@ const SpaceMenus = () => {
             <MaterialCommunityIcons name='map-search-outline' size={25} color='white' />
           </TouchableOpacity>
           <Text style={{ color: 'white', fontWeight: 'bold', textAlign: 'center' }}>Map view</Text>
-        </View>
-        <View style={{ width: 80, height: 80, justifyContent: 'center', alignItems: 'center' }}>
-          <TouchableOpacity
-            style={{
-              width: 60,
-              aspectRatio: 1,
-              justifyContent: 'center',
-              alignItems: 'center',
-              backgroundColor: 'rgba(254, 115, 0, 0.3)',
-              borderRadius: 14,
-              marginBottom: 5,
-            }}
-            onPress={() => {
-              console.log('discussion');
-            }}
-          >
-            <Octicons name='comment-discussion' size={25} color='white' />
-          </TouchableOpacity>
-          <Text style={{ color: 'white', fontWeight: 'bold', textAlign: 'center' }}>Discussion</Text>
-        </View>
+        </View> */}
       </ScrollView>
     </View>
   );

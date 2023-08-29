@@ -35,30 +35,8 @@ const SpaceMenuBottomSheet = (props) => {
         // onClose={() => onSelectedItemBottomSheetClose()}
       >
         <BottomSheetView style={{ paddingLeft: 10, paddingRight: 10, flex: 1 }}>
-          <Text style={{ color: 'white' }}>{currentSpaceAndUserRelationship.space.name}</Text>
-          <TouchableOpacity
-            style={{
-              width: 60,
-              aspectRatio: 1,
-              justifyContent: 'center',
-              alignItems: 'center',
-              backgroundColor: 'rgba(255, 51, 51, 0.3)',
-              borderRadius: 14,
-              marginBottom: 5,
-            }}
-            onPress={() => {
-              spaceMenuBottomSheetRef?.current.close();
-              props.navigation?.navigate({
-                name: 'CreatePost',
-                params: { space: currentSpaceAndUserRelationship.space },
-                merge: true,
-              });
-            }}
-          >
-            <AntDesign name='plus' size={25} color='white' />
-          </TouchableOpacity>
           <Header />
-          <Menus />
+          <Menus navigation={props.navigation} />
           {/* <About /> */}
         </BottomSheetView>
       </GorhomBottomSheet>

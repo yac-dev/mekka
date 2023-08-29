@@ -86,6 +86,7 @@ const App: React.FC = function () {
         <StatusBar hidden={false} translucent={true} backgroundColor='blue' barStyle='light-content' />
         <NavigationContainer>
           <Stack.Navigator>
+            {/* <Stack.Screen name='BottomTab' component={BottomTab} /> */}
             <Stack.Screen
               // bottomSheetをやめた。
               name='HomeStackNavigator'
@@ -102,7 +103,7 @@ const App: React.FC = function () {
                   // }
                   return (
                     <TouchableOpacity style={{ marginRight: 10 }} onPress={() => navigation.navigate('ProfileTop')}>
-                      <MaterialCommunityIcons name='account-circle' size={30} color={'white'} />
+                      <MaterialCommunityIcons name='account-circle' size={25} color={'white'} />
                     </TouchableOpacity>
                   );
                 },
@@ -114,7 +115,7 @@ const App: React.FC = function () {
                   );
                 },
                 title: 'Mekka',
-                headerTintColor: 'red',
+                headerTintColor: 'white',
                 headerStyle: {
                   backgroundColor: 'black',
                   borderBottomWidth: 0,

@@ -11,9 +11,11 @@ import TaggedPosts from '../features/Space/components/TaggedPosts';
 import FastImage from 'react-native-fast-image';
 import { Ionicons } from '@expo/vector-icons';
 import { Foundation } from '@expo/vector-icons';
+import { Octicons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import CreatePost from '../features/Space/pages/CreatePost';
 import SpaceMenuBottomSheet from '../features/Space/pages/SpaceMenuBottomSheet';
+import ViewMenuMaterialNavigator from './PostsNavigator';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -27,9 +29,8 @@ const SpaceTopTabNavigatorNew = (props) => {
   const [tags, setTags] = useState({});
   const [hasSpaceBeenFetched, setHasSpaceBeenFetched] = useState(false);
   const [haveTagsBeenFetched, setHaveTagsBeenFetched] = useState(false);
+  const [selectedView, setSelectedView] = useState('Grid'); // Map, Calendar
   // const spaceMenuBottomSheetRef = useRef(null);
-
-  console.log(props);
 
   const getSpaceById = async () => {
     const result = await backendAPI.get(`/spaces/${props.spaceAndUserRelationship.space._id}`);
@@ -101,18 +102,27 @@ const SpaceTopTabNavigatorNew = (props) => {
               <TouchableOpacity
                 key={route.key}
                 style={{
-                  flexDirection: 'row',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
                   alignItems: 'center',
                   marginRight: 10,
-                  backgroundColor: isFocused ? 'rgb(110,110,110)' : 'rgb(60,60,60)',
+                  backgroundColor: isFocused ? 'rgb(110,110,110)' : null,
                   padding: 10,
                   borderRadius: 5,
+                  width: 70,
+                  height: 70,
                 }}
                 // contentTypeによって、いくnavigatorが変わるわけですよ。。。そう、つまりここでnavigatingを分ければいいわけね。
                 onPress={onPress}
               >
-                <Text style={{ color: 'white' }}>{route.params?.tagObject.tag.name}</Text>
-                <Text style={{ color: 'white' }}>{route.params?.tagObject.tag.count}</Text>
+                <FastImage
+                  source={{ uri: route.params?.tagObject.tag.icon }}
+                  style={{ width: 30, height: 30, marginBottom: 5 }}
+                  tintColor={'white'}
+                />
+                <Text numberOfLines={1} style={{ color: 'white' }}>
+                  {route.params?.tagObject.tag.name}
+                </Text>
               </TouchableOpacity>
             );
           })}
@@ -147,12 +157,12 @@ const SpaceTopTabNavigatorNew = (props) => {
               options={{ title: tagObject.tag.name }} // Set the tab title to the space name
               initialParams={{ tagObject }}
             >
-              {({ navigation }) => <TaggedPosts navigation={navigation} tagObject={tagObject} />}
+              {/* {({ navigation }) => <TaggedPosts navigation={navigation} tagObject={tagObject} />} */}
+              {({ navigation }) => <ViewMenuMaterialNavigator navigation={navigation} tagObject={tagObject} />}
             </Tab.Screen>
           ))}
         </Tab.Navigator>
-        {/* <Tab.Screen name='CreatePost' component={CreatePost} /> */}
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={{ position: 'absolute', bottom: 20, right: 20 }}
           onPress={() => {
             spaceMenuBottomSheetRef.current.snapToIndex(0);
@@ -162,8 +172,7 @@ const SpaceTopTabNavigatorNew = (props) => {
             source={{ uri: props.spaceAndUserRelationship.space.icon }}
             style={{ width: 50, height: 50, borderRadius: 8 }}
           />
-        </TouchableOpacity>
-        {/* <SpaceMenuBottomSheet /> */}
+        </TouchableOpacity> */}
       </GestureHandlerRootView>
     </SpaceRootContext.Provider>
   );

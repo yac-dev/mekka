@@ -11,6 +11,8 @@ import Mekkas from '../features/Discover/pages/Discover';
 import HomeStackNavigator from './HomeStackNavigator';
 import DiscoverStackNavigator from './DiscoverStackNavigator';
 import SpaceMenuBottomSheet from '../features/Space/pages/SpaceMenuBottomSheet';
+import Dummy from '../features/Space/pages/Dummy';
+import Dummy2 from '../features/Space/pages/Dummy2';
 const { MCI, MI, ET } = icons;
 
 const BottomTab: React.FC = () => {
@@ -48,8 +50,8 @@ const BottomTab: React.FC = () => {
         })}
       >
         <Tab.Screen
-          name='HomeStackNavigator'
-          component={HomeStackNavigator}
+          name='Dummy'
+          component={Dummy}
           options={({ navigation }) => ({
             headerShown: false,
             title: 'Mekka',
@@ -69,8 +71,8 @@ const BottomTab: React.FC = () => {
           })}
         />
         <Tab.Screen
-          name='DiscoverStackNavigator'
-          component={DiscoverStackNavigator}
+          name='Dummy2'
+          component={Dummy2}
           options={({ navigation }) => ({
             headerShown: true,
             tabBarIcon: ({ size, color, focused }) => (

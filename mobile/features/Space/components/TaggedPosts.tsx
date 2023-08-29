@@ -3,24 +3,24 @@ import { View, Text, FlatList, ActivityIndicator, TouchableOpacity } from 'react
 import backendAPI from '../../../apis/backend';
 import PostThumbnail from './PostThumbnail';
 import { SpaceRootContext } from '../contexts/SpaceRootContext';
+import { PostsContext } from '../../../contexts/PostsContext';
 
 const TaggedPosts = (props) => {
   const { spaceAndUserRelationship } = useContext(SpaceRootContext);
-  const [posts, setPosts] = useState([]);
-  const [havePostsBeenFetched, setHavePostsBeenFetched] = useState(false);
+  const { posts, havePostsBeenFetched, setHavePostsBeenFetched } = useContext(PostsContext);
+  // const [havePostsBeenFetched, setHavePostsBeenFetched] = useState(false);
 
-  const getPostsByTagId = async () => {
-    const result = await backendAPI.get(`/posts/tag/${props.tagObject.tag._id}`);
-    const { posts } = result.data;
-    setPosts(posts);
-    // setSelectedTag(tags[0]);
-    setHavePostsBeenFetched(true);
-  };
-  console.log(props);
+  // const getPostsByTagId = async () => {
+  //   const result = await backendAPI.get(`/posts/tag/${props.tagObject.tag._id}`);
+  //   const { posts } = result.data;
+  //   setPosts(posts);
+  //   // setSelectedTag(tags[0]);
+  //   setHavePostsBeenFetched(true);
+  // };
 
-  useEffect(() => {
-    getPostsByTagId();
-  }, []);
+  // useEffect(() => {
+  //   getPostsByTagId();
+  // }, []);
 
   const renderItem = useCallback((post) => {
     return (
@@ -40,12 +40,6 @@ const TaggedPosts = (props) => {
             renderItem={({ item }) => renderItem(item)}
             keyExtractor={(item) => item._id}
           />
-          {/* <View style={{ position: 'absolute', bottom: 0, right: 0 }}>
-            <Text style={{ color: 'white' }}>{spaceAndUserRelationship.space.name}</Text>
-          </View> */}
-          {/* <TouchableOpacity onPress={() => props.navigation.navigate('CreatePost')}>
-            <Text style={{ color: 'white' }}>post</Text>
-          </TouchableOpacity> */}
         </View>
       );
     } else {
