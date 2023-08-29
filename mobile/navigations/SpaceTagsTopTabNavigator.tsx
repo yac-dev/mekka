@@ -63,14 +63,14 @@ const SpaceTopTabNavigatorNew = (props) => {
 
   const CustomTabBar = ({ state, descriptors, navigation }) => {
     return (
-      <View>
+      <View style={{}}>
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{ paddingHorizontal: 0 }}
           style={{
             backgroundColor: 'black',
-            paddingTop: 30,
+            paddingTop: 20,
             paddingBottom: 20,
             paddingLeft: 10,
             paddingRight: 10,

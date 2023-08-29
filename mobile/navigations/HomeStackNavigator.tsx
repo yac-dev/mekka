@@ -11,7 +11,7 @@ import CreatePost from '../features/Space/pages/CreatePost';
 import SpaceRootStackNavigator from './SpaceRootStackNavigator';
 import { primaryBackgroundColor } from '../themes/color';
 import { primaryTextColor } from '../themes/text';
-import SpacesNavigator from './SpacesNavigator';
+import SpacesTopTabNavigator from './SpacesTopTabNavigator';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import AboutSpaceStackNavigator from './AboutSpaceStackNavigator';
@@ -27,8 +27,8 @@ const HomeStackNavigator: React.FC = (props) => {
         <Stack.Navigator>
           <Stack.Group>
             <Stack.Screen
-              name='SpacesNavigator'
-              component={SpacesNavigator}
+              name='SpacesTopTabNavigator'
+              component={SpacesTopTabNavigator}
               options={({ navigation }) => ({
                 headerRight: () => {
                   // if (state.authData) {

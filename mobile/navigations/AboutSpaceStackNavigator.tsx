@@ -9,7 +9,7 @@ import Signup from '../features/Home/pages/Signup';
 import SpaceRootStackNavigator from './SpaceRootStackNavigator';
 import { primaryBackgroundColor } from '../themes/color';
 import { primaryTextColor } from '../themes/text';
-import SpacesNavigator from './SpacesNavigator';
+import SpacesNavigator from './SpacesTopTabNavigator';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import AboutSpace from '../features/Space/pages/AboutSpace';

@@ -5,7 +5,7 @@ import { GlobalContext } from '../contexts/GlobalContext';
 import backendAPI from '../apis/backend';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import FastImage from 'react-native-fast-image';
-import SpaceTagsNavigator from './SpaceTagsNavigator';
+import SpaceTagsTopTabNavigator from './SpaceTagsTopTabNavigator';
 import { SpaceRootContext } from '../features/Space/contexts/SpaceRootContext';
 import SpaceMenuBottomSheet from '../features/Space/pages/SpaceMenuBottomSheet';
 
@@ -31,7 +31,7 @@ const SpacesMaterialTopNavigator = (props) => {
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
-          contentContainerStyle={{ paddingHorizontal: 20 }}
+          contentContainerStyle={{ paddingHorizontal: 10 }}
           style={{
             backgroundColor: 'black',
           }}
@@ -63,15 +63,14 @@ const SpacesMaterialTopNavigator = (props) => {
                 key={route.key}
                 style={{
                   // backgroundColor: 'red',
-                  width: 90,
-                  height: 100,
+                  width: 80,
+                  height: 90,
                   alignItems: 'center',
                   justifyContent: 'center',
                   marginRight: 10,
                   borderBottomColor: isFocused ? 'white' : 'transparent',
                   borderBottomWidth: 2, // Adjust the thickness of the underline
-                  paddingHorizontal: 10,
-                  paddingVertical: 5,
+                  // paddingHorizontal: 10,
                 }}
                 onPress={onPress}
               >
@@ -125,7 +124,7 @@ const SpacesMaterialTopNavigator = (props) => {
                   setCurrentSpace,
                 }}
               >
-                <SpaceTagsNavigator />
+                <SpaceTagsTopTabNavigator />
               </SpaceRootContext.Provider>
             )}
           </Tab.Screen>
