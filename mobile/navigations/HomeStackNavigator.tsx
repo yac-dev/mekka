@@ -20,6 +20,8 @@ import SpaceMenuBottomSheet from '../features/Space/pages/SpaceMenuBottomSheet';
 import Dummy from '../features/Space/pages/Dummy';
 import SpacesDrawerNavigator from './SpacesDrawerNavigator';
 import ViewPost from '../features/Space/pages/ViewPost';
+import Discover from '../features/Discover/pages/Discover';
+// import CreateNewPost from '../features/Space/pages/CreatePost';
 
 import { HomeStackNavContext } from '../contexts/HomeStackNavContext';
 const HomeStackNavigator: React.FC = (props) => {
@@ -51,6 +53,26 @@ const HomeStackNavigator: React.FC = (props) => {
                 ),
               })}
             />
+            <Stack.Screen
+              name='Discover'
+              component={Discover}
+              options={({ navigation }) => ({
+                headerShown: true,
+                headerLeft: () => (
+                  <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <Ionicons name='arrow-back-circle-sharp' size={30} color={'red'} />
+                  </TouchableOpacity>
+                ),
+                headerTitle: 'ko',
+                headerStyle: {
+                  backgroundColor: 'black',
+                },
+                headerTitleStyle: {
+                  fontWeight: 'bold',
+                  color: 'white',
+                },
+              })}
+            />
           </Stack.Group>
 
           <Stack.Group screenOptions={{ presentation: 'fullScreenModal' }}>
@@ -77,9 +99,10 @@ const HomeStackNavigator: React.FC = (props) => {
               name='CreateNewSpace'
               component={CreateNewSpace}
               options={({ navigation }) => ({
+                headerShown: true,
                 headerLeft: () => (
                   <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <Ionicons name='arrow-back-circle-sharp' size={30} color={'white'} />
+                    <Ionicons name='close-circle-sharp' size={30} color={'white'} />
                   </TouchableOpacity>
                 ),
                 headerTitle: '',
@@ -112,26 +135,6 @@ const HomeStackNavigator: React.FC = (props) => {
                 },
               })}
             />
-            <Stack.Screen
-              name='SpaceRootStackNavigator'
-              component={SpaceRootStackNavigator}
-              options={({ navigation }) => ({
-                headerShown: false,
-                headerLeft: () => (
-                  <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <Text style={{ color: primaryTextColor, fontSize: 20 }}>Close</Text>
-                  </TouchableOpacity>
-                ),
-                headerTitle: '',
-                headerStyle: {
-                  backgroundColor: 'black',
-                },
-                headerTitleStyle: {
-                  fontWeight: 'bold',
-                  color: primaryTextColor,
-                },
-              })}
-            />
           </Stack.Group>
           <Stack.Group screenOptions={{ presentation: 'modal', gestureEnabled: false }}>
             <Stack.Screen
@@ -156,7 +159,7 @@ const HomeStackNavigator: React.FC = (props) => {
             />
           </Stack.Group>
         </Stack.Navigator>
-        {/* <SpaceMenuBottomSheet /> */}
+        <SpaceMenuBottomSheet navigation={props.navigation} />
       </GestureHandlerRootView>
     </HomeStackNavContext.Provider>
   );

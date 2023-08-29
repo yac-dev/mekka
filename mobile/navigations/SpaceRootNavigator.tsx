@@ -19,7 +19,7 @@ const Tab = createMaterialTopTabNavigator();
 
 const SpaceTopTabNavigatorNew = (props) => {
   // const { spaceAndUserRelationship, navigation, setCurrentSpace } = useContext(SpaceRootContext);
-  const { isIpad } = useContext(GlobalContext);
+  const { isIpad, spaceMenuBottomSheetRef } = useContext(GlobalContext);
   const oneGridWidth = isIpad ? Dimensions.get('window').width / 6 : Dimensions.get('window').width / 4;
   const oneGridHeight = isIpad ? Dimensions.get('window').height / 7.5 : Dimensions.get('window').height / 6.5;
   const route = useRoute();
@@ -27,7 +27,7 @@ const SpaceTopTabNavigatorNew = (props) => {
   const [tags, setTags] = useState({});
   const [hasSpaceBeenFetched, setHasSpaceBeenFetched] = useState(false);
   const [haveTagsBeenFetched, setHaveTagsBeenFetched] = useState(false);
-  const spaceMenuBottomSheetRef = useRef(null);
+  // const spaceMenuBottomSheetRef = useRef(null);
 
   console.log(props);
 
@@ -151,7 +151,7 @@ const SpaceTopTabNavigatorNew = (props) => {
             </Tab.Screen>
           ))}
         </Tab.Navigator>
-        <Tab.Screen name='CreatePost' component={CreatePost} />
+        {/* <Tab.Screen name='CreatePost' component={CreatePost} /> */}
         <TouchableOpacity
           style={{ position: 'absolute', bottom: 20, right: 20 }}
           onPress={() => {
@@ -163,7 +163,7 @@ const SpaceTopTabNavigatorNew = (props) => {
             style={{ width: 50, height: 50, borderRadius: 8 }}
           />
         </TouchableOpacity>
-        <SpaceMenuBottomSheet />
+        {/* <SpaceMenuBottomSheet /> */}
       </GestureHandlerRootView>
     </SpaceRootContext.Provider>
   );

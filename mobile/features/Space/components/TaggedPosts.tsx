@@ -43,9 +43,9 @@ const TaggedPosts = (props) => {
           {/* <View style={{ position: 'absolute', bottom: 0, right: 0 }}>
             <Text style={{ color: 'white' }}>{spaceAndUserRelationship.space.name}</Text>
           </View> */}
-          <TouchableOpacity onPress={() => props.navigation.navigate('CreatePost')}>
+          {/* <TouchableOpacity onPress={() => props.navigation.navigate('CreatePost')}>
             <Text style={{ color: 'white' }}>post</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       );
     } else {
