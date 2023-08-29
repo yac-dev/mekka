@@ -18,52 +18,23 @@ import AboutSpaceStackNavigator from './AboutSpaceStackNavigator';
 import CreateNewSpace from '../features/CreateNewSpace/pages/CreateNewSpace';
 import SpaceMenuBottomSheet from '../features/Space/pages/SpaceMenuBottomSheet';
 import Dummy from '../features/Space/pages/Dummy';
+import SpacesDrawerNavigator from './SpacesDrawerNavigator';
 
 import { HomeStackNavContext } from '../contexts/HomeStackNavContext';
 const HomeStackNavigator: React.FC = (props) => {
   return (
     <HomeStackNavContext.Provider value={{ navigation: props.navigation }}>
       <GestureHandlerRootView style={{ flex: 1 }}>
-        <Stack.Navigator>
+        <Stack.Navigator
+          screenOptions={({ navigation }) => ({
+            headerShown: false,
+          })}
+        >
           <Stack.Group>
             <Stack.Screen
-              name='SpacesTopTabNavigator'
-              component={SpacesTopTabNavigator}
-              options={({ navigation }) => ({
-                headerRight: () => {
-                  // if (state.authData) {
-
-                  // } else {
-                  //   return null;
-                  // }
-                  return (
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                      <TouchableOpacity style={{ marginRight: 10 }} onPress={() => navigation.navigate('Profile Top')}>
-                        <MaterialCommunityIcons name='account-circle' size={25} color={'white'} />
-                      </TouchableOpacity>
-                      <TouchableOpacity style={{ marginRight: 0 }} onPress={() => navigation.navigate('About Lampost')}>
-                        <MaterialCommunityIcons name='information' size={25} color={'white'} />
-                      </TouchableOpacity>
-                    </View>
-                  );
-                },
-                // headerLeft: () => {
-                //   return (
-                //     <TouchableOpacity style={{ marginLeft: 10 }} onPress={() => navigation.navigate('About Lampost')}>
-                //       <MaterialCommunityIcons name='information' size={20} color={'white'} />
-                //     </TouchableOpacity>
-                //   );
-                // },
-                headerShown: true,
-                headerStyle: {
-                  backgroundColor: primaryBackgroundColor,
-                },
-                headerTitle: 'Mekka',
-                headerTitleStyle: {
-                  fontWeight: 'bold',
-                  color: 'white',
-                },
-              })}
+              name='SpacesDrawerNavigator'
+              component={SpacesDrawerNavigator}
+              options={({ navigation }) => ({})}
             />
           </Stack.Group>
 
