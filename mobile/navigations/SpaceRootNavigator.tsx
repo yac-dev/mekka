@@ -120,7 +120,6 @@ const SpaceTopTabNavigatorNew = (props) => {
       </View>
     );
   };
-  console.log(props);
 
   if (!hasSpaceBeenFetched || !haveTagsBeenFetched) {
     return (
@@ -134,9 +133,6 @@ const SpaceTopTabNavigatorNew = (props) => {
   return (
     <SpaceRootContext.Provider value={{ space, spaceMenuBottomSheetRef, navigation: props.navigation }}>
       <GestureHandlerRootView style={{ flex: 1 }}>
-        {/* spaceのtagのoptionsをここでrenderしてあげると。
-      実質、これがある一つのspaceに関するRootStack的な扱いになる。
-      */}
         <Tab.Navigator
           tabBar={(props) => <CustomTabBar {...props} />}
           screenOptions={({ route }) => ({

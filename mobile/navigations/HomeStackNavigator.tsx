@@ -19,11 +19,12 @@ import CreateNewSpace from '../features/CreateNewSpace/pages/CreateNewSpace';
 import SpaceMenuBottomSheet from '../features/Space/pages/SpaceMenuBottomSheet';
 import Dummy from '../features/Space/pages/Dummy';
 import SpacesDrawerNavigator from './SpacesDrawerNavigator';
+import ViewPost from '../features/Space/pages/ViewPost';
 
 import { HomeStackNavContext } from '../contexts/HomeStackNavContext';
 const HomeStackNavigator: React.FC = (props) => {
   return (
-    <HomeStackNavContext.Provider value={{ navigation: props.navigation }}>
+    <HomeStackNavContext.Provider value={{}}>
       <GestureHandlerRootView style={{ flex: 1 }}>
         <Stack.Navigator
           screenOptions={({ navigation }) => ({
@@ -34,7 +35,21 @@ const HomeStackNavigator: React.FC = (props) => {
             <Stack.Screen
               name='SpacesDrawerNavigator'
               component={SpacesDrawerNavigator}
-              options={({ navigation }) => ({})}
+              options={({ navigation }) => ({
+                headerShown: false,
+              })}
+            />
+            <Stack.Screen
+              name='ViewPost'
+              component={ViewPost}
+              options={({ navigation }) => ({
+                headerShown: true,
+                headerLeft: () => (
+                  <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <Ionicons name='arrow-back-circle-sharp' size={30} color={'red'} />
+                  </TouchableOpacity>
+                ),
+              })}
             />
           </Stack.Group>
 

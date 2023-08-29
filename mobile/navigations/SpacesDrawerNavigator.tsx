@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { TouchableOpacity, View, ActivityIndicator, ScrollView, Text, Dimensions } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
 import { GlobalContext } from '../contexts/GlobalContext';
 import Dummy from '../features/Space/pages/Dummy';
 import Dummy2 from '../features/Space/pages/Dummy2';
@@ -9,6 +10,32 @@ import FastImage from 'react-native-fast-image';
 const Drawer = createDrawerNavigator();
 import { SpaceRootContext } from '../features/Space/contexts/SpaceRootContext';
 import SpaceTagsTopTabNavigator from './SpaceRootNavigator';
+
+function CustomDrawerContent(props) {
+  return (
+    <DrawerContentScrollView {...props}>
+      <View style={{ alignItems: 'center', padding: 20 }}>
+        <Text style={{ fontSize: 25 }}>Custom Drawer Title</Text>
+      </View>
+      <TouchableOpacity
+        style={{ flexDirection: 'row', alignItems: 'center', padding: 10 }}
+        onPress={() => props.navigation.navigate('Feed')}
+      >
+        <Text>Icon here</Text>
+        <Text>Feed</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={{ flexDirection: 'row', alignItems: 'center', padding: 10 }}
+        onPress={() => props.navigation.navigate('Article')}
+      >
+        <Text>Icon here</Text>
+        <Text>Article</Text>
+      </TouchableOpacity>
+      {/* Include the rest of the drawer items */}
+      <DrawerItemList {...props} />
+    </DrawerContentScrollView>
+  );
+}
 
 const SpacesDrawerNavigator = (props) => {
   const {
@@ -23,65 +50,100 @@ const SpacesDrawerNavigator = (props) => {
   const iconWidth = oneGridWidth * 0.65;
 
   // drawerの場合はどう作るかだね。
-  const CustomTabBar = ({ state, descriptors, navigation }) => {
+  // const CustomTabBar = ({ state, descriptors, navigation }) => {
+  //   return (
+  //     <View
+  //       style={{
+  //         backgroundColor: 'black',
+  //       }}
+  //     >
+  //       {state.routes.map((route, index) => {
+  //         const { options } = descriptors[route.key];
+  //         const label = options.tabBarLabel !== undefined ? options.tabBarLabel : route.name;
+
+  //         const isFocused = state.index === index;
+
+  //         const onPress = () => {
+  //           const event = navigation.emit({
+  //             type: 'tabPress',
+  //             target: route.key,
+  //             canPreventDefault: true,
+  //           });
+
+  //           setCurrentSpaceAndUserRelationship(route.params?.spaceAndUserRelationship);
+
+  //           // setCurrentSpace(route.params?.spaceAndUserRelationship);
+
+  //           if (!isFocused && !event.defaultPrevented) {
+  //             navigation.navigate(route.name);
+  //           }
+  //         };
+
+  //         return (
+  //           <TouchableOpacity
+  //             key={route.key}
+  //             style={{
+  //               // backgroundColor: 'red',
+  //               width: 80,
+  //               height: 90,
+  //               alignItems: 'center',
+  //               justifyContent: 'center',
+  //               marginRight: 10,
+  //               borderBottomColor: isFocused ? 'white' : 'transparent',
+  //               borderBottomWidth: 2, // Adjust the thickness of the underline
+  //               // paddingHorizontal: 10,
+  //             }}
+  //             onPress={onPress}
+  //           >
+  //             <FastImage
+  //               style={{ width: 90, aspectRatio: 1, borderRadius: 10, marginBottom: 5 }}
+  //               source={{ uri: route.params?.spaceAndUserRelationship.space.icon }}
+  //               resizeMode={FastImage.resizeMode.contain}
+  //             />
+  //             <Text numberOfLines={1} style={{ color: 'white' }}>
+  //               {route.params?.spaceAndUserRelationship.space.name}
+  //             </Text>
+  //           </TouchableOpacity>
+  //         );
+  //       })}
+  //     </View>
+  //   );
+  // };
+
+  function CustomDrawerContent(props) {
+    const { state, descriptors, navigation } = props;
     return (
-      <View
-        style={{
-          backgroundColor: 'black',
-        }}
-      >
+      <DrawerContentScrollView {...props}>
+        <View style={{ alignItems: 'center', padding: 20 }}>
+          <Text style={{ fontSize: 25 }}>Custom Drawer Title</Text>
+        </View>
         {state.routes.map((route, index) => {
           const { options } = descriptors[route.key];
-          const label = options.tabBarLabel !== undefined ? options.tabBarLabel : route.name;
+          const label = options.title || route.name;
 
+          // Check if this tab is currently focused
           const isFocused = state.index === index;
-
-          const onPress = () => {
-            const event = navigation.emit({
-              type: 'tabPress',
-              target: route.key,
-              canPreventDefault: true,
-            });
-
-            setCurrentSpaceAndUserRelationship(route.params?.spaceAndUserRelationship);
-
-            // setCurrentSpace(route.params?.spaceAndUserRelationship);
-
-            if (!isFocused && !event.defaultPrevented) {
-              navigation.navigate(route.name);
-            }
-          };
 
           return (
             <TouchableOpacity
               key={route.key}
               style={{
-                // backgroundColor: 'red',
-                width: 80,
-                height: 90,
+                flexDirection: 'row',
                 alignItems: 'center',
-                justifyContent: 'center',
-                marginRight: 10,
-                borderBottomColor: isFocused ? 'white' : 'transparent',
-                borderBottomWidth: 2, // Adjust the thickness of the underline
-                // paddingHorizontal: 10,
+                padding: 10,
+                backgroundColor: isFocused ? '#e0e0e0' : 'transparent', // Apply background color for the selected tab
               }}
-              onPress={onPress}
+              onPress={() => navigation.navigate(route.name)}
             >
-              <FastImage
-                style={{ width: 90, aspectRatio: 1, borderRadius: 10, marginBottom: 5 }}
-                source={{ uri: route.params?.spaceAndUserRelationship.space.icon }}
-                resizeMode={FastImage.resizeMode.contain}
-              />
-              <Text numberOfLines={1} style={{ color: 'white' }}>
-                {route.params?.spaceAndUserRelationship.space.name}
-              </Text>
+              <Text style={{ color: isFocused ? 'blue' : 'black' }}>{label}</Text>
             </TouchableOpacity>
           );
         })}
-      </View>
+        {/* Include the rest of the drawer items */}
+        <DrawerItemList {...props} />
+      </DrawerContentScrollView>
     );
-  };
+  }
 
   if (!haveSpaceAndUserRelationshipsBeenFetched) {
     return (
@@ -93,11 +155,13 @@ const SpacesDrawerNavigator = (props) => {
 
   return (
     <Drawer.Navigator
+      drawerContent={(props) => <CustomDrawerContent {...props} />}
       screenOptions={({ navigation }) => ({
         drawerStyle: {
-          backgroundColor: 'rgb(50,50,50)',
+          backgroundColor: 'red',
           width: 240,
         },
+        // drawerContent:{(props) => (<CustomDrawerContent {...props} />)},
         tabBarStyle: {
           backgroundColor: 'black',
           borderTopWidth: 0,
@@ -132,6 +196,7 @@ const SpacesDrawerNavigator = (props) => {
         },
       })}
     >
+      {/* <Drawer.Screen /> */}
       {spaceAndUserRelationships.map((spaceAndUserRelationship) => (
         <Drawer.Screen
           key={spaceAndUserRelationship._id}
