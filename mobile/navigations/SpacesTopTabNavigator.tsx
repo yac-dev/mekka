@@ -5,9 +5,10 @@ import { GlobalContext } from '../contexts/GlobalContext';
 import backendAPI from '../apis/backend';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import FastImage from 'react-native-fast-image';
-import SpaceTagsTopTabNavigator from './SpaceTagsTopTabNavigator';
+import SpaceTagsTopTabNavigator from './SpaceRootNavigator';
 import { SpaceRootContext } from '../features/Space/contexts/SpaceRootContext';
 import SpaceMenuBottomSheet from '../features/Space/pages/SpaceMenuBottomSheet';
+import CreatePost from '../features/Space/pages/CreatePost';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -129,6 +130,7 @@ const SpacesMaterialTopNavigator = (props) => {
             )}
           </Tab.Screen>
         ))}
+        <Tab.Screen name='CreatePost' component={CreatePost} />
       </Tab.Navigator>
       {/* <SpaceMenuBottomSheet currentSpace={currentSpace} spaceMenuBottomSheetRef={spaceMenuBottomSheetRef} /> */}
     </GestureHandlerRootView>

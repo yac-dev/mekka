@@ -8,7 +8,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import FastImage from 'react-native-fast-image';
 const Drawer = createDrawerNavigator();
 import { SpaceRootContext } from '../features/Space/contexts/SpaceRootContext';
-import SpaceTagsTopTabNavigator from './SpaceTagsTopTabNavigator';
+import SpaceTagsTopTabNavigator from './SpaceRootNavigator';
 
 const SpacesDrawerNavigator = (props) => {
   const {
@@ -22,6 +22,7 @@ const SpacesDrawerNavigator = (props) => {
   // const spaceMenuBottomSheetRef = useRef(null);
   const iconWidth = oneGridWidth * 0.65;
 
+  // drawerの場合はどう作るかだね。
   const CustomTabBar = ({ state, descriptors, navigation }) => {
     return (
       <View
@@ -90,42 +91,6 @@ const SpacesDrawerNavigator = (props) => {
     );
   }
 
-  // return (
-  //   <GestureHandlerRootView style={{ flex: 1 }}>
-  //     <Tab.Navigator
-  //       tabBar={(props) => <CustomTabBar {...props} />}
-  //       screenOptions={({ route }) => ({
-  //         tabBarScrollEnabled: false,
-  //         lazy: true,
-  //         swipeEnabled: false,
-  //       })}
-  //     >
-  //       {spaceAndUserRelationships.map((spaceAndUserRelationship) => (
-  //         <Tab.Screen
-  //           key={spaceAndUserRelationship._id}
-  //           name={`SpaceTab_${spaceAndUserRelationship._id}`}
-  //           options={{ title: spaceAndUserRelationship.space.name }}
-  //           initialParams={{ spaceAndUserRelationship }}
-  //         >
-  //           {() => (
-  //             <SpaceRootContext.Provider
-  //               value={{
-  //                 spaceAndUserRelationship,
-  //                 navigation: props.navigation,
-  //                 spaceMenuBottomSheetRef,
-  //                 setCurrentSpace,
-  //               }}
-  //             >
-  //               <SpaceTagsTopTabNavigator />
-  //             </SpaceRootContext.Provider>
-  //           )}
-  //         </Tab.Screen>
-  //       ))}
-  //     </Tab.Navigator>
-  //     {/* <SpaceMenuBottomSheet currentSpace={currentSpace} spaceMenuBottomSheetRef={spaceMenuBottomSheetRef} /> */}
-  //   </GestureHandlerRootView>
-  // );
-
   return (
     <Drawer.Navigator
       screenOptions={({ navigation }) => ({
@@ -170,21 +135,12 @@ const SpacesDrawerNavigator = (props) => {
       {spaceAndUserRelationships.map((spaceAndUserRelationship) => (
         <Drawer.Screen
           key={spaceAndUserRelationship._id}
-          name={`SpaceTab_${spaceAndUserRelationship._id}`}
+          name={`Space_${spaceAndUserRelationship._id}`}
           options={{ title: spaceAndUserRelationship.space.name }}
           initialParams={{ spaceAndUserRelationship }}
         >
-          {() => (
-            <SpaceRootContext.Provider
-              value={{
-                spaceAndUserRelationship,
-                navigation: props.navigation,
-                // spaceMenuBottomSheetRef,
-                // setCurrentSpace,
-              }}
-            >
-              <SpaceTagsTopTabNavigator />
-            </SpaceRootContext.Provider>
+          {({ navigation }) => (
+            <SpaceTagsTopTabNavigator spaceAndUserRelationship={spaceAndUserRelationship} navigation={navigation} />
           )}
         </Drawer.Screen>
       ))}

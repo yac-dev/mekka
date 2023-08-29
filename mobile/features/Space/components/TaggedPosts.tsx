@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useContext } from 'react';
-import { View, Text, FlatList, ActivityIndicator } from 'react-native';
+import { View, Text, FlatList, ActivityIndicator, TouchableOpacity } from 'react-native';
 import backendAPI from '../../../apis/backend';
 import PostThumbnail from './PostThumbnail';
 import { SpaceRootContext } from '../contexts/SpaceRootContext';
@@ -16,6 +16,7 @@ const TaggedPosts = (props) => {
     // setSelectedTag(tags[0]);
     setHavePostsBeenFetched(true);
   };
+  console.log(props);
 
   useEffect(() => {
     getPostsByTagId();
@@ -42,6 +43,9 @@ const TaggedPosts = (props) => {
           {/* <View style={{ position: 'absolute', bottom: 0, right: 0 }}>
             <Text style={{ color: 'white' }}>{spaceAndUserRelationship.space.name}</Text>
           </View> */}
+          <TouchableOpacity onPress={() => props.navigation.navigate('CreatePost')}>
+            <Text style={{ color: 'white' }}>post</Text>
+          </TouchableOpacity>
         </View>
       );
     } else {

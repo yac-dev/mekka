@@ -141,7 +141,7 @@ const HomeStackNavigator: React.FC = (props) => {
             />
           </Stack.Group>
         </Stack.Navigator>
-        <SpaceMenuBottomSheet />
+        {/* <SpaceMenuBottomSheet /> */}
       </GestureHandlerRootView>
     </HomeStackNavContext.Provider>
   );
