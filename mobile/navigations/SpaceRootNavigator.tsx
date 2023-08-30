@@ -16,12 +16,13 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import CreatePost from '../features/Space/pages/CreatePost';
 import SpaceMenuBottomSheet from '../features/Space/pages/SpaceMenuBottomSheet';
 import ViewMenuMaterialNavigator from './PostsNavigator';
+import SnackBar from '../components/SnackBar';
 
 const Tab = createMaterialTopTabNavigator();
 
 const SpaceTopTabNavigatorNew = (props) => {
   // const { spaceAndUserRelationship, navigation, setCurrentSpace } = useContext(SpaceRootContext);
-  const { isIpad, spaceMenuBottomSheetRef } = useContext(GlobalContext);
+  const { isIpad, spaceMenuBottomSheetRef, currentSpace, setCurrentSpace } = useContext(GlobalContext);
   const oneGridWidth = isIpad ? Dimensions.get('window').width / 6 : Dimensions.get('window').width / 4;
   const oneGridHeight = isIpad ? Dimensions.get('window').height / 7.5 : Dimensions.get('window').height / 6.5;
   const route = useRoute();
@@ -32,10 +33,28 @@ const SpaceTopTabNavigatorNew = (props) => {
   const [selectedView, setSelectedView] = useState('Grid'); // Map, Calendar
   // const spaceMenuBottomSheetRef = useRef(null);
 
+  // useEffect(() => {
+  //   if (props.route.params.addedTags) {
+  //     // これ、for in の方か？？
+  //     props.route.params.addedTags.forEach((element) => {
+  //       if (!(element in tags)) {
+  //         setTags((previous) => {
+  //           return {
+  //             ...previous,
+  //             [element._id]: element,
+  //           };
+  //         });
+  //       }
+  //     });
+  //   }
+  // }, [props.route.params.addedTags]);
+
   const getSpaceById = async () => {
+    setHasSpaceBeenFetched(false);
     const result = await backendAPI.get(`/spaces/${props.spaceAndUserRelationship.space._id}`);
     const { space } = result.data;
     setSpace(space);
+    setCurrentSpace(space);
     setHasSpaceBeenFetched(true);
   };
 
@@ -48,6 +67,7 @@ const SpaceTopTabNavigatorNew = (props) => {
         table[tag._id] = {
           tag,
           hasUnreadPosts: tag.updatedAt > props.route?.params?.lastCheckedIn ? true : false,
+          createdPosts: false,
         };
       });
 
@@ -60,11 +80,14 @@ const SpaceTopTabNavigatorNew = (props) => {
     getSpaceById();
   }, []);
 
+  console.log(props.route);
+
   useEffect(() => {
-    if (hasSpaceBeenFetched) {
+    if (hasSpaceBeenFetched || props.route?.params?.afterPosted) {
       getTags();
+      // setHasSpaceBeenFetched(false);
     }
-  }, [hasSpaceBeenFetched]);
+  }, [hasSpaceBeenFetched, props.route?.params?.afterPosted]);
 
   const CustomTabBar = ({ state, descriptors, navigation }) => {
     return (
@@ -106,7 +129,7 @@ const SpaceTopTabNavigatorNew = (props) => {
                   justifyContent: 'center',
                   alignItems: 'center',
                   marginRight: 10,
-                  backgroundColor: isFocused ? 'rgb(110,110,110)' : null,
+                  // backgroundColor: isFocused ? 'rgb(110,110,110)' : null,
                   padding: 10,
                   borderRadius: 5,
                   width: 70,
@@ -118,9 +141,9 @@ const SpaceTopTabNavigatorNew = (props) => {
                 <FastImage
                   source={{ uri: route.params?.tagObject.tag.icon }}
                   style={{ width: 30, height: 30, marginBottom: 5 }}
-                  tintColor={'white'}
+                  tintColor={isFocused ? 'white' : 'rgb(100, 100, 100)'}
                 />
-                <Text numberOfLines={1} style={{ color: 'white' }}>
+                <Text numberOfLines={1} style={{ color: isFocused ? 'white' : 'rgb(120, 120, 120)' }}>
                   {route.params?.tagObject.tag.name}
                 </Text>
               </TouchableOpacity>
@@ -142,7 +165,7 @@ const SpaceTopTabNavigatorNew = (props) => {
   // ここでspace objectをcontextに入れて流す感じかな。
   return (
     <SpaceRootContext.Provider value={{ space, spaceMenuBottomSheetRef, navigation: props.navigation }}>
-      <GestureHandlerRootView style={{ flex: 1 }}>
+      <View style={{ flex: 1 }}>
         <Tab.Navigator
           tabBar={(props) => <CustomTabBar {...props} />}
           screenOptions={({ route }) => ({
@@ -162,18 +185,8 @@ const SpaceTopTabNavigatorNew = (props) => {
             </Tab.Screen>
           ))}
         </Tab.Navigator>
-        {/* <TouchableOpacity
-          style={{ position: 'absolute', bottom: 20, right: 20 }}
-          onPress={() => {
-            spaceMenuBottomSheetRef.current.snapToIndex(0);
-          }}
-        >
-          <FastImage
-            source={{ uri: props.spaceAndUserRelationship.space.icon }}
-            style={{ width: 50, height: 50, borderRadius: 8 }}
-          />
-        </TouchableOpacity> */}
-      </GestureHandlerRootView>
+        <SnackBar />
+      </View>
     </SpaceRootContext.Provider>
   );
 };

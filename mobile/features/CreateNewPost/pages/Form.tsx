@@ -66,6 +66,7 @@ const Form = (props) => {
   useEffect(() => {
     getTags();
   }, []);
+  console.log(props.route?.params?.spaceAndUserRelationship);
 
   // ここまじで謎だよなー。なんで毎回undefinedになるんだろうか。。。
   const onDonePress = async () => {
@@ -74,14 +75,14 @@ const Form = (props) => {
     try {
       const payload = new FormData();
       // 必ず、paramsを"merge"しろ。じゃないと、objectを上書きしちまう。
-      payload.append('reactions', JSON.stringify(props.route?.params?.spaceAndUserRelationship.space.reactions));
+      payload.append('reactions', JSON.stringify(props.route?.params?.space.reactions));
       payload.append('caption', formData.caption);
       payload.append('location', JSON.stringify(formData.location));
       payload.append('createdTags', JSON.stringify(formData.createdTags));
       payload.append('addedTags', JSON.stringify(Object.keys(formData.addedTags)));
-      payload.append('disappearAfter', props.route?.params?.spaceAndUserRelationship.space.disappearAfter);
+      payload.append('disappearAfter', props.route?.params?.space.disappearAfter);
       payload.append('createdBy', authData._id);
-      payload.append('spaceId', props.route?.params?.spaceAndUserRelationship.space._id);
+      payload.append('spaceId', props.route?.params?.space._id);
       for (let content of formData.contents) {
         const obj = {
           name: content.uri.split('/').pop(),
@@ -106,7 +107,7 @@ const Form = (props) => {
       //ここのcomponentは、photos. video or photoAndVideoどれかになる。
       props.navigation.navigate({
         name: `Space_${props.route?.params?.spaceAndUserRelationship._id}`,
-        params: { createdPost: post },
+        params: { afterPosted: true }, // 作ったtagをSpaceRootに入れる。
         merge: true,
       });
     } catch (error) {

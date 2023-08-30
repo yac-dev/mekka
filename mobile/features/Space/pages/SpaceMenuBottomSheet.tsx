@@ -15,8 +15,13 @@ import { HomeStackNavContext } from '../../../contexts/HomeStackNavContext';
 const SpaceMenuBottomSheet = (props) => {
   const snapPoints = useMemo(() => ['70%'], []);
   // const { spaceMenuBottomSheetRef, space, navigation } = useContext(SpaceRootContext);
-  const { spaceMenuBottomSheetRef, currentSpaceAndUserRelationship, setCurrentSpaceAndUserRelationship } =
-    useContext(GlobalContext);
+  const {
+    spaceMenuBottomSheetRef,
+    currentSpaceAndUserRelationship,
+    setCurrentSpaceAndUserRelationship,
+    currentSpace,
+    setCurrentSpace,
+  } = useContext(GlobalContext);
   // const { navigation } = useContext(HomeStackNavContext);
 
   if (currentSpaceAndUserRelationship) {
@@ -30,7 +35,7 @@ const SpaceMenuBottomSheet = (props) => {
           <BottomSheetBackdrop {...backdropProps} appearsOnIndex={0} disappearsOnIndex={-1} />
         )}
         enablePanDownToClose={true}
-        backgroundStyle={{ backgroundColor: 'rgb(30, 30, 30)' }}
+        backgroundStyle={{ backgroundColor: 'rgb(50, 50, 50)' }}
         handleIndicatorStyle={{ backgroundColor: 'white' }}
         // onClose={() => onSelectedItemBottomSheetClose()}
       >

@@ -30,6 +30,7 @@ const App: React.FC = function () {
   const [spaceAndUserRelationships, setSpaceAndUserRelationships] = useState([]);
   const [haveSpaceAndUserRelationshipsBeenFetched, setHaveSpaceAndUserRelationshipsBeenFetched] = useState(false);
   const [currentSpaceAndUserRelationship, setCurrentSpaceAndUserRelationship] = useState(null);
+  const [currentSpace, setCurrentSpace] = useState(null); // ここでspaceを持っていた方がいいのかも。。。
   const spaceMenuBottomSheetRef = useRef(null);
 
   const loadMe = async () => {
@@ -80,59 +81,25 @@ const App: React.FC = function () {
         spaceMenuBottomSheetRef,
         currentSpaceAndUserRelationship,
         setCurrentSpaceAndUserRelationship,
+        currentSpace,
+        setCurrentSpace,
       }}
     >
       <PaperProvider>
         <StatusBar hidden={false} translucent={true} backgroundColor='blue' barStyle='light-content' />
         <NavigationContainer>
           <Stack.Navigator>
-            {/* <Stack.Screen name='BottomTab' component={BottomTab} /> */}
             <Stack.Screen
-              // bottomSheetをやめた。
               name='HomeStackNavigator'
               component={HomeStackNavigator}
               options={({ navigation }) => ({
                 // headerShown: true,
                 headerShown: false,
-                // いや、ここで設定すると、BottomTabっていう上のtabに対する設定になってしまうね。
-                headerRight: () => {
-                  // if (state.authData) {
-
-                  // } else {
-                  //   return null;
-                  // }
-                  return (
-                    <TouchableOpacity style={{ marginRight: 10 }} onPress={() => navigation.navigate('ProfileTop')}>
-                      <MaterialCommunityIcons name='account-circle' size={25} color={'white'} />
-                    </TouchableOpacity>
-                  );
-                },
-                headerLeft: () => {
-                  return (
-                    <TouchableOpacity style={{ marginLeft: 10 }} onPress={() => navigation.navigate('About Lampost')}>
-                      <MaterialCommunityIcons name='information' size={25} color={'white'} />
-                    </TouchableOpacity>
-                  );
-                },
-                title: 'Mekka',
-                headerTintColor: 'white',
-                headerStyle: {
-                  backgroundColor: 'black',
-                  borderBottomWidth: 0,
-                },
-                tabBarLabel: 'Home',
-                tabBarStyle: {
-                  backgroundColor: 'black',
-                  borderTopWidth: 0,
-                },
               })}
             />
           </Stack.Navigator>
         </NavigationContainer>
-        {/* <LoadingSpinner /> */}
-        {/* <SnackBar /> */}
       </PaperProvider>
-      {/* <StatusBar hidden={false} translucent={true} backgroundColor='blue' barStyle='light-content' /> */}
     </GlobalContext.Provider>
   );
 };

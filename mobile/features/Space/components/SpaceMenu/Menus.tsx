@@ -7,7 +7,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Octicons } from '@expo/vector-icons';
 
 const SpaceMenus = (props) => {
-  const { isIpad, spaceMenuBottomSheetRef, currentSpaceAndUserRelationship } = useContext(GlobalContext);
+  const { isIpad, spaceMenuBottomSheetRef, currentSpaceAndUserRelationship, currentSpace } = useContext(GlobalContext);
   const { navigation } = useContext(SpaceRootContext);
   const oneGridWidth = isIpad ? Dimensions.get('window').width / 6 : Dimensions.get('window').width / 4;
   const oneGridHeight = isIpad ? Dimensions.get('window').height / 7.5 : Dimensions.get('window').height / 7;
@@ -31,7 +31,7 @@ const SpaceMenus = (props) => {
               spaceMenuBottomSheetRef?.current.close();
               props.navigation?.navigate({
                 name: 'CreateNewPost',
-                params: { spaceAndUserRelationship: currentSpaceAndUserRelationship },
+                params: { space: currentSpace, spaceAndUserRelationship: currentSpaceAndUserRelationship },
                 merge: true,
               });
             }}

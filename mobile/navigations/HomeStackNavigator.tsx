@@ -50,9 +50,17 @@ const HomeStackNavigator: React.FC = (props) => {
                 headerShown: true,
                 headerLeft: () => (
                   <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <Ionicons name='arrow-back-circle-sharp' size={30} color={'red'} />
+                    <Ionicons name='arrow-back-circle-sharp' size={30} color={'white'} />
                   </TouchableOpacity>
                 ),
+                headerTitle: '',
+                headerStyle: {
+                  backgroundColor: 'black',
+                },
+                headerTitleStyle: {
+                  fontWeight: 'bold',
+                  color: 'white',
+                },
               })}
             />
             <Stack.Screen

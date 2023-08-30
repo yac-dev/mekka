@@ -36,6 +36,7 @@ const ViewMenuMaterialNavigator = (props) => {
   const [currentSpace, setCurrentSpace] = useState(null);
   const [posts, setPosts] = useState([]);
   const [havePostsBeenFetched, setHavePostsBeenFetched] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   const getPostsByTagId = async () => {
     const result = await backendAPI.get(`/posts/tag/${props.tagObject.tag._id}`);
@@ -108,7 +109,17 @@ const ViewMenuMaterialNavigator = (props) => {
 
   return (
     // <View style={{ flex: 1, backgroundColor: 'black' }}>
-    <PostsContext.Provider value={{ posts, setPosts, havePostsBeenFetched, setHavePostsBeenFetched }}>
+    <PostsContext.Provider
+      value={{
+        posts,
+        setPosts,
+        havePostsBeenFetched,
+        setHavePostsBeenFetched,
+        getPostsByTagId,
+        isRefreshing,
+        setIsRefreshing,
+      }}
+    >
       <Tab.Navigator
         screenOptions={({ navigation }) => ({
           headerShown: false,
@@ -116,9 +127,8 @@ const ViewMenuMaterialNavigator = (props) => {
             borderTopWidth: 0,
             backgroundColor: 'rgb(70,70,70)',
             position: 'absolute',
-            bottom: 20,
-            marginHorizontal: 120,
-            // Max Height...
+            bottom: 15,
+            marginHorizontal: 130,
             height: 40,
             borderRadius: 30,
             // Shadow...
@@ -143,7 +153,7 @@ const ViewMenuMaterialNavigator = (props) => {
           options={({ navigation }) => ({
             tabBarShowLabel: false,
             tabBarIcon: ({ size, color, focused }) => (
-              <Ionicons name='apps-sharp' color={focused ? 'white' : 'rgb(102, 104, 109)'} size={size} />
+              <Ionicons name='apps-sharp' color={focused ? 'white' : 'rgb(100, 100, 100)'} size={23} />
             ),
           })}
         />
@@ -153,13 +163,12 @@ const ViewMenuMaterialNavigator = (props) => {
           options={({ navigation }) => ({
             tabBarShowLabel: false,
             tabBarIcon: ({ size, color, focused }) => (
-              <Entypo name='globe' color={focused ? 'white' : 'rgb(102, 104, 109)'} size={size} />
+              <Entypo name='globe' color={focused ? 'white' : 'rgb(102, 104, 109)'} size={23} />
             ),
           })}
         ></Tab.Screen>
       </Tab.Navigator>
     </PostsContext.Provider>
-    // </View>
   );
 };
 
