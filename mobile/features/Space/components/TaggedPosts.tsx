@@ -7,8 +7,7 @@ import { PostsContext } from '../../../contexts/PostsContext';
 
 const TaggedPosts = (props) => {
   const { spaceAndUserRelationship } = useContext(SpaceRootContext);
-  const { posts, havePostsBeenFetched, setHavePostsBeenFetched, isRefreshing, getPostsByTagId } =
-    useContext(PostsContext);
+  const { posts, havePostsBeenFetched, setHavePostsBeenFetched, onRefresh, isRefreshing } = useContext(PostsContext);
   // const [havePostsBeenFetched, setHavePostsBeenFetched] = useState(false);
 
   // const getPostsByTagId = async () => {
@@ -34,14 +33,14 @@ const TaggedPosts = (props) => {
   if (havePostsBeenFetched) {
     if (posts.length) {
       return (
-        <View style={{ flex: 1, backgroundColor: 'black', paddingTop: 10 }}>
+        <View style={{ flex: 1, backgroundColor: 'black' }}>
           <FlatList
             numColumns={3}
             data={posts}
             renderItem={({ item }) => renderItem(item)}
             keyExtractor={(item) => item._id}
             refreshControl={
-              <RefreshControl colors={['red', 'red']} refreshing={isRefreshing} onRefresh={() => getPostsByTagId()} />
+              <RefreshControl colors={['#FF0000', '#00FF00']} refreshing={isRefreshing} onRefresh={() => onRefresh()} />
             }
           />
         </View>

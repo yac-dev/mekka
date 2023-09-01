@@ -46,6 +46,12 @@ const ViewMenuMaterialNavigator = (props) => {
     setHavePostsBeenFetched(true);
   };
 
+  const onRefresh = async () => {
+    setIsRefreshing(true);
+    await getPostsByTagId();
+    setIsRefreshing(false);
+  };
+
   useEffect(() => {
     getPostsByTagId();
   }, []);
@@ -118,6 +124,7 @@ const ViewMenuMaterialNavigator = (props) => {
         getPostsByTagId,
         isRefreshing,
         setIsRefreshing,
+        onRefresh,
       }}
     >
       <Tab.Navigator
@@ -168,6 +175,16 @@ const ViewMenuMaterialNavigator = (props) => {
           })}
         ></Tab.Screen>
       </Tab.Navigator>
+      {/* <TouchableOpacity
+                 onPress={() => {
+                   spaceMenuBottomSheetRef.current.snapToIndex(0);
+              }}
+           >
+             <FastImage
+        source={{ uri: spaceAndUserRelationship.space.icon }}
+          style={{ width: 30, height: 30, borderRadius: 8, marginRight: 10 }}
+       />
+       </TouchableOpacity> */}
     </PostsContext.Provider>
   );
 };

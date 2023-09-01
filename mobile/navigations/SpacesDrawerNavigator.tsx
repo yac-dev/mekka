@@ -7,6 +7,7 @@ import Dummy from '../features/Space/pages/Dummy';
 import Dummy2 from '../features/Space/pages/Dummy2';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
+import { Octicons } from '@expo/vector-icons';
 import { iconParameterBackgroundColorTable, iconColorTable } from '../themes/color';
 import FastImage from 'react-native-fast-image';
 const Drawer = createDrawerNavigator();
@@ -30,7 +31,7 @@ const SpacesDrawerNavigator = (props) => {
     const { state, descriptors, navigation } = props;
     return (
       <DrawerContentScrollView {...props} style={{ paddingTop: 10 }}>
-        <View style={{ padding: 10 }}>
+        <View style={{ padding: 20 }}>
           <Text style={{ color: 'white', fontSize: 25 }}>My Spaces</Text>
         </View>
         {state.routes.map((route, index) => {
@@ -121,6 +122,9 @@ const SpacesDrawerNavigator = (props) => {
           </View>
           <Text style={{ color: 'white' }}>Discover Space</Text>
         </TouchableOpacity>
+        <View style={{ position: 'absolute', bottom: 0, right: 0 }}>
+          <Text style={{ color: 'red' }}>Hellooooo</Text>
+        </View>
         {/* ↓これあると、screenのtabもrenderするようになる。 */}
         {/* <DrawerItemList {...props} /> */}
       </DrawerContentScrollView>
@@ -171,21 +175,22 @@ const SpacesDrawerNavigator = (props) => {
             headerLeft: () => {
               return (
                 <TouchableOpacity style={{}} onPress={() => navigation.toggleDrawer()}>
-                  <Ionicons name='menu' style={{ marginLeft: 10 }} size={25} color={'white'} />
+                  <MaterialCommunityIcons name='home-group' style={{ marginLeft: 10 }} size={25} color={'white'} />
                 </TouchableOpacity>
               );
             },
             headerRight: () => {
               return (
                 <TouchableOpacity
-                  onPress={() => {
-                    spaceMenuBottomSheetRef.current.snapToIndex(0);
-                  }}
+                // onPress={() => {
+                //   spaceMenuBottomSheetRef.current.snapToIndex(0);
+                // }}
                 >
-                  <FastImage
+                  {/* <FastImage
                     source={{ uri: spaceAndUserRelationship.space.icon }}
                     style={{ width: 30, height: 30, borderRadius: 8, marginRight: 10 }}
-                  />
+                  /> */}
+                  <MaterialCommunityIcons name='account' size={25} color='white' style={{ marginRight: 10 }} />
                 </TouchableOpacity>
               );
             },

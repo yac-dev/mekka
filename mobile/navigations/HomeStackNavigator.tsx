@@ -8,13 +8,13 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import Home from '../features/Home/pages/Home';
 import Signup from '../features/Home/pages/Signup';
 import CreatePost from '../features/Space/pages/CreatePost';
-import SpaceRootStackNavigator from './SpaceRootStackNavigator';
+// import SpaceRootStackNavigator from './SpaceRootStackNavigator';
 import { primaryBackgroundColor } from '../themes/color';
 import { primaryTextColor } from '../themes/text';
 import SpacesTopTabNavigator from './SpacesTopTabNavigator';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
-import AboutSpaceStackNavigator from './AboutSpaceStackNavigator';
+// import AboutSpaceStackNavigator from './AboutSpaceStackNavigator';
 import CreateNewSpace from '../features/CreateNewSpace/pages/CreateNewSpace';
 import SpaceMenuBottomSheet from '../features/Space/pages/SpaceMenuBottomSheet';
 import Dummy from '../features/Space/pages/Dummy';
@@ -167,7 +167,7 @@ const HomeStackNavigator: React.FC = (props) => {
             />
           </Stack.Group>
           <Stack.Group screenOptions={{ presentation: 'modal', gestureEnabled: false }}>
-            <Stack.Screen
+            {/* <Stack.Screen
               name='AboutSpaceStackNavigator'
               component={AboutSpaceStackNavigator}
               options={({ navigation }) => ({
@@ -186,7 +186,7 @@ const HomeStackNavigator: React.FC = (props) => {
                   color: primaryTextColor,
                 },
               })}
-            />
+            /> */}
           </Stack.Group>
         </Stack.Navigator>
         <SpaceMenuBottomSheet navigation={props.navigation} />

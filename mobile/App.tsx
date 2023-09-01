@@ -6,7 +6,7 @@ import { PaperProvider } from 'react-native-paper';
 import * as SecureStore from 'expo-secure-store';
 import LoadingSpinner from './components/LoadingSpinner';
 import SnackBar from './components/SnackBar';
-import RootStack from './navigations/RootStack';
+// import RootStack from './navigations/RootStack';
 import backendAPI from './apis/backend';
 import BottomTab from './navigations/BottomTab';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -89,8 +89,16 @@ const App: React.FC = function () {
         <StatusBar hidden={false} translucent={true} backgroundColor='blue' barStyle='light-content' />
         <NavigationContainer>
           <Stack.Navigator>
+            {/* <Stack.Screen
+              name='BottomTab'
+              component={BottomTab}
+              options={({ navigation }) => ({
+                // headerShown: true,
+                headerShown: false,
+              })}
+            /> */}
             <Stack.Screen
-              name='HomeStackNavigator'
+              name='HomwStackNavigator'
               component={HomeStackNavigator}
               options={({ navigation }) => ({
                 // headerShown: true,

@@ -15,7 +15,7 @@ import { Octicons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import CreatePost from '../features/Space/pages/CreatePost';
 import SpaceMenuBottomSheet from '../features/Space/pages/SpaceMenuBottomSheet';
-import ViewMenuMaterialNavigator from './PostsNavigator';
+import PostsBottomNavigator from './PostsBottomNavigator';
 import SnackBar from '../components/SnackBar';
 
 const Tab = createMaterialTopTabNavigator();
@@ -80,7 +80,7 @@ const SpaceTopTabNavigatorNew = (props) => {
     getSpaceById();
   }, []);
 
-  console.log(props.route);
+  // console.log(props.route);
 
   useEffect(() => {
     if (hasSpaceBeenFetched || props.route?.params?.afterPosted) {
@@ -98,10 +98,11 @@ const SpaceTopTabNavigatorNew = (props) => {
           contentContainerStyle={{ paddingHorizontal: 0 }}
           style={{
             backgroundColor: 'black',
-            paddingTop: 20,
-            paddingBottom: 20,
+            paddingTop: 10,
+            paddingBottom: 10,
             paddingLeft: 10,
             paddingRight: 10,
+            // padding: 5,
           }}
         >
           {state.routes.map((route, index) => {
@@ -140,7 +141,7 @@ const SpaceTopTabNavigatorNew = (props) => {
               >
                 <FastImage
                   source={{ uri: route.params?.tagObject.tag.icon }}
-                  style={{ width: 30, height: 30, marginBottom: 5 }}
+                  style={{ width: 25, height: 25, marginBottom: 5 }}
                   tintColor={isFocused ? 'white' : 'rgb(100, 100, 100)'}
                 />
                 <Text numberOfLines={1} style={{ color: isFocused ? 'white' : 'rgb(120, 120, 120)' }}>
@@ -181,7 +182,7 @@ const SpaceTopTabNavigatorNew = (props) => {
               initialParams={{ tagObject }}
             >
               {/* {({ navigation }) => <TaggedPosts navigation={navigation} tagObject={tagObject} />} */}
-              {({ navigation }) => <ViewMenuMaterialNavigator navigation={navigation} tagObject={tagObject} />}
+              {({ navigation }) => <PostsBottomNavigator navigation={navigation} tagObject={tagObject} />}
             </Tab.Screen>
           ))}
         </Tab.Navigator>
