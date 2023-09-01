@@ -10,6 +10,7 @@ import { SpaceRootContext } from '../features/Space/contexts/SpaceRootContext';
 import SpaceMenuBottomSheet from '../features/Space/pages/SpaceMenuBottomSheet';
 import CreatePost from '../features/Space/pages/CreatePost';
 import TaggedPosts from '../features/Space/components/TaggedPosts';
+import Grid from '../features/Space/components/Grid';
 import Map from '../features/MapView/pages/Map';
 import { useNavigation } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -114,7 +115,6 @@ const ViewMenuMaterialNavigator = (props) => {
   // };
 
   return (
-    // <View style={{ flex: 1, backgroundColor: 'black' }}>
     <PostsContext.Provider
       value={{
         posts,
@@ -127,55 +127,60 @@ const ViewMenuMaterialNavigator = (props) => {
         onRefresh,
       }}
     >
-      <Tab.Navigator
-        screenOptions={({ navigation }) => ({
-          headerShown: false,
-          tabBarStyle: {
-            borderTopWidth: 0,
-            backgroundColor: 'rgb(70,70,70)',
-            position: 'absolute',
-            bottom: 15,
-            marginHorizontal: 130,
-            height: 40,
-            borderRadius: 30,
-            // Shadow...
-            // shadowColor: '#000',
-            // shadowOpacity: 0.06,
-            // shadowOffset: {
-            //   width: 10,
-            //   height: 10,
-            // },
-          },
-        })}
-        // tabBar={(props) => <CustomTabBar {...props} />}
-        // screenOptions={({ route }) => ({
-        //   tabBarScrollEnabled: false,
-        //   lazy: true,
-        //   swipeEnabled: false,
-        // })}
-      >
-        <Tab.Screen
-          name='Grid'
-          component={TaggedPosts}
-          options={({ navigation }) => ({
-            tabBarShowLabel: false,
-            tabBarIcon: ({ size, color, focused }) => (
-              <Ionicons name='apps-sharp' color={focused ? 'white' : 'rgb(100, 100, 100)'} size={23} />
-            ),
+      <View style={{ flex: 1, backgroundColor: 'black' }}>
+        {/* <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <FastImage source={{ uri: props.tagObject.tag.icon }} style={{ width: 20, height: 20, marginRight: 10 }} />
+          <Text style={{ color: 'white', fontSize: 20 }}>{props.tagObject.tag.name}</Text>
+        </View> */}
+        <Tab.Navigator
+          screenOptions={({ navigation }) => ({
+            headerShown: false,
+            tabBarStyle: {
+              borderTopWidth: 0,
+              backgroundColor: 'rgb(70,70,70)',
+              position: 'absolute',
+              bottom: 15,
+              marginHorizontal: 130,
+              height: 40,
+              borderRadius: 30,
+              // Shadow...
+              // shadowColor: '#000',
+              // shadowOpacity: 0.06,
+              // shadowOffset: {
+              //   width: 10,
+              //   height: 10,
+              // },
+            },
           })}
-        />
-        <Tab.Screen
-          name='Map'
-          component={Map}
-          options={({ navigation }) => ({
-            tabBarShowLabel: false,
-            tabBarIcon: ({ size, color, focused }) => (
-              <Entypo name='globe' color={focused ? 'white' : 'rgb(102, 104, 109)'} size={23} />
-            ),
-          })}
-        ></Tab.Screen>
-      </Tab.Navigator>
-      {/* <TouchableOpacity
+          // tabBar={(props) => <CustomTabBar {...props} />}
+          // screenOptions={({ route }) => ({
+          //   tabBarScrollEnabled: false,
+          //   lazy: true,
+          //   swipeEnabled: false,
+          // })}
+        >
+          <Tab.Screen
+            name='Grid'
+            component={Grid}
+            options={({ navigation }) => ({
+              tabBarShowLabel: false,
+              tabBarIcon: ({ size, color, focused }) => (
+                <Ionicons name='apps-sharp' color={focused ? 'white' : 'rgb(100, 100, 100)'} size={23} />
+              ),
+            })}
+          />
+          <Tab.Screen
+            name='Map'
+            component={Map}
+            options={({ navigation }) => ({
+              tabBarShowLabel: false,
+              tabBarIcon: ({ size, color, focused }) => (
+                <Entypo name='globe' color={focused ? 'white' : 'rgb(102, 104, 109)'} size={23} />
+              ),
+            })}
+          ></Tab.Screen>
+        </Tab.Navigator>
+        {/* <TouchableOpacity
                  onPress={() => {
                    spaceMenuBottomSheetRef.current.snapToIndex(0);
               }}
@@ -185,6 +190,7 @@ const ViewMenuMaterialNavigator = (props) => {
           style={{ width: 30, height: 30, borderRadius: 8, marginRight: 10 }}
        />
        </TouchableOpacity> */}
+      </View>
     </PostsContext.Provider>
   );
 };
