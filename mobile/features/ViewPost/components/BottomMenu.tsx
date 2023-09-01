@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { View, Text, TouchableOpacity, Dimensions, ScrollView } from 'react-native';
-import { GlobalContext } from '../../../../contexts/GlobalContext';
-import { ViewPostContext } from '../../contexts/ViewPostContext';
+import { GlobalContext } from '../../../contexts/GlobalContext';
+import { ViewPostContext } from '../contexts/ViewPostContext';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';

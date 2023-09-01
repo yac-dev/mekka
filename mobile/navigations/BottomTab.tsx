@@ -11,7 +11,7 @@ import Mekkas from '../features/Discover/pages/Discover';
 import HomeStackNavigator from './HomeStackNavigator';
 import DiscoverStackNavigator from './DiscoverStackNavigator';
 import SpaceMenuBottomSheet from '../features/Space/pages/SpaceMenuBottomSheet';
-import Dummy from '../features/Space/pages/Dummy';
+import Dummy from '../features/Utils/Dummy';
 import Dummy2 from '../features/Space/pages/Dummy2';
 const { MCI, MI, ET } = icons;
 

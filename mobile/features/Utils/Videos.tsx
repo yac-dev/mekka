@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, Dimensions, FlatList } from 'react-native';
-import backendAPI from '../../../apis/backend';
-import { VideoSpaceContext } from '../contexts/VideoSpaceContext';
+import backendAPI from '../../apis/backend';
+import { VideoSpaceContext } from '../Space/contexts/VideoSpaceContext';
 import VideoPosts from '../components/VideoPosts';
-import VideoPost from '../components/VideoPost';
+import VideoPost from './VideoPost';
 
 const Videos = (props) => {
   const [space, setSpace] = useState({ name: '' });

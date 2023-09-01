@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, TouchableOpacity, Dimensions } from 'react-native';
-import { PostContext } from '../contexts/PostContext';
+import { PostContext } from '../../Space/contexts/PostContext';
 import MapView, { Marker, MapPressEvent } from 'react-native-maps';
 import { mapStyle } from '../../../themes/map';
 import { NavigationProp, ParamListBase, RouteProp } from '@react-navigation/native';
@@ -37,7 +37,7 @@ const AddLocation: React.FC<AddLocationProps> = (props) => {
         <TouchableOpacity
           onPress={() =>
             props.navigation?.navigate({
-              name: 'CreatePost',
+              name: 'CreateNewPost',
               params: { selectedLocation: selectingLocation },
               merge: true,
             })

@@ -18,9 +18,10 @@ import { Ionicons } from '@expo/vector-icons';
 import CreateNewSpace from '../features/CreateNewSpace/pages/CreateNewSpace';
 // import SpaceMenuBottomSheet from '../features/Space/pages/SpaceMenuBottomSheet';
 import SpaceMenuBottomSheet from '../features/SpaceMenuBottomSheet/pages/BottomSheet';
-import Dummy from '../features/Space/pages/Dummy';
+import Dummy from '../features/Utils/Dummy';
 import SpacesDrawerNavigator from './SpacesDrawerNavigator';
-import ViewPost from '../features/Space/pages/ViewPost';
+import ViewPost from '../features/ViewPost/pages/ViewPost';
+import Comments from '../features/ViewPost/pages/Comments';
 import Discover from '../features/Discover/pages/Discover';
 import ProfileStackNavigator from './ProfileStackNavigator';
 import CreateNewPost from '../features/CreateNewPost/pages/Form';
@@ -47,6 +48,26 @@ const HomeStackNavigator: React.FC = (props) => {
             <Stack.Screen
               name='ViewPost'
               component={ViewPost}
+              options={({ navigation }) => ({
+                headerShown: true,
+                headerLeft: () => (
+                  <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <Ionicons name='arrow-back-circle-sharp' size={30} color={'white'} />
+                  </TouchableOpacity>
+                ),
+                headerTitle: '',
+                headerStyle: {
+                  backgroundColor: 'black',
+                },
+                headerTitleStyle: {
+                  fontWeight: 'bold',
+                  color: 'white',
+                },
+              })}
+            />
+            <Stack.Screen
+              name='Comments'
+              component={Comments}
               options={({ navigation }) => ({
                 headerShown: true,
                 headerLeft: () => (

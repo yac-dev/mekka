@@ -3,13 +3,13 @@ import { View, Text, ScrollView } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import backendAPI from '../../../apis/backend';
 import { ViewPostContext } from '../contexts/ViewPostContext';
-import Header from '../components/ViewPost/Header';
-import Content from '../components/ViewPost/Content';
+import Header from '../components/Header';
+import Content from '../components/Content';
 import ReactionOptionsBottomSheet from './ReactionOptionsBottomSheet';
 import CommentInputBottomSheet from './CommentInputBottomSheet';
-import BottomMenu from '../components/ViewPost/BottomMenu';
-import ReactionOptions from '../components/ViewPost/ReactionOptions';
-import Comments from '../components/ViewPost/Comments';
+import BottomMenu from '../components/BottomMenu';
+// import ReactionOptions from '../compoReactionOptions';
+import Comments from './Comments';
 import LoadingSpinner from '../../../components/LoadingSpinner';
 
 const ViewPost = (props) => {

@@ -7,7 +7,7 @@ import backendAPI from '../../../apis/backend';
 import FastImage from 'react-native-fast-image';
 import { Video } from 'expo-av';
 
-const ViewCalendar = (props) => {
+const CalendarView = (props) => {
   const [currentYearAndMonth, setCurrentYearAndMonth] = useState('');
   const [postsTable, setPostsTable] = useState({});
   const viewPostsByDateBottomSheetRef = useRef(null);
@@ -141,4 +141,4 @@ const ViewCalendar = (props) => {
   );
 };
 
-export default ViewCalendar;
+export default CalendarView;

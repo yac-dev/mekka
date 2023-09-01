@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { View, Text, TouchableOpacity, ActivityIndicator, ScrollView } from 'react-native';
-import { GlobalContext } from '../../../../contexts/GlobalContext';
-import { ViewPostContext } from '../../contexts/ViewPostContext';
+import { GlobalContext } from '../../contexts/GlobalContext';
+import { ViewPostContext } from '../Space/contexts/ViewPostContext';
 import { RouteProp, ParamListBase } from '@react-navigation/native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import backendAPI from '../../../../apis/backend';
+import backendAPI from '../../apis/backend';
 import FastImage from 'react-native-fast-image';
 
 type ReactionsProps = {

@@ -11,7 +11,7 @@ import SpaceMenuBottomSheet from '../features/Space/pages/SpaceMenuBottomSheet';
 import CreatePost from '../features/Space/pages/CreatePost';
 import TaggedPosts from '../features/Space/components/TaggedPosts';
 import Grid from '../features/Space/components/Grid';
-import Map from '../features/MapView/pages/Map';
+import Map from '../features/Space/components/Map';
 import { useNavigation } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { PostsContext } from '../contexts/PostsContext';

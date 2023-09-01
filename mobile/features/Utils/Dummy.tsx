@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { View, Text } from 'react-native';
 import { useRoute } from '@react-navigation/native';
-import backendAPI from '../../../apis/backend';
+import backendAPI from '../../apis/backend';
 
 const Dummy = (props) => {
   // const route = useRoute();

@@ -24,7 +24,7 @@ const CreateTag = (props) => {
   }, [tagName]);
 
   const onDonePress = () => {
-    props.navigation.navigate({ name: 'CreatePost', params: { createdTag: removeEmojis(tagName) }, merge: true });
+    props.navigation.navigate({ name: 'CreateNewPost', params: { createdTag: removeEmojis(tagName) }, merge: true });
   };
 
   return (

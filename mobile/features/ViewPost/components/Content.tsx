@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import { View, Text, TouchableOpacity, ActivityIndicator, ScrollView } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import { Video } from 'expo-av';
-import { ViewPostContext } from '../../contexts/ViewPostContext';
+import { ViewPostContext } from '../contexts/ViewPostContext';
 import { FadingTransition } from 'react-native-reanimated';
 
 const Content = (props) => {

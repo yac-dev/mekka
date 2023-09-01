@@ -3,7 +3,7 @@ import { TouchableOpacity, View, ActivityIndicator, ScrollView, Text, Dimensions
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
 import { GlobalContext } from '../contexts/GlobalContext';
-import Dummy from '../features/Space/pages/Dummy';
+import Dummy from '../features/Utils/Dummy';
 import Dummy2 from '../features/Space/pages/Dummy2';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
