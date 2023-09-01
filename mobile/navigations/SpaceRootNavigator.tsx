@@ -165,7 +165,14 @@ const SpaceTopTabNavigatorNew = (props) => {
 
   // ここでspace objectをcontextに入れて流す感じかな。
   return (
-    <SpaceRootContext.Provider value={{ space, spaceMenuBottomSheetRef, navigation: props.navigation }}>
+    <SpaceRootContext.Provider
+      value={{
+        space,
+        spaceMenuBottomSheetRef,
+        navigation: props.navigation,
+        spaceAndUserRelationship: props.spaceAndUserRelationship,
+      }}
+    >
       <View style={{ flex: 1 }}>
         <Tab.Navigator
           tabBar={(props) => <CustomTabBar {...props} />}

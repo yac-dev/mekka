@@ -1,20 +1,15 @@
 import React, { useMemo, useContext } from 'react';
-import { SpaceContext } from '../contexts/SpaceContext';
-import { SpaceRootContext } from '../contexts/SpaceRootContext';
 import { GlobalContext } from '../../../contexts/GlobalContext';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import GorhomBottomSheet, { BottomSheetView, BottomSheetBackdrop } from '@gorhom/bottom-sheet';
-import Header from '../components/SpaceMenu/Header';
-import Menus from '../components/SpaceMenu/Menus';
-import About from '../components/SpaceMenu/About';
-import { AntDesign } from '@expo/vector-icons';
-import { HomeStackNavContext } from '../../../contexts/HomeStackNavContext';
+import Header from '../components/Header';
+import Menus from '../components/Menus';
+import Description from '../components/Description';
 
 // rgb(35, 35, 35)
 const SpaceMenuBottomSheet = (props) => {
   const snapPoints = useMemo(() => ['70%'], []);
-  // const { spaceMenuBottomSheetRef, space, navigation } = useContext(SpaceRootContext);
   const {
     spaceMenuBottomSheetRef,
     currentSpaceAndUserRelationship,
@@ -42,6 +37,7 @@ const SpaceMenuBottomSheet = (props) => {
         <BottomSheetView style={{ paddingLeft: 10, paddingRight: 10, flex: 1 }}>
           <Header />
           <Menus navigation={props.navigation} />
+          <Description />
           {/* <About /> */}
         </BottomSheetView>
       </GorhomBottomSheet>

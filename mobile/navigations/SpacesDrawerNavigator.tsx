@@ -12,7 +12,7 @@ import { iconParameterBackgroundColorTable, iconColorTable } from '../themes/col
 import FastImage from 'react-native-fast-image';
 const Drawer = createDrawerNavigator();
 import { SpaceRootContext } from '../features/Space/contexts/SpaceRootContext';
-import SpaceTagsTopTabNavigator from './SpaceRootNavigator';
+import SpaceRootNavigator from './SpaceRootNavigator';
 
 const SpacesDrawerNavigator = (props) => {
   const {
@@ -198,7 +198,7 @@ const SpacesDrawerNavigator = (props) => {
           initialParams={{ spaceAndUserRelationship }}
         >
           {({ navigation, route }) => (
-            <SpaceTagsTopTabNavigator
+            <SpaceRootNavigator
               spaceAndUserRelationship={spaceAndUserRelationship}
               navigation={navigation}
               route={route}

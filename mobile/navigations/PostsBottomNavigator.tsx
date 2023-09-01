@@ -28,10 +28,14 @@ const ViewMenuMaterialNavigator = (props) => {
     spaceAndUserRelationships,
     haveSpaceAndUserRelationshipsBeenFetched,
     setCurrentSpaceAndUserRelationship,
+    spaceMenuBottomSheetRef,
   } = useContext(GlobalContext);
+
+  const { spaceAndUserRelationship } = useContext(SpaceRootContext);
+
   const oneGridWidth = isIpad ? Dimensions.get('window').width / 6 : Dimensions.get('window').width / 4;
   const oneGridHeight = isIpad ? Dimensions.get('window').height / 7.5 : Dimensions.get('window').height / 6.5;
-  const spaceMenuBottomSheetRef = useRef(null);
+  // const spaceMenuBottomSheetRef = useRef(null);
   const iconWidth = oneGridWidth * 0.65;
   const [focusedTab, setFocusedTab] = useState(null);
   const [currentSpace, setCurrentSpace] = useState(null);
@@ -180,16 +184,16 @@ const ViewMenuMaterialNavigator = (props) => {
             })}
           ></Tab.Screen>
         </Tab.Navigator>
-        {/* <TouchableOpacity
-                 onPress={() => {
-                   spaceMenuBottomSheetRef.current.snapToIndex(0);
-              }}
-           >
-             <FastImage
-        source={{ uri: spaceAndUserRelationship.space.icon }}
-          style={{ width: 30, height: 30, borderRadius: 8, marginRight: 10 }}
-       />
-       </TouchableOpacity> */}
+        <TouchableOpacity
+          onPress={() => {
+            spaceMenuBottomSheetRef.current.snapToIndex(0);
+          }}
+        >
+          <FastImage
+            source={{ uri: spaceAndUserRelationship.space.icon }}
+            style={{ width: 45, height: 45, borderRadius: 8, position: 'absolute', bottom: 15, right: 20 }}
+          />
+        </TouchableOpacity>
       </View>
     </PostsContext.Provider>
   );
