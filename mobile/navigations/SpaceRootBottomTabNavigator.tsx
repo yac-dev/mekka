@@ -13,7 +13,7 @@ import { Octicons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import TagViewTopTabNavigator from './TagViewTopTabNavigator';
 import PeopleViewTopTabNavigator from './PeopleViewTopTabNavigator';
-import PlacesViewTopTabNavigator from './PlacesViewTopTabNavigator';
+import LocationsViewTopTabNavigator from './LocationsViewTopTabNavigator';
 
 const Tab = createBottomTabNavigator();
 
@@ -114,8 +114,8 @@ const SpaceRootBottomTabNavigator = (props) => {
           })}
         />
         <Tab.Screen
-          name='MapViewTopTabNavigator'
-          component={PlacesViewTopTabNavigator}
+          name='LocationsViewTopTabNavigator'
+          component={LocationsViewTopTabNavigator}
           options={({ navigation }) => ({
             tabBarShowLabel: false,
             tabBarIcon: ({ size, color, focused }) => (

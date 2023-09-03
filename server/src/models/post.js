@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 const postSchema = mongoose.Schema({
   contents: [{ type: mongoose.Schema.ObjectId, ref: 'Content' }],
   caption: String,
+  locationTag: { type: mongoose.Schema.ObjectId, ref: 'LocationTag' }, // これは一つのみ。
   location: {
     type: {
       type: String,

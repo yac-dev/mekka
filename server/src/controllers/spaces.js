@@ -6,6 +6,7 @@ import Post from '../models/post';
 import Tag from '../models/tag';
 import PostAndTagRelationship from '../models/postAndTagRelationship';
 import SpaceAndTagAndPostRelationship from '../models/spaceAndTagAndPostRelationship';
+import LocationTag from '../models/locationTag';
 
 export const createSpace = async (request, response) => {
   try {
@@ -280,6 +281,18 @@ export const getPeopleBySpaceId = async (request, response) => {
     });
     response.status(200).json({
       people,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getLocationTagsBySpaceId = async (request, response) => {
+  try {
+    const documents = await LocationTag.find({ space: request.params.spaceId });
+    console.log(documents);
+    response.status(200).json({
+      locationTags: documents,
     });
   } catch (error) {
     console.log(error);

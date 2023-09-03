@@ -262,6 +262,33 @@ export const getPostsByUserId = async (request, response) => {
   }
 };
 
+export const getPostsByLocationTagId = async (request, response) => {
+  try {
+    const documents = Post.find({ locationTag: request.params.locationTagId, space: request.params.spaceId }).populate({
+      path: 'contents',
+      model: 'Content',
+    });
+
+    const posts = documents
+      .filter((post) => post.createdBy !== null)
+      .map((post, index) => {
+        return {
+          content: {
+            data: post.contents[0].data,
+            type: post.contents[0].type,
+          },
+          location: post.location,
+        };
+      });
+
+    response.status(200).json({
+      posts,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 // export const getPosts = async (request, response) => {
 //   try {
 //     const documents = await Post.find({
