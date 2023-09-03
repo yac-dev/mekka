@@ -13,6 +13,7 @@ import FastImage from 'react-native-fast-image';
 const Drawer = createDrawerNavigator();
 import { SpaceRootContext } from '../features/Space/contexts/SpaceRootContext';
 import SpaceRootNavigator from './SpaceRootNavigator';
+import SpaceRootBottomTabNavigator from './SpaceRootBottomTabNavigator';
 
 const SpacesDrawerNavigator = (props) => {
   const {
@@ -198,11 +199,15 @@ const SpacesDrawerNavigator = (props) => {
           initialParams={{ spaceAndUserRelationship }}
         >
           {({ navigation, route }) => (
-            <SpaceRootNavigator
-              spaceAndUserRelationship={spaceAndUserRelationship}
-              navigation={navigation}
-              route={route}
-            />
+            <SpaceRootBottomTabNavigator spaceAndUserRelationship={spaceAndUserRelationship} />
+            // <SpaceRootContext.Provider value={{ spaceAndUserRelationship, navigation, route }}>
+            //   {/* <SpaceRootNavigator
+            //     spaceAndUserRelationship={spaceAndUserRelationship}
+            //     navigation={navigation}
+            //     route={route}
+            //   /> */}
+            //   <SpaceRootBottomTabNavigator spaceAndUserRelationship={spaceAndUserRelationship} />
+            // </SpaceRootContext.Provider>
           )}
         </Drawer.Screen>
       ))}

@@ -18,22 +18,22 @@ import CreatePost from '../features/Space/pages/CreatePost';
 import SpaceMenuBottomSheet from '../features/Space/pages/SpaceMenuBottomSheet';
 import PostsBottomNavigator from './PostsBottomNavigator';
 import SnackBar from '../components/SnackBar';
-import Grid from '../features/Space/components/Grid';
+// import Grid from '../features/Space/components/Grid';
+import TagView from '../features/Space/pages/TagView';
 import Map from '../features/Space/components/Map';
 
 const Tab = createMaterialTopTabNavigator();
 
-const SpaceTopTabNavigatorNew = (props) => {
-  // const { spaceAndUserRelationship, navigation, setCurrentSpace } = useContext(SpaceRootContext);
+const TagViewTopTabNavigator = (props) => {
+  const { spaceAndUserRelationship, navigation, space, hasSpaceBeenFetched, setHasSpaceBeenFetched } =
+    useContext(SpaceRootContext);
   const { isIpad, spaceMenuBottomSheetRef, currentSpace, setCurrentSpace } = useContext(GlobalContext);
   const oneGridWidth = isIpad ? Dimensions.get('window').width / 6 : Dimensions.get('window').width / 4;
   const oneGridHeight = isIpad ? Dimensions.get('window').height / 7.5 : Dimensions.get('window').height / 6.5;
   const route = useRoute();
-  const [space, setSpace] = useState(null);
+  // const [space, setSpace] = useState(null);
   const [tags, setTags] = useState({});
-  const [hasSpaceBeenFetched, setHasSpaceBeenFetched] = useState(false);
   const [haveTagsBeenFetched, setHaveTagsBeenFetched] = useState(false);
-  const [selectedView, setSelectedView] = useState('Grid'); // Map, Calendar
   // const spaceMenuBottomSheetRef = useRef(null);
 
   // useEffect(() => {
@@ -54,15 +54,15 @@ const SpaceTopTabNavigatorNew = (props) => {
 
   const getSpaceById = async () => {
     setHasSpaceBeenFetched(false);
-    const result = await backendAPI.get(`/spaces/${props.spaceAndUserRelationship.space._id}`);
+    const result = await backendAPI.get(`/spaces/${spaceAndUserRelationship.space._id}`);
     const { space } = result.data;
-    setSpace(space);
+    // setSpace(space);
     setCurrentSpace(space);
     setHasSpaceBeenFetched(true);
   };
 
   const getTags = async () => {
-    const result = await backendAPI.get(`/spaces/${props.spaceAndUserRelationship.space._id}/tags`);
+    const result = await backendAPI.get(`/spaces/${spaceAndUserRelationship.space._id}/tags`);
     const { tags } = result.data;
     setTags(() => {
       const table = {};
@@ -79,9 +79,9 @@ const SpaceTopTabNavigatorNew = (props) => {
     setHaveTagsBeenFetched(true);
   };
 
-  useEffect(() => {
-    getSpaceById();
-  }, []);
+  // useEffect(() => {
+  //   getSpaceById();
+  // }, []);
 
   // console.log(props.route);
 
@@ -153,52 +153,6 @@ const SpaceTopTabNavigatorNew = (props) => {
               </TouchableOpacity>
             );
           })}
-          <TouchableOpacity
-            // key={route.key}
-            style={{
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginRight: 10,
-              // backgroundColor: isFocused ? 'rgb(110,110,110)' : null,
-              padding: 10,
-              borderRadius: 5,
-              width: 70,
-              height: 70,
-            }}
-            // contentTypeによって、いくnavigatorが変わるわけですよ。。。そう、つまりここでnavigatingを分ければいいわけね。
-            // onPress={onPress}
-          >
-            {/* <Text numberOfLines={1} style={{ color: isFocused ? 'white' : 'rgb(120, 120, 120)' }}>
-                  {route.params?.tagObject.tag.name}
-                </Text> */}
-            <MaterialCommunityIcons name='account-group' color={'white'} size={25} style={{ marginBottom: 5 }} />
-
-            <Text style={{ color: 'white' }}>People</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            // key={route.key}
-            style={{
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginRight: 10,
-              // backgroundColor: isFocused ? 'rgb(110,110,110)' : null,
-              padding: 10,
-              borderRadius: 5,
-              width: 70,
-              height: 70,
-            }}
-            // contentTypeによって、いくnavigatorが変わるわけですよ。。。そう、つまりここでnavigatingを分ければいいわけね。
-            // onPress={onPress}
-            onPress={() => navigation.navigate('MapView')}
-          >
-            {/* <Text numberOfLines={1} style={{ color: isFocused ? 'white' : 'rgb(120, 120, 120)' }}>
-                  {route.params?.tagObject.tag.name}
-                </Text> */}
-            <Entypo name='globe' color={'white'} size={25} style={{ marginBottom: 5 }} />
-            <Text style={{ color: 'white' }}>Places</Text>
-          </TouchableOpacity>
         </ScrollView>
       </View>
     );
@@ -214,49 +168,48 @@ const SpaceTopTabNavigatorNew = (props) => {
 
   // ここでspace objectをcontextに入れて流す感じかな。
   return (
-    <SpaceRootContext.Provider
-      value={{
-        space,
-        spaceMenuBottomSheetRef,
-        navigation: props.navigation,
-        spaceAndUserRelationship: props.spaceAndUserRelationship,
-      }}
-    >
-      <View style={{ flex: 1 }}>
-        <Tab.Navigator
-          tabBar={(props) => <CustomTabBar {...props} />}
-          screenOptions={({ route }) => ({
-            lazy: true,
-            swipeEnabled: false,
-          })}
-        >
-          {Object.values(tags).map((tagObject, index) => (
-            <Tab.Screen
-              key={index}
-              name={`SpaceTab_${tagObject._id}-${index}`}
-              options={{ title: tagObject.tag.name }} // Set the tab title to the space name
-              initialParams={{ tagObject }}
-            >
-              {({ navigation }) => <Grid navigation={navigation} tagObject={tagObject} />}
-              {/* {({ navigation }) => <PostsBottomNavigator navigation={navigation} tagObject={tagObject} />} */}
-            </Tab.Screen>
-          ))}
-          <Tab.Screen name='MapView' component={Map} />
-        </Tab.Navigator>
-        <SnackBar />
-        <TouchableOpacity
-          onPress={() => {
-            spaceMenuBottomSheetRef.current.snapToIndex(0);
-          }}
-        >
-          <FastImage
-            source={{ uri: props.spaceAndUserRelationship.space.icon }}
-            style={{ width: 45, height: 45, borderRadius: 8, position: 'absolute', bottom: 15, right: 20 }}
-          />
-        </TouchableOpacity>
-      </View>
-    </SpaceRootContext.Provider>
+    // <SpaceRootContext.Provider
+    //   value={{
+    //     space,
+    //     spaceMenuBottomSheetRef,
+    //     navigation: props.navigation,
+    //     spaceAndUserRelationship: props.spaceAndUserRelationship,
+    //   }}
+    // >
+    <View style={{ flex: 1 }}>
+      <Tab.Navigator
+        tabBar={(props) => <CustomTabBar {...props} />}
+        screenOptions={({ route }) => ({
+          lazy: true,
+          swipeEnabled: false,
+        })}
+      >
+        {Object.values(tags).map((tagObject, index) => (
+          <Tab.Screen
+            key={index}
+            name={`SpaceTab_${tagObject._id}-${index}`}
+            options={{ title: tagObject.tag.name }} // Set the tab title to the space name
+            initialParams={{ tagObject }}
+          >
+            {({ navigation }) => <TagView navigation={navigation} tagObject={tagObject} />}
+            {/* {({ navigation }) => <PostsBottomNavigator navigation={navigation} tagObject={tagObject} />} */}
+          </Tab.Screen>
+        ))}
+      </Tab.Navigator>
+      <SnackBar />
+      <TouchableOpacity
+        onPress={() => {
+          spaceMenuBottomSheetRef.current.snapToIndex(0);
+        }}
+      >
+        <FastImage
+          source={{ uri: spaceAndUserRelationship.space.icon }}
+          style={{ width: 45, height: 45, borderRadius: 8, position: 'absolute', bottom: 15, right: 20 }}
+        />
+      </TouchableOpacity>
+    </View>
+    // </SpaceRootContext.Provider>
   );
 };
 
-export default SpaceTopTabNavigatorNew;
+export default TagViewTopTabNavigator;

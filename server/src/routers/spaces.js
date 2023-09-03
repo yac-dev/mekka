@@ -15,6 +15,7 @@ router.route('/:spaceId').get(getSpace);
 router.route('/:spaceId/posts').get(getPostsBySpaceId);
 router.route('/:spaceId/posts/:yearAndMonth').get(getPostsBySpaceIdAndYearAndMonth);
 router.route('/:spaceId/tags').get(getTagsBySpaceId);
+router.route('/:spaceId/people').get();
 router.route('/:spaceId/posts'); //ここで、tagのidがっていうfilterをつけるかね？
 
 export default router;
