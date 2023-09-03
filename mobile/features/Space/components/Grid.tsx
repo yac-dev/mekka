@@ -11,7 +11,28 @@ const Grid = (props) => {
   const { isIpad } = useContext(GlobalContext);
   const oneAssetWidth = isIpad ? Dimensions.get('window').width / 6 : Dimensions.get('window').width / 3;
   const { spaceAndUserRelationship, navigation } = useContext(SpaceRootContext);
-  const { posts, havePostsBeenFetched, setHavePostsBeenFetched, onRefresh, isRefreshing } = useContext(PostsContext);
+  // const { posts, havePostsBeenFetched, setHavePostsBeenFetched, onRefresh, isRefreshing } = useContext(PostsContext);
+  const [posts, setPosts] = useState([]);
+  const [havePostsBeenFetched, setHavePostsBeenFetched] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
+  const getPostsByTagId = async () => {
+    const result = await backendAPI.get(`/posts/tag/${props.tagObject.tag._id}`);
+    const { posts } = result.data;
+    setPosts(posts);
+    // setSelectedTag(tags[0]);
+    setHavePostsBeenFetched(true);
+  };
+
+  const onRefresh = async () => {
+    setIsRefreshing(true);
+    await getPostsByTagId();
+    setIsRefreshing(false);
+  };
+
+  useEffect(() => {
+    getPostsByTagId();
+  }, []);
 
   const renderItem = useCallback((post) => {
     if (post.content.type === 'video') {

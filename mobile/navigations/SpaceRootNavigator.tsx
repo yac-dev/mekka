@@ -11,12 +11,14 @@ import TaggedPosts from '../features/Space/components/TaggedPosts';
 import FastImage from 'react-native-fast-image';
 import { Ionicons } from '@expo/vector-icons';
 import { Foundation } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
 import { Octicons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import CreatePost from '../features/Space/pages/CreatePost';
 import SpaceMenuBottomSheet from '../features/Space/pages/SpaceMenuBottomSheet';
 import PostsBottomNavigator from './PostsBottomNavigator';
 import SnackBar from '../components/SnackBar';
+import Grid from '../features/Space/components/Grid';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -91,7 +93,7 @@ const SpaceTopTabNavigatorNew = (props) => {
 
   const CustomTabBar = ({ state, descriptors, navigation }) => {
     return (
-      <View style={{}}>
+      <View style={{ flexDirection: 'row' }}>
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -105,6 +107,29 @@ const SpaceTopTabNavigatorNew = (props) => {
             // padding: 5,
           }}
         >
+          <TouchableOpacity
+            // key={route.key}
+            style={{
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginRight: 10,
+              // backgroundColor: isFocused ? 'rgb(110,110,110)' : null,
+              padding: 10,
+              borderRadius: 5,
+              width: 70,
+              height: 70,
+            }}
+            // contentTypeによって、いくnavigatorが変わるわけですよ。。。そう、つまりここでnavigatingを分ければいいわけね。
+            // onPress={onPress}
+          >
+            {/* <Text numberOfLines={1} style={{ color: isFocused ? 'white' : 'rgb(120, 120, 120)' }}>
+                  {route.params?.tagObject.tag.name}
+                </Text> */}
+            <Entypo name='globe' color={'white'} size={25} style={{ marginBottom: 5 }} />
+            <Text style={{ color: 'white' }}>Places</Text>
+          </TouchableOpacity>
+
           {state.routes.map((route, index) => {
             const { options } = descriptors[route.key];
             const label = options.tabBarLabel !== undefined ? options.tabBarLabel : route.name;
@@ -188,12 +213,22 @@ const SpaceTopTabNavigatorNew = (props) => {
               options={{ title: tagObject.tag.name }} // Set the tab title to the space name
               initialParams={{ tagObject }}
             >
-              {/* {({ navigation }) => <TaggedPosts navigation={navigation} tagObject={tagObject} />} */}
-              {({ navigation }) => <PostsBottomNavigator navigation={navigation} tagObject={tagObject} />}
+              {({ navigation }) => <Grid navigation={navigation} tagObject={tagObject} />}
+              {/* {({ navigation }) => <PostsBottomNavigator navigation={navigation} tagObject={tagObject} />} */}
             </Tab.Screen>
           ))}
         </Tab.Navigator>
         <SnackBar />
+        <TouchableOpacity
+          onPress={() => {
+            spaceMenuBottomSheetRef.current.snapToIndex(0);
+          }}
+        >
+          <FastImage
+            source={{ uri: props.spaceAndUserRelationship.space.icon }}
+            style={{ width: 45, height: 45, borderRadius: 8, position: 'absolute', bottom: 15, right: 20 }}
+          />
+        </TouchableOpacity>
       </View>
     </SpaceRootContext.Provider>
   );
