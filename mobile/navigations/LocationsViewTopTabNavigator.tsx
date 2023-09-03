@@ -27,63 +27,62 @@ const LocationsViewTopTabNavigator = () => {
 
   const CustomTabBar = ({ state, descriptors, navigation }) => {
     return (
-      <View style={{ flexDirection: 'row' }}>
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={{ paddingHorizontal: 0 }}
-          style={{
-            backgroundColor: 'transparent',
-            paddingTop: 10,
-            paddingBottom: 10,
-            paddingLeft: 10,
-            paddingRight: 10,
-            // position: 'absolute',
-            // top: 0,
-            // left: 0,
-            // zIndex: 1,
-          }}
-        >
-          {state.routes.map((route, index) => {
-            const { options } = descriptors[route.key];
-            const label = options.tabBarLabel !== undefined ? options.tabBarLabel : route.name;
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={{ paddingHorizontal: 0 }}
+        style={{
+          backgroundColor: 'transparent',
+          paddingTop: 10,
+          paddingBottom: 10,
+          paddingLeft: 10,
+          paddingRight: 10,
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          zIndex: 1,
+        }}
+      >
+        {state.routes.map((route, index) => {
+          const { options } = descriptors[route.key];
+          const label = options.tabBarLabel !== undefined ? options.tabBarLabel : route.name;
 
-            const isFocused = state.index === index;
+          const isFocused = state.index === index;
 
-            const onPress = () => {
-              const event = navigation.emit({
-                type: 'tabPress',
-                target: route.key,
-                canPreventDefault: true,
-              });
+          const onPress = () => {
+            const event = navigation.emit({
+              type: 'tabPress',
+              target: route.key,
+              canPreventDefault: true,
+            });
 
-              if (!isFocused && !event.defaultPrevented) {
-                navigation.navigate(route.name);
-              }
-            };
-            return (
-              <TouchableOpacity
-                key={route.key}
-                style={{
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  marginRight: 10,
-                  // backgroundColor: isFocused ? 'rgb(110,110,110)' : null,
-                  padding: 10,
-                  borderRadius: 5,
-                }}
-                // contentTypeによって、いくnavigatorが変わるわけですよ。。。そう、つまりここでnavigatingを分ければいいわけね。
-                onPress={onPress}
-              >
-                <Text numberOfLines={1} style={{ color: isFocused ? 'white' : 'rgb(120, 120, 120)' }}>
-                  {route.params?.locationTag.name}
-                </Text>
-              </TouchableOpacity>
-            );
-          })}
-        </ScrollView>
-      </View>
+            if (!isFocused && !event.defaultPrevented) {
+              navigation.navigate(route.name);
+            }
+          };
+          return (
+            <TouchableOpacity
+              key={route.key}
+              style={{
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginRight: 10,
+                // backgroundColor: isFocused ? 'rgb(110,110,110)' : null,
+                padding: 10,
+                borderRadius: 20,
+                backgroundColor: isFocused ? 'rgb(150, 150,150)' : 'rgb(60,60,60)',
+              }}
+              // contentTypeによって、いくnavigatorが変わるわけですよ。。。そう、つまりここでnavigatingを分ければいいわけね。
+              onPress={onPress}
+            >
+              <Text numberOfLines={1} style={{ color: isFocused ? 'white' : 'rgb(120, 120, 120)' }}>
+                {route.params?.locationTag.name}
+              </Text>
+            </TouchableOpacity>
+          );
+        })}
+      </ScrollView>
     );
   };
 

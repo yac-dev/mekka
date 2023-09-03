@@ -104,6 +104,16 @@ const SpaceRootBottomTabNavigator = (props) => {
           })}
         />
         <Tab.Screen
+          name='LocationsViewTopTabNavigator'
+          component={LocationsViewTopTabNavigator}
+          options={({ navigation }) => ({
+            tabBarShowLabel: false,
+            tabBarIcon: ({ size, color, focused }) => (
+              <Entypo name='globe' color={focused ? 'white' : 'rgb(102, 104, 109)'} size={23} />
+            ),
+          })}
+        />
+        <Tab.Screen
           name='PeopleViewTopTabNavigator'
           component={PeopleViewTopTabNavigator}
           options={({ navigation }) => ({
@@ -113,16 +123,6 @@ const SpaceRootBottomTabNavigator = (props) => {
             ),
           })}
         />
-        <Tab.Screen
-          name='LocationsViewTopTabNavigator'
-          component={LocationsViewTopTabNavigator}
-          options={({ navigation }) => ({
-            tabBarShowLabel: false,
-            tabBarIcon: ({ size, color, focused }) => (
-              <Entypo name='globe' color={focused ? 'white' : 'rgb(102, 104, 109)'} size={23} />
-            ),
-          })}
-        ></Tab.Screen>
       </Tab.Navigator>
     </SpaceRootContext.Provider>
   );

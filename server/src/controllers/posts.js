@@ -264,7 +264,9 @@ export const getPostsByUserId = async (request, response) => {
 
 export const getPostsByLocationTagId = async (request, response) => {
   try {
-    const documents = Post.find({ locationTag: request.params.locationTagId, space: request.params.spaceId }).populate({
+    const { locationTagId, spaceId } = request.params;
+    console.log(locationTagId, spaceId);
+    const documents = await Post.find({ locationTag: locationTagId, space: spaceId }).populate({
       path: 'contents',
       model: 'Content',
     });
@@ -280,6 +282,7 @@ export const getPostsByLocationTagId = async (request, response) => {
           location: post.location,
         };
       });
+    console.log(posts);
 
     response.status(200).json({
       posts,

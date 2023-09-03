@@ -6,7 +6,7 @@ import { createPost, getPost, getPostsByTagId, getPostsByUserId, getPostsByLocat
 router.route('/').post(multerParser.array('contents', 10), createPost);
 router.route('/:postId').get(getPost);
 router.route('/tag/:tagId').get(getPostsByTagId);
+router.route('/locationtag/:locationTagId/space/:spaceId').get(getPostsByLocationTagId);
 router.route('/user/:userId/space/:spaceId').get(getPostsByUserId);
-router.route('/location/:locationTagId/space/:spaceId').get(getPostsByLocationTagId);
 
 export default router;
