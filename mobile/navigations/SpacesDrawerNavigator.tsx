@@ -3,16 +3,10 @@ import { TouchableOpacity, View, ActivityIndicator, ScrollView, Text, Dimensions
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
 import { GlobalContext } from '../contexts/GlobalContext';
-import Dummy from '../features/Utils/Dummy';
-import Dummy2 from '../features/Space/pages/Dummy2';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Ionicons } from '@expo/vector-icons';
-import { Octicons } from '@expo/vector-icons';
 import { iconParameterBackgroundColorTable, iconColorTable } from '../themes/color';
 import FastImage from 'react-native-fast-image';
 const Drawer = createDrawerNavigator();
-import { SpaceRootContext } from '../features/Space/contexts/SpaceRootContext';
-import SpaceRootNavigator from './SpaceRootNavigator';
 import SpaceRootBottomTabNavigator from './SpaceRootBottomTabNavigator';
 
 const SpacesDrawerNavigator = (props) => {
@@ -25,15 +19,76 @@ const SpacesDrawerNavigator = (props) => {
   } = useContext(GlobalContext);
   const oneGridWidth = isIpad ? Dimensions.get('window').width / 6 : Dimensions.get('window').width / 4;
   const oneGridHeight = isIpad ? Dimensions.get('window').height / 7.5 : Dimensions.get('window').height / 6.5;
-  // const spaceMenuBottomSheetRef = useRef(null);
   const iconWidth = oneGridWidth * 0.65;
 
   function CustomDrawerContent(props) {
     const { state, descriptors, navigation } = props;
     return (
       <DrawerContentScrollView {...props} style={{ paddingTop: 10 }}>
-        <View style={{ padding: 20 }}>
-          <Text style={{ color: 'white', fontSize: 25 }}>My Spaces</Text>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            borderBottomWidth: 0.3,
+            borderBottomColor: 'rgb(150,150,150)',
+            padding: 10,
+          }}
+        >
+          <TouchableOpacity
+            style={{
+              flexDirection: 'column',
+              alignItems: 'center',
+              padding: 10,
+              justifyContent: 'center',
+              marginRight: 10,
+            }}
+            onPress={() => {
+              navigation.navigate('CreateNewSpace');
+              navigation.closeDrawer();
+            }}
+          >
+            <View
+              style={{
+                width: 40,
+                aspectRatio: 1,
+                borderRadius: 10,
+                // marginRight: 15,
+                marginBottom: 10,
+                backgroundColor: iconParameterBackgroundColorTable['red1'],
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <MaterialCommunityIcons name='plus' color={iconColorTable['red1']} size={25} />
+            </View>
+            <Text style={{ color: 'white' }}>Create</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{ flexDirection: 'column', alignItems: 'center', padding: 10, justifyContent: 'center' }}
+            onPress={() => {
+              navigation.navigate('Discover');
+              // navigation.closeDrawer();
+            }}
+          >
+            <View
+              style={{
+                width: 40,
+                aspectRatio: 1,
+                borderRadius: 10,
+                // marginRight: 15,
+                marginBottom: 10,
+                backgroundColor: iconParameterBackgroundColorTable['blue1'],
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <MaterialCommunityIcons name='compass' color={iconColorTable['blue1']} size={25} />
+            </View>
+            <Text style={{ color: 'white' }}>Discover</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={{ paddingTop: 20, paddingBottom: 20 }}>
+          <Text style={{ color: 'white', fontSize: 25, paddingLeft: 10 }}>My Spaces</Text>
         </View>
         {state.routes.map((route, index) => {
           const { options } = descriptors[route.key];
@@ -78,54 +133,6 @@ const SpacesDrawerNavigator = (props) => {
             </TouchableOpacity>
           );
         })}
-
-        <TouchableOpacity
-          style={{ flexDirection: 'row', alignItems: 'center', padding: 10 }}
-          onPress={() => {
-            navigation.navigate('CreateNewSpace');
-            navigation.closeDrawer();
-          }}
-        >
-          <View
-            style={{
-              width: 40,
-              aspectRatio: 1,
-              borderRadius: 10,
-              marginRight: 15,
-              backgroundColor: iconParameterBackgroundColorTable['red1'],
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          >
-            <MaterialCommunityIcons name='plus' color={iconColorTable['red1']} size={25} />
-          </View>
-          <Text style={{ color: 'white' }}>Create new Space</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{ flexDirection: 'row', alignItems: 'center', padding: 10 }}
-          onPress={() => {
-            navigation.navigate('Discover');
-            // navigation.closeDrawer();
-          }}
-        >
-          <View
-            style={{
-              width: 40,
-              aspectRatio: 1,
-              borderRadius: 10,
-              marginRight: 15,
-              backgroundColor: iconParameterBackgroundColorTable['blue1'],
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          >
-            <MaterialCommunityIcons name='compass' color={iconColorTable['blue1']} size={25} />
-          </View>
-          <Text style={{ color: 'white' }}>Discover Space</Text>
-        </TouchableOpacity>
-        <View style={{ position: 'absolute', bottom: 0, right: 0 }}>
-          <Text style={{ color: 'red' }}>Hellooooo</Text>
-        </View>
         {/* ↓これあると、screenのtabもrenderするようになる。 */}
         {/* <DrawerItemList {...props} /> */}
       </DrawerContentScrollView>
@@ -167,6 +174,7 @@ const SpacesDrawerNavigator = (props) => {
         <Drawer.Screen
           key={spaceAndUserRelationship._id}
           name={`Space_${spaceAndUserRelationship._id}`}
+          initialParams={{ spaceAndUserRelationship }}
           options={({ navigation }) => ({
             headerTitle: spaceAndUserRelationship.space.name,
             headerTitleStyle: {
@@ -182,32 +190,15 @@ const SpacesDrawerNavigator = (props) => {
             },
             headerRight: () => {
               return (
-                <TouchableOpacity
-                // onPress={() => {
-                //   spaceMenuBottomSheetRef.current.snapToIndex(0);
-                // }}
-                >
-                  {/* <FastImage
-                    source={{ uri: spaceAndUserRelationship.space.icon }}
-                    style={{ width: 30, height: 30, borderRadius: 8, marginRight: 10 }}
-                  /> */}
+                <TouchableOpacity>
                   <MaterialCommunityIcons name='account' size={25} color='white' style={{ marginRight: 10 }} />
                 </TouchableOpacity>
               );
             },
           })}
-          initialParams={{ spaceAndUserRelationship }}
         >
           {({ navigation, route }) => (
             <SpaceRootBottomTabNavigator spaceAndUserRelationship={spaceAndUserRelationship} />
-            // <SpaceRootContext.Provider value={{ spaceAndUserRelationship, navigation, route }}>
-            //   {/* <SpaceRootNavigator
-            //     spaceAndUserRelationship={spaceAndUserRelationship}
-            //     navigation={navigation}
-            //     route={route}
-            //   /> */}
-            //   <SpaceRootBottomTabNavigator spaceAndUserRelationship={spaceAndUserRelationship} />
-            // </SpaceRootContext.Provider>
           )}
         </Drawer.Screen>
       ))}

@@ -246,6 +246,7 @@ export const getPostsByUserId = async (request, response) => {
       .filter((post) => post.createdBy !== null)
       .map((post, index) => {
         return {
+          _id: post._id,
           content: {
             data: post.contents[0].data,
             type: post.contents[0].type,
@@ -275,6 +276,7 @@ export const getPostsByLocationTagId = async (request, response) => {
       .filter((post) => post.createdBy !== null)
       .map((post, index) => {
         return {
+          _id: post._id,
           content: {
             data: post.contents[0].data,
             type: post.contents[0].type,

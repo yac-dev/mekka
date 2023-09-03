@@ -38,7 +38,7 @@ const PeopleView = (props) => {
       return (
         <TouchableOpacity
           style={{ width: oneAssetWidth, height: oneAssetWidth, padding: 2 }}
-          onPress={() => navigation.navigate({ name: 'ViewPost', params: { post } })}
+          onPress={() => props.navigation.navigate({ name: 'ViewPost', params: { post } })}
         >
           <Video source={{ uri: post.content.data }} style={{ width: '100%', height: '100%', borderRadius: 5 }} />;
         </TouchableOpacity>
@@ -47,7 +47,7 @@ const PeopleView = (props) => {
       return (
         <TouchableOpacity
           style={{ width: oneAssetWidth, height: oneAssetWidth, padding: 2 }}
-          onPress={() => navigation.navigate({ name: 'ViewPost', params: { post } })}
+          onPress={() => props.navigation.navigate({ name: 'ViewPost', params: { post } })}
         >
           <FastImage source={{ uri: post.content.data }} style={{ width: '100%', height: '100%', borderRadius: 5 }} />
         </TouchableOpacity>
@@ -60,6 +60,14 @@ const PeopleView = (props) => {
     if (posts.length) {
       return (
         <View style={{ flex: 1, backgroundColor: 'black' }}>
+          {/* <View style={{ flexDirection: 'row', alignItems: 'center', padding: 10 }}>
+            <FastImage
+              source={{ uri: props.user.avatar }}
+              style={{ width: 35, height: 35, marginRight: 10, borderRadius: 8 }}
+              tintColor={'white'}
+            />
+            <Text style={{ color: 'white' }}>{props.user.name}</Text>
+          </View> */}
           <FlatList
             numColumns={3}
             data={posts}

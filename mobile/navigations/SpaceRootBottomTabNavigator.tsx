@@ -14,6 +14,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import TagViewTopTabNavigator from './TagViewTopTabNavigator';
 import PeopleViewTopTabNavigator from './PeopleViewTopTabNavigator';
 import LocationsViewTopTabNavigator from './LocationsViewTopTabNavigator';
+import FastImage from 'react-native-fast-image';
 
 const Tab = createBottomTabNavigator();
 
@@ -66,64 +67,80 @@ const SpaceRootBottomTabNavigator = (props) => {
         setHasSpaceBeenFetched,
       }}
     >
-      <Tab.Navigator
-        screenOptions={({ navigation }) => ({
-          headerShown: false,
-          tabBarStyle: {
-            borderTopWidth: 0,
-            backgroundColor: 'rgb(70,70,70)',
-            position: 'absolute',
-            bottom: 15,
-            marginHorizontal: 100,
-            height: 40,
-            borderRadius: 30,
-            // Shadow...
-            // shadowColor: '#000',
-            // shadowOpacity: 0.06,
-            // shadowOffset: {
-            //   width: 10,
-            //   height: 10,
-            // },
-          },
-        })}
-        // tabBar={(props) => <CustomTabBar {...props} />}
-        // screenOptions={({ route }) => ({
-        //   tabBarScrollEnabled: false,
-        //   lazy: true,
-        //   swipeEnabled: false,
-        // })}
-      >
-        <Tab.Screen
-          name='TagViewTopTabNavigator'
-          component={TagViewTopTabNavigator}
-          options={({ navigation }) => ({
-            tabBarShowLabel: false,
-            tabBarIcon: ({ size, color, focused }) => (
-              <Octicons name='hash' color={focused ? 'white' : 'rgb(100, 100, 100)'} size={23} />
-            ),
+      <View style={{ flex: 1 }}>
+        <Tab.Navigator
+          screenOptions={({ navigation }) => ({
+            headerShown: false,
+            tabBarStyle: {
+              borderTopWidth: 0,
+              backgroundColor: 'rgb(70,70,70)',
+              position: 'absolute',
+              bottom: 15,
+              marginHorizontal: 100,
+              height: 40,
+              borderRadius: 30,
+              // Shadow...
+              // shadowColor: '#000',
+              // shadowOpacity: 0.06,
+              // shadowOffset: {
+              //   width: 10,
+              //   height: 10,
+              // },
+            },
           })}
-        />
-        <Tab.Screen
-          name='LocationsViewTopTabNavigator'
-          component={LocationsViewTopTabNavigator}
-          options={({ navigation }) => ({
-            tabBarShowLabel: false,
-            tabBarIcon: ({ size, color, focused }) => (
-              <Entypo name='globe' color={focused ? 'white' : 'rgb(102, 104, 109)'} size={23} />
-            ),
-          })}
-        />
-        <Tab.Screen
-          name='PeopleViewTopTabNavigator'
-          component={PeopleViewTopTabNavigator}
-          options={({ navigation }) => ({
-            tabBarShowLabel: false,
-            tabBarIcon: ({ size, color, focused }) => (
-              <MaterialCommunityIcons name='account-group' color={focused ? 'white' : 'rgb(100, 100, 100)'} size={23} />
-            ),
-          })}
-        />
-      </Tab.Navigator>
+          // tabBar={(props) => <CustomTabBar {...props} />}
+          // screenOptions={({ route }) => ({
+          //   tabBarScrollEnabled: false,
+          //   lazy: true,
+          //   swipeEnabled: false,
+          // })}
+        >
+          <Tab.Screen
+            name='TagViewTopTabNavigator'
+            component={TagViewTopTabNavigator}
+            options={({ navigation }) => ({
+              tabBarShowLabel: false,
+              tabBarIcon: ({ size, color, focused }) => (
+                <Octicons name='hash' color={focused ? 'white' : 'rgb(100, 100, 100)'} size={23} />
+              ),
+            })}
+          />
+          <Tab.Screen
+            name='LocationsViewTopTabNavigator'
+            component={LocationsViewTopTabNavigator}
+            options={({ navigation }) => ({
+              tabBarShowLabel: false,
+              tabBarIcon: ({ size, color, focused }) => (
+                <Entypo name='globe' color={focused ? 'white' : 'rgb(102, 104, 109)'} size={23} />
+              ),
+            })}
+          />
+          <Tab.Screen
+            name='PeopleViewTopTabNavigator'
+            component={PeopleViewTopTabNavigator}
+            options={({ navigation }) => ({
+              tabBarShowLabel: false,
+              tabBarIcon: ({ size, color, focused }) => (
+                <MaterialCommunityIcons
+                  name='account-group'
+                  color={focused ? 'white' : 'rgb(100, 100, 100)'}
+                  size={23}
+                />
+              ),
+            })}
+          />
+        </Tab.Navigator>
+        <TouchableOpacity
+          onPress={() => {
+            spaceMenuBottomSheetRef.current.snapToIndex(0);
+          }}
+        >
+          <FastImage
+            source={{ uri: props.spaceAndUserRelationship.space.icon }}
+            style={{ width: 45, height: 45, borderRadius: 8, position: 'absolute', bottom: 15, right: 20 }}
+          />
+        </TouchableOpacity>
+      </View>
     </SpaceRootContext.Provider>
   );
 };

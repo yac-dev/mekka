@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, ActivityIndicator, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { GlobalContext } from '../contexts/GlobalContext';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import PeopleView from '../features/Space/pages/PeopleView';
 import { SpaceRootContext } from '../features/Space/contexts/SpaceRootContext';
 import FastImage from 'react-native-fast-image';
@@ -15,15 +13,15 @@ const PeopleViewTopTabNavigator = () => {
     useContext(SpaceRootContext);
   const [people, setPeople] = useState([]);
   const [havePeopleBeenFetched, setHavePeopleBeenFetched] = useState(false);
+  const [currentPerson, setCurrentPerson] = useState();
 
   const getPeopleBySpaceId = async () => {
     const result = await backendAPI.get(`/spaces/${spaceAndUserRelationship.space._id}/people`);
     const { people } = result.data;
     setPeople(people);
     setHavePeopleBeenFetched(true);
+    setCurrentPerson(people[0]);
   };
-
-  console.log(people);
 
   useEffect(() => {
     getPeopleBySpaceId();
@@ -58,6 +56,8 @@ const PeopleViewTopTabNavigator = () => {
                 canPreventDefault: true,
               });
 
+              setCurrentPerson(route.params?.user);
+
               if (!isFocused && !event.defaultPrevented) {
                 navigation.navigate(route.name);
               }
@@ -72,9 +72,10 @@ const PeopleViewTopTabNavigator = () => {
                   marginRight: 10,
                   // backgroundColor: isFocused ? 'rgb(110,110,110)' : null,
                   padding: 10,
-                  borderRadius: 5,
                   width: 70,
                   height: 70,
+                  borderWidth: isFocused && 1,
+                  borderBottomColor: 'white',
                 }}
                 // contentTypeによって、いくnavigatorが変わるわけですよ。。。そう、つまりここでnavigatingを分ければいいわけね。
                 onPress={onPress}
@@ -82,15 +83,14 @@ const PeopleViewTopTabNavigator = () => {
                 <FastImage
                   source={{ uri: route.params?.user.avatar }}
                   style={{
-                    width: 50,
-                    height: 50,
-                    marginBottom: 5,
-                    backgroundColor: 'blue',
+                    width: 25,
+                    height: 25,
                     borderRadius: 8,
+                    marginBottom: 5,
                   }}
                   tintColor={'white'}
                 />
-                <Text numberOfLines={1} style={{ color: isFocused ? 'white' : 'rgb(120, 120, 120)' }}>
+                <Text numberOfLines={1} style={{ color: isFocused ? 'white' : 'rgb(120, 120, 120)', marginBottom: 7 }}>
                   {route.params?.user.name}
                 </Text>
               </TouchableOpacity>
@@ -115,24 +115,13 @@ const PeopleViewTopTabNavigator = () => {
             <Tab.Screen
               key={index}
               name={`User-${user._id}`}
-              // options={{ title: tagObject.tag.name }} // Set the tab title to the space name
               initialParams={{ user }}
+              // options={{ title: tagObject.tag.name }} // Set the tab title to the space name
             >
               {({ navigation }) => <PeopleView navigation={navigation} user={user} />}
-              {/* {({ navigation }) => <PostsBottomNavigator navigation={navigation} tagObject={tagObject} />} */}
             </Tab.Screen>
           ))}
         </Tab.Navigator>
-        <TouchableOpacity
-          onPress={() => {
-            spaceMenuBottomSheetRef.current.snapToIndex(0);
-          }}
-        >
-          <FastImage
-            source={{ uri: spaceAndUserRelationship.space.icon }}
-            style={{ width: 45, height: 45, borderRadius: 8, position: 'absolute', bottom: 15, right: 20 }}
-          />
-        </TouchableOpacity>
       </View>
     );
   } else {

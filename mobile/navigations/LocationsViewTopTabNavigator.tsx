@@ -103,11 +103,11 @@ const LocationsViewTopTabNavigator = () => {
               // options={{ title: tagObject.tag.name }} // Set the tab title to the space name
               initialParams={{ locationTag }}
             >
-              {({ navigation }) => <LocationsView locationTag={locationTag} />}
+              {({ navigation, route }) => <LocationsView navigation={navigation} locationTag={locationTag} />}
             </Tab.Screen>
           ))}
         </Tab.Navigator>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={() => {
             spaceMenuBottomSheetRef.current.snapToIndex(0);
           }}
@@ -116,7 +116,7 @@ const LocationsViewTopTabNavigator = () => {
             source={{ uri: spaceAndUserRelationship.space.icon }}
             style={{ width: 45, height: 45, borderRadius: 8, position: 'absolute', bottom: 15, right: 20 }}
           />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     );
   } else {

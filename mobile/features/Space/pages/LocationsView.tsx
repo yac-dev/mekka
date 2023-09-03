@@ -9,7 +9,7 @@ const LocationsView = (props) => {
   const { height, width } = Dimensions.get('window');
   const LATITUDE = props.locationTag.point.coordinates[1];
   const LONGITUDE = props.locationTag.point.coordinates[0];
-  const LATITUDE_DELTA = 100;
+  const LATITUDE_DELTA = 100; // zoom levelを後でやろうか。。。
   const LONGITUDE_DELTA = LATITUDE_DELTA * (width / height);
   const { spaceAndUserRelationship, navigation, space } = useContext(SpaceRootContext);
   // const { posts, havePostsBeenFetched, setHavePostsBeenFetched, onRefresh, isRefreshing } = useContext(PostsContext);
@@ -23,7 +23,6 @@ const LocationsView = (props) => {
     setPosts(posts);
     setHavePostsBeenFetched(true);
   };
-  // props.locationTag.pointを使ってzoomする。initial regionを設定する。
 
   useEffect(() => {
     getPostsByLocationTagId();
@@ -40,7 +39,7 @@ const LocationsView = (props) => {
             pinColor='black'
             onPress={() => {
               // getSelectedMeetup(meetup._id);
-              navigation.navigate('ViewPost', { post });
+              props.navigation.navigate('ViewPost', { post });
             }}
           >
             <TouchableOpacity style={{ width: 45, height: 45 }}>
@@ -87,8 +86,6 @@ const LocationsView = (props) => {
           latitudeDelta: LATITUDE_DELTA,
           longitudeDelta: LONGITUDE_DELTA,
         }}
-        // provider='google'
-        // provider={Platform.OS === 'android' ? MapView.PROVIDER_GOOGLE : MapView.PROVIDER_DEFAULT}
       >
         {renderPostThumbnailMarkers()}
       </MapView>

@@ -135,19 +135,22 @@ const TagViewTopTabNavigator = (props) => {
                   marginRight: 10,
                   // backgroundColor: isFocused ? 'rgb(110,110,110)' : null,
                   padding: 10,
-                  borderRadius: 5,
+                  // borderRadius: 5,
                   width: 70,
                   height: 70,
+                  borderBottomWidth: isFocused && 1,
+                  borderBottomColor: isFocused && 'white',
                 }}
                 // contentTypeによって、いくnavigatorが変わるわけですよ。。。そう、つまりここでnavigatingを分ければいいわけね。
                 onPress={onPress}
               >
+                {/* rgb(100, 100, 100) */}
                 <FastImage
                   source={{ uri: route.params?.tagObject.tag.icon }}
                   style={{ width: 25, height: 25, marginBottom: 5 }}
-                  tintColor={isFocused ? 'white' : 'rgb(100, 100, 100)'}
+                  tintColor={'white'}
                 />
-                <Text numberOfLines={1} style={{ color: isFocused ? 'white' : 'rgb(120, 120, 120)' }}>
+                <Text numberOfLines={1} style={{ color: 'white' }}>
                   {route.params?.tagObject.tag.name}
                 </Text>
               </TouchableOpacity>
@@ -166,16 +169,7 @@ const TagViewTopTabNavigator = (props) => {
     );
   }
 
-  // ここでspace objectをcontextに入れて流す感じかな。
   return (
-    // <SpaceRootContext.Provider
-    //   value={{
-    //     space,
-    //     spaceMenuBottomSheetRef,
-    //     navigation: props.navigation,
-    //     spaceAndUserRelationship: props.spaceAndUserRelationship,
-    //   }}
-    // >
     <View style={{ flex: 1 }}>
       <Tab.Navigator
         tabBar={(props) => <CustomTabBar {...props} />}
@@ -192,23 +186,11 @@ const TagViewTopTabNavigator = (props) => {
             initialParams={{ tagObject }}
           >
             {({ navigation }) => <TagView navigation={navigation} tagObject={tagObject} />}
-            {/* {({ navigation }) => <PostsBottomNavigator navigation={navigation} tagObject={tagObject} />} */}
           </Tab.Screen>
         ))}
       </Tab.Navigator>
       <SnackBar />
-      <TouchableOpacity
-        onPress={() => {
-          spaceMenuBottomSheetRef.current.snapToIndex(0);
-        }}
-      >
-        <FastImage
-          source={{ uri: spaceAndUserRelationship.space.icon }}
-          style={{ width: 45, height: 45, borderRadius: 8, position: 'absolute', bottom: 15, right: 20 }}
-        />
-      </TouchableOpacity>
     </View>
-    // </SpaceRootContext.Provider>
   );
 };
 
