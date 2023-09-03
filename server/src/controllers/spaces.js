@@ -270,3 +270,18 @@ export const getTagsBySpaceId = async (request, response) => {
     console.log(error);
   }
 };
+
+export const getPeopleBySpaceId = async (request, response) => {
+  try {
+    // relationshipのtableでもないし、大丈夫か。
+    const documents = await SpaceAndUserRelationship.find({ space: request.params.spaceId }).populate({ path: 'user' });
+    const people = documents.map((relationship, index) => {
+      return relationship.user;
+    });
+    response.status(200).json({
+      people,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};

@@ -231,6 +231,37 @@ export const getPostsByTagId = async (request, response) => {
   }
 };
 
+export const getPostsByUserId = async (request, response) => {
+  try {
+    const documents = await Post.find({
+      space: request.params.spaceId,
+      // post: { $ne: null },  // これ意味ない。結局、mongoにはrdbmsにおけるjoin的な機能を持ち合わせていないから。
+      createdBy: request.params.userId,
+    }).populate({
+      path: 'contents',
+      model: 'Content',
+    });
+
+    const posts = documents
+      .filter((post) => post.createdBy !== null)
+      .map((post, index) => {
+        return {
+          content: {
+            data: post.contents[0].data,
+            type: post.contents[0].type,
+          },
+          location: post.location,
+        };
+      });
+
+    response.status(200).json({
+      posts,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 // export const getPosts = async (request, response) => {
 //   try {
 //     const documents = await Post.find({
