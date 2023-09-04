@@ -1,23 +1,44 @@
 import React, { useContext } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Share } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { GlobalContext } from '../../../contexts/GlobalContext';
 
 const ActionButtons = (props) => {
   const { isIpad, spaceMenuBottomSheetRef, currentSpaceAndUserRelationship, currentSpace } = useContext(GlobalContext);
+
+  const onPostPress = () => {
+    spaceMenuBottomSheetRef?.current.close();
+    props.navigation?.navigate({
+      name: 'CreateNewPost',
+      params: { space: currentSpace, spaceAndUserRelationship: currentSpaceAndUserRelationship },
+      merge: true,
+    });
+  };
+
+  const onInvitePress = async () => {
+    // const snapshot = await mapRef.current.takeSnapshot({
+    //   format: 'png',
+    //   quality: 1,
+    //   result: 'file',
+    // });
+    spaceMenuBottomSheetRef?.current.close();
+    const result = await Share.share({
+      message: `Invite friend to Space.${'\n'}Download link: https://apps.apple.com/us/app/lampost/id1668526833${'\n'}And then enter the secret key to join this space.${'\n'}Secret key: kokokoko`,
+    });
+
+    // Share.share({
+    //   title: 'Invitation',
+    //   message: 'https://apps.apple.com/us/app/lampost/id1668526833',
+    //   url: `file://${snapshot}`,
+    //   type: 'image/png',
+    // });
+  };
   return (
     <View style={{ flexDirection: 'row', alignItems: 'center', paddingTop: 10, paddingBottom: 10 }}>
       <View style={{ width: '50%', padding: 5 }}>
         <TouchableOpacity
           style={{ width: '100%', backgroundColor: 'rgb(90,90,90)', padding: 10, borderRadius: 8 }}
-          onPress={() => {
-            spaceMenuBottomSheetRef?.current.close();
-            props.navigation?.navigate({
-              name: 'CreateNewPost',
-              params: { space: currentSpace, spaceAndUserRelationship: currentSpaceAndUserRelationship },
-              merge: true,
-            });
-          }}
+          onPress={() => onPostPress()}
         >
           <View style={{ flexDirection: 'row', alignItems: 'center', alignSelf: 'center' }}>
             <MaterialCommunityIcons name='plus' size={25} color='white' style={{ marginRight: 10 }} />
@@ -26,7 +47,10 @@ const ActionButtons = (props) => {
         </TouchableOpacity>
       </View>
       <View style={{ width: '50%', padding: 5 }}>
-        <TouchableOpacity style={{ width: '100%', backgroundColor: 'rgb(90,90,90)', padding: 10, borderRadius: 8 }}>
+        <TouchableOpacity
+          style={{ width: '100%', backgroundColor: 'rgb(90,90,90)', padding: 10, borderRadius: 8 }}
+          onPress={() => onInvitePress()}
+        >
           <View style={{ flexDirection: 'row', alignItems: 'center', alignSelf: 'center' }}>
             <MaterialCommunityIcons name='human-greeting-variant' size={25} color='white' style={{ marginRight: 10 }} />
             <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 17 }}>Invite</Text>
