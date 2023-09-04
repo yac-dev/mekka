@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 // 一番最初にlocationTagを作った人がこのlocationを作って、自分のpostにも同じcoordsを割り当てることになるね。
 const locationTagSchema = mongoose.Schema({
   name: String,
+  icon: String,
   point: {
     // 初めにzoomの中心となる場所の感じかな。
     type: {

@@ -73,7 +73,7 @@ const SpaceRootBottomTabNavigator = (props) => {
             headerShown: false,
             tabBarStyle: {
               borderTopWidth: 0,
-              backgroundColor: 'rgb(70,70,70)',
+              backgroundColor: 'rgb(40,40,40)',
               position: 'absolute',
               bottom: 15,
               marginHorizontal: 100,
@@ -130,7 +130,7 @@ const SpaceRootBottomTabNavigator = (props) => {
             })}
           />
         </Tab.Navigator>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={() => {
             spaceMenuBottomSheetRef.current.snapToIndex(0);
           }}
@@ -139,7 +139,7 @@ const SpaceRootBottomTabNavigator = (props) => {
             source={{ uri: props.spaceAndUserRelationship.space.icon }}
             style={{ width: 45, height: 45, borderRadius: 8, position: 'absolute', bottom: 15, right: 20 }}
           />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     </SpaceRootContext.Provider>
   );

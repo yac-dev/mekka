@@ -87,6 +87,17 @@ const LocationsView = (props) => {
           longitudeDelta: LONGITUDE_DELTA,
         }}
       >
+        {/* <View style={{ position: 'absolute', top: 80 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', padding: 10 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <FastImage
+                source={{ uri: props.locationTag.icon }}
+                style={{ width: 50, height: 50, marginRight: 15, borderRadius: 10 }}
+              />
+              <Text style={{ color: 'white' }}>{props.locationTag.name}</Text>
+            </View>
+          </View>
+        </View> */}
         {renderPostThumbnailMarkers()}
       </MapView>
     </View>

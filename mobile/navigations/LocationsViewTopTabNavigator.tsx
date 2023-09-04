@@ -13,11 +13,13 @@ const LocationsViewTopTabNavigator = () => {
     useContext(SpaceRootContext);
   const [locationTags, setLocationTags] = useState([]);
   const [haveLocationTagsBeenFetched, setHaveLocationTagsBeenFetched] = useState(false);
+  const [selectedLocationTag, setSelectedLocationTag] = useState(null);
 
   const getLocationTagsBySpaceId = async () => {
     const result = await backendAPI.get(`/spaces/${spaceAndUserRelationship.space._id}/locationtag`);
     const { locationTags } = result.data;
     setLocationTags(locationTags);
+    setSelectedLocationTag(locationTags[0]);
     setHaveLocationTagsBeenFetched(true);
   };
 
@@ -41,6 +43,7 @@ const LocationsViewTopTabNavigator = () => {
           top: 0,
           left: 0,
           zIndex: 1,
+          height: 80,
         }}
       >
         {state.routes.map((route, index) => {
@@ -55,6 +58,8 @@ const LocationsViewTopTabNavigator = () => {
               target: route.key,
               canPreventDefault: true,
             });
+
+            setSelectedLocationTag(route.params?.locationTag);
 
             if (!isFocused && !event.defaultPrevented) {
               navigation.navigate(route.name);
@@ -71,12 +76,18 @@ const LocationsViewTopTabNavigator = () => {
                 // backgroundColor: isFocused ? 'rgb(110,110,110)' : null,
                 padding: 10,
                 borderRadius: 20,
-                backgroundColor: isFocused ? 'rgb(150, 150,150)' : 'rgb(60,60,60)',
+                // backgroundColor: isFocused ? 'rgb(150, 150,150)' : 'rgb(60,60,60)',
+                borderBottomWidth: isFocused ? 1 : null,
+                borderBottomColor: isFocused ? 'black' : null,
               }}
               // contentTypeによって、いくnavigatorが変わるわけですよ。。。そう、つまりここでnavigatingを分ければいいわけね。
               onPress={onPress}
             >
-              <Text numberOfLines={1} style={{ color: isFocused ? 'white' : 'rgb(120, 120, 120)' }}>
+              <FastImage
+                source={{ uri: route.params?.locationTag.icon }}
+                style={{ width: 35, height: 35, borderRadius: 8, marginBottom: 5 }}
+              />
+              <Text numberOfLines={1} style={{ color: 'black' }}>
                 {route.params?.locationTag.name}
               </Text>
             </TouchableOpacity>
@@ -107,16 +118,6 @@ const LocationsViewTopTabNavigator = () => {
             </Tab.Screen>
           ))}
         </Tab.Navigator>
-        {/* <TouchableOpacity
-          onPress={() => {
-            spaceMenuBottomSheetRef.current.snapToIndex(0);
-          }}
-        >
-          <FastImage
-            source={{ uri: spaceAndUserRelationship.space.icon }}
-            style={{ width: 45, height: 45, borderRadius: 8, position: 'absolute', bottom: 15, right: 20 }}
-          />
-        </TouchableOpacity> */}
       </View>
     );
   } else {

@@ -61,6 +61,27 @@ const TagView = (props) => {
     if (posts.length) {
       return (
         <View style={{ flex: 1, backgroundColor: 'black' }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              paddingLeft: 10,
+              paddingRight: 10,
+              paddingBottom: 20,
+              paddingTop: 20,
+            }}
+          >
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <FastImage
+                source={{ uri: props.tagObject.tag.icon }}
+                style={{ width: 30, height: 30, marginRight: 15 }}
+                tintColor={'white'}
+              />
+              <Text style={{ color: 'white', fontSize: 20 }}>{props.tagObject.tag.name}</Text>
+            </View>
+            <Text style={{ color: 'white', marginRight: 10, fontSize: 17 }}>{props.tagObject.tag.count}</Text>
+          </View>
           <FlatList
             numColumns={3}
             data={posts}
