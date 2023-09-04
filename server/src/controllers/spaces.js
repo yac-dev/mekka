@@ -183,7 +183,14 @@ export const getPostsBySpaceId = async (request, response) => {
       ],
       createdBy: { $ne: null }, // 存在しないuserによるpostはfetchしない。
     })
-      .select({ _id: true, contents: true, caption: true, spaceId: true, createdBy: true, createdAt: true })
+      .select({
+        _id: true,
+        contents: true,
+        caption: true,
+        spaceId: true,
+        createdBy: true,
+        createdAt: true,
+      })
       .sort({ createdAt: -1 })
       .populate([
         {

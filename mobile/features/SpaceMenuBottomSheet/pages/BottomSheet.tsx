@@ -6,6 +6,8 @@ import GorhomBottomSheet, { BottomSheetView, BottomSheetBackdrop } from '@gorhom
 import Header from '../components/Header';
 import Menus from '../components/Menus';
 import Description from '../components/Description';
+import ActionButtons from '../components/ActionButtons';
+import MediaStats from '../components/MediaStats';
 
 // rgb(35, 35, 35)
 const SpaceMenuBottomSheet = (props) => {
@@ -18,7 +20,7 @@ const SpaceMenuBottomSheet = (props) => {
     setCurrentSpace,
   } = useContext(GlobalContext);
   // const { navigation } = useContext(HomeStackNavContext);
-
+  console.log(currentSpaceAndUserRelationship);
   if (currentSpaceAndUserRelationship) {
     return (
       <GorhomBottomSheet
@@ -30,15 +32,15 @@ const SpaceMenuBottomSheet = (props) => {
           <BottomSheetBackdrop {...backdropProps} appearsOnIndex={0} disappearsOnIndex={-1} />
         )}
         enablePanDownToClose={true}
-        backgroundStyle={{ backgroundColor: 'rgb(50, 50, 50)' }}
+        backgroundStyle={{ backgroundColor: 'rgb(40, 40, 40)' }}
         handleIndicatorStyle={{ backgroundColor: 'white' }}
         // onClose={() => onSelectedItemBottomSheetClose()}
       >
         <BottomSheetView style={{ paddingLeft: 10, paddingRight: 10, flex: 1 }}>
           <Header />
-          <Menus navigation={props.navigation} />
+          <ActionButtons navigation={props.navigation} />
+          <MediaStats />
           <Description />
-          {/* <About /> */}
         </BottomSheetView>
       </GorhomBottomSheet>
     );

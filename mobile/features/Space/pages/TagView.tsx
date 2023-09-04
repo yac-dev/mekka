@@ -66,10 +66,7 @@ const TagView = (props) => {
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'space-between',
-              paddingLeft: 10,
-              paddingRight: 10,
-              paddingBottom: 20,
-              paddingTop: 20,
+              padding: 10,
             }}
           >
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>

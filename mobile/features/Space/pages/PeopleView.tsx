@@ -63,7 +63,7 @@ const PeopleView = (props) => {
           <View style={{ flexDirection: 'row', alignItems: 'center', padding: 10 }}>
             <FastImage
               source={{ uri: props.user.avatar }}
-              style={{ width: 40, height: 40, marginRight: 10, borderRadius: 8 }}
+              style={{ width: 30, height: 30, marginRight: 10, borderRadius: 8 }}
               tintColor={'white'}
             />
             <Text style={{ color: 'white', fontSize: 20 }}>{props.user.name}</Text>
