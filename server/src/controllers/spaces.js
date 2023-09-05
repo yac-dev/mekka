@@ -132,7 +132,7 @@ export const getSpaces = async (request, response) => {
   }
 };
 
-export const getSpace = async (request, response) => {
+export const getSpaceById = async (request, response) => {
   try {
     const space = await Space.findById(request.params.spaceId)
       .populate({
@@ -152,22 +152,6 @@ export const getSpace = async (request, response) => {
     response.status(200).json({
       space,
     });
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const get = async (request, response) => {
-  try {
-    const { tagId } = request.query;
-    const spaceAndTagAndTagRelationship = await SpaceAndTagAndPostRelationship.find({
-      //spaceIdとtagがgeneralなやつをまずはfetchする。
-      space: request.params.spaceId,
-      tag: tagId,
-    }).populate([
-      { path: 'contents', model: 'Content' },
-      { path: 'createdBY', model: 'User' },
-    ]);
   } catch (error) {
     console.log(error);
   }

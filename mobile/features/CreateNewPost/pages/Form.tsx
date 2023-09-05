@@ -18,9 +18,11 @@ const Form = (props) => {
     location: { type: 'Point', coordinates: [] },
     addedTags: {},
     createdTags: [],
+    addedLocationTag: null,
   });
   // const [createdTags, setCreatedTags] = useState([]);
   const [tagOptions, setTagOptions] = useState({});
+  const [locationTagOptions, setLocationTagOptions] = useState([]);
 
   useEffect(() => {
     props.navigation.setOptions({
@@ -63,18 +65,34 @@ const Form = (props) => {
     });
   };
 
+  const getLocationTags = async () => {
+    const result = await backendAPI.get(
+      `/spaces/${props.route.params.spaceAndUserRelationship.space._id}/locationtags`
+    );
+    const { locationTags } = result.data;
+    setLocationTagOptions(locationTags);
+    // setLocationTagOptions(() => {
+    //   const table = {};
+    //   locationTags.forEach((locationTag, index) => {
+    //     table[locationTag._id] = locationTag;
+    //   });
+
+    //   return table;
+    // });
+  };
+
   useEffect(() => {
     getTags();
+    getLocationTags();
   }, []);
-  console.log(props.route?.params?.spaceAndUserRelationship);
 
   // ここまじで謎だよなー。なんで毎回undefinedになるんだろうか。。。
+  // 💡 必ず、paramsを"merge"しろ。じゃないと、objectを上書きしちまう。
   const onDonePress = async () => {
     // console.log('this is the space object', JSON.stringify(props.route?.params?.space._id));
     // console.log('this is the space reactios', props.route?.params?.space.reactions);
     try {
       const payload = new FormData();
-      // 必ず、paramsを"merge"しろ。じゃないと、objectを上書きしちまう。
       payload.append('reactions', JSON.stringify(props.route?.params?.space.reactions));
       payload.append('caption', formData.caption);
       payload.append('location', JSON.stringify(formData.location));
@@ -124,6 +142,8 @@ const Form = (props) => {
         route: props.route,
         tagOptions,
         setTagOptions,
+        locationTagOptions,
+        setLocationTagOptions,
         spaceAndUserRelationship: props.route.params.spaceAndUserRelationship,
       }}
     >

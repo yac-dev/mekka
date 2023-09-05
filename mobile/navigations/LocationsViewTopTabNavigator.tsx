@@ -16,7 +16,7 @@ const LocationsViewTopTabNavigator = () => {
   const [selectedLocationTag, setSelectedLocationTag] = useState(null);
 
   const getLocationTagsBySpaceId = async () => {
-    const result = await backendAPI.get(`/spaces/${spaceAndUserRelationship.space._id}/locationtag`);
+    const result = await backendAPI.get(`/spaces/${spaceAndUserRelationship.space._id}/locationtags`);
     const { locationTags } = result.data;
     setLocationTags(locationTags);
     setSelectedLocationTag(locationTags[0]);

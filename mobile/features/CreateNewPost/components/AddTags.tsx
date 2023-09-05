@@ -6,6 +6,7 @@ import { Feather } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { iconColorTable, iconParameterBackgroundColorTable } from '../../../themes/color';
+import FastImage from 'react-native-fast-image';
 
 const AddTags = () => {
   const { navigation, route, setFormData, formData, tagOptions, setTagOptions } = useContext(CreateNewPostContext);
@@ -53,7 +54,11 @@ const AddTags = () => {
               });
             }}
           >
-            <Feather name='hash' size={15} style={{}} color={'white'} />
+            <FastImage
+              source={{ uri: tag.icon }}
+              style={{ width: 20, height: 20, marginRight: 10 }}
+              tintColor={'white'}
+            />
             <Text style={{ color: 'white' }}>{tag.name}</Text>
           </TouchableOpacity>
         );
@@ -102,7 +107,11 @@ const AddTags = () => {
               marginRight: 10,
             }}
           >
-            <Feather name='hash' size={15} style={{}} color={'white'} />
+            <FastImage
+              source={{ uri: tag.icon }}
+              style={{ width: 20, height: 20, marginRight: 10 }}
+              tintColor={'white'}
+            />
             <Text style={{ color: 'white', marginRight: 10 }}>{tag.name}</Text>
             <TouchableOpacity
               onPress={() => {
@@ -155,7 +164,7 @@ const AddTags = () => {
               marginRight: 10,
             }}
           >
-            <Feather name='hash' size={15} style={{}} color={'white'} />
+            <Feather name='hash' size={15} style={{ marginRight: 10 }} color={'white'} />
             <Text style={{ color: 'white', marginRight: 10 }}>{tagName}</Text>
             <TouchableOpacity
               onPress={() => {
