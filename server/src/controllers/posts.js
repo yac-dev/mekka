@@ -3,6 +3,7 @@ import Post from '../models/post';
 import Content from '../models/content';
 import ReactionStatus from '../models/reactionStatus';
 import Tag from '../models/tag';
+import LocationTag from '../models/locationTag';
 import PostAndTagRelationship from '../models/postAndTagRelationship';
 import { uploadPhoto } from '../services/s3';
 import mongoose from 'mongoose';
@@ -16,7 +17,18 @@ export const createPost = async (request, response) => {
   try {
     session.startTransaction();
     // postで、reactionを全部持っておかないとね。
-    const { caption, createdBy, location, spaceId, reactions, addedTags, createdTags, disappearAfter } = request.body;
+    const {
+      caption,
+      createdBy,
+      location,
+      spaceId,
+      reactions,
+      addedTags,
+      createdTags,
+      disappearAfter,
+      createdLocationTag,
+      addedLocationTag,
+    } = request.body;
     console.log(disappearAfter);
     const disappearAt = new Date(new Date().getTime() + Number(disappearAfter) * 60 * 1000);
     // 現在の時間にdissaperAfter(minute)を足した日時を出す。
@@ -24,6 +36,7 @@ export const createPost = async (request, response) => {
     const parsedReactions = JSON.parse(reactions);
     const parsedTags = JSON.parse(addedTags);
     const parsedCreatedTags = JSON.parse(createdTags);
+    // const parsedLocationTag = JSON.parse(addedLocationTag);
     const files = request.files;
     const createdAt = new Date();
     const contentIds = [];
@@ -72,6 +85,22 @@ export const createPost = async (request, response) => {
     // そもそも、これspaceもfetchしなきゃいけないよな。。。こういうの、すげー効率がなー。
     var postId = new mongoose.Types.ObjectId();
     // 2,postを作る
+    const locationTagId = new mongoose.Types.ObjectId();
+    let locationTag;
+    if (createdLocationTag) {
+      locationTag = await LocationTag.create(
+        [
+          {
+            _id: locationTagId,
+            name: createdLocationTag,
+            icon: `https://mekka-${process.env.NODE_ENV}.s3.us-east-2.amazonaws.com/locationTagIcons/map-pin.png`,
+            space: spaceId,
+          },
+        ],
+        { session }
+      );
+    }
+
     const post = await Post.create(
       [
         {
@@ -80,6 +109,7 @@ export const createPost = async (request, response) => {
           caption,
           space: spaceId,
           location: parsedLocation,
+          locationTag: createdLocationTag ? locationTagId : addedLocationTag,
           disappearAt,
           createdBy,
           createdAt,
@@ -108,6 +138,7 @@ export const createPost = async (request, response) => {
         return {
           _id: tagId,
           name: tagName,
+          icon: `https://mekka-${process.env.NODE_ENV}.s3.us-east-2.amazonaws.com/tagIcons/hashtag-normal.png`,
           count: 1,
           space: spaceId,
           updatedAt: new Date(),

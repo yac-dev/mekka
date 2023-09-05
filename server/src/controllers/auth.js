@@ -8,9 +8,11 @@ export const signup = async (request, response) => {
     if (password.length < 10) {
       return next(new AppError('Password has to be at least 10 characters long.', 400, 'PasswordLengthError'));
     }
+    const randomAvatarNumber = Math.floor(Math.random() * 14) + 1;
     const user = new User({
       name,
       email,
+      avatar: `https://mekka-${process.env.NODE_ENV}.s3.us-east-2.amazonaws.com/avatars/default-avatar-${randomAvatarNumber}.png`,
       password,
       createdAt: new Date(),
       pushToken: '',

@@ -97,6 +97,7 @@ const App: React.FC = function () {
                 headerShown: false,
               })}
             /> */}
+
             <Stack.Screen
               name='HomwStackNavigator'
               component={HomeStackNavigator}

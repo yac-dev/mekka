@@ -66,7 +66,18 @@ const AddTags = () => {
 
       return (
         <View style={{ padding: 10, backgroundColor: 'rgb(70,70,70)', borderRadius: 5, marginBottom: 10 }}>
-          <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold', marginBottom: 10 }}>Options</Text>
+          <View
+            style={{ marginBottom: 20, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}
+          >
+            <Text style={{ color: 'white', fontSize: 23, fontWeight: 'bold' }}>Options</Text>
+            <TouchableOpacity
+              style={{ flexDirection: 'row', alignItems: 'center' }}
+              onPress={() => navigation?.navigate('CreateTag')}
+            >
+              <Ionicons name='create' size={17} style={{ marginRight: 5 }} color={'white'} />
+              <Text style={{ color: 'white' }}>Create new?</Text>
+            </TouchableOpacity>
+          </View>
           <ScrollView horizontal={true} style={{ marginBottom: 10 }}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>{list}</View>
           </ScrollView>
@@ -85,7 +96,18 @@ const AddTags = () => {
             marginBottom: 10,
           }}
         >
-          <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold', marginBottom: 10 }}>Options</Text>
+          <View
+            style={{ marginBottom: 20, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}
+          >
+            <Text style={{ color: 'white', fontSize: 23, fontWeight: 'bold' }}>Options</Text>
+            <TouchableOpacity
+              style={{ flexDirection: 'row', alignItems: 'center' }}
+              onPress={() => navigation?.navigate('CreateTag')}
+            >
+              <Ionicons name='create' size={17} style={{ marginRight: 5 }} color={'white'} />
+              <Text style={{ color: 'white' }}>Create new?</Text>
+            </TouchableOpacity>
+          </View>
           <Text style={{ color: 'white', textAlign: 'center' }}>No more tag options left.</Text>
         </View>
       );
@@ -230,20 +252,6 @@ const AddTags = () => {
           {renderAddedTags()}
           {renderCreatedTags()}
           {renderTagOptions()}
-          <Text style={{ color: 'white', marginBottom: 10, textAlign: 'center' }}>Or</Text>
-          <TouchableOpacity
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              padding: 10,
-              backgroundColor: 'rgb(88,88,88)',
-              borderRadius: 8,
-            }}
-            onPress={() => navigation?.navigate('CreateTag')}
-          >
-            <Entypo name='globe' size={20} color='white' style={{ marginRight: 10 }} />
-            <Text style={{ color: 'white' }}>Create new tag</Text>
-          </TouchableOpacity>
         </View>
       ) : null}
     </View>

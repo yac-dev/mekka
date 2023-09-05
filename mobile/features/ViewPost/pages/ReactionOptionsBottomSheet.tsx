@@ -81,7 +81,7 @@ const ReactionOptionsBottomSheet = () => {
                         width: 26,
                         height: 26,
                         backgroundColor: 'rgba(45, 209, 40, 0.85)',
-                        borderRadius: 8,
+                        borderRadius: 13,
                         justifyContent: 'center',
                         alignItems: 'center',
                       }}
@@ -109,7 +109,7 @@ const ReactionOptionsBottomSheet = () => {
                         width: 26,
                         height: 26,
                         backgroundColor: 'rgba(45, 209, 40, 0.85)',
-                        borderRadius: 8,
+                        borderRadius: 13,
                         justifyContent: 'center',
                         alignItems: 'center',
                       }}
@@ -159,8 +159,8 @@ const ReactionOptionsBottomSheet = () => {
       // onClose={() => onSelectedItemBottomSheetClose()}
     >
       <BottomSheetView style={{ flex: 1, paddingTop: 10 }}>
-        <View style={{ borderBottomWidth: 0.3, borderColor: 'white', marginBottom: 10 }}>
-          <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 17, textAlign: 'center', marginBottom: 10 }}>
+        <View style={{ borderBottomWidth: 0.3, borderColor: 'rgb(150,150,150)', marginBottom: 10 }}>
+          <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 20, textAlign: 'center', marginBottom: 10 }}>
             React
           </Text>
           <TouchableOpacity

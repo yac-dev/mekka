@@ -64,7 +64,7 @@ const PeopleView = (props) => {
             <FastImage
               source={{ uri: props.user.avatar }}
               style={{ width: 30, height: 30, marginRight: 10, borderRadius: 8 }}
-              tintColor={'white'}
+              // tintColor={'white'}
             />
             <Text style={{ color: 'white', fontSize: 20 }}>{props.user.name}</Text>
           </View>

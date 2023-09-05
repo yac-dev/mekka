@@ -28,7 +28,7 @@ const SpacesDrawerNavigator = (props) => {
     return (
       <DrawerContentScrollView {...props} style={{ paddingTop: 10 }}>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 27, marginLeft: 20 }}>Mekka</Text>
+          <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 32, marginLeft: 20 }}>Mekka</Text>
           {/* ここに、profile用の自分のavatarを出しておく。 */}
         </View>
         <View

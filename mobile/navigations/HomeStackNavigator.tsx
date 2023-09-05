@@ -25,9 +25,12 @@ import ProfileStackNavigator from './ProfileStackNavigator';
 import LocationPicker from '../features/CreateNewPost/pages/LocationPicker';
 import CreateTag from '../features/CreateNewPost/pages/CreateTag';
 import CreateNewLocationTag from '../features/CreateNewPost/pages/CreateNewLocationTag';
+import Report from '../features/Report/pages/Report';
 
 import { HomeStackNavContext } from '../contexts/HomeStackNavContext';
 const HomeStackNavigator: React.FC = (props) => {
+  const { isAuthenticated } = useContext(GlobalContext);
+
   return (
     <HomeStackNavContext.Provider value={{}}>
       <GestureHandlerRootView style={{ flex: 1 }}>
@@ -92,7 +95,7 @@ const HomeStackNavigator: React.FC = (props) => {
                 headerShown: true,
                 headerLeft: () => (
                   <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <Ionicons name='arrow-back-circle-sharp' size={30} color={'red'} />
+                    <Ionicons name='arrow-back-circle-sharp' size={30} color={'white'} />
                   </TouchableOpacity>
                 ),
                 headerTitle: 'ko',
@@ -240,6 +243,26 @@ const HomeStackNavigator: React.FC = (props) => {
                   </TouchableOpacity>
                 ),
                 headerTitle: '',
+                headerStyle: {
+                  backgroundColor: 'black',
+                },
+                headerTitleStyle: {
+                  fontWeight: 'bold',
+                  color: 'white',
+                },
+              })}
+            />
+            <Stack.Screen
+              name='Report'
+              component={Report}
+              options={({ navigation }) => ({
+                headerShown: true,
+                headerLeft: () => (
+                  <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <Ionicons name='close-circle-sharp' size={30} color={'white'} />
+                  </TouchableOpacity>
+                ),
+                headerTitle: 'Report',
                 headerStyle: {
                   backgroundColor: 'black',
                 },

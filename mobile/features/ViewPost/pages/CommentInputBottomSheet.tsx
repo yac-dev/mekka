@@ -56,7 +56,7 @@ const CommentInputBottomSheet = () => {
       keyboardBehavior={'extend'}
     >
       <BottomSheetView style={{ flex: 1, paddingTop: 10 }}>
-        <View style={{ borderBottomWidth: 0.3, borderColor: 'white', marginBottom: 10 }}>
+        <View style={{ borderBottomWidth: 0.3, borderColor: 'rgb(150,150,150)', marginBottom: 10 }}>
           <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 20, textAlign: 'center', marginBottom: 10 }}>
             Write comment
           </Text>

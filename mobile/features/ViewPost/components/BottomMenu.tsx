@@ -26,7 +26,7 @@ const BottomMenu = () => {
           <Text
             key={index}
             style={{
-              fontSize: 30,
+              fontSize: 25,
               // marginRight: 5,
               position: 'absolute',
               top: index === 0 ? -5 : null,
@@ -44,8 +44,8 @@ const BottomMenu = () => {
             key={index}
             source={{ uri: reactionStatus.reaction.sticker.url }}
             style={{
-              width: 30,
-              height: 30,
+              width: 25,
+              height: 25,
               //  marginRight: 5
               position: 'absolute',
               top: index === 0 ? -5 : null,
@@ -69,222 +69,86 @@ const BottomMenu = () => {
   };
 
   return (
-    <ScrollView
-      horizontal={true}
+    // <ScrollView
+    //   horizontal={true}
+    //   style={{
+    //     backgroundColor: 'rgb(40,40,40)',
+    //     position: 'absolute',
+    //     width: '100%',
+    //     bottom: 0,
+    //   }}
+    // >
+    <View
       style={{
+        flexDirection: 'row',
+        alignItems: 'center',
+        alignSelf: 'center',
         backgroundColor: 'rgb(40,40,40)',
         position: 'absolute',
-        width: '100%',
-        bottom: 0,
+        bottom: 15,
+        marginHorizontal: 100,
+        height: 50,
+        borderRadius: 30,
       }}
     >
       <View
         style={{
-          flexDirection: 'row',
+          width: 60,
+          height: 40,
+          justifyContent: 'center',
           alignItems: 'center',
-          alignSelf: 'center',
-          paddingTop: 5,
-          paddingBottom: 5,
+          // backgroundColor: 'red',
         }}
       >
-        <View
-          style={{
-            width: oneGridWidth,
-            height: 40,
-            justifyContent: 'center',
-            alignItems: 'center',
-            // backgroundColor: 'red',
-          }}
-        >
-          {/* <TouchableOpacity onPress={() => reactionOptionsBottomSheetRef.current.snapToIndex(0)}>
-            <Entypo name='emoji-happy' size={25} color={'white'} />
-          </TouchableOpacity> */}
-          {renderReactionIcons()}
-        </View>
-        <View
-          style={{
-            width: oneGridWidth,
-            height: 40,
-            justifyContent: 'center',
-            alignItems: 'center',
-            // backgroundColor: 'red',
-          }}
-        >
-          <TouchableOpacity
-            onPress={() => {
-              commentInputBottomSheetRef?.current.snapToIndex(0);
-              textInputRef.current.focus();
-            }}
-          >
-            <Entypo name='feather' size={20} color={'white'} />
-          </TouchableOpacity>
-        </View>
-        <View
-          style={{
-            width: oneGridWidth,
-            height: 40,
-            justifyContent: 'center',
-            alignItems: 'center',
-            // backgroundColor: 'red',
-          }}
-        >
-          <TouchableOpacity>
-            <MaterialCommunityIcons name='share-variant' size={25} color={'white'} />
-          </TouchableOpacity>
-        </View>
-        <View
-          style={{
-            width: oneGridWidth,
-            height: 40,
-            justifyContent: 'center',
-            alignItems: 'center',
-            // backgroundColor: 'red',
-          }}
-        >
-          <TouchableOpacity>
-            <Feather name='more-horizontal' size={25} color={'white'} />
-          </TouchableOpacity>
-        </View>
-        {/* <View
-          style={{
-            width: oneGridWidth,
-            height: 80,
-            justifyContent: 'center',
-            alignItems: 'center',
-            // backgroundColor: 'red',
-          }}
-        >
-          <TouchableOpacity
-            style={{
-              backgroundColor: 'red',
-              padding: 10,
-              borderRadius: 10,
-              width: 50,
-              height: 50,
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginBottom: 5,
-            }}
-            onPress={() => {
-              commentInputBottomSheetRef?.current.snapToIndex(0);
-              textInputRef.current.focus();
-            }}
-          >
-            <Entypo name='feather' size={20} color={'yellow'} />
-          </TouchableOpacity>
-
-          <Text style={{ color: 'white', textAlign: 'center' }}>Comments</Text>
-        </View>
-        <View
-          style={{
-            width: oneGridWidth,
-            height: 80,
-            justifyContent: 'center',
-            alignItems: 'center',
-            // backgroundColor: 'red',
-          }}
-        >
-          <TouchableOpacity
-            style={{
-              backgroundColor: 'red',
-              padding: 10,
-              borderRadius: 10,
-              width: 50,
-              height: 50,
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginBottom: 5,
-            }}
-            // onPress={() => props.navigation.navigate('My friends')}
-          >
-            <MaterialCommunityIcons name='human-greeting-variant' size={20} color={'yellow'} />
-          </TouchableOpacity>
-          <Text style={{ color: 'white', textAlign: 'center' }}>Share</Text>
-        </View>
-        <View
-          style={{
-            width: oneGridWidth,
-            height: 80,
-            justifyContent: 'center',
-            alignItems: 'center',
-            // backgroundColor: 'red',
-          }}
-        >
-          <TouchableOpacity
-            style={{
-              backgroundColor: 'red',
-              padding: 10,
-              borderRadius: 10,
-              width: 50,
-              height: 50,
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginBottom: 5,
-            }}
-            // onPress={() => props.navigation.navigate('Assets', { userId: auth.data._id })}
-          >
-            <Ionicons name='camera' size={20} color={'yellow'} />
-          </TouchableOpacity>
-          <Text style={{ color: 'white', textAlign: 'center' }}>...</Text>
-        </View>
-        <View
-          style={{
-            width: oneGridWidth,
-            height: 80,
-            justifyContent: 'center',
-            alignItems: 'center',
-            // backgroundColor: 'red',
-          }}
-        >
-          <TouchableOpacity
-            style={{
-              backgroundColor: 'red',
-              padding: 10,
-              borderRadius: 10,
-              width: 50,
-              height: 50,
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginBottom: 5,
-            }}
-            // onPress={() => appMenuBottomSheetRef.current.snapToIndex(0)}
-          >
-            <Ionicons name='settings' size={20} color={'yellow'} />
-          </TouchableOpacity>
-          <Text style={{ color: 'white', textAlign: 'center' }}>Setting</Text>
-        </View> */}
+        {renderReactionIcons()}
       </View>
-    </ScrollView>
+      <View
+        style={{
+          width: 60,
+          height: 40,
+          justifyContent: 'center',
+          alignItems: 'center',
+          // backgroundColor: 'red',
+        }}
+      >
+        <TouchableOpacity
+          onPress={() => {
+            commentInputBottomSheetRef?.current.snapToIndex(0);
+            textInputRef.current.focus();
+          }}
+        >
+          <Entypo name='feather' size={20} color={'white'} />
+        </TouchableOpacity>
+      </View>
+      <View
+        style={{
+          width: 60,
+          height: 40,
+          justifyContent: 'center',
+          alignItems: 'center',
+          // backgroundColor: 'red',
+        }}
+      >
+        <TouchableOpacity>
+          <MaterialCommunityIcons name='share-variant' size={25} color={'white'} />
+        </TouchableOpacity>
+      </View>
+      <View
+        style={{
+          width: 60,
+          height: 40,
+          justifyContent: 'center',
+          alignItems: 'center',
+          // backgroundColor: 'red',
+        }}
+      >
+        <TouchableOpacity>
+          <Feather name='more-horizontal' size={25} color={'white'} />
+        </TouchableOpacity>
+      </View>
+    </View>
+    // </ScrollView>
   );
 };
 
 export default BottomMenu;
-
-{
-  /* <View
-          style={{
-            width: oneGridWidth,
-            height: 80,
-            justifyContent: 'center',
-            alignItems: 'center',
-            // backgroundColor: 'red',
-          }}
-        >
-          <TouchableOpacity
-            style={{
-              backgroundColor: 'red',
-              padding: 10,
-              borderRadius: 10,
-              width: 50,
-              height: 50,
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginBottom: 5,
-            }}
-            // onPress={() => props.navigation.navigate('My friends')}
-          >
-            <MaterialCommunityIcons name='human-greeting-variant' size={20} color={'yellow'} />
-          </TouchableOpacity>
-          <Text style={{ color: 'white', textAlign: 'center' }}>Share</Text>
-        </View> */
-}

@@ -99,6 +99,13 @@ const Form = (props) => {
       payload.append('location', JSON.stringify(formData.location));
       payload.append('createdTags', JSON.stringify(formData.createdTags));
       payload.append('addedTags', JSON.stringify(Object.keys(formData.addedTags)));
+      payload.append('createdLocationTag', formData.createdLocationTag); // これがない場合もある。
+      payload.append('addedLocationTag', formData.addedLocationTag ? formData.addedLocationTag._id : '');
+      if (formData.addedLocationTag) {
+        payload.append('addedLocationTag', JSON.stringify(formData.addedLocationTag?._id)); // ない場合もある。
+      } else {
+        payload.append('addedLocationTag', '');
+      }
       payload.append('disappearAfter', props.route?.params?.space.disappearAfter);
       payload.append('createdBy', authData._id);
       payload.append('spaceId', props.route?.params?.space._id);

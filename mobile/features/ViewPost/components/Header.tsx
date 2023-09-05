@@ -45,10 +45,10 @@ const Header = () => {
                 width: 30,
                 height: 30,
                 marginRight: 20,
-                backgroundColor: iconColorTable['blue1'],
+                // backgroundColor: iconColorTable['blue1'],
                 borderRadius: 5,
               }}
-              tintColor={'white'}
+              // tintColor={'white'}
             />
             <View style={{ flexDirection: 'column' }}>
               <Text style={{ color: 'white', marginBottom: 10 }}>{post.createdBy.name}</Text>
