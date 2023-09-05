@@ -19,6 +19,10 @@ const Form = (props) => {
     addedTags: {},
     createdTags: [],
     addedLocationTag: null,
+    createdLocationTag: {
+      name: '',
+      selected: false,
+    },
   });
   // const [createdTags, setCreatedTags] = useState([]);
   const [tagOptions, setTagOptions] = useState({});

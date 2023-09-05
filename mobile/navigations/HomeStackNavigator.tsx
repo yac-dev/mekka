@@ -24,6 +24,7 @@ import Discover from '../features/Discover/pages/Discover';
 import ProfileStackNavigator from './ProfileStackNavigator';
 import LocationPicker from '../features/CreateNewPost/pages/LocationPicker';
 import CreateTag from '../features/CreateNewPost/pages/CreateTag';
+import CreateNewLocationTag from '../features/CreateNewPost/pages/CreateNewLocationTag';
 
 import { HomeStackNavContext } from '../contexts/HomeStackNavContext';
 const HomeStackNavigator: React.FC = (props) => {
@@ -218,7 +219,27 @@ const HomeStackNavigator: React.FC = (props) => {
                     <Ionicons name='close-circle-sharp' size={30} color={'white'} />
                   </TouchableOpacity>
                 ),
-                headerTitle: 'Create new Tag',
+                headerTitle: '',
+                headerStyle: {
+                  backgroundColor: 'black',
+                },
+                headerTitleStyle: {
+                  fontWeight: 'bold',
+                  color: 'white',
+                },
+              })}
+            />
+            <Stack.Screen
+              name='CreateNewLocationTag'
+              component={CreateNewLocationTag}
+              options={({ navigation }) => ({
+                headerShown: true,
+                headerLeft: () => (
+                  <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <Ionicons name='close-circle-sharp' size={30} color={'white'} />
+                  </TouchableOpacity>
+                ),
+                headerTitle: '',
                 headerStyle: {
                   backgroundColor: 'black',
                 },
