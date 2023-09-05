@@ -27,6 +27,10 @@ const SpacesDrawerNavigator = (props) => {
     const { state, descriptors, navigation } = props;
     return (
       <DrawerContentScrollView {...props} style={{ paddingTop: 10 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 27, marginLeft: 20 }}>Mekka</Text>
+          {/* ここに、profile用の自分のavatarを出しておく。 */}
+        </View>
         <View
           style={{
             flexDirection: 'row',
@@ -34,6 +38,7 @@ const SpacesDrawerNavigator = (props) => {
             borderBottomWidth: 0.3,
             borderBottomColor: 'rgb(150,150,150)',
             padding: 10,
+            marginBottom: 10,
           }}
         >
           <TouchableOpacity
@@ -113,9 +118,9 @@ const SpacesDrawerNavigator = (props) => {
             <Text style={{ color: 'white' }}>Enter key</Text>
           </TouchableOpacity>
         </View>
-        <View style={{ paddingTop: 20, paddingBottom: 20 }}>
+        {/* <View style={{ paddingTop: 20, paddingBottom: 20 }}>
           <Text style={{ color: 'white', fontSize: 25, paddingLeft: 10 }}>My Spaces</Text>
-        </View>
+        </View> */}
         {state.routes.map((route, index) => {
           const { options } = descriptors[route.key];
           const label = options.tabBarLabel !== undefined ? options.tabBarLabel : route.name;
@@ -231,7 +236,7 @@ const SpacesDrawerNavigator = (props) => {
                   }}
                   onPress={() => navigation.toggleDrawer()}
                 >
-                  <MaterialIcons name='view-sidebar' style={{}} size={20} />
+                  <Ionicons name='menu' style={{}} size={20} />
                 </TouchableOpacity>
               );
             },

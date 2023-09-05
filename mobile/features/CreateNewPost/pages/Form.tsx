@@ -141,7 +141,7 @@ const Form = (props) => {
             Create new Post
           </Text>
           <Text style={{ textAlign: 'center', color: 'rgb(180, 180, 180)' }}>
-            Post your photo/video and enjoy sharing your moments with your peers.
+            Post your photo/video and share your moments with your peers.
           </Text>
         </View>
         <ScrollView>

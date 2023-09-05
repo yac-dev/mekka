@@ -14,17 +14,16 @@ import { primaryTextColor } from '../themes/text';
 import SpacesTopTabNavigator from './SpacesTopTabNavigator';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
-// import AboutSpaceStackNavigator from './AboutSpaceStackNavigator';
 import CreateNewSpace from '../features/CreateNewSpace/pages/CreateNewSpace';
-// import SpaceMenuBottomSheet from '../features/Space/pages/SpaceMenuBottomSheet';
+import CreateNewPost from '../features/CreateNewPost/pages/Form';
 import SpaceMenuBottomSheet from '../features/SpaceMenuBottomSheet/pages/BottomSheet';
-import Dummy from '../features/Utils/Dummy';
 import SpacesDrawerNavigator from './SpacesDrawerNavigator';
 import ViewPost from '../features/ViewPost/pages/ViewPost';
 import Comments from '../features/ViewPost/pages/Comments';
 import Discover from '../features/Discover/pages/Discover';
 import ProfileStackNavigator from './ProfileStackNavigator';
-import CreateNewPost from '../features/CreateNewPost/pages/Form';
+import LocationPicker from '../features/CreateNewPost/pages/LocationPicker';
+import CreateTag from '../features/CreateNewPost/pages/CreateTag';
 
 import { HomeStackNavContext } from '../contexts/HomeStackNavContext';
 const HomeStackNavigator: React.FC = (props) => {
@@ -189,26 +188,46 @@ const HomeStackNavigator: React.FC = (props) => {
             />
           </Stack.Group>
           <Stack.Group screenOptions={{ presentation: 'modal', gestureEnabled: false }}>
-            {/* <Stack.Screen
-              name='AboutSpaceStackNavigator'
-              component={AboutSpaceStackNavigator}
+            <Stack.Screen
+              name='LocationPicker'
+              component={LocationPicker}
               options={({ navigation }) => ({
-                headerShown: false,
+                headerShown: true,
                 headerLeft: () => (
                   <TouchableOpacity onPress={() => navigation.goBack()}>
                     <Ionicons name='close-circle-sharp' size={30} color={'white'} />
                   </TouchableOpacity>
                 ),
-                headerTitle: 'About',
+                headerTitle: 'Pick location',
                 headerStyle: {
-                  backgroundColor: primaryBackgroundColor,
+                  backgroundColor: 'black',
                 },
                 headerTitleStyle: {
                   fontWeight: 'bold',
-                  color: primaryTextColor,
+                  color: 'white',
                 },
               })}
-            /> */}
+            />
+            <Stack.Screen
+              name='CreateTag'
+              component={CreateTag}
+              options={({ navigation }) => ({
+                headerShown: true,
+                headerLeft: () => (
+                  <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <Ionicons name='close-circle-sharp' size={30} color={'white'} />
+                  </TouchableOpacity>
+                ),
+                headerTitle: 'Create new Tag',
+                headerStyle: {
+                  backgroundColor: 'black',
+                },
+                headerTitleStyle: {
+                  fontWeight: 'bold',
+                  color: 'white',
+                },
+              })}
+            />
           </Stack.Group>
         </Stack.Navigator>
         <SpaceMenuBottomSheet navigation={props.navigation} />

@@ -14,7 +14,7 @@ type AddLocationProps = {
   navigation: NavigationProp<ParamListBase> | undefined;
 };
 
-const AddLocation: React.FC<AddLocationProps> = (props) => {
+const LocationPicker: React.FC<AddLocationProps> = (props) => {
   const [selectingLocation, setSelectingLocation] = useState<SelectingLocationType>(null);
 
   const onMapPress = (event: MapPressEvent) => {
@@ -90,4 +90,4 @@ const AddLocation: React.FC<AddLocationProps> = (props) => {
   );
 };
 
-export default AddLocation;
+export default LocationPicker;

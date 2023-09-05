@@ -66,7 +66,7 @@ const AddLocation = () => {
               marginBottom: 20,
             }}
             // これで、locationをaddする。地図が必要だ。そのために。
-            onPress={() => navigation?.navigate('AddLocation')}
+            onPress={() => navigation?.navigate('LocationPicker')}
           >
             <Entypo name='globe' size={20} color='white' style={{ marginRight: 10 }} />
             <Text style={{ color: 'white' }}>Add location</Text>

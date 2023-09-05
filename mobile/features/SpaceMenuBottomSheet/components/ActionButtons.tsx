@@ -25,13 +25,6 @@ const ActionButtons = (props) => {
     const result = await Share.share({
       message: `Invite friend to Space.${'\n'}Download link: https://apps.apple.com/us/app/lampost/id1668526833${'\n'}And then enter the secret key to join this space.${'\n'}Secret key: kokokoko`,
     });
-
-    // Share.share({
-    //   title: 'Invitation',
-    //   message: 'https://apps.apple.com/us/app/lampost/id1668526833',
-    //   url: `file://${snapshot}`,
-    //   type: 'image/png',
-    // });
   };
   return (
     <View style={{ flexDirection: 'row', alignItems: 'center', paddingTop: 10, paddingBottom: 10 }}>
