@@ -123,7 +123,26 @@ export const createSpace = async (request, response) => {
 
 export const getSpaces = async (request, response) => {
   try {
-    const spaces = await Space.find({}).select({ _id: true, name: true });
+    const spaces = await Space.find({ isPublic: true })
+      .select({
+        _id: true,
+        name: true,
+        icon: true,
+        contentType: true,
+        disappearAfter: true,
+        videoLength: true,
+        isReactionAvailable: true,
+        description: true,
+        reactions: true,
+      })
+      .populate({
+        path: 'reactions',
+        model: 'Reaction',
+        populate: {
+          path: 'sticker',
+          model: 'Sticker',
+        },
+      });
     response.status(200).json({
       spaces,
     });

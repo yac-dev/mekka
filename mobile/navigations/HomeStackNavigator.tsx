@@ -26,6 +26,7 @@ import LocationPicker from '../features/CreateNewPost/pages/LocationPicker';
 import CreateTag from '../features/CreateNewPost/pages/CreateTag';
 import CreateNewLocationTag from '../features/CreateNewPost/pages/CreateNewLocationTag';
 import Report from '../features/Report/pages/Report';
+import SpaceDetailStackNavigator from './SpaceDetailStackNavigator';
 
 import { HomeStackNavContext } from '../contexts/HomeStackNavContext';
 const HomeStackNavigator: React.FC = (props) => {
@@ -175,6 +176,28 @@ const HomeStackNavigator: React.FC = (props) => {
               component={ProfileStackNavigator}
               options={({ navigation }) => ({
                 headerShown: true, // ここtrueにすると、,,,
+                headerLeft: () => (
+                  <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <Ionicons name='close-circle-sharp' size={30} color={'white'} />
+                  </TouchableOpacity>
+                ),
+                headerTitle: '',
+                headerStyle: {
+                  backgroundColor: 'black',
+                },
+                headerTitleStyle: {
+                  fontWeight: 'bold',
+                  color: 'white',
+                },
+              })}
+            />
+            <Stack.Screen
+              name='SpaceDetailStackNavigator'
+              component={SpaceDetailStackNavigator}
+              options={({ navigation }) => ({
+                // headerShown: true, // ここtrueにすると、,,,
+                headerShown: false, // ここtrueにすると、,,,
+
                 headerLeft: () => (
                   <TouchableOpacity onPress={() => navigation.goBack()}>
                     <Ionicons name='close-circle-sharp' size={30} color={'white'} />

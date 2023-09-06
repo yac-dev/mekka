@@ -6,6 +6,7 @@ import { primaryBackgroundColor } from '../themes/color';
 import { primaryTextColor } from '../themes/text';
 import SpaceDetail from '../features/Discover/pages/SpaceDetail';
 import Members from '../features/Discover/pages/Members';
+import { Ionicons } from '@expo/vector-icons';
 
 const SpaceDetailStackNavigator: React.FC = () => {
   return (
@@ -16,7 +17,7 @@ const SpaceDetailStackNavigator: React.FC = () => {
         options={({ navigation }) => ({
           headerLeft: () => (
             <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Text style={{ color: primaryTextColor, fontSize: 20 }}>Close</Text>
+              <Ionicons name='close-circle-sharp' size={30} color={'white'} />
             </TouchableOpacity>
           ),
           headerShown: true,

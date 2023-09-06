@@ -1,5 +1,5 @@
 import React, { useReducer, useState, useEffect, useContext, useCallback } from 'react';
-import { View, Text, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, Dimensions } from 'react-native';
 import { NavigationProp } from '@react-navigation/native';
 import { GlobalContext } from '../../../contexts/GlobalContext';
 import backendAPI from '../../../apis/backend';
@@ -8,6 +8,7 @@ import { primaryTextColor } from '../../../themes/text';
 import CreateNewButton from '../components/CreateNewButton';
 import { DiscoverContext } from '../contexts/DiscoverContext';
 import SnackBar from '../../../components/SnackBar';
+import FastImage from 'react-native-fast-image';
 
 type RouterProps = {
   navigation: NavigationProp<any, any>;
@@ -21,6 +22,8 @@ type SpaceType = {
 
 // client上では,mekkaとかそういう表現を使うことにする。
 const Discover: React.FC<RouterProps> = (props) => {
+  const { isIpad } = useContext(GlobalContext);
+  const oneGridWidth = isIpad ? Dimensions.get('window').width / 4 : Dimensions.get('window').width / 2;
   // const { setSpaceAndMeRelationships } = useContext(GlobalContext);
   const [spaces, setSpaces] = useState<SpaceType[]>([]);
   const [areSpacesFetched, setAreSpacesFetched] = useState(false);
@@ -47,19 +50,90 @@ const Discover: React.FC<RouterProps> = (props) => {
   // tapして、detailを出す様にする。
   const renderSpace = useCallback((space: any) => {
     return (
-      // そうか、ここでrouteでparamsに渡すのは、SpaceDetailStackに渡すんだもんな。
-      <TouchableOpacity
-        onPress={() =>
-          props.navigation.navigate('SpaceDetailStackNavigator', {
-            screen: 'SpaceDetail',
-            params: { spaceId: space._id },
-          })
-        }
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          paddingTop: 20,
+          paddingBottom: 30,
+          paddingLeft: 10,
+          paddingRight: 10,
+          borderBottomWidth: 0.3,
+          borderBottomColor: 'rgb(170,170,170)',
+        }}
       >
-        <Text style={{ color: 'red', fontSize: 20 }}>{space.name}</Text>
-      </TouchableOpacity>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <FastImage
+            source={{ uri: space.icon }}
+            style={{ width: 80, height: 80, borderRadius: 10, marginRight: 20 }}
+          />
+          <View style={{ flexDirection: 'column' }}>
+            <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 23, marginBottom: 5 }}>{space.name}</Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+              <Text style={{ color: 'white' }}>Content</Text>
+              <Text style={{ color: 'white' }}>{space.contentType}</Text>
+            </View>
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+              <Text style={{ color: 'white' }}>Video length</Text>
+              <Text style={{ color: 'white' }}>{space.videoLength}</Text>
+            </View>
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+              <Text style={{ color: 'white' }}>Disappear</Text>
+              <Text style={{ color: 'white' }}>{space.disappearAfter}</Text>
+            </View>
+          </View>
+        </View>
+        <TouchableOpacity
+          onPress={() =>
+            props.navigation.navigate('SpaceDetailStackNavigator', {
+              screen: 'SpaceDetail',
+              params: { spaceId: space._id },
+            })
+          }
+          style={{ padding: 10, backgroundColor: 'rgb(70,70,70)', borderRadius: 15, alignSelf: 'flex-end' }}
+        >
+          <Text style={{ color: 'white' }}>See detail</Text>
+        </TouchableOpacity>
+      </View>
     );
   }, []);
+
+  // const renderSpaces = () => {
+  //   const list = spaces.map((space, index) => {
+  //     return (
+  //       <View style={{ width: oneGridWidth, backgroundColor: 'blue', padding: 10 }} key={index}>
+  //         <View style={{ flexDirection: 'column', alignItems: 'center' }}>
+  //           <FastImage source={{ uri: space.icon }} style={{ width: 70, height: 70, borderRadius: 10 }} />
+  //           <Text style={{ fontSize: 20, color: 'white', fontWeight: 'bold' }}>{space.name}</Text>
+  //         </View>
+  //         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+  //           <View style={{ flexDirection: 'column', alignItems: 'center' }}>
+  //             <Text style={{ color: 'white' }}>Content</Text>
+  //             <Text style={{ color: 'white' }}>{space.contentType}</Text>
+  //           </View>
+  //           <View>
+  //             <Text style={{ color: 'white' }}>Video length</Text>
+  //             <Text style={{ color: 'white' }}>{space.videoLength}</Text>
+  //           </View>
+  //         </View>
+  //         <TouchableOpacity
+  //           onPress={() =>
+  //             props.navigation.navigate('SpaceDetailStackNavigator', {
+  //               screen: 'SpaceDetail',
+  //               params: { spaceId: space._id },
+  //             })
+  //           }
+  //           style={{ padding: 10, backgroundColor: 'red', borderRadius: 8, alignSelf: 'flex-end' }}
+  //         >
+  //           <Text style={{ color: 'white' }}>See detail</Text>
+  //         </TouchableOpacity>
+  //       </View>
+  //     );
+  //   });
+
+  //   return <View style={{ flexDirection: 'row', alignItems: 'center' }}>{list}</View>;
+  // };
 
   return (
     <DiscoverContext.Provider value={{ spaces, setSpaces, navigation: props.navigation }}>
@@ -69,8 +143,8 @@ const Discover: React.FC<RouterProps> = (props) => {
           renderItem={({ item }) => renderSpace(item)}
           keyExtractor={(item, index) => `${item._id}-${index}`}
         />
-
-        <CreateNewButton />
+        {/* {renderSpaces()} */}
+        {/* <CreateNewButton /> */}
         <SnackBar />
       </View>
     </DiscoverContext.Provider>

@@ -95,6 +95,7 @@ export const createPost = async (request, response) => {
             name: createdLocationTag,
             icon: `https://mekka-${process.env.NODE_ENV}.s3.us-east-2.amazonaws.com/locationTagIcons/map-pin.png`,
             space: spaceId,
+            point: parsedLocation,
           },
         ],
         { session }
