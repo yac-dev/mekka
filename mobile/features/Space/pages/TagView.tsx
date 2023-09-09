@@ -66,7 +66,10 @@ const TagView = (props) => {
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'space-between',
-              padding: 10,
+              paddingLeft: 20,
+              paddingRight: 20,
+              paddingTop: 30,
+              paddingBottom: 30,
             }}
           >
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -75,9 +78,25 @@ const TagView = (props) => {
                 style={{ width: 30, height: 30, marginRight: 15 }}
                 tintColor={'white'}
               />
-              <Text style={{ color: 'white', fontSize: 20 }}>{props.tagObject.tag.name}</Text>
+              <View style={{ flexDirection: 'column' }}>
+                <Text style={{ color: 'white', fontSize: 20, marginBottom: 5, fontWeight: 'bold' }}>
+                  {props.tagObject.tag.name}
+                </Text>
+                <Text style={{ color: 'rgb(170,170,170)' }}>{props.tagObject.tag.count}posts</Text>
+              </View>
             </View>
-            <Text style={{ color: 'white', marginRight: 10, fontSize: 17 }}>{props.tagObject.tag.count}</Text>
+            <TouchableOpacity
+              style={{
+                paddingLeft: 20,
+                paddingRight: 20,
+                paddingTop: 10,
+                paddingBottom: 10,
+                backgroundColor: 'white',
+                borderRadius: 20,
+              }}
+            >
+              <Text style={{ fontWeight: 'bold' }}>Edit</Text>
+            </TouchableOpacity>
           </View>
           <FlatList
             numColumns={3}

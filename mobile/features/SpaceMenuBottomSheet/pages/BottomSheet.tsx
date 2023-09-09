@@ -36,9 +36,9 @@ const SpaceMenuBottomSheet = (props) => {
         handleIndicatorStyle={{ backgroundColor: 'white' }}
         // onClose={() => onSelectedItemBottomSheetClose()}
       >
-        <BottomSheetView style={{ paddingLeft: 10, paddingRight: 10, flex: 1 }}>
+        <BottomSheetView style={{ flex: 1 }}>
           <Header />
-          <ActionButtons navigation={props.navigation} />
+          {/* <ActionButtons navigation={props.navigation} /> */}
           <MediaStats />
           <Description />
         </BottomSheetView>

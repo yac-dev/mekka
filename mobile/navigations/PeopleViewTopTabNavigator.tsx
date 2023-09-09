@@ -83,16 +83,16 @@ const PeopleViewTopTabNavigator = () => {
                 <FastImage
                   source={{ uri: route.params?.user.avatar }}
                   style={{
-                    width: 25,
-                    height: 25,
+                    width: 35,
+                    height: 35,
                     borderRadius: 8,
-                    marginBottom: 5,
+                    // marginBottom: 5,
                   }}
                   // tintColor={'white'}
                 />
-                <Text numberOfLines={1} style={{ color: isFocused ? 'white' : 'rgb(120, 120, 120)', marginBottom: 7 }}>
+                {/* <Text numberOfLines={1} style={{ color: isFocused ? 'white' : 'rgb(120, 120, 120)', marginBottom: 7 }}>
                   {route.params?.user.name}
-                </Text>
+                </Text> */}
               </TouchableOpacity>
             );
           })}

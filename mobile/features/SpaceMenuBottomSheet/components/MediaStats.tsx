@@ -4,35 +4,34 @@ import { GlobalContext } from '../../../contexts/GlobalContext';
 import { Ionicons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
+import { Fontisto } from '@expo/vector-icons';
 
 const MediaStats = () => {
   const { isIpad, spaceMenuBottomSheetRef, currentSpaceAndUserRelationship, currentSpace } = useContext(GlobalContext);
 
   return (
-    <View style={{ flexDirection: 'row', alignItems: 'center', paddingTop: 10, paddingBottom: 10 }}>
-      <View style={{ width: '33%', alignItems: 'center' }}>
-        <Text style={{ color: 'white', marginBottom: 5 }}>Media type</Text>
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <MaterialIcons name='photo-library' size={20} color='white' style={{ marginRight: 5 }} />
-          <Text style={{ color: 'white' }}>Photo</Text>
-        </View>
+    <View style={{ padding: 10 }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
+        <MaterialIcons name='photo-library' size={20} color='rgb(170,170,170)' style={{ marginRight: 15 }} />
+        <Text style={{ color: 'white' }}>You can post photos and videos in this space.</Text>
       </View>
-      <View style={{ width: '33%', alignItems: 'center' }}>
-        <Text style={{ color: 'white', marginBottom: 5 }}>Disapear</Text>
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <MaterialCommunityIcons name='ghost' size={20} color='white' style={{ marginRight: 5 }} />
-          <Text style={{ color: 'white' }}>Permanent</Text>
-        </View>
+
+      <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
+        <Ionicons name='play-circle-sharp' size={20} color='rgb(170,170,170)' style={{ marginRight: 15 }} />
+        <Text style={{ color: 'white' }}>The video length is limited to 30s.</Text>
       </View>
-      <View style={{ width: '33%', alignItems: 'center' }}>
-        <Text style={{ color: 'white', marginBottom: 5 }}>Video length</Text>
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Ionicons name='play-circle-sharp' size={20} color='white' style={{ marginRight: 5 }} />
-          <Text style={{ color: 'white' }}>30s</Text>
-        </View>
+      <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
+        <Fontisto name='smiley' size={20} color='rgb(170,170,170)' style={{ marginRight: 15 }} />
+        <Text style={{ color: 'white' }}>You have these reaction options.</Text>
       </View>
     </View>
   );
 };
 
 export default MediaStats;
+{
+  /* <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+<MaterialCommunityIcons name='ghost' size={20} color='white' style={{ marginRight: 15 }} />
+<Text style={{ color: 'white' }}>Permanent</Text>
+</View> */
+}

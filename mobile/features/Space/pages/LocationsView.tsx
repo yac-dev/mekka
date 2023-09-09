@@ -86,6 +86,7 @@ const LocationsView = (props) => {
           latitudeDelta: LATITUDE_DELTA,
           longitudeDelta: LONGITUDE_DELTA,
         }}
+        mapType={'satellite'}
       >
         {/* <View style={{ position: 'absolute', top: 80 }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', padding: 10 }}>

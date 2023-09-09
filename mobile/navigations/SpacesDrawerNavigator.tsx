@@ -220,6 +220,12 @@ const SpacesDrawerNavigator = (props) => {
             headerTitleStyle: {
               fontSize: 20,
               fontWeight: 'bold',
+              // padding: 20,
+            },
+            // simulatorの場合、これないとheaderのheiightがおかしくなる。。。何で？？？
+            headerStyle: {
+              // padding: 20,
+              backgroundColor: 'black',
             },
 
             headerLeft: () => {
@@ -265,8 +271,8 @@ const SpacesDrawerNavigator = (props) => {
                   <FastImage
                     source={{ uri: spaceAndUserRelationship.space.icon }}
                     style={{
-                      width: 40,
-                      height: 40,
+                      width: 35,
+                      height: 35,
                       borderRadius: 8,
                       marginRight: 10,
                       //  position: 'absolute', bottom: 15, right: 20

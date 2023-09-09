@@ -60,13 +60,41 @@ const PeopleView = (props) => {
     if (posts.length) {
       return (
         <View style={{ flex: 1, backgroundColor: 'black' }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', padding: 10 }}>
-            <FastImage
-              source={{ uri: props.user.avatar }}
-              style={{ width: 30, height: 30, marginRight: 10, borderRadius: 8 }}
-              // tintColor={'white'}
-            />
-            <Text style={{ color: 'white', fontSize: 20 }}>{props.user.name}</Text>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                paddingLeft: 20,
+                paddingRight: 20,
+                paddingTop: 30,
+                paddingBottom: 20,
+              }}
+            >
+              <FastImage
+                source={{ uri: props.user.avatar }}
+                style={{ width: 50, height: 50, marginRight: 10, borderRadius: 25 }}
+                // tintColor={'white'}
+              />
+              <View style={{ flexDirection: 'column' }}>
+                <Text style={{ color: 'white', fontSize: 20, marginBottom: 5, fontWeight: 'bold' }}>
+                  {props.user.name}
+                </Text>
+                <Text style={{ color: 'rgb(170,170,170)' }}>114 posts</Text>
+              </View>
+            </View>
+            <TouchableOpacity
+              style={{
+                paddingLeft: 20,
+                paddingRight: 20,
+                paddingTop: 10,
+                paddingBottom: 10,
+                backgroundColor: 'white',
+                borderRadius: 20,
+              }}
+            >
+              <Text style={{ fontWeight: 'bold' }}>Follow</Text>
+            </TouchableOpacity>
           </View>
           <FlatList
             numColumns={3}

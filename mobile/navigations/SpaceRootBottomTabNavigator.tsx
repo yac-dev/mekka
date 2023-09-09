@@ -75,10 +75,11 @@ const SpaceRootBottomTabNavigator = (props) => {
               borderTopWidth: 0,
               backgroundColor: 'rgb(40,40,40)',
               position: 'absolute',
-              bottom: 15,
+              bottom: 50,
               marginHorizontal: 100,
-              height: 40,
+              height: 60,
               borderRadius: 30,
+              marginVertical: 30,
               // Shadow...
               // shadowColor: '#000',
               // shadowOpacity: 0.06,
