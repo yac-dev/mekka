@@ -5,24 +5,25 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator();
 import ProfileHome from '../features/Profile/pages/Home';
 import { Ionicons } from '@expo/vector-icons';
+import WelcomePage from '../features/NotAuthenticated/pages/WelcomePage';
 
 const NonAuthNavigator = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
         // bottomSheetをやめた。
-        name='Profile'
-        component={ProfileHome}
+        name='Welcome'
+        component={WelcomePage}
         options={({ navigation }) => ({
           // headerShown: true,
           headerShown: false,
-          headerLeft: () => {
-            return (
-              <TouchableOpacity style={{ marginLeft: 10 }} onPress={() => navigation.navigate('About Lampost')}>
-                <Ionicons name='close' color='white' size={25} />
-              </TouchableOpacity>
-            );
-          },
+          // headerLeft: () => {
+          //   return (
+          //     <TouchableOpacity style={{ marginLeft: 10 }} onPress={() => navigation.navigate('About Lampost')}>
+          //       <Ionicons name='close' color='white' size={25} />
+          //     </TouchableOpacity>
+          //   );
+          // },
           // title: 'Mekka',
           // headerTintColor: 'red',
           // headerStyle: {

@@ -54,47 +54,44 @@ const Discover: React.FC<RouterProps> = (props) => {
         style={{
           flexDirection: 'row',
           alignItems: 'center',
-          justifyContent: 'space-between',
           paddingTop: 20,
           paddingBottom: 30,
           paddingLeft: 10,
           paddingRight: 10,
           borderBottomWidth: 0.3,
           borderBottomColor: 'rgb(170,170,170)',
+          width: '100%',
         }}
       >
+        <FastImage source={{ uri: space.icon }} style={{ width: 80, height: 80, borderRadius: 10, marginRight: 20 }} />
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <FastImage
-            source={{ uri: space.icon }}
-            style={{ width: 80, height: 80, borderRadius: 10, marginRight: 20 }}
-          />
-          <View style={{ flexDirection: 'column' }}>
-            <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 23, marginBottom: 5 }}>{space.name}</Text>
-            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-              <Text style={{ color: 'white' }}>Content</Text>
-              <Text style={{ color: 'white' }}>{space.contentType}</Text>
-            </View>
-            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-              <Text style={{ color: 'white' }}>Video length</Text>
-              <Text style={{ color: 'white' }}>{space.videoLength}</Text>
-            </View>
-            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-              <Text style={{ color: 'white' }}>Disappear</Text>
-              <Text style={{ color: 'white' }}>{space.disappearAfter}</Text>
-            </View>
-          </View>
+          <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 23, marginBottom: 5 }}>{space.name}</Text>
+          <TouchableOpacity
+            onPress={() =>
+              props.navigation.navigate('SpaceDetailStackNavigator', {
+                screen: 'SpaceDetail',
+                params: { spaceId: space._id },
+              })
+            }
+            style={{ padding: 10, backgroundColor: 'rgb(70,70,70)', borderRadius: 15, alignSelf: 'flex-end' }}
+          >
+            <Text style={{ color: 'white' }}>See detail</Text>
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity
-          onPress={() =>
-            props.navigation.navigate('SpaceDetailStackNavigator', {
-              screen: 'SpaceDetail',
-              params: { spaceId: space._id },
-            })
-          }
-          style={{ padding: 10, backgroundColor: 'rgb(70,70,70)', borderRadius: 15, alignSelf: 'flex-end' }}
-        >
-          <Text style={{ color: 'white' }}>See detail</Text>
-        </TouchableOpacity>
+        {/* <View style={{ flexDirection: 'column' }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+            <Text style={{ color: 'white' }}>Content</Text>
+            <Text style={{ color: 'white' }}>{space.contentType}</Text>
+          </View>
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+            <Text style={{ color: 'white' }}>Video length</Text>
+            <Text style={{ color: 'white' }}>{space.videoLength}</Text>
+          </View>
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+            <Text style={{ color: 'white' }}>Disappear</Text>
+            <Text style={{ color: 'white' }}>{space.disappearAfter}</Text>
+          </View>
+        </View> */}
       </View>
     );
   }, []);

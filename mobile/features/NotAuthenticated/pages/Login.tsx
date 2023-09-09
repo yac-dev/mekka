@@ -1,15 +1,14 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import { GlobalContext } from '../../../contexts/GlobalContext';
 import backendAPI from '../../../apis/backend';
 import * as SecureStore from 'expo-secure-store';
 
-const Login: React.FC = (props) => {
+const Login = (props) => {
   const { setAuthData, setIsAuthenticated } = useContext(GlobalContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  // done buttonをここでおく。
   const onDonePress = async () => {
     const payload = {
       email,
@@ -25,43 +24,23 @@ const Login: React.FC = (props) => {
     // ここで、secureeをさらにsetする感じか。
   };
 
-  useEffect(() => {
-    props.navigation?.setOptions({
-      headerRight: () => (
-        <TouchableOpacity onPress={() => onDonePress()} disabled={email.length && password.length ? false : true}>
-          <Text
-            style={{
-              color: email.length && password.length ? 'white' : 'rgb(117, 117, 117)',
-              fontSize: 20,
-              fontWeight: 'bold',
-            }}
-          >
-            Done
-          </Text>
-        </TouchableOpacity>
-      ),
-    });
-  }, [email, password]);
-
   return (
-    <View style={{ flex: 1, backgroundColor: 'rgb(35, 35, 35)', padding: 10 }}>
-      <Text style={{ color: 'white' }}>Email</Text>
+    <View style={{ flex: 1, paddingTop: 100, backgroundColor: 'black' }}>
       <TextInput
         placeholder='email'
-        placeholderTextColor={'yellow'}
         value={email}
-        style={{ borderRadius: 8, padding: 10, color: 'white' }}
+        style={{ backgroundColor: 'red', marginBottom: 20 }}
         onChangeText={(text) => setEmail(text)}
       />
-
-      <Text style={{ color: 'white' }}>Password</Text>
       <TextInput
         placeholder='password'
-        placeholderTextColor={'yellow'}
         value={password}
-        style={{ borderRadius: 8, padding: 10, color: 'white' }}
+        style={{ backgroundColor: 'red', marginBottom: 20 }}
         onChangeText={(text) => setPassword(text)}
       />
+      <TouchableOpacity onPress={() => onDonePress()}>
+        <Text style={{ color: 'red' }}>Done</Text>
+      </TouchableOpacity>
     </View>
   );
 };

@@ -23,6 +23,7 @@ type AuthDataType = {
 
 const App: React.FC = function () {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [isAuthDataFetched, setIsAuthDataFetched] = useState(false);
   const [authData, setAuthData] = useState<AuthDataType>({ _id: '', name: '', email: '', avatar: '' });
   const [isIpad, setIsIpad] = useState<boolean>(Platform.OS === 'ios' && Platform.isPad);
   const [loading, setLoading] = useState<boolean>(false);
@@ -39,6 +40,7 @@ const App: React.FC = function () {
       const result = await backendAPI.get('/auth/loadMe', { headers: { authorization: `Bearer ${jwt}` } });
       const { user } = result.data;
       setAuthData(user);
+      setIsAuthDataFetched(true);
       setIsAuthenticated(true);
     }
   };
@@ -74,6 +76,8 @@ const App: React.FC = function () {
         setLoading,
         snackBar,
         setSnackBar,
+        isAuthDataFetched,
+        setIsAuthDataFetched,
         spaceAndUserRelationships,
         setSpaceAndUserRelationships,
         haveSpaceAndUserRelationshipsBeenFetched,
@@ -109,6 +113,7 @@ const App: React.FC = function () {
           </Stack.Navigator>
         </NavigationContainer>
       </PaperProvider>
+      <LoadingSpinner />
     </GlobalContext.Provider>
   );
 };
