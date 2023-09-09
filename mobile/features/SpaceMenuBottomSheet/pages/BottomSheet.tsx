@@ -20,8 +20,9 @@ const SpaceMenuBottomSheet = (props) => {
     setCurrentSpace,
   } = useContext(GlobalContext);
   // const { navigation } = useContext(HomeStackNavContext);
-  console.log(currentSpaceAndUserRelationship);
-  if (currentSpaceAndUserRelationship) {
+
+  console.log(currentSpace);
+  if (currentSpaceAndUserRelationship && currentSpace) {
     return (
       <GorhomBottomSheet
         index={-1}

@@ -1,10 +1,22 @@
 import React, { useContext } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Share } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import { GlobalContext } from '../../../contexts/GlobalContext';
 
 const Header = () => {
-  const { currentSpaceAndUserRelationship } = useContext(GlobalContext);
+  const { currentSpaceAndUserRelationship, spaceMenuBottomSheetRef, currentSpace } = useContext(GlobalContext);
+
+  const onInvitePress = async () => {
+    // const snapshot = await mapRef.current.takeSnapshot({
+    //   format: 'png',
+    //   quality: 1,
+    //   result: 'file',
+    // });
+    spaceMenuBottomSheetRef?.current.close();
+    const result = await Share.share({
+      message: `Invite friend to Space.${'\n'}Download link: https://apps.apple.com/us/app/lampost/id1668526833${'\n'}And then enter the secret key to join this space.${'\n'}Secret key: kokokoko`,
+    });
+  };
 
   return (
     <View style={{ marginBottom: 20 }}>
@@ -35,14 +47,12 @@ const Header = () => {
               borderRadius: 20,
               marginRight: 15,
             }}
+            onPress={() => onInvitePress()}
           >
             <Text style={{ fontWeight: 'bold' }}>Invite</Text>
           </TouchableOpacity>
         </View>
-        <Text style={{ color: 'white' }}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-          magna aliqua. Ut enim ad minim veniam,
-        </Text>
+        <Text style={{ color: 'white' }}>{currentSpace.description}</Text>
       </View>
     </View>
   );
