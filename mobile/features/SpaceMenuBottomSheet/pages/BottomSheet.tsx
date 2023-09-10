@@ -11,7 +11,7 @@ import MediaStats from '../components/MediaStats';
 
 // rgb(35, 35, 35)
 const SpaceMenuBottomSheet = (props) => {
-  const snapPoints = useMemo(() => ['70%'], []);
+  const snapPoints = useMemo(() => ['80%'], []);
   const {
     spaceMenuBottomSheetRef,
     currentSpaceAndUserRelationship,
@@ -20,8 +20,6 @@ const SpaceMenuBottomSheet = (props) => {
     setCurrentSpace,
   } = useContext(GlobalContext);
   // const { navigation } = useContext(HomeStackNavContext);
-
-  console.log(currentSpace);
   if (currentSpaceAndUserRelationship && currentSpace) {
     return (
       <GorhomBottomSheet

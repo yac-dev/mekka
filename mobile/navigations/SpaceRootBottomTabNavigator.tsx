@@ -22,28 +22,10 @@ const Tab = createBottomTabNavigator();
 
 const SpaceRootBottomTabNavigator = (props) => {
   const { spaceAndUserRelationship } = useContext(SpaceRootContext);
-  const { isIpad, spaceMenuBottomSheetRef, currentSpace, setCurrentSpace } = useContext(GlobalContext);
+  const { isIpad, spaceMenuBottomSheetRef, currentSpace, setCurrentSpace, currentSpaceAndUserRelationship } =
+    useContext(GlobalContext);
   const [space, setSpace] = useState(null);
   const [hasSpaceBeenFetched, setHasSpaceBeenFetched] = useState(false);
-  // const {
-  //   isIpad,
-  //   spaceAndUserRelationships,
-  //   haveSpaceAndUserRelationshipsBeenFetched,
-  //   setCurrentSpaceAndUserRelationship,
-  //   spaceMenuBottomSheetRef,
-  // } = useContext(GlobalContext);
-
-  // const { spaceAndUserRelationship } = useContext(SpaceRootContext);
-
-  // const oneGridWidth = isIpad ? Dimensions.get('window').width / 6 : Dimensions.get('window').width / 4;
-  // const oneGridHeight = isIpad ? Dimensions.get('window').height / 7.5 : Dimensions.get('window').height / 6.5;
-  // // const spaceMenuBottomSheetRef = useRef(null);
-  // const iconWidth = oneGridWidth * 0.65;
-  // const [focusedTab, setFocusedTab] = useState(null);
-  // const [currentSpace, setCurrentSpace] = useState(null);
-  // const [posts, setPosts] = useState([]);
-  // const [havePostsBeenFetched, setHavePostsBeenFetched] = useState(false);
-  // const [isRefreshing, setIsRefreshing] = useState(false);
 
   const getSpaceById = async () => {
     setHasSpaceBeenFetched(false);
@@ -72,13 +54,16 @@ const SpaceRootBottomTabNavigator = (props) => {
           screenOptions={({ navigation }) => ({
             headerShown: false,
             tabBarStyle: {
-              borderTopWidth: 0,
               backgroundColor: 'rgb(40,40,40)',
+              marginHorizontal: 100,
+              borderRadius: 30,
+              // height: 40,
+              borderTopWidth: 0,
               position: 'absolute',
               bottom: 30,
-              marginHorizontal: 100,
-              height: 60,
-              borderRadius: 30,
+              justifyContent: 'center',
+              alignItems: 'center',
+              // height: 60,
 
               // Shadow...
               // shadowColor: '#000',
@@ -102,7 +87,7 @@ const SpaceRootBottomTabNavigator = (props) => {
             options={({ navigation }) => ({
               tabBarShowLabel: false,
               tabBarIcon: ({ size, color, focused }) => (
-                <Octicons name='hash' color={focused ? 'white' : 'rgb(100, 100, 100)'} size={23} />
+                <Octicons name='hash' color={focused ? 'white' : 'rgb(100, 100, 100)'} size={23} style={{}} />
               ),
             })}
           />
@@ -147,11 +132,19 @@ const SpaceRootBottomTabNavigator = (props) => {
         </Tab.Navigator>
         <TouchableOpacity
           onPress={() => {
-            props.navigation?.navigate({
-              name: 'CreateNewPost',
+            // props.navigation?.navigate({
+            //   name: 'CreateNewPost',
+            //   params: {
+            //     space: currentSpace,
+            //     spaceAndUserRelationship: currentSpaceAndUserRelationship,
+            //   }, // なんで、spaceUserRelが必要？？いらなくね。。。
+            //   merge: true,
+            // });
+            props.navigation?.navigate('CreateNewPostStackNavigator', {
+              screen: 'SelectPostType',
               params: {
                 space: currentSpace,
-                //  spaceAndUserRelationship: currentSpaceAndUserRelationship
+                spaceAndUserRelationship: currentSpaceAndUserRelationship,
               }, // なんで、spaceUserRelが必要？？いらなくね。。。
               merge: true,
             });

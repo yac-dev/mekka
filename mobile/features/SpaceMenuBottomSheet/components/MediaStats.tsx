@@ -39,7 +39,7 @@ const MediaStats = () => {
 
   return (
     <View style={{ padding: 10 }}>
-      <Text style={{ fontSize: 25, fontWeight: 'bold', marginBottom: 20, color: 'white' }}>Features</Text>
+      <Text style={{ fontSize: 25, fontWeight: 'bold', marginBottom: 20, color: 'white' }}>Space feature</Text>
       <ScrollView>
         <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
           <MaterialIcons name='photo-library' size={25} color='rgb(130,130,130)' style={{ marginRight: 15 }} />

@@ -15,7 +15,8 @@ import SpacesTopTabNavigator from './SpacesTopTabNavigator';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import CreateNewSpace from '../features/CreateNewSpace/pages/CreateNewSpace';
-import CreateNewPost from '../features/CreateNewPost/pages/Form';
+import CreateNewPostStackNavigator from './CreateNewPostStackNavigator';
+// import CreateNewPost from '../features/CreateNewPost/pages/Form';
 import SpaceMenuBottomSheet from '../features/SpaceMenuBottomSheet/pages/BottomSheet';
 import SpacesDrawerNavigator from './SpacesDrawerNavigator';
 import ViewPost from '../features/ViewPost/pages/ViewPost';
@@ -155,8 +156,8 @@ const HomeStackNavigator: React.FC = (props) => {
                 })}
               />
               <Stack.Screen
-                name='CreateNewPost'
-                component={CreateNewPost}
+                name='CreateNewPostStackNavigator'
+                component={CreateNewPostStackNavigator}
                 options={({ navigation }) => ({
                   headerShown: true, // ここtrueにすると、,,,
                   headerLeft: () => (

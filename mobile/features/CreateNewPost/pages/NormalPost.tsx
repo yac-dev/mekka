@@ -10,7 +10,7 @@ import { NavigationProp, ParamListBase, RouteProp } from '@react-navigation/nati
 import backendAPI from '../../../apis/backend';
 import LoadingSpinner from '../../../components/LoadingSpinner';
 
-const Form = (props) => {
+const NormalPost = (props) => {
   const { authData, setLoading, setSnackBar } = useContext(GlobalContext);
   const [formData, setFormData] = useState({
     contents: [],
@@ -54,7 +54,7 @@ const Form = (props) => {
   }, [formData, props.route?.params?.space]);
 
   const getTags = async () => {
-    const result = await backendAPI.get(`/spaces/${props.route.params.spaceAndUserRelationship.space._id}/tags`);
+    const result = await backendAPI.get(`/spaces/${props.route.params.space._id}/tags`);
     const { tags } = result.data;
     setTagOptions(() => {
       const table = {};
@@ -67,9 +67,7 @@ const Form = (props) => {
   };
 
   const getLocationTags = async () => {
-    const result = await backendAPI.get(
-      `/spaces/${props.route.params.spaceAndUserRelationship.space._id}/locationtags`
-    );
+    const result = await backendAPI.get(`/spaces/${props.route.params.space._id}/locationtags`);
     const { locationTags } = result.data;
     setLocationTagOptions(locationTags);
     // setLocationTagOptions(() => {
@@ -131,6 +129,7 @@ const Form = (props) => {
         duration: 7000,
       });
       //ここのcomponentは、photos. video or photoAndVideoどれかになる。
+      // なるほど、戻る時に必要になるのか。。。でもなーーーー。
       props.navigation.navigate({
         name: `Space_${props.route?.params?.spaceAndUserRelationship._id}`,
         params: { afterPosted: true }, // 作ったtagをSpaceRootに入れる。
@@ -184,4 +183,4 @@ const Form = (props) => {
   );
 };
 
-export default Form;
+export default NormalPost;
