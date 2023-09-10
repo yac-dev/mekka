@@ -21,7 +21,7 @@ const Tab = createBottomTabNavigator();
 // const Tab = createMaterialTopTabNavigator();
 
 const SpaceRootBottomTabNavigator = (props) => {
-  const { spaceAndUserRelationship, navigation } = useContext(SpaceRootContext);
+  const { spaceAndUserRelationship } = useContext(SpaceRootContext);
   const { isIpad, spaceMenuBottomSheetRef, currentSpace, setCurrentSpace } = useContext(GlobalContext);
   const [space, setSpace] = useState(null);
   const [hasSpaceBeenFetched, setHasSpaceBeenFetched] = useState(false);
@@ -75,11 +75,11 @@ const SpaceRootBottomTabNavigator = (props) => {
               borderTopWidth: 0,
               backgroundColor: 'rgb(40,40,40)',
               position: 'absolute',
-              bottom: 50,
+              bottom: 30,
               marginHorizontal: 100,
               height: 60,
               borderRadius: 30,
-              marginVertical: 30,
+
               // Shadow...
               // shadowColor: '#000',
               // shadowOpacity: 0.06,
@@ -130,17 +130,46 @@ const SpaceRootBottomTabNavigator = (props) => {
               ),
             })}
           />
+          <Tab.Screen
+            name='GhostsViewTopTabNavigator'
+            component={PeopleViewTopTabNavigator}
+            options={({ navigation }) => ({
+              tabBarShowLabel: false,
+              tabBarIcon: ({ size, color, focused }) => (
+                <FastImage
+                  source={require('../assets/forApp/ghost.png')}
+                  style={{ width: 25, height: 25 }}
+                  tintColor={focused ? 'white' : 'rgb(100, 100, 100)'}
+                />
+              ),
+            })}
+          />
         </Tab.Navigator>
-        {/* <TouchableOpacity
+        <TouchableOpacity
           onPress={() => {
-            spaceMenuBottomSheetRef.current.snapToIndex(0);
+            props.navigation?.navigate({
+              name: 'CreateNewPost',
+              params: {
+                space: currentSpace,
+                //  spaceAndUserRelationship: currentSpaceAndUserRelationship
+              }, // なんで、spaceUserRelが必要？？いらなくね。。。
+              merge: true,
+            });
+          }}
+          style={{
+            backgroundColor: 'white',
+            width: 40,
+            height: 40,
+            borderRadius: 20,
+            position: 'absolute',
+            bottom: 40,
+            right: 20,
+            justifyContent: 'center',
+            alignItems: 'center',
           }}
         >
-          <FastImage
-            source={{ uri: props.spaceAndUserRelationship.space.icon }}
-            style={{ width: 45, height: 45, borderRadius: 8, position: 'absolute', bottom: 15, right: 20 }}
-          />
-        </TouchableOpacity> */}
+          <MaterialCommunityIcons name='plus' color='black' size={25} />
+        </TouchableOpacity>
       </View>
     </SpaceRootContext.Provider>
   );

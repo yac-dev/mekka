@@ -12,7 +12,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 const LocationsView = (props) => {
   const { isIpad } = useContext(GlobalContext);
   const oneAssetWidth = isIpad ? Dimensions.get('window').width / 6 : Dimensions.get('window').width / 3;
-  const snapPoints = useMemo(() => ['60%', '80%'], []);
+  const snapPoints = useMemo(() => ['20%', '60%', '80%'], []);
   const locationsViewPostsBottomSheetRef = useRef(null);
   const { height, width } = Dimensions.get('window');
   const LATITUDE = props.locationTag.point.coordinates[1]; // これ、bottom sheetでかくれないようにしなきゃ。
@@ -61,7 +61,7 @@ const LocationsView = (props) => {
   const renderPosts = () => {
     return (
       <GorhomBottomSheet
-        index={0}
+        index={1}
         enableOverDrag={true}
         ref={locationsViewPostsBottomSheetRef}
         snapPoints={snapPoints}
@@ -154,18 +154,6 @@ const LocationsView = (props) => {
         }}
         // mapType={'satellite'}
       >
-        {/* <View style={{ position: 'absolute', top: 80 }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', padding: 10 }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <FastImage
-                source={{ uri: props.locationTag.icon }}
-                style={{ width: 50, height: 50, marginRight: 15, borderRadius: 10 }}
-              />
-              <Text style={{ color: 'white' }}>{props.locationTag.name}</Text>
-            </View>
-          </View>
-        </View> */}
-        {/* {renderPostThumbnailMarkers()} */}
         <Marker
           tracksViewChanges={false}
           coordinate={{
@@ -178,7 +166,10 @@ const LocationsView = (props) => {
           //   props.navigation.navigate('ViewPost', { post });
           // }}
         >
-          <TouchableOpacity style={{ width: 45, height: 45 }}>
+          <TouchableOpacity
+            style={{ width: 45, height: 45 }}
+            onPress={() => locationsViewPostsBottomSheetRef.current.snapToIndex(1)}
+          >
             <FastImage
               // onLoad={() => setInitialRender(false)}
               style={{

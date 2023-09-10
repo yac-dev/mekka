@@ -284,7 +284,7 @@ const SpacesDrawerNavigator = (props) => {
           })}
         >
           {({ navigation, route }) => (
-            <SpaceRootBottomTabNavigator spaceAndUserRelationship={spaceAndUserRelationship} />
+            <SpaceRootBottomTabNavigator spaceAndUserRelationship={spaceAndUserRelationship} navigation={navigation} />
           )}
         </Drawer.Screen>
       ))}
