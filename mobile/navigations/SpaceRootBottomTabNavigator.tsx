@@ -56,22 +56,23 @@ const SpaceRootBottomTabNavigator = (props) => {
             tabBarStyle: {
               backgroundColor: 'rgb(40,40,40)',
               marginHorizontal: 100,
+              paddingBottom: 0, // きたー。これよ。これ。
               borderRadius: 30,
-              // height: 40,
+              height: 40,
               borderTopWidth: 0,
               position: 'absolute',
-              bottom: 30,
+              bottom: 50,
               justifyContent: 'center',
               alignItems: 'center',
               // height: 60,
 
               // Shadow...
-              // shadowColor: '#000',
-              // shadowOpacity: 0.06,
-              // shadowOffset: {
-              //   width: 10,
-              //   height: 10,
-              // },
+              shadowColor: '#000',
+              shadowOpacity: 0.26,
+              shadowOffset: {
+                width: 10,
+                height: 10,
+              },
             },
           })}
           // tabBar={(props) => <CustomTabBar {...props} />}
@@ -155,7 +156,7 @@ const SpaceRootBottomTabNavigator = (props) => {
             height: 40,
             borderRadius: 20,
             position: 'absolute',
-            bottom: 40,
+            bottom: 50,
             right: 20,
             justifyContent: 'center',
             alignItems: 'center',

@@ -15,35 +15,38 @@ const CreateNewPostStackNavigator = () => {
         name='SelectPostType'
         component={SelectPostType}
         options={({ navigation }) => ({
-          // headerShown: true,
-          headerShown: false,
-          // title: 'Mekka',
-          // headerTintColor: 'red',
-          // headerStyle: {
-          //   backgroundColor: 'black',
-          //   borderBottomWidth: 0,
-          // },
-          // tabBarLabel: 'Home',
-          // tabBarStyle: {
-          //   backgroundColor: 'black',
-          //   borderTopWidth: 0,
-          // },
+          headerShown: true, // ここtrueにすると、,,,
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Ionicons name='close-circle-sharp' size={30} color={'white'} />
+            </TouchableOpacity>
+          ),
+          headerTitle: '',
+          headerStyle: {
+            backgroundColor: 'black',
+          },
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            color: 'white',
+          },
         })}
       />
       <Stack.Screen
         name='NormalPost'
         component={NormalPost}
         options={({ navigation }) => ({
-          // headerShown: true,
-          headerShown: false,
-          // headerLeft: () => {
-          //   return (
-          //     <TouchableOpacity style={{ marginLeft: 10 }} onPress={() => navigation.navigate('About Lampost')}>
-          //       <Ionicons name='close' color='white' size={25} />
-          //     </TouchableOpacity>
-          //   );
-          // },
-          // title: 'Mekka',
+          headerShown: true,
+          headerLeft: () => {
+            return (
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <Ionicons name='arrow-back-circle-sharp' size={30} color={'white'} />
+              </TouchableOpacity>
+            );
+          },
+          title: '',
+          headerStyle: {
+            backgroundColor: 'black',
+          },
           // headerTintColor: 'red',
           // headerStyle: {
           //   backgroundColor: 'black',
