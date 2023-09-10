@@ -62,10 +62,10 @@ const SelectPostType = (props) => {
           }}
           onPress={() =>
             props.navigation?.navigate({
-              name: 'NormalPost',
+              name: 'MomentoPost',
               params: {
-                space: props.currentSpace,
-                spaceAndUserRelationship: props.currentSpaceAndUserRelationship,
+                space: props.route?.params?.space,
+                spaceAndUserRelationship: props.route?.params?.spaceAndUserRelationship,
               }, // なんで、spaceUserRelが必要？？いらなくね。。。
               merge: true,
             })

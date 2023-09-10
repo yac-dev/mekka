@@ -4,19 +4,19 @@ const postSchema = mongoose.Schema({
   contents: [{ type: mongoose.Schema.ObjectId, ref: 'Content' }],
   caption: String,
   locationTag: { type: mongoose.Schema.ObjectId, ref: 'LocationTag' }, // これは一つのみ。
-  location: {
-    type: {
-      type: String,
-      enum: ['Point'],
-      default: 'Point',
-    },
-    coordinates: [Number],
-  },
   space: { type: mongoose.Schema.ObjectId, ref: 'Space' },
-  // tags: [{ type: mongoose.Schema.ObjectId, ref: 'Tag' }],
   createdBy: { type: mongoose.Schema.ObjectId, ref: 'User' },
-  disappearAt: Date, // もしくはnull
   createdAt: Date,
+  // disappearAt: Date, // もしくはnull
+  // location: {
+  //   type: {
+  //     type: String,
+  //     enum: ['Point'],
+  //     default: 'Point',
+  //   },
+  //   coordinates: [Number],
+  // },
+  // tags: [{ type: mongoose.Schema.ObjectId, ref: 'Tag' }],
 });
 
 const Post = mongoose.model('Post', postSchema);

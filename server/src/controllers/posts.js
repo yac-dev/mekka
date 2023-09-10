@@ -20,19 +20,19 @@ export const createPost = async (request, response) => {
     const {
       caption,
       createdBy,
-      location,
+      // location,
       spaceId,
       reactions,
       addedTags,
       createdTags,
-      disappearAfter,
+      // disappearAfter,
       createdLocationTag,
       addedLocationTag,
     } = request.body;
-    console.log(disappearAfter);
-    const disappearAt = new Date(new Date().getTime() + Number(disappearAfter) * 60 * 1000);
+
+    // const disappearAt = new Date(new Date().getTime() + Number(disappearAfter) * 60 * 1000);
     // 現在の時間にdissaperAfter(minute)を足した日時を出す。
-    const parsedLocation = JSON.parse(location);
+    // const parsedLocation = JSON.parse(location);
     const parsedReactions = JSON.parse(reactions);
     const parsedTags = JSON.parse(addedTags);
     const parsedCreatedTags = JSON.parse(createdTags);
@@ -41,6 +41,7 @@ export const createPost = async (request, response) => {
     const createdAt = new Date();
     const contentIds = [];
     const contents = [];
+    const parsedCreatedLocationTag = JSON.parse(createdLocationTag);
 
     // 1 contentsを作る。
     // batch creation
@@ -92,10 +93,10 @@ export const createPost = async (request, response) => {
         [
           {
             _id: locationTagId,
-            name: createdLocationTag,
+            name: parsedCreatedLocationTag.name,
             icon: `https://mekka-${process.env.NODE_ENV}.s3.us-east-2.amazonaws.com/locationTagIcons/map-pin.png`,
             space: spaceId,
-            point: parsedLocation,
+            point: parsedCreatedLocationTag.point,
           },
         ],
         { session }
@@ -109,9 +110,9 @@ export const createPost = async (request, response) => {
           contents: contentIds,
           caption,
           space: spaceId,
-          location: parsedLocation,
+          // location: parsedLocation,
           locationTag: createdLocationTag ? locationTagId : addedLocationTag,
-          disappearAt,
+          // disappearAt,
           createdBy,
           createdAt,
         },
