@@ -14,6 +14,7 @@ const locationTagSchema = mongoose.Schema({
     },
     coordinates: [Number],
   },
+  // だから、それぞれのpostがlocationを持っておく必要はなくなるな。
   // lastUpdatedを持っておけばいいのかもしれないが、、、さらに数を出したいとなると、、、、
   space: {
     type: mongoose.Schema.ObjectId,

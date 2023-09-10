@@ -114,7 +114,13 @@ const LocationsViewTopTabNavigator = () => {
               // options={{ title: tagObject.tag.name }} // Set the tab title to the space name
               initialParams={{ locationTag }}
             >
-              {({ navigation, route }) => <LocationsView navigation={navigation} locationTag={locationTag} />}
+              {({ navigation, route }) => (
+                <LocationsView
+                  navigation={navigation}
+                  locationTag={locationTag}
+                  selectedLocationTag={selectedLocationTag}
+                />
+              )}
             </Tab.Screen>
           ))}
         </Tab.Navigator>

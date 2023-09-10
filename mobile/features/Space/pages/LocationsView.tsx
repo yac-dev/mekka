@@ -1,13 +1,21 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, TouchableOpacity, Dimensions } from 'react-native';
+import React, { useState, useEffect, useContext, useMemo, useRef, useCallback } from 'react';
+import { View, Text, TouchableOpacity, Dimensions, ActivityIndicator, FlatList } from 'react-native';
 import FastImage from 'react-native-fast-image';
-import MapView, { Marker } from 'react-native-maps';
+import { Video } from 'expo-av';
 import backendAPI from '../../../apis/backend';
 import { SpaceRootContext } from '../contexts/SpaceRootContext';
+import GorhomBottomSheet, { BottomSheetView, BottomSheetBackdrop } from '@gorhom/bottom-sheet';
+import MapView, { Marker } from 'react-native-maps';
+import { GlobalContext } from '../../../contexts/GlobalContext';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const LocationsView = (props) => {
+  const { isIpad } = useContext(GlobalContext);
+  const oneAssetWidth = isIpad ? Dimensions.get('window').width / 6 : Dimensions.get('window').width / 3;
+  const snapPoints = useMemo(() => ['60%', '80%'], []);
+  const locationsViewPostsBottomSheetRef = useRef(null);
   const { height, width } = Dimensions.get('window');
-  const LATITUDE = props.locationTag.point.coordinates[1];
+  const LATITUDE = props.locationTag.point.coordinates[1]; // これ、bottom sheetでかくれないようにしなきゃ。
   const LONGITUDE = props.locationTag.point.coordinates[0];
   const LATITUDE_DELTA = 100; // zoom levelを後でやろうか。。。
   const LONGITUDE_DELTA = LATITUDE_DELTA * (width / height);
@@ -28,45 +36,103 @@ const LocationsView = (props) => {
     getPostsByLocationTagId();
   }, []);
 
-  const renderPostThumbnailMarkers = () => {
-    if (posts.length) {
-      const list = posts.map((post, index) => {
-        return (
-          <Marker
-            key={`${index}`}
-            tracksViewChanges={false}
-            coordinate={{ latitude: post.location.coordinates[1], longitude: post.location.coordinates[0] }}
-            pinColor='black'
-            onPress={() => {
-              // getSelectedMeetup(meetup._id);
-              props.navigation.navigate('ViewPost', { post });
+  const renderItem = useCallback((post) => {
+    if (post.content.type === 'video') {
+      return (
+        <TouchableOpacity
+          style={{ width: oneAssetWidth, height: oneAssetWidth, padding: 2 }}
+          onPress={() => props.navigation.navigate({ name: 'ViewPost', params: { post } })}
+        >
+          <Video source={{ uri: post.content.data }} style={{ width: '100%', height: '100%', borderRadius: 5 }} />;
+        </TouchableOpacity>
+      );
+    } else {
+      return (
+        <TouchableOpacity
+          style={{ width: oneAssetWidth, height: oneAssetWidth, padding: 2 }}
+          onPress={() => props.navigation.navigate({ name: 'ViewPost', params: { post } })}
+        >
+          <FastImage source={{ uri: post.content.data }} style={{ width: '100%', height: '100%', borderRadius: 5 }} />
+        </TouchableOpacity>
+      );
+    }
+  }, []);
+
+  const renderPosts = () => {
+    return (
+      <GorhomBottomSheet
+        index={0}
+        enableOverDrag={true}
+        ref={locationsViewPostsBottomSheetRef}
+        snapPoints={snapPoints}
+        // backdropComponent={(backdropProps) => (
+        //   <BottomSheetBackdrop {...backdropProps} appearsOnIndex={0} disappearsOnIndex={-1} />
+        // )}
+        enablePanDownToClose={true}
+        backgroundStyle={{ backgroundColor: 'rgb(40, 40, 40)' }}
+        handleIndicatorStyle={{ backgroundColor: 'white' }}
+        // onClose={() => onSelectedItemBottomSheetClose()}
+      >
+        <BottomSheetView style={{ flex: 1 }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              paddingLeft: 20,
+              paddingRight: 20,
+              paddingTop: 30,
+              paddingBottom: 30,
             }}
           >
-            <TouchableOpacity style={{ width: 45, height: 45 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <FastImage
-                // onLoad={() => setInitialRender(false)}
-                style={{
-                  width: '100%',
-                  height: '100%',
-                }}
-                source={{
-                  uri: post.content.data,
-                  priority: FastImage.priority.normal,
-                }}
-                resizeMode={FastImage.resizeMode.contain}
+                source={{ uri: props.locationTag.icon }}
+                style={{ width: 50, height: 50, marginRight: 15, borderRadius: 10 }}
+                // tintColor={'white'}
               />
+              <View style={{ flexDirection: 'column' }}>
+                <Text style={{ color: 'white', fontSize: 20, marginBottom: 5, fontWeight: 'bold' }}>
+                  {props.locationTag.name}
+                </Text>
+                <Text style={{ color: 'rgb(170,170,170)' }}>{props.locationTag.count}posts</Text>
+              </View>
+            </View>
+            <TouchableOpacity
+              style={{
+                paddingLeft: 20,
+                paddingRight: 20,
+                paddingTop: 10,
+                paddingBottom: 10,
+                backgroundColor: 'white',
+                borderRadius: 20,
+              }}
+            >
+              <Text style={{ fontWeight: 'bold' }}>Edit</Text>
             </TouchableOpacity>
-          </Marker>
-        );
-      });
-      return <>{list}</>;
-    } else {
-      return null;
-    }
+          </View>
+          {havePostsBeenFetched ? (
+            <FlatList
+              numColumns={3}
+              data={posts}
+              renderItem={({ item }) => renderItem(item)}
+              keyExtractor={(item) => item._id}
+              // refreshControl={
+              //   <RefreshControl colors={['#FF0000', '#00FF00']} refreshing={isRefreshing} onRefresh={() => onRefresh()} />
+              // }
+            />
+          ) : (
+            <ActivityIndicator />
+          )}
+        </BottomSheetView>
+      </GorhomBottomSheet>
+    );
   };
 
+  // selectedLocationTag
+
   return (
-    <View style={{ flex: 1, backgroundColor: 'black' }}>
+    <GestureHandlerRootView style={{ flex: 1, backgroundColor: 'black' }}>
       <MapView
         // ref={mapRef}
         style={{ width: Dimensions.get('window').width, height: Dimensions.get('window').height }}
@@ -86,7 +152,7 @@ const LocationsView = (props) => {
           latitudeDelta: LATITUDE_DELTA,
           longitudeDelta: LONGITUDE_DELTA,
         }}
-        mapType={'satellite'}
+        // mapType={'satellite'}
       >
         {/* <View style={{ position: 'absolute', top: 80 }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', padding: 10 }}>
@@ -99,9 +165,38 @@ const LocationsView = (props) => {
             </View>
           </View>
         </View> */}
-        {renderPostThumbnailMarkers()}
+        {/* {renderPostThumbnailMarkers()} */}
+        <Marker
+          tracksViewChanges={false}
+          coordinate={{
+            latitude: props.selectedLocationTag.point.coordinates[1],
+            longitude: props.selectedLocationTag.point.coordinates[0],
+          }}
+          pinColor='black'
+          // onPress={() => {
+          //   // getSelectedMeetup(meetup._id);
+          //   props.navigation.navigate('ViewPost', { post });
+          // }}
+        >
+          <TouchableOpacity style={{ width: 45, height: 45 }}>
+            <FastImage
+              // onLoad={() => setInitialRender(false)}
+              style={{
+                width: '100%',
+                height: '100%',
+                borderRadius: 10,
+              }}
+              source={{
+                uri: props.selectedLocationTag.icon,
+                priority: FastImage.priority.normal,
+              }}
+              resizeMode={FastImage.resizeMode.contain}
+            />
+          </TouchableOpacity>
+        </Marker>
       </MapView>
-    </View>
+      {renderPosts()}
+    </GestureHandlerRootView>
   );
 };
 
