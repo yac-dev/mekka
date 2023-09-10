@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useRef } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import { CreateNewPostContext } from '../contexts/CreateNewPostContext';
 import { Entypo } from '@expo/vector-icons';
@@ -13,8 +13,7 @@ const AddLocation = () => {
   const { navigation, route, setFormData, formData, locationTagOptions, setLocationTagOptions } =
     useContext(CreateNewPostContext);
   const [accordion, setAccordion] = useState(false);
-
-  // locationTagのoptionも取ってきて出してあげる。
+  const mapRef = useRef(null);
 
   useEffect(() => {
     if (route?.params?.selectedLocation) {
@@ -38,6 +37,28 @@ const AddLocation = () => {
     }
   }, [route?.params?.createdLocationTag]);
   // setLocationTagOptions
+
+  useEffect(() => {
+    if (formData.addedLocationTag) {
+      const newLat = formData.addedLocationTag.point.coordinates[1] - 0.0065;
+      mapRef.current.animateToRegion({
+        latitude: newLat,
+        longitude: formData.addedLocationTag.point.coordinates[0],
+        latitudeDelta: 0.0322,
+        longitudeDelta: 0.0221,
+      });
+    } else if (formData.createdLocationTag) {
+      const newLat = formData.createdLocationTag.point.coordinates[1] - 0.0065;
+      mapRef.current.animateToRegion({
+        latitude: newLat,
+        longitude: formData.createdLocationTag.point.coordinates[0],
+        latitudeDelta: 0.0322,
+        longitudeDelta: 0.0221,
+      });
+    }
+  }, [formData.addedLocationTag, formData.createdLocationTag]);
+
+  // formData.createdLocationTag dependencyにcreatedTagも入れる。
 
   // {formData.createdLocationTag.name ? (
   //   <TouchableOpacity
@@ -152,17 +173,17 @@ const AddLocation = () => {
           }}
         >
           <FastImage
-            source={{ uri: 'https://mekka-dev.s3.us-east-2.amazonaws.com/locationTagIcons/map-pin.png' }}
+            source={{ uri: formData.createdLocationTag.icon }}
             style={{ width: 30, height: 30, marginRight: 10, borderRadius: 8 }}
             tintColor={'white'}
           />
-          <Text style={{ color: 'white', marginRight: 10 }}>{formData.createdLocationTag}</Text>
+          <Text style={{ color: 'white', marginRight: 10 }}>{formData.createdLocationTag.name}</Text>
           <TouchableOpacity
             onPress={() => {
               setFormData((previous) => {
                 return {
                   ...previous,
-                  createdLocationTag: '',
+                  createdLocationTag: null,
                 };
               });
             }}
@@ -309,60 +330,70 @@ const AddLocation = () => {
       </TouchableOpacity>
       {accordion ? (
         <View style={{ marginTop: 20 }}>
-          <Text style={{ marginBottom: 20, color: 'white' }}>Where did you take that moment?</Text>
+          <Text style={{ marginBottom: 20, color: 'white' }}>Where did you take that?</Text>
+          {renderAddedLocationTag()}
+          {renderCreatedLocationTag()}
+          {renderLocationTagOptions()}
+
+          <MapView
+            ref={mapRef}
+            style={{ width: '100%', height: 300, marginBottom: 20 }}
+            // 今の自分の場所
+            initialRegion={{
+              latitude: 37.78825,
+              longitude: -122.4324,
+              latitudeDelta: 0.0922,
+              longitudeDelta: 0.0421,
+            }}
+            showsCompass={true}
+            scrollEnabled={true}
+            zoomEnabled={true}
+            // provider='google'
+            pitchEnabled={false}
+          >
+            <TouchableOpacity onPress={() => navigation?.navigate('LocationPicker')}></TouchableOpacity>
+            {formData.addedLocationTag ? (
+              <Marker
+                tracksViewChanges={false}
+                coordinate={{
+                  latitude: formData.addedLocationTag.point.coordinates[1],
+                  longitude: formData.addedLocationTag.point.coordinates[0],
+                }}
+              >
+                <FastImage
+                  source={{ uri: formData.addedLocationTag.icon }}
+                  style={{ width: 40, height: 40, borderRadius: 10 }}
+                />
+              </Marker>
+            ) : null}
+            {formData.createdLocationTag ? (
+              <Marker
+                tracksViewChanges={false}
+                coordinate={{
+                  latitude: formData.createdLocationTag.point.coordinates[1],
+                  longitude: formData.createdLocationTag.point.coordinates[0],
+                }}
+              >
+                <FastImage
+                  source={{ uri: formData.createdLocationTag.icon }}
+                  style={{ width: 40, height: 40, borderRadius: 10 }}
+                />
+              </Marker>
+            ) : null}
+          </MapView>
+
           {formData.location.coordinates.length ? (
             <>
-              <MapView
-                style={{ width: '100%', height: 200, marginBottom: 20 }}
-                // 今の自分の場所
-                initialRegion={{
-                  latitude: formData.location.coordinates[1],
-                  longitude: formData.location.coordinates[0],
-                  latitudeDelta: 0.0922,
-                  longitudeDelta: 0.0421,
-                }}
-                // provider='google'
-                pitchEnabled={false}
-              >
-                <TouchableOpacity onPress={() => navigation?.navigate('LocationPicker')}></TouchableOpacity>
-                <Marker
-                  tracksViewChanges={false}
-                  coordinate={{
-                    latitude: formData.location.coordinates[1],
-                    longitude: formData.location.coordinates[0],
-                  }}
-                ></Marker>
-              </MapView>
               <Text style={{ color: 'white', marginBottom: 20 }}>Please add a location title down below.</Text>
               {!formData.addedLocationTag && !formData.createdLocationTag ? (
                 <Text style={{ color: 'white', textAlign: 'center', marginBottom: 20 }}>
                   There is no location title selected yet...
                 </Text>
               ) : null}
-              {renderAddedLocationTag()}
+
               {renderCreatedLocationTag()}
-              {renderLocationTagOptions()}
             </>
           ) : null}
-          {formData.location.coordinates.length ? null : (
-            <View style={{ width: '100%', padding: 5 }}>
-              <TouchableOpacity
-                style={{
-                  padding: 10,
-                  backgroundColor: 'rgb(88,88,88)',
-                  borderRadius: 8,
-                  marginBottom: 20,
-                }}
-                // これで、locationをaddする。地図が必要だ。そのために。
-                onPress={() => navigation?.navigate('LocationPicker')}
-              >
-                <View style={{ flexDirection: 'row', alignItems: 'center', alignSelf: 'center' }}>
-                  <MaterialCommunityIcons name='map-marker' size={20} color='white' style={{ marginRight: 10 }} />
-                  <Text style={{ color: 'white', fontWeight: 'bold' }}>Add a location</Text>
-                </View>
-              </TouchableOpacity>
-            </View>
-          )}
         </View>
       ) : null}
     </View>

@@ -37,8 +37,8 @@ const SelectPostType = (props) => {
             props.navigation?.navigate({
               name: 'NormalPost',
               params: {
-                space: props.currentSpace,
-                spaceAndUserRelationship: props.currentSpaceAndUserRelationship,
+                space: props.route?.params?.space,
+                spaceAndUserRelationship: props.route?.params?.spaceAndUserRelationship,
               }, // なんで、spaceUserRelが必要？？いらなくね。。。
               merge: true,
             })

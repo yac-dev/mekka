@@ -19,7 +19,7 @@ const NormalPost = (props) => {
     addedTags: {},
     createdTags: [],
     addedLocationTag: null,
-    createdLocationTag: '',
+    createdLocationTag: null,
   });
   // const [createdTags, setCreatedTags] = useState([]);
   const [tagOptions, setTagOptions] = useState({});

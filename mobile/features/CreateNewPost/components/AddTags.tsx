@@ -228,12 +228,12 @@ const AddTags = () => {
               height: 40,
               justifyContent: 'center',
               alignItems: 'center',
-              backgroundColor: iconParameterBackgroundColorTable['gray1'],
+              backgroundColor: iconParameterBackgroundColorTable['orange1'],
               marginRight: 15,
               borderRadius: 11,
             }}
           >
-            <Feather name='hash' color={'rgba(155, 155, 155, 0.85)'} size={20} />
+            <Feather name='hash' color={iconColorTable['orange1']} size={20} />
           </View>
           <Text style={{ color: 'white', fontSize: 18, fontWeight: 'bold' }}>Tags</Text>
         </View>
