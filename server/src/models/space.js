@@ -6,6 +6,7 @@ import mongoose from 'mongoose';
 const spaceSchema = mongoose.Schema({
   name: String,
   icon: String, // s3のlink
+  secretKey: String,
   contentType: {
     type: String,
     enum: ['photo', 'video', 'photoAndVideo'],

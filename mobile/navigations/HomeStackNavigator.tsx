@@ -19,6 +19,8 @@ import CreateNewSpace from '../features/CreateNewSpace/pages/CreateNewSpace';
 import WriteDescription from '../features/CreateNewSpace/pages/WriteDescription';
 import EmojiPicker from '../features/CreateNewSpace/pages/EmojiPicker';
 
+// secret key
+import SecretKeyForm from '../features/SecretKey/pages/Form';
 // create post
 import CreateNewPostStackNavigator from './CreateNewPostStackNavigator';
 // import CreateNewPost from '../features/CreateNewPost/pages/Form';
@@ -147,6 +149,26 @@ const HomeStackNavigator: React.FC = (props) => {
               <Stack.Screen
                 name='CreateNewSpace'
                 component={CreateNewSpace}
+                options={({ navigation }) => ({
+                  headerShown: true,
+                  headerLeft: () => (
+                    <TouchableOpacity onPress={() => navigation.goBack()}>
+                      <Ionicons name='close-circle-sharp' size={30} color={'white'} />
+                    </TouchableOpacity>
+                  ),
+                  headerTitle: '',
+                  headerStyle: {
+                    backgroundColor: primaryBackgroundColor,
+                  },
+                  headerTitleStyle: {
+                    fontWeight: 'bold',
+                    color: primaryTextColor,
+                  },
+                })}
+              />
+              <Stack.Screen
+                name='SecretKeyForm'
+                component={SecretKeyForm}
                 options={({ navigation }) => ({
                   headerShown: true,
                   headerLeft: () => (

@@ -9,6 +9,18 @@ import SpaceAndTagAndPostRelationship from '../models/spaceAndTagAndPostRelation
 import LocationTag from '../models/locationTag';
 
 // space, reactions, spaceAndUserRel, tagを作る。ここのhandlerで。
+function generateRandomString(length) {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  let randomString = '';
+
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    randomString += characters.charAt(randomIndex);
+  }
+
+  return randomString;
+}
+
 export const createSpace = async (request, response) => {
   try {
     const {
@@ -25,11 +37,13 @@ export const createSpace = async (request, response) => {
     } = request.body;
     console.log(request.body);
 
+    const randomString = generateRandomString(20);
     const space = new Space({
       name,
       icon: `https://mekka-${process.env.NODE_ENV}.s3.us-east-2.amazonaws.com/icons/${request.file.filename}`,
       contentType,
       description,
+      secretKey: randomString,
       isPublic: Boolean(isPublic),
       isCommentAvailable: Boolean(isCommentAvailable),
       isReactionAvailable: Boolean(isReactionAvailable),

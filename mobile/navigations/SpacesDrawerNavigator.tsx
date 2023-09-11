@@ -106,9 +106,8 @@ const SpacesDrawerNavigator = (props) => {
           <TouchableOpacity
             style={{ flexDirection: 'column', alignItems: 'center', padding: 10, justifyContent: 'center' }}
             onPress={() => {
-              // navigation.navigate('Discover');
-              // navigation.closeDrawer();
-              console.log('enter key');
+              navigation.navigate('SecretKeyForm');
+              navigation.closeDrawer();
             }}
           >
             <View
