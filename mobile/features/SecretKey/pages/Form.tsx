@@ -1,7 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { GlobalContext } from '../../../contexts/GlobalContext';
+import backendAPI from '../../../apis/backend';
+import LoadingSpinner from '../../../components/LoadingSpinner';
 
 const Form = (props) => {
+  const { authData, setSpaceAndUserRelationships, setLoading, setSnackBar } = useContext(GlobalContext);
   const [secretKey, setSecretKey] = useState('');
 
   useEffect(() => {
@@ -25,8 +29,18 @@ const Form = (props) => {
     });
   }, [secretKey]);
 
-  const onDonePress = () => {
-    console.log(secretKey);
+  const onDonePress = async () => {
+    const payload = {
+      userId: authData._id,
+      secretKey,
+    };
+    setLoading(true);
+    const result = await backendAPI.post('/spaces/private', payload);
+    const { spaceAndUserRelationship } = result.data;
+    setSpaceAndUserRelationships((previous) => [...previous, spaceAndUserRelationship]);
+    setLoading(false);
+    setSnackBar({ isVisible: true, message: 'Joined private space successfully.', barType: 'success', duration: 5000 });
+    props.navigation?.navigate('SpacesDrawerNavigator');
   };
 
   return (
@@ -61,6 +75,7 @@ const Form = (props) => {
         value={secretKey}
         onChangeText={(text) => setSecretKey(text)}
       />
+      <LoadingSpinner />
     </View>
   );
 };
