@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, SafeAreaView } from 'react-native';
 import FastImage from 'react-native-fast-image';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 
 const WelcomePage = (props) => {
   return (
@@ -35,14 +37,20 @@ const WelcomePage = (props) => {
           paddingBottom: 20,
           backgroundColor: 'rgb(80,80,80)',
           borderRadius: 10,
-
           marginBottom: 30,
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
         }}
       >
-        <Text style={{ color: 'white', fontSize: 17, fontWeight: 'bold' }}>Login</Text>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <MaterialCommunityIcons name='login' color='white' size={25} style={{ marginRight: 20 }} />
+          <Text style={{ color: 'white', fontSize: 17, fontWeight: 'bold' }}>Login</Text>
+        </View>
+        <MaterialCommunityIcons name='chevron-right' size={25} color='white' />
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={() => props.navigation.navigate('Login')}
+        onPress={() => props.navigation.navigate('Signup')}
         style={{
           paddingLeft: 10,
           paddingRight: 20,
@@ -50,9 +58,16 @@ const WelcomePage = (props) => {
           borderRadius: 10,
           paddingTop: 20,
           paddingBottom: 20,
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
         }}
       >
-        <Text style={{ color: 'white', fontSize: 17, fontWeight: 'bold' }}>Signup</Text>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Ionicons name='create' color='white' size={25} style={{ marginRight: 20 }} />
+          <Text style={{ color: 'white', fontSize: 17, fontWeight: 'bold' }}>Signup</Text>
+        </View>
+        <MaterialCommunityIcons name='chevron-right' size={25} color='white' />
       </TouchableOpacity>
     </SafeAreaView>
   );

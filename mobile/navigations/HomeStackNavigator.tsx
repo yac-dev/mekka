@@ -6,7 +6,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator();
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import Home from '../features/Home/pages/Home';
-import Signup from '../features/Home/pages/Signup';
+// import Signup from '../features/Home/pages/Signup';
 import CreatePost from '../features/Space/pages/CreatePost';
 // import SpaceRootStackNavigator from './SpaceRootStackNavigator';
 import { primaryBackgroundColor } from '../themes/color';
@@ -30,6 +30,7 @@ import Report from '../features/Report/pages/Report';
 import SpaceDetailStackNavigator from './SpaceDetailStackNavigator';
 import WelcomePage from '../features/NotAuthenticated/pages/WelcomePage';
 import Login from '../features/NotAuthenticated/pages/Login';
+import Signup from '../features/NotAuthenticated/pages/Signup';
 
 import { HomeStackNavContext } from '../contexts/HomeStackNavContext';
 const HomeStackNavigator: React.FC = (props) => {
@@ -138,25 +139,6 @@ const HomeStackNavigator: React.FC = (props) => {
             </Stack.Group>
 
             <Stack.Group screenOptions={{ presentation: 'fullScreenModal' }}>
-              <Stack.Screen
-                name='Signup'
-                component={Signup}
-                options={({ navigation }) => ({
-                  headerLeft: () => (
-                    <TouchableOpacity onPress={() => navigation.goBack()}>
-                      <Ionicons name='arrow-back-circle-sharp' size={30} color={'white'} />
-                    </TouchableOpacity>
-                  ),
-                  headerTitle: 'Signup',
-                  headerStyle: {
-                    backgroundColor: primaryBackgroundColor,
-                  },
-                  headerTitleStyle: {
-                    fontWeight: 'bold',
-                    color: primaryTextColor,
-                  },
-                })}
-              />
               <Stack.Screen
                 name='CreateNewSpace'
                 component={CreateNewSpace}
@@ -322,6 +304,26 @@ const HomeStackNavigator: React.FC = (props) => {
               <Stack.Screen
                 name='Login'
                 component={Login}
+                options={({ navigation }) => ({
+                  headerShown: true,
+                  headerLeft: () => (
+                    <TouchableOpacity onPress={() => navigation.goBack()}>
+                      <Ionicons name='arrow-back-circle-sharp' size={30} color={'white'} />
+                    </TouchableOpacity>
+                  ),
+                  headerTitle: '',
+                  headerStyle: {
+                    backgroundColor: 'black',
+                  },
+                  headerTitleStyle: {
+                    fontWeight: 'bold',
+                    color: 'white',
+                  },
+                })}
+              ></Stack.Screen>
+              <Stack.Screen
+                name='Signup'
+                component={Signup}
                 options={({ navigation }) => ({
                   headerShown: true,
                   headerLeft: () => (

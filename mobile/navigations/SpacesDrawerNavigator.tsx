@@ -10,6 +10,7 @@ import { iconParameterBackgroundColorTable, iconColorTable } from '../themes/col
 import FastImage from 'react-native-fast-image';
 const Drawer = createDrawerNavigator();
 import SpaceRootBottomTabNavigator from './SpaceRootBottomTabNavigator';
+import NoSpaces from '../features/Utils/NoSpaces';
 
 const SpacesDrawerNavigator = (props) => {
   const {
@@ -194,42 +195,133 @@ const SpacesDrawerNavigator = (props) => {
     );
   }
 
-  return (
-    <Drawer.Navigator
-      drawerContent={(props) => <CustomDrawerContent {...props} />}
-      screenOptions={({ navigation }) => ({
-        drawerStyle: {
-          backgroundColor: 'rgb(40,40,40)',
-          width: 300,
-        },
-        tabBarStyle: {
-          backgroundColor: 'black',
-          borderTopWidth: 0,
-        },
-        tabBarLabelStyle: {
-          fontSize: 12,
-        },
-        headerTintColor: 'white',
-        headerStyle: {
-          backgroundColor: 'black',
-          borderBottomWidth: 0,
-          borderBottomColor: 'black',
-          height: 80,
-        },
-        tabBarLabel: 'Home',
-      })}
-    >
-      {spaceAndUserRelationships.map((spaceAndUserRelationship) => (
+  if (spaceAndUserRelationships.length) {
+    return (
+      <Drawer.Navigator
+        drawerContent={(props) => <CustomDrawerContent {...props} />}
+        screenOptions={({ navigation }) => ({
+          drawerStyle: {
+            backgroundColor: 'rgb(40,40,40)',
+            width: 300,
+          },
+          tabBarStyle: {
+            backgroundColor: 'black',
+            borderTopWidth: 0,
+          },
+          tabBarLabelStyle: {
+            fontSize: 12,
+          },
+          headerTintColor: 'white',
+          headerStyle: {
+            backgroundColor: 'black',
+            borderBottomWidth: 0,
+            borderBottomColor: 'black',
+            height: 80,
+          },
+          tabBarLabel: 'Home',
+        })}
+      >
+        {spaceAndUserRelationships.map((spaceAndUserRelationship) => (
+          <Drawer.Screen
+            key={spaceAndUserRelationship._id}
+            name={`Space_${spaceAndUserRelationship._id}`}
+            initialParams={{ spaceAndUserRelationship }}
+            options={({ navigation }) => ({
+              headerTitle: spaceAndUserRelationship.space.name,
+              headerTitleStyle: {
+                fontSize: 20,
+                fontWeight: 'bold',
+                // padding: 20,
+              },
+              // simulatorの場合、これないとheaderのheiightがおかしくなる。。。何で？？？
+              headerStyle: {
+                // padding: 20,
+                backgroundColor: 'black',
+              },
+
+              headerLeft: () => {
+                return (
+                  <TouchableOpacity
+                    style={{
+                      width: 25,
+                      height: 25,
+                      borderRadius: 15,
+                      backgroundColor: 'white',
+                      marginLeft: 10,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}
+                    onPress={() => navigation.toggleDrawer()}
+                  >
+                    <Ionicons name='menu' style={{}} size={20} />
+                  </TouchableOpacity>
+                );
+              },
+              headerRight: () => {
+                return (
+                  <TouchableOpacity
+                    onPress={() => {
+                      spaceMenuBottomSheetRef.current.snapToIndex(0);
+                    }}
+                  >
+                    <FastImage
+                      source={{ uri: spaceAndUserRelationship.space.icon }}
+                      style={{
+                        width: 35,
+                        height: 35,
+                        borderRadius: 8,
+                        marginRight: 10,
+                      }}
+                    />
+                  </TouchableOpacity>
+                );
+              },
+            })}
+          >
+            {({ navigation, route }) => (
+              <SpaceRootBottomTabNavigator
+                spaceAndUserRelationship={spaceAndUserRelationship}
+                navigation={navigation}
+              />
+            )}
+          </Drawer.Screen>
+        ))}
+      </Drawer.Navigator>
+    );
+  } else {
+    return (
+      <Drawer.Navigator
+        drawerContent={(props) => <CustomDrawerContent {...props} />}
+        screenOptions={({ navigation }) => ({
+          drawerStyle: {
+            backgroundColor: 'rgb(40,40,40)',
+            width: 300,
+          },
+          tabBarStyle: {
+            backgroundColor: 'black',
+            borderTopWidth: 0,
+          },
+          tabBarLabelStyle: {
+            fontSize: 12,
+          },
+          headerTintColor: 'white',
+          headerStyle: {
+            backgroundColor: 'black',
+            borderBottomWidth: 0,
+            borderBottomColor: 'black',
+            height: 80,
+          },
+          tabBarLabel: 'Home',
+        })}
+      >
         <Drawer.Screen
-          key={spaceAndUserRelationship._id}
-          name={`Space_${spaceAndUserRelationship._id}`}
-          initialParams={{ spaceAndUserRelationship }}
+          name={'NoSpaces'}
+          component={NoSpaces}
           options={({ navigation }) => ({
-            headerTitle: spaceAndUserRelationship.space.name,
+            headerTitle: '',
             headerTitleStyle: {
               fontSize: 20,
               fontWeight: 'bold',
-              // padding: 20,
             },
             // simulatorの場合、これないとheaderのheiightがおかしくなる。。。何で？？？
             headerStyle: {
@@ -255,50 +347,11 @@ const SpacesDrawerNavigator = (props) => {
                 </TouchableOpacity>
               );
             },
-            headerRight: () => {
-              return (
-                // <TouchableOpacity
-                //   style={{
-                //     width: 25,
-                //     height: 25,
-                //     borderRadius: 15,
-                //     backgroundColor: 'white',
-                //     marginRight: 10,
-                //     justifyContent: 'center',
-                //     alignItems: 'center',
-                //   }}
-                //   // onPress={() => navigation.toggleDrawer()}
-                // >
-                //   {/* <MaterialCommunityIcons name='home-switch' style={{}} size={20} /> */}
-                //   <MaterialCommunityIcons name='account' size={20} />
-                // </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => {
-                    spaceMenuBottomSheetRef.current.snapToIndex(0);
-                  }}
-                >
-                  <FastImage
-                    source={{ uri: spaceAndUserRelationship.space.icon }}
-                    style={{
-                      width: 35,
-                      height: 35,
-                      borderRadius: 8,
-                      marginRight: 10,
-                      //  position: 'absolute', bottom: 15, right: 20
-                    }}
-                  />
-                </TouchableOpacity>
-              );
-            },
           })}
-        >
-          {({ navigation, route }) => (
-            <SpaceRootBottomTabNavigator spaceAndUserRelationship={spaceAndUserRelationship} navigation={navigation} />
-          )}
-        </Drawer.Screen>
-      ))}
-    </Drawer.Navigator>
-  );
+        ></Drawer.Screen>
+      </Drawer.Navigator>
+    );
+  }
 };
 
 export default SpacesDrawerNavigator;
