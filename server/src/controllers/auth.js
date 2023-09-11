@@ -24,7 +24,7 @@ export const signup = async (request, response) => {
 
     const jwtToken = jwt.sign({ id: user._id }, process.env.JWT_PRIVATE_KEY);
     response.status(201).json({
-      user: { name: user.name, email: user.email, avatar: user.avatar },
+      user: { _id: user._id, name: user.name, email: user.email, avatar: user.avatar },
       jwt: jwtToken,
     });
   } catch (error) {

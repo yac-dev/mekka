@@ -8,6 +8,7 @@ import PostAndTagRelationship from '../models/postAndTagRelationship';
 import SpaceAndTagAndPostRelationship from '../models/spaceAndTagAndPostRelationship';
 import LocationTag from '../models/locationTag';
 
+// space, reactions, spaceAndUserRel, tagを作る。ここのhandlerで。
 export const createSpace = async (request, response) => {
   try {
     const {
@@ -79,9 +80,11 @@ export const createSpace = async (request, response) => {
     // tagを作るだけでいいのかね。もしかしたら。
     // tagの数は、結構多くの数になる。spaceが全部持っておくのはベストではないだろう。それよりも、他にdelegateする方がいい。
     const tag = await Tag.create({
+      icon: `https://mekka-${process.env.NODE_ENV}.s3.us-east-2.amazonaws.com/tagIcons/hashtag-normal.png`,
       name: 'general',
       space: space._id,
-      count: 1,
+      createdBy: createdBy,
+      count: 0,
     });
 
     response.status(201).json({

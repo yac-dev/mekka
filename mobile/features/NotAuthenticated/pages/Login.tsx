@@ -6,6 +6,7 @@ import * as SecureStore from 'expo-secure-store';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
+import { Foundation } from '@expo/vector-icons';
 import LoadingSpinner from '../../../components/LoadingSpinner';
 
 const Login = (props) => {
@@ -144,7 +145,15 @@ const Login = (props) => {
         onPress={() => onDonePress()}
         disabled={isValidated ? false : true}
       >
-        <Text style={{ color: 'black', textAlign: 'center', fontWeight: 'bold', fontSize: 17 }}>Continue</Text>
+        <View style={{ flexDirection: 'row', alignItems: 'center', alignSelf: 'center' }}>
+          {isValidated ? (
+            <MaterialCommunityIcons name='check' size={25} color='black' style={{ marginRight: 10 }} />
+          ) : (
+            <Foundation name='prohibited' size={25} color='black' style={{ marginRight: 10 }} />
+          )}
+
+          <Text style={{ color: 'black', textAlign: 'center', fontWeight: 'bold', fontSize: 17 }}>Continue</Text>
+        </View>
       </TouchableOpacity>
       <LoadingSpinner />
     </View>

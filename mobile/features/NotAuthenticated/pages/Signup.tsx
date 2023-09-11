@@ -7,6 +7,7 @@ import * as SecureStore from 'expo-secure-store';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
+import { Foundation } from '@expo/vector-icons';
 
 const Signup = (props) => {
   const { setAuthData, setIsAuthenticated, setLoading, setSnackBar } = useContext(GlobalContext);
@@ -16,7 +17,7 @@ const Signup = (props) => {
   const [isValidated, setIsValidated] = useState(false);
   const [isPasswordHidden, setIsPasswordHidden] = useState(true);
 
-  const onContinuePress = async () => {
+  const onSubmitPress = async () => {
     const payload = {
       name,
       email,
@@ -192,10 +193,18 @@ const Signup = (props) => {
           backgroundColor: isValidated ? 'white' : 'rgb(170,170,170)',
           borderRadius: 10,
         }}
-        onPress={() => onContinuePress()}
+        onPress={() => onSubmitPress()}
         disabled={isValidated ? false : true}
       >
-        <Text style={{ color: 'black', textAlign: 'center', fontWeight: 'bold', fontSize: 17 }}>Submit</Text>
+        <View style={{ flexDirection: 'row', alignItems: 'center', alignSelf: 'center' }}>
+          {isValidated ? (
+            <MaterialCommunityIcons name='check' size={25} color='black' style={{ marginRight: 10 }} />
+          ) : (
+            <Foundation name='prohibited' size={25} color='black' style={{ marginRight: 10 }} />
+          )}
+
+          <Text style={{ color: 'black', textAlign: 'center', fontWeight: 'bold', fontSize: 17 }}>Submit</Text>
+        </View>
       </TouchableOpacity>
       <LoadingSpinner />
     </View>

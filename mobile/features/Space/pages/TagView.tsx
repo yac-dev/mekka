@@ -112,9 +112,7 @@ const TagView = (props) => {
     } else {
       return (
         <View style={{ flex: 1, backgroundColor: 'black' }}>
-          <Text style={{ color: 'white', textAlign: 'center', marginTop: 50 }}>
-            You'll see all the posts tagged with this.
-          </Text>
+          <Text style={{ color: 'white', textAlign: 'center', marginTop: 50 }}>No posts in this tag channel...</Text>
         </View>
       );
     }
