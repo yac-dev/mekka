@@ -2,6 +2,7 @@ import React, { useContext, useState, useCallback } from 'react';
 import { View, Text, TouchableOpacity, Share } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import { GlobalContext } from '../../../contexts/GlobalContext';
+import { Feather } from '@expo/vector-icons';
 
 const Header = () => {
   const { currentSpaceAndUserRelationship, spaceMenuBottomSheetRef, currentSpace } = useContext(GlobalContext);
@@ -31,9 +32,24 @@ const Header = () => {
           source={{ uri: currentSpaceAndUserRelationship.space.icon }}
           style={{ width: '100%', height: '100%' }}
         />
-        <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 23, position: 'absolute', bottom: 10, left: 10 }}>
+        <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 25, position: 'absolute', bottom: 10, left: 10 }}>
           {currentSpaceAndUserRelationship.space.name}
         </Text>
+        <TouchableOpacity
+          style={{
+            backgroundColor: 'white',
+            width: 25,
+            height: 25,
+            borderRadius: 15,
+            justifyContent: 'center',
+            alignItems: 'center',
+            position: 'absolute',
+            bottom: 10,
+            right: 10,
+          }}
+        >
+          <Feather name='more-horizontal' color='black' size={20} />
+        </TouchableOpacity>
       </View>
       <View style={{ paddingLeft: 10, paddingRight: 10 }}>
         <View
@@ -69,7 +85,7 @@ const Header = () => {
             onPress={toggleNumberOfLines}
             style={{ marginTop: 10, color: 'rgb(170,170,170)', alignSelf: 'flex-end' }}
           >
-            {textShown ? 'Read less...' : 'Read more...'}
+            {textShown ? 'Read less' : 'Read more'}
           </Text>
         ) : null}
       </View>

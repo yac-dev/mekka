@@ -58,7 +58,7 @@ const SpaceRootBottomTabNavigator = (props) => {
               marginHorizontal: 100,
               paddingBottom: 0, // きたー。これよ。これ。
               borderRadius: 30,
-              height: 40,
+              height: 50,
               borderTopWidth: 0,
               position: 'absolute',
               bottom: 50,
@@ -152,8 +152,8 @@ const SpaceRootBottomTabNavigator = (props) => {
           }}
           style={{
             backgroundColor: 'white',
-            width: 40,
-            height: 40,
+            width: 50,
+            height: 50,
             borderRadius: 20,
             position: 'absolute',
             bottom: 50,

@@ -113,6 +113,28 @@ const HomeStackNavigator: React.FC = (props) => {
                   },
                 })}
               />
+              <Stack.Screen
+                name='ProfileStackNavigator'
+                component={ProfileStackNavigator}
+                options={({ navigation }) => ({
+                  headerShown: true, // ここtrueにすると、,,,
+                  headerLeft: () => {
+                    return (
+                      <TouchableOpacity onPress={() => navigation.goBack()}>
+                        <Ionicons name='arrow-back-circle-sharp' size={30} color={'white'} />
+                      </TouchableOpacity>
+                    );
+                  },
+                  headerTitle: '',
+                  headerStyle: {
+                    backgroundColor: 'black',
+                  },
+                  headerTitleStyle: {
+                    fontWeight: 'bold',
+                    color: 'white',
+                  },
+                })}
+              />
             </Stack.Group>
 
             <Stack.Group screenOptions={{ presentation: 'fullScreenModal' }}>
@@ -162,7 +184,7 @@ const HomeStackNavigator: React.FC = (props) => {
                   headerShown: false,
                 })}
               />
-              <Stack.Screen
+              {/* <Stack.Screen
                 name='ProfileStackNavigator'
                 component={ProfileStackNavigator}
                 options={({ navigation }) => ({
@@ -181,7 +203,7 @@ const HomeStackNavigator: React.FC = (props) => {
                     color: 'white',
                   },
                 })}
-              />
+              /> */}
               <Stack.Screen
                 name='SpaceDetailStackNavigator'
                 component={SpaceDetailStackNavigator}
@@ -297,7 +319,26 @@ const HomeStackNavigator: React.FC = (props) => {
           >
             <Stack.Group>
               <Stack.Screen name='Welcome' component={WelcomePage}></Stack.Screen>
-              <Stack.Screen name='Login' component={Login}></Stack.Screen>
+              <Stack.Screen
+                name='Login'
+                component={Login}
+                options={({ navigation }) => ({
+                  headerShown: true,
+                  headerLeft: () => (
+                    <TouchableOpacity onPress={() => navigation.goBack()}>
+                      <Ionicons name='arrow-back-circle-sharp' size={30} color={'white'} />
+                    </TouchableOpacity>
+                  ),
+                  headerTitle: '',
+                  headerStyle: {
+                    backgroundColor: 'black',
+                  },
+                  headerTitleStyle: {
+                    fontWeight: 'bold',
+                    color: 'white',
+                  },
+                })}
+              ></Stack.Screen>
             </Stack.Group>
           </Stack.Navigator>
         )}

@@ -18,6 +18,7 @@ const SpacesDrawerNavigator = (props) => {
     haveSpaceAndUserRelationshipsBeenFetched,
     setCurrentSpaceAndUserRelationship,
     spaceMenuBottomSheetRef,
+    authData,
   } = useContext(GlobalContext);
   const oneGridWidth = isIpad ? Dimensions.get('window').width / 6 : Dimensions.get('window').width / 4;
   const oneGridHeight = isIpad ? Dimensions.get('window').height / 7.5 : Dimensions.get('window').height / 6.5;
@@ -27,9 +28,17 @@ const SpacesDrawerNavigator = (props) => {
     const { state, descriptors, navigation } = props;
     return (
       <DrawerContentScrollView {...props} style={{ paddingTop: 10 }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
           <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 32, marginLeft: 20 }}>Mekka</Text>
           {/* ここに、profile用の自分のavatarを出しておく。 */}
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('ProfileStackNavigator');
+              navigation.closeDrawer();
+            }}
+          >
+            <FastImage source={{ uri: authData.avatar }} style={{ width: 25, height: 25, marginRight: 20 }} />
+          </TouchableOpacity>
         </View>
         <View
           style={{

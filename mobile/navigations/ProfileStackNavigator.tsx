@@ -18,8 +18,8 @@ const ProfileStackNavigator = () => {
           headerShown: false,
           headerLeft: () => {
             return (
-              <TouchableOpacity style={{ marginLeft: 10 }} onPress={() => navigation.navigate('About Lampost')}>
-                <Ionicons name='close' color='white' size={25} />
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <Ionicons name='arrow-back-circle-sharp' size={30} color={'white'} />
               </TouchableOpacity>
             );
           },
