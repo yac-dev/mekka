@@ -192,7 +192,7 @@ const Signup = (props) => {
           backgroundColor: isValidated ? 'white' : 'rgb(170,170,170)',
           borderRadius: 10,
         }}
-        onPress={() => onDonePress()}
+        onPress={() => onContinuePress()}
         disabled={isValidated ? false : true}
       >
         <Text style={{ color: 'black', textAlign: 'center', fontWeight: 'bold', fontSize: 17 }}>Submit</Text>

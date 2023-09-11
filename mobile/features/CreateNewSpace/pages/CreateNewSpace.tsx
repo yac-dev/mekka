@@ -41,7 +41,7 @@ type RouterProps = {
 };
 
 const CreateNewSpace: React.FC<RouterProps> = (props) => {
-  const { authData, setLoading, setSnackBar } = useContext(GlobalContext);
+  const { authData, setLoading, setSnackBar, setSpaceAndUserRelationships } = useContext(GlobalContext);
   const [formData, setFormData] = useState<FormDataStateType>({
     name: '',
     icon: '',
@@ -150,7 +150,7 @@ const CreateNewSpace: React.FC<RouterProps> = (props) => {
     payload.append('reactions', JSON.stringify(formData.reactions));
     payload.append('videoLength', formData.videoLength.toString());
     payload.append('disappearAfter', formData.disappearAfter.toString());
-    payload.append('disappearAfter', formData.description);
+    payload.append('description', formData.description);
     payload.append('createdBy', authData._id);
     const iconData = {
       name: `${authData._id}-${Date.now()}`,
@@ -165,13 +165,14 @@ const CreateNewSpace: React.FC<RouterProps> = (props) => {
     });
     setLoading(false);
     const { spaceAndUserRelationship } = result.data;
+    setSpaceAndUserRelationships((previous) => [...previous, spaceAndUserRelationship]);
     setSnackBar({
       isVisible: true,
       barType: 'success',
       message: 'The space has been created successfully. Invite your friends, share your moments and have fun.',
       duration: 7000,
     });
-    props.navigation.navigate({ name: 'Discover', params: { createdSpace: spaceAndUserRelationship }, merge: true });
+    props.navigation.navigate('SpacesDrawerNavigator');
   };
 
   return (

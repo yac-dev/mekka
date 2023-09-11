@@ -4,7 +4,7 @@ import { View, Text } from 'react-native';
 const NoSpaces = () => {
   return (
     <View style={{ flex: 1, backgroundColor: 'black' }}>
-      <View style={{ paddingLeft: 30, paddingRight: 30, paddingTop: 20, paddingBottom: 20, marginBottom: 20 }}>
+      <View style={{ paddingLeft: 30, paddingRight: 30, paddingTop: 100, marginBottom: 20 }}>
         <Text
           style={{
             color: 'white',
@@ -14,10 +14,10 @@ const NoSpaces = () => {
             marginBottom: 10,
           }}
         >
-          No spaces...
+          No Spaces...
         </Text>
         <Text style={{ textAlign: 'center', color: 'rgb(180, 180, 180)' }}>
-          You haven't joined any spaces now. Enter key-code, discover new space or open new space to start sharing.
+          You haven't joined any spaces now. To get started, open menu from top left corner and make some actions.
         </Text>
       </View>
     </View>

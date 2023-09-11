@@ -5,7 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator();
 import Discover from '../features/Discover/pages/Discover';
 import CreateNewSpace from '../features/CreateNewSpace/pages/CreateNewSpace';
-import EmojiPicker from '../features/CreateNewSpace/components/CreateNewSpace/EmojiPicker';
+import EmojiPicker from '../features/CreateNewSpace/pages/EmojiPicker';
 import CreateSticker from '../features/CreateNewSpace/pages/CreateSticker';
 import WriteDescription from '../features/CreateNewSpace/pages/WriteDescription';
 import AddTag from '../features/CreateNewSpace/pages/AddTag';

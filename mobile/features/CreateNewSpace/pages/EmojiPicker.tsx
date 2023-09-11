@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, ScrollView, Dimensions, TouchableOpacity } from 'react-native';
-import { emojis } from '../../../../utils/emojis';
-import { GlobalContext } from '../../../../contexts/GlobalContext';
-import { inputBackgroundColor } from '../../../../themes/color';
-import { iconParameterBackgroundColorTable } from '../../../../themes/color';
+import { emojis } from '../../../utils/emojis';
+import { GlobalContext } from '../../../contexts/GlobalContext';
+import { inputBackgroundColor } from '../../../themes/color';
+import { iconParameterBackgroundColorTable } from '../../../themes/color';
 import FastImage from 'react-native-fast-image';
-import backendAPI from '../../../../apis/backend';
+import backendAPI from '../../../apis/backend';
 
 // smilyAndPeople, animalsAndNature, foodAndDrink, objects, flags, symbols, travelAndPlaces, activity
 
@@ -21,6 +21,7 @@ type ReactionType = {
   sticker: StickerType | undefined;
 } | null;
 
+// これもtop tabかbottom sheetを使った方がいいな。bottom tabの方がいいかな。。。
 const EmojiPicker: React.FC = (props) => {
   const { isIpad } = useContext(GlobalContext);
   const oneGridWidth = isIpad ? Dimensions.get('window').width / 15 : Dimensions.get('window').width / 8;
@@ -104,7 +105,7 @@ const EmojiPicker: React.FC = (props) => {
               alignItems: 'center',
             }}
           >
-            <Text style={{ fontSize: 80 }}>{selectedReaction.emoji}</Text>
+            <Text style={{ fontSize: 70 }}>{selectedReaction.emoji}</Text>
           </View>
         );
       }
@@ -148,14 +149,14 @@ const EmojiPicker: React.FC = (props) => {
             <TouchableOpacity
               style={{
                 width: '100%',
-                backgroundColor: 'rgb(88,88,88)',
+                backgroundColor: 'white',
                 padding: 10,
                 borderRadius: 8,
                 marginBottom: 10,
               }}
               onPress={() => props.navigation?.navigate('CreateSticker')}
             >
-              <Text style={{ textAlign: 'center', color: 'white' }}>Create new?</Text>
+              <Text style={{ textAlign: 'center', color: 'black' }}>Create new?</Text>
             </TouchableOpacity>
             <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
               <View style={{ flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center' }}>{list}</View>
@@ -234,7 +235,7 @@ const EmojiPicker: React.FC = (props) => {
               }}
               onPress={() => setFilterOption('sticker')}
             >
-              <FastImage source={require('../../../../assets/forApp/elon-wtf.png')} style={{ width: 30, height: 30 }} />
+              <FastImage source={require('../../../assets/forApp/elon-wtf.png')} style={{ width: 30, height: 30 }} />
             </TouchableOpacity>
           </View>
           <View style={{ width: oneGridWidth, aspectRatio: 1, padding: 3 }}>

@@ -23,8 +23,8 @@ export const signup = async (request, response) => {
     await user.save();
 
     const jwtToken = jwt.sign({ id: user._id }, process.env.JWT_PRIVATE_KEY);
-    response.status(201).send({
-      user,
+    response.status(201).json({
+      user: { name: user.name, email: user.email, avatar: user.avatar },
       jwt: jwtToken,
     });
   } catch (error) {

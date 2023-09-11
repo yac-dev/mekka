@@ -14,7 +14,12 @@ import { primaryTextColor } from '../themes/text';
 import SpacesTopTabNavigator from './SpacesTopTabNavigator';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
+// create space
 import CreateNewSpace from '../features/CreateNewSpace/pages/CreateNewSpace';
+import WriteDescription from '../features/CreateNewSpace/pages/WriteDescription';
+import EmojiPicker from '../features/CreateNewSpace/pages/EmojiPicker';
+
+// create post
 import CreateNewPostStackNavigator from './CreateNewPostStackNavigator';
 // import CreateNewPost from '../features/CreateNewPost/pages/Form';
 import SpaceMenuBottomSheet from '../features/SpaceMenuBottomSheet/pages/BottomSheet';
@@ -210,6 +215,46 @@ const HomeStackNavigator: React.FC = (props) => {
               />
             </Stack.Group>
             <Stack.Group screenOptions={{ presentation: 'modal', gestureEnabled: false }}>
+              <Stack.Screen
+                name='WriteDescription'
+                component={WriteDescription}
+                options={({ navigation }) => ({
+                  headerShown: true,
+                  headerLeft: () => (
+                    <TouchableOpacity onPress={() => navigation.goBack()}>
+                      <Ionicons name='close-circle-sharp' size={30} color={'white'} />
+                    </TouchableOpacity>
+                  ),
+                  headerTitle: '',
+                  headerStyle: {
+                    backgroundColor: primaryBackgroundColor,
+                  },
+                  headerTitleStyle: {
+                    fontWeight: 'bold',
+                    color: primaryTextColor,
+                  },
+                })}
+              />
+              <Stack.Screen
+                name='EmojiPicker'
+                component={EmojiPicker}
+                options={({ navigation }) => ({
+                  headerShown: true,
+                  headerLeft: () => (
+                    <TouchableOpacity onPress={() => navigation.goBack()}>
+                      <Ionicons name='close-circle-sharp' size={30} color={'white'} />
+                    </TouchableOpacity>
+                  ),
+                  headerTitle: '',
+                  headerStyle: {
+                    backgroundColor: primaryBackgroundColor,
+                  },
+                  headerTitleStyle: {
+                    fontWeight: 'bold',
+                    color: primaryTextColor,
+                  },
+                })}
+              />
               <Stack.Screen
                 name='LocationPicker'
                 component={LocationPicker}
