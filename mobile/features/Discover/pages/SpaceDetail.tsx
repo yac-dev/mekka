@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, ActivityIndicator, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, ActivityIndicator, ScrollView, BackHandler } from 'react-native';
 import { NavigationProp, RouteProp } from '@react-navigation/native';
 import backendAPI from '../../../apis/backend';
 import { SpaceDetailContext } from '../contexts/SpaceDetailContext';
@@ -57,7 +57,8 @@ type SpaceType = {
 
 // ここに、spaceのthumbnailから始まり、
 const SpaceDetail: React.FC<RouterProps> = (props) => {
-  const { spaceAndUserRelationships } = useContext(GlobalContext);
+  const { spaceAndUserRelationships, setSpaceAndUserRelationships, setLoading, setSnackBar, authData } =
+    useContext(GlobalContext);
   const [space, setSpace] = useState(null);
   const [isSpaceFetched, setIsSpaceFetched] = useState(false);
   const [isJoinValidated, setIsJoinValidated] = useState(false);
@@ -70,27 +71,40 @@ const SpaceDetail: React.FC<RouterProps> = (props) => {
   };
 
   // join button validation
-  useEffect(() => {
+  const validateJoinButton = () => {
+    if (!spaceAndUserRelationships.length) return true;
     for (let i = 0; i < spaceAndUserRelationships.length; i++) {
       if (spaceAndUserRelationships[i]._id === props.route.params.spaceId) {
-        setIsJoinValidated(false);
-      }
-
-      if (i === spaceAndUserRelationships.length - 1) {
-        if (spaceAndUserRelationships[i]._id === props.route.params.spaceId) {
-          setIsJoinValidated(false);
-        } else {
-          setIsJoinValidated(true);
-        }
+        return false;
       }
     }
-  }, []); // 違うaccount作って試さないとな。
+    return true;
+  };
+
+  useEffect(() => {
+    const result = validateJoinButton();
+    setIsJoinValidated(result);
+  }, []);
+
+  const onJoinPress = async () => {
+    const payload = {
+      spaceId: props.route.params.spaceId,
+      userId: authData._id,
+    };
+    setLoading(true);
+    const result = await backendAPI.post(`/spaces/${props.route.params.spaceId}/public`, payload);
+    const { spaceAndUserRelationship } = result.data;
+    setSpaceAndUserRelationships((previous) => [...previous, spaceAndUserRelationship]);
+    setLoading(false);
+    setSnackBar({ isVisible: true, barType: 'success', message: `You have joined ${space.name} successfully` });
+    props.navigation.navigate('Discover');
+  };
 
   useEffect(() => {
     props.navigation.setOptions({
       headerRight: () => (
         <TouchableOpacity
-          onPress={() => console.log('join')}
+          onPress={() => onJoinPress()}
           style={{
             backgroundColor: isJoinValidated ? 'white' : 'rgb(150,150,150)',
             borderRadius: 20,
@@ -113,7 +127,7 @@ const SpaceDetail: React.FC<RouterProps> = (props) => {
         </TouchableOpacity>
       ),
     });
-  }, []);
+  }, [isJoinValidated]);
 
   useEffect(() => {
     getSpace();

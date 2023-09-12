@@ -366,3 +366,28 @@ export const joinPrivateSpaceBySecretKey = async (request, response) => {
     });
   }
 };
+
+export const joinPublicSpace = async (request, response) => {
+  try {
+    const space = await Space.findOne({ secretKey });
+    const spaceAndUserRelationship = await SpaceAndUserRelationship.create({
+      user: userId,
+      space: space._id,
+      createdAt: new Date(),
+      lastCheckedIn: new Date(),
+    });
+    response.status(201).json({
+      spaceAndUserRelationship: {
+        _id: spaceAndUserRelationship._id,
+        space: {
+          _id: space._id,
+          name: space.name,
+          icon: space.icon,
+          contentType: space.contentType,
+        },
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};

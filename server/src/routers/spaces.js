@@ -20,6 +20,7 @@ router.route('/:spaceId/posts/:yearAndMonth').get(getPostsBySpaceIdAndYearAndMon
 router.route('/:spaceId/tags').get(getTagsBySpaceId);
 router.route('/:spaceId/people').get(getPeopleBySpaceId);
 router.route('/:spaceId/locationtags').get(getLocationTagsBySpaceId);
+router.route('/:spaceId/public').post(joinPrivateSpaceBySecretKey);
 router.route('/private').post(joinPrivateSpaceBySecretKey);
 // router.route('/:spaceId/posts'); //ここで、tagのidがっていうfilterをつけるかね？
 

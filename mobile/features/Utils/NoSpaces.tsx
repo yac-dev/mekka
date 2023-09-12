@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text } from 'react-native';
+import SnackBar from '../../components/SnackBar';
 
 const NoSpaces = () => {
   return (
@@ -20,6 +21,7 @@ const NoSpaces = () => {
           You haven't joined any spaces now. To get started, open menu from top left corner and make some actions.
         </Text>
       </View>
+      <SnackBar />
     </View>
   );
 };
