@@ -6,37 +6,55 @@ const Stack = createNativeStackNavigator();
 import ProfileHome from '../features/Profile/pages/Home';
 import { Ionicons } from '@expo/vector-icons';
 import WelcomePage from '../features/NotAuthenticated/pages/WelcomePage';
+import Login from '../features/NotAuthenticated/pages/Login';
+import Signup from '../features/NotAuthenticated/pages/Signup';
 
 const NonAuthNavigator = () => {
   return (
-    <Stack.Navigator>
-      <Stack.Screen
-        // bottomSheetをやめた。
-        name='Welcome'
-        component={WelcomePage}
-        options={({ navigation }) => ({
-          // headerShown: true,
-          headerShown: false,
-          // headerLeft: () => {
-          //   return (
-          //     <TouchableOpacity style={{ marginLeft: 10 }} onPress={() => navigation.navigate('About Lampost')}>
-          //       <Ionicons name='close' color='white' size={25} />
-          //     </TouchableOpacity>
-          //   );
-          // },
-          // title: 'Mekka',
-          // headerTintColor: 'red',
-          // headerStyle: {
-          //   backgroundColor: 'black',
-          //   borderBottomWidth: 0,
-          // },
-          // tabBarLabel: 'Home',
-          // tabBarStyle: {
-          //   backgroundColor: 'black',
-          //   borderTopWidth: 0,
-          // },
-        })}
-      />
+    <Stack.Navigator screenOptions={({ navigation }) => ({ headerShown: false })}>
+      <Stack.Group>
+        <Stack.Screen name='Welcome' component={WelcomePage}></Stack.Screen>
+        <Stack.Screen
+          name='Login'
+          component={Login}
+          options={({ navigation }) => ({
+            headerShown: true,
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <Ionicons name='arrow-back-circle-sharp' size={30} color={'white'} />
+              </TouchableOpacity>
+            ),
+            headerTitle: '',
+            headerStyle: {
+              backgroundColor: 'black',
+            },
+            headerTitleStyle: {
+              fontWeight: 'bold',
+              color: 'white',
+            },
+          })}
+        ></Stack.Screen>
+        <Stack.Screen
+          name='Signup'
+          component={Signup}
+          options={({ navigation }) => ({
+            headerShown: true,
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <Ionicons name='arrow-back-circle-sharp' size={30} color={'white'} />
+              </TouchableOpacity>
+            ),
+            headerTitle: '',
+            headerStyle: {
+              backgroundColor: 'black',
+            },
+            headerTitleStyle: {
+              fontWeight: 'bold',
+              color: 'white',
+            },
+          })}
+        ></Stack.Screen>
+      </Stack.Group>
     </Stack.Navigator>
   );
 };

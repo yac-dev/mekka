@@ -333,7 +333,7 @@ export const joinPrivateSpaceBySecretKey = async (request, response) => {
     const spaceAndUserRelationship = await SpaceAndUserRelationship.create({
       user: userId,
       space: space._id,
-      createAt: new Date(),
+      createdAt: new Date(),
       lastCheckedIn: new Date(),
     });
 

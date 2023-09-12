@@ -67,12 +67,12 @@ const SpaceRootBottomTabNavigator = (props) => {
               // height: 60,
 
               // Shadow...
-              shadowColor: '#000',
-              shadowOpacity: 0.26,
-              shadowOffset: {
-                width: 10,
-                height: 10,
-              },
+              // shadowColor: '#000',
+              // shadowOpacity: 0.26,
+              // shadowOffset: {
+              //   width: 10,
+              //   height: 10,
+              // },
             },
           })}
           // tabBar={(props) => <CustomTabBar {...props} />}

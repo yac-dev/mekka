@@ -1,5 +1,5 @@
 import React, { useState, useReducer, useEffect, useRef } from 'react';
-import { View, Platform, StatusBar, TouchableOpacity } from 'react-native';
+import { View, Platform, StatusBar, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { GlobalContext } from './contexts/GlobalContext';
 import { NavigationContainer } from '@react-navigation/native';
 import { PaperProvider } from 'react-native-paper';
@@ -13,6 +13,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator();
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import HomeStackNavigator from './navigations/HomeStackNavigator';
+import NonAuthNavigator from './navigations/NonAuthNavigator';
 
 type AuthDataType = {
   _id: string;
@@ -33,6 +34,7 @@ const App: React.FC = function () {
   const [currentSpaceAndUserRelationship, setCurrentSpaceAndUserRelationship] = useState(null);
   const [currentSpace, setCurrentSpace] = useState(null); // ここでspaceを持っていた方がいいのかも。。。
   const spaceMenuBottomSheetRef = useRef(null);
+  const authMenuBottomSheetRef = useRef(null);
 
   const loadMe = async () => {
     const jwt = await SecureStore.getItemAsync('secure_token');
@@ -42,6 +44,9 @@ const App: React.FC = function () {
       setAuthData(user);
       setIsAuthDataFetched(true);
       setIsAuthenticated(true);
+    } else {
+      setIsAuthDataFetched(true);
+      setIsAuthenticated(false);
     }
   };
 
@@ -63,6 +68,44 @@ const App: React.FC = function () {
     }
   }, [isAuthenticated]);
 
+  const renderNavigator = () => {
+    if (isAuthDataFetched) {
+      if (isAuthenticated) {
+        return (
+          <Stack.Navigator>
+            <Stack.Screen
+              name='HomwStackNavigator'
+              component={HomeStackNavigator}
+              options={({ navigation }) => ({
+                // headerShown: true,
+                headerShown: false,
+              })}
+            />
+          </Stack.Navigator>
+        );
+      } else {
+        return (
+          <Stack.Navigator>
+            <Stack.Screen
+              name='NonAuthNavigator'
+              component={NonAuthNavigator}
+              options={({ navigation }) => ({
+                // headerShown: true,
+                headerShown: false,
+              })}
+            />
+          </Stack.Navigator>
+        );
+      }
+    } else {
+      return (
+        <View style={{ flex: 1, backgroundColor: 'black', paddingTop: 100 }}>
+          <ActivityIndicator />
+        </View>
+      );
+    }
+  };
+
   return (
     <GlobalContext.Provider
       value={{
@@ -83,6 +126,7 @@ const App: React.FC = function () {
         haveSpaceAndUserRelationshipsBeenFetched,
         setHaveSpaceAndUserRelationshipsBeenFetched,
         spaceMenuBottomSheetRef,
+        authMenuBottomSheetRef,
         currentSpaceAndUserRelationship,
         setCurrentSpaceAndUserRelationship,
         currentSpace,
@@ -93,15 +137,6 @@ const App: React.FC = function () {
         <StatusBar hidden={false} translucent={true} backgroundColor='blue' barStyle='light-content' />
         <NavigationContainer>
           <Stack.Navigator>
-            {/* <Stack.Screen
-              name='BottomTab'
-              component={BottomTab}
-              options={({ navigation }) => ({
-                // headerShown: true,
-                headerShown: false,
-              })}
-            /> */}
-
             <Stack.Screen
               name='HomwStackNavigator'
               component={HomeStackNavigator}

@@ -60,12 +60,22 @@ const Discover: React.FC<RouterProps> = (props) => {
           paddingRight: 10,
           borderBottomWidth: 0.3,
           borderBottomColor: 'rgb(170,170,170)',
-          width: '100%',
+          justifyContent: 'space-between',
         }}
       >
-        <FastImage source={{ uri: space.icon }} style={{ width: 80, height: 80, borderRadius: 10, marginRight: 20 }} />
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 23, marginBottom: 5 }}>{space.name}</Text>
+          <FastImage
+            source={{ uri: space.icon }}
+            style={{ width: 80, height: 80, borderRadius: 10, marginRight: 20 }}
+          />
+          <View style={{ flexDirection: 'column' }}>
+            <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 20, marginBottom: 5 }}>{space.name}</Text>
+            <Text numberOfLines={2} style={{ color: 'rgb(170,170,170)', width: 200 }}>
+              {space.description}
+            </Text>
+          </View>
+        </View>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <TouchableOpacity
             onPress={() =>
               props.navigation.navigate('SpaceDetailStackNavigator', {
@@ -73,9 +83,9 @@ const Discover: React.FC<RouterProps> = (props) => {
                 params: { spaceId: space._id },
               })
             }
-            style={{ padding: 10, backgroundColor: 'rgb(70,70,70)', borderRadius: 15, alignSelf: 'flex-end' }}
+            style={{ padding: 10, backgroundColor: 'white', borderRadius: 15 }}
           >
-            <Text style={{ color: 'white' }}>See detail</Text>
+            <Text style={{ color: 'black', fontWeight: 'bold' }}>Detail</Text>
           </TouchableOpacity>
         </View>
         {/* <View style={{ flexDirection: 'column' }}>

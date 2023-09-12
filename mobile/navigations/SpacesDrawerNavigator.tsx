@@ -10,6 +10,7 @@ import { iconParameterBackgroundColorTable, iconColorTable } from '../themes/col
 import FastImage from 'react-native-fast-image';
 const Drawer = createDrawerNavigator();
 import SpaceRootBottomTabNavigator from './SpaceRootBottomTabNavigator';
+import WelcomePage from '../features/NotAuthenticated/pages/WelcomePage';
 import NoSpaces from '../features/Utils/NoSpaces';
 
 const SpacesDrawerNavigator = (props) => {
@@ -19,7 +20,9 @@ const SpacesDrawerNavigator = (props) => {
     haveSpaceAndUserRelationshipsBeenFetched,
     setCurrentSpaceAndUserRelationship,
     spaceMenuBottomSheetRef,
+    authMenuBottomSheetRef,
     authData,
+    isAuthenticated,
   } = useContext(GlobalContext);
   const oneGridWidth = isIpad ? Dimensions.get('window').width / 6 : Dimensions.get('window').width / 4;
   const oneGridHeight = isIpad ? Dimensions.get('window').height / 7.5 : Dimensions.get('window').height / 6.5;
@@ -29,159 +32,194 @@ const SpacesDrawerNavigator = (props) => {
     const { state, descriptors, navigation } = props;
     return (
       <DrawerContentScrollView {...props} style={{ paddingTop: 10 }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-          <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 32, marginLeft: 20 }}>Mekka</Text>
-          {/* ここに、profile用の自分のavatarを出しておく。 */}
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate('ProfileStackNavigator');
-              navigation.closeDrawer();
-            }}
-          >
-            <FastImage source={{ uri: authData.avatar }} style={{ width: 25, height: 25, marginRight: 20 }} />
-          </TouchableOpacity>
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            borderBottomWidth: 0.3,
-            borderBottomColor: 'rgb(150,150,150)',
-            padding: 10,
-            marginBottom: 10,
-          }}
-        >
-          <TouchableOpacity
-            style={{
-              flexDirection: 'column',
-              alignItems: 'center',
-              padding: 10,
-              justifyContent: 'center',
-              marginRight: 10,
-            }}
-            onPress={() => {
-              navigation.navigate('CreateNewSpace');
-              navigation.closeDrawer();
-            }}
-          >
+        {isAuthenticated ? (
+          <>
+            <View style={{ flexDirection: 'column', alignItems: 'center', marginBottom: 10 }}>
+              <FastImage source={{ uri: authData.avatar }} style={{ width: 35, height: 35, marginBottom: 10 }} />
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Text style={{ color: 'white', fontSize: 17, fontWeight: 'bold', marginRight: 10 }}>
+                  {authData.name}
+                </Text>
+                <TouchableOpacity
+                  style={{
+                    width: 20,
+                    height: 20,
+                    borderRadius: 10,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    backgroundColor: 'white',
+                  }}
+                  onPress={() => {
+                    // navigation.navigate('ProfileStackNavigator');
+                    navigation.closeDrawer();
+                    authMenuBottomSheetRef.current.snapToIndex(0);
+                  }}
+                >
+                  <MaterialCommunityIcons name='chevron-down' size={20} color='black' />
+                </TouchableOpacity>
+              </View>
+            </View>
             <View
               style={{
-                width: 40,
-                aspectRatio: 1,
-                borderRadius: 10,
-                // marginRight: 15,
-                marginBottom: 10,
-                backgroundColor: iconParameterBackgroundColorTable['red1'],
-                justifyContent: 'center',
+                flexDirection: 'row',
                 alignItems: 'center',
-              }}
-            >
-              <MaterialCommunityIcons name='plus' color={iconColorTable['red1']} size={25} />
-            </View>
-            <Text style={{ color: 'white' }}>Create</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{ flexDirection: 'column', alignItems: 'center', padding: 10, justifyContent: 'center' }}
-            onPress={() => {
-              navigation.navigate('Discover');
-              // navigation.closeDrawer();
-            }}
-          >
-            <View
-              style={{
-                width: 40,
-                aspectRatio: 1,
-                borderRadius: 10,
-                // marginRight: 15,
+                borderBottomWidth: 0.3,
+                borderBottomColor: 'rgb(150,150,150)',
+                padding: 10,
                 marginBottom: 10,
-                backgroundColor: iconParameterBackgroundColorTable['blue1'],
-                justifyContent: 'center',
-                alignItems: 'center',
               }}
             >
-              <MaterialCommunityIcons name='compass' color={iconColorTable['blue1']} size={25} />
-            </View>
-            <Text style={{ color: 'white' }}>Discover</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{ flexDirection: 'column', alignItems: 'center', padding: 10, justifyContent: 'center' }}
-            onPress={() => {
-              navigation.navigate('SecretKeyForm');
-              navigation.closeDrawer();
-            }}
-          >
-            <View
-              style={{
-                width: 40,
-                aspectRatio: 1,
-                borderRadius: 10,
-                // marginRight: 15,
-                marginBottom: 10,
-                backgroundColor: iconParameterBackgroundColorTable['green1'],
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-            >
-              <Ionicons name='key' color={iconColorTable['green1']} size={25} />
-            </View>
-            <Text style={{ color: 'white' }}>Enter key</Text>
-          </TouchableOpacity>
-        </View>
-        {/* <View style={{ paddingTop: 20, paddingBottom: 20 }}>
-          <Text style={{ color: 'white', fontSize: 25, paddingLeft: 10 }}>My Spaces</Text>
-        </View> */}
-        {state.routes.map((route, index) => {
-          const { options } = descriptors[route.key];
-          const label = options.tabBarLabel !== undefined ? options.tabBarLabel : route.name;
-
-          const isFocused = state.index === index;
-
-          const onPress = () => {
-            const event = navigation.emit({
-              type: 'tabPress',
-              target: route.key,
-              canPreventDefault: true,
-            });
-
-            setCurrentSpaceAndUserRelationship(route.params?.spaceAndUserRelationship);
-
-            if (!isFocused && !event.defaultPrevented) {
-              navigation.navigate(route.name);
-            }
-          };
-
-          return (
-            <TouchableOpacity
-              key={route.key}
-              style={{
-                padding: 5,
-                // backgroundColor: isFocused ? 'rgb(60,60,60)' : 'transparent',
-              }}
-              onPress={onPress}
-            >
-              <View
+              <TouchableOpacity
                 style={{
-                  flexDirection: 'row',
+                  flexDirection: 'column',
                   alignItems: 'center',
                   padding: 10,
-                  backgroundColor: isFocused ? 'rgb(60,60,60)' : 'transparent',
-                  borderRadius: 10,
+                  justifyContent: 'center',
+                  marginRight: 10,
+                }}
+                onPress={() => {
+                  navigation.navigate('CreateNewSpace');
+                  navigation.closeDrawer();
                 }}
               >
-                <FastImage
-                  style={{ width: 40, aspectRatio: 1, borderRadius: 10, marginRight: 15 }}
-                  source={{ uri: route.params?.spaceAndUserRelationship.space.icon }}
-                  resizeMode={FastImage.resizeMode.contain}
-                />
-                <Text numberOfLines={1} style={{ color: 'white', fontSize: 17 }}>
-                  {route.params?.spaceAndUserRelationship.space.name}
-                </Text>
-              </View>
+                <View
+                  style={{
+                    width: 40,
+                    aspectRatio: 1,
+                    borderRadius: 10,
+                    // marginRight: 15,
+                    marginBottom: 10,
+                    backgroundColor: iconParameterBackgroundColorTable['red1'],
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                >
+                  <MaterialCommunityIcons name='plus' color={iconColorTable['red1']} size={25} />
+                </View>
+                <Text style={{ color: 'white' }}>Create</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{ flexDirection: 'column', alignItems: 'center', padding: 10, justifyContent: 'center' }}
+                onPress={() => {
+                  navigation.navigate('Discover');
+                  // navigation.closeDrawer();
+                }}
+              >
+                <View
+                  style={{
+                    width: 40,
+                    aspectRatio: 1,
+                    borderRadius: 10,
+                    // marginRight: 15,
+                    marginBottom: 10,
+                    backgroundColor: iconParameterBackgroundColorTable['blue1'],
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                >
+                  <MaterialCommunityIcons name='compass' color={iconColorTable['blue1']} size={25} />
+                </View>
+                <Text style={{ color: 'white' }}>Discover</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{ flexDirection: 'column', alignItems: 'center', padding: 10, justifyContent: 'center' }}
+                onPress={() => {
+                  navigation.navigate('SecretKeyForm');
+                  navigation.closeDrawer();
+                }}
+              >
+                <View
+                  style={{
+                    width: 40,
+                    aspectRatio: 1,
+                    borderRadius: 10,
+                    // marginRight: 15,
+                    marginBottom: 10,
+                    backgroundColor: iconParameterBackgroundColorTable['green1'],
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                >
+                  <Ionicons name='key' color={iconColorTable['green1']} size={25} />
+                </View>
+                <Text style={{ color: 'white' }}>Enter key</Text>
+              </TouchableOpacity>
+            </View>
+            {state.routes.map((route, index) => {
+              const { options } = descriptors[route.key];
+              const label = options.tabBarLabel !== undefined ? options.tabBarLabel : route.name;
+
+              const isFocused = state.index === index;
+
+              const onPress = () => {
+                const event = navigation.emit({
+                  type: 'tabPress',
+                  target: route.key,
+                  canPreventDefault: true,
+                });
+
+                setCurrentSpaceAndUserRelationship(route.params?.spaceAndUserRelationship);
+
+                if (!isFocused && !event.defaultPrevented) {
+                  navigation.navigate(route.name);
+                }
+              };
+
+              return (
+                <TouchableOpacity
+                  key={route.key}
+                  style={{
+                    padding: 5,
+                    // backgroundColor: isFocused ? 'rgb(60,60,60)' : 'transparent',
+                  }}
+                  onPress={onPress}
+                >
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      padding: 10,
+                      backgroundColor: isFocused ? 'rgb(60,60,60)' : 'transparent',
+                      borderRadius: 10,
+                    }}
+                  >
+                    <FastImage
+                      style={{ width: 40, aspectRatio: 1, borderRadius: 10, marginRight: 15 }}
+                      source={{ uri: route.params?.spaceAndUserRelationship.space.icon }}
+                      resizeMode={FastImage.resizeMode.contain}
+                    />
+                    <Text numberOfLines={1} style={{ color: 'white', fontSize: 17 }}>
+                      {route.params?.spaceAndUserRelationship.space.name}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              );
+            })}
+            {/* ↓これあると、screenのtabもrenderするようになる。 */}
+            {/* <DrawerItemList {...props} /> */}
+          </>
+        ) : (
+          <>
+            <TouchableOpacity
+              style={{ padding: 10, backgroundColor: 'red', marginBottom: 20 }}
+              onPress={() => {
+                navigation.closeDrawer();
+                navigation.navigate('Login');
+              }}
+            >
+              <Text>Login</Text>
             </TouchableOpacity>
-          );
-        })}
-        {/* ↓これあると、screenのtabもrenderするようになる。 */}
-        {/* <DrawerItemList {...props} /> */}
+            <TouchableOpacity
+              style={{ padding: 10, backgroundColor: 'red' }}
+              onPress={() => {
+                navigation.closeDrawer();
+                navigation.navigate('Signup');
+              }}
+            >
+              <Text>Signup</Text>
+            </TouchableOpacity>
+          </>
+        )}
       </DrawerContentScrollView>
     );
   }
@@ -194,7 +232,7 @@ const SpacesDrawerNavigator = (props) => {
     );
   }
 
-  if (spaceAndUserRelationships.length) {
+  if (isAuthenticated) {
     return (
       <Drawer.Navigator
         drawerContent={(props) => <CustomDrawerContent {...props} />}
@@ -220,17 +258,81 @@ const SpacesDrawerNavigator = (props) => {
           tabBarLabel: 'Home',
         })}
       >
-        {spaceAndUserRelationships.map((spaceAndUserRelationship) => (
+        {spaceAndUserRelationships.length ? (
+          spaceAndUserRelationships.map((spaceAndUserRelationship) => (
+            <Drawer.Screen
+              key={spaceAndUserRelationship._id}
+              name={`Space_${spaceAndUserRelationship._id}`}
+              initialParams={{ spaceAndUserRelationship }}
+              options={({ navigation }) => ({
+                headerTitle: spaceAndUserRelationship.space.name,
+                headerTitleStyle: {
+                  fontSize: 20,
+                  fontWeight: 'bold',
+                  // padding: 20,
+                },
+                // simulatorの場合、これないとheaderのheiightがおかしくなる。。。何で？？？
+                headerStyle: {
+                  // padding: 20,
+                  backgroundColor: 'black',
+                },
+
+                headerLeft: () => {
+                  return (
+                    <TouchableOpacity
+                      style={{
+                        width: 25,
+                        height: 25,
+                        borderRadius: 15,
+                        backgroundColor: 'white',
+                        marginLeft: 10,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                      }}
+                      onPress={() => navigation.toggleDrawer()}
+                    >
+                      <Ionicons name='menu' style={{}} size={20} />
+                    </TouchableOpacity>
+                  );
+                },
+                headerRight: () => {
+                  return (
+                    <TouchableOpacity
+                      onPress={() => {
+                        spaceMenuBottomSheetRef.current.snapToIndex(0);
+                      }}
+                    >
+                      <FastImage
+                        source={{ uri: spaceAndUserRelationship.space.icon }}
+                        style={{
+                          width: 35,
+                          height: 35,
+                          borderRadius: 8,
+                          marginRight: 10,
+                        }}
+                      />
+                    </TouchableOpacity>
+                  );
+                },
+              })}
+            >
+              {({ navigation, route }) => (
+                <SpaceRootBottomTabNavigator
+                  spaceAndUserRelationship={spaceAndUserRelationship}
+                  navigation={navigation}
+                />
+              )}
+            </Drawer.Screen>
+          ))
+        ) : (
           <Drawer.Screen
-            key={spaceAndUserRelationship._id}
-            name={`Space_${spaceAndUserRelationship._id}`}
-            initialParams={{ spaceAndUserRelationship }}
+            name={'NoSpaces'}
+            component={NoSpaces}
             options={({ navigation }) => ({
-              headerTitle: spaceAndUserRelationship.space.name,
+              headerTitle: '',
               headerTitleStyle: {
                 fontSize: 20,
                 fontWeight: 'bold',
-                // padding: 20,
               },
               // simulatorの場合、これないとheaderのheiightがおかしくなる。。。何で？？？
               headerStyle: {
@@ -256,35 +358,9 @@ const SpacesDrawerNavigator = (props) => {
                   </TouchableOpacity>
                 );
               },
-              headerRight: () => {
-                return (
-                  <TouchableOpacity
-                    onPress={() => {
-                      spaceMenuBottomSheetRef.current.snapToIndex(0);
-                    }}
-                  >
-                    <FastImage
-                      source={{ uri: spaceAndUserRelationship.space.icon }}
-                      style={{
-                        width: 35,
-                        height: 35,
-                        borderRadius: 8,
-                        marginRight: 10,
-                      }}
-                    />
-                  </TouchableOpacity>
-                );
-              },
             })}
-          >
-            {({ navigation, route }) => (
-              <SpaceRootBottomTabNavigator
-                spaceAndUserRelationship={spaceAndUserRelationship}
-                navigation={navigation}
-              />
-            )}
-          </Drawer.Screen>
-        ))}
+          ></Drawer.Screen>
+        )}
       </Drawer.Navigator>
     );
   } else {
@@ -314,8 +390,8 @@ const SpacesDrawerNavigator = (props) => {
         })}
       >
         <Drawer.Screen
-          name={'NoSpaces'}
-          component={NoSpaces}
+          name={'WelcomPage'}
+          component={WelcomePage}
           options={({ navigation }) => ({
             headerTitle: '',
             headerTitleStyle: {
