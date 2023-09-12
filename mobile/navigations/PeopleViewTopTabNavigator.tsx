@@ -90,9 +90,9 @@ const PeopleViewTopTabNavigator = () => {
                   }}
                   // tintColor={'white'}
                 />
-                {/* <Text numberOfLines={1} style={{ color: isFocused ? 'white' : 'rgb(120, 120, 120)', marginBottom: 7 }}>
+                <Text numberOfLines={1} style={{ color: isFocused ? 'white' : 'rgb(120, 120, 120)', marginBottom: 7 }}>
                   {route.params?.user.name}
-                </Text> */}
+                </Text>
               </TouchableOpacity>
             );
           })}

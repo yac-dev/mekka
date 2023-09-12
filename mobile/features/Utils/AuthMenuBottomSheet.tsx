@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import GorhomBottomSheet, { BottomSheetView, BottomSheetBackdrop } from '@gorhom/bottom-sheet';
 import * as SecureStore from 'expo-secure-store';
 import { GlobalContext } from '../../contexts/GlobalContext';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const AuthMenuBottomSheet = () => {
   const snapPoints = useMemo(() => ['50%'], []);
@@ -49,7 +50,8 @@ const AuthMenuBottomSheet = () => {
         // onClose={() => onSelectedItemBottomSheetClose()}
       >
         <BottomSheetView style={{ flex: 1 }}>
-          <TouchableOpacity onPress={() => onLogoutPress()}>
+          <TouchableOpacity onPress={() => onLogoutPress()} style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <MaterialCommunityIcons name='logout' color='white' size={25} style={{ marginRight: 10 }} />
             <Text style={{ color: 'white' }}>Logout</Text>
           </TouchableOpacity>
         </BottomSheetView>

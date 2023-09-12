@@ -85,12 +85,16 @@ const TagViewTopTabNavigator = (props) => {
 
   // console.log(props.route);
 
+  // useEffect(() => {
+  //   if (hasSpaceBeenFetched || props.route?.params?.afterPosted) {
+  //     getTags();
+  //     // setHasSpaceBeenFetched(false);
+  //   }
+  // }, [hasSpaceBeenFetched, props.route?.params?.afterPosted]);
+
   useEffect(() => {
-    if (hasSpaceBeenFetched || props.route?.params?.afterPosted) {
-      getTags();
-      // setHasSpaceBeenFetched(false);
-    }
-  }, [hasSpaceBeenFetched, props.route?.params?.afterPosted]);
+    getTags();
+  }, []);
 
   const CustomTabBar = ({ state, descriptors, navigation }) => {
     return (

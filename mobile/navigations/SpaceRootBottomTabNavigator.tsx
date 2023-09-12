@@ -14,6 +14,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import TagViewTopTabNavigator from './TagViewTopTabNavigator';
 import PeopleViewTopTabNavigator from './PeopleViewTopTabNavigator';
 import LocationsViewTopTabNavigator from './LocationsViewTopTabNavigator';
+import MomentosView from '../features/Space/pages/MomentosView';
 import FastImage from 'react-native-fast-image';
 
 const Tab = createBottomTabNavigator();
@@ -55,7 +56,7 @@ const SpaceRootBottomTabNavigator = (props) => {
             headerShown: false,
             tabBarStyle: {
               backgroundColor: 'rgb(40,40,40)',
-              marginHorizontal: 100,
+              marginHorizontal: 80,
               paddingBottom: 0, // きたー。これよ。これ。
               borderRadius: 30,
               height: 50,
@@ -100,6 +101,13 @@ const SpaceRootBottomTabNavigator = (props) => {
               tabBarIcon: ({ size, color, focused }) => (
                 <Entypo name='globe' color={focused ? 'white' : 'rgb(102, 104, 109)'} size={23} />
               ),
+              // tabBarLabel: ({ focused }) => {
+              //   // Only show the label when the tab is focused
+              //   if (focused) {
+              //     return <Text style={{ color: 'white' }}>Locations</Text>;
+              //   }
+              //   return null;
+              // },
             })}
           />
           <Tab.Screen
@@ -117,8 +125,8 @@ const SpaceRootBottomTabNavigator = (props) => {
             })}
           />
           <Tab.Screen
-            name='GhostsViewTopTabNavigator'
-            component={PeopleViewTopTabNavigator}
+            name='MomentosView'
+            component={MomentosView}
             options={({ navigation }) => ({
               tabBarShowLabel: false,
               tabBarIcon: ({ size, color, focused }) => (
@@ -133,14 +141,6 @@ const SpaceRootBottomTabNavigator = (props) => {
         </Tab.Navigator>
         <TouchableOpacity
           onPress={() => {
-            // props.navigation?.navigate({
-            //   name: 'CreateNewPost',
-            //   params: {
-            //     space: currentSpace,
-            //     spaceAndUserRelationship: currentSpaceAndUserRelationship,
-            //   }, // なんで、spaceUserRelが必要？？いらなくね。。。
-            //   merge: true,
-            // });
             props.navigation?.navigate('CreateNewPostStackNavigator', {
               screen: 'SelectPostType',
               params: {

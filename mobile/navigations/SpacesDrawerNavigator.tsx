@@ -200,7 +200,7 @@ const SpacesDrawerNavigator = (props) => {
           </>
         ) : (
           <>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={{ padding: 10, backgroundColor: 'red', marginBottom: 20 }}
               onPress={() => {
                 navigation.closeDrawer();
@@ -217,7 +217,10 @@ const SpacesDrawerNavigator = (props) => {
               }}
             >
               <Text>Signup</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
+            <Text style={{ color: 'white', textAlign: 'center', paddingTop: 100 }}>
+              Please login or signup at first.
+            </Text>
           </>
         )}
       </DrawerContentScrollView>

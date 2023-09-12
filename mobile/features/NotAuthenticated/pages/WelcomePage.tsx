@@ -40,6 +40,7 @@ const WelcomePage = (props) => {
             alignItems: 'center',
             // justifyContent: 'space-between',
             width: 120,
+            height: 40,
             marginRight: 20,
           }}
         >
@@ -59,10 +60,11 @@ const WelcomePage = (props) => {
             alignItems: 'center',
             // justifyContent: 'space-between',
             width: 120,
+            height: 40,
           }}
         >
           <View style={{ flexDirection: 'row', alignItems: 'center', alignSelf: 'center' }}>
-            <Ionicons name='create' color='black' size={25} style={{ marginRight: 10 }} />
+            <Ionicons name='create-outline' color='black' size={25} style={{ marginRight: 10 }} />
             <Text style={{ color: 'black', fontSize: 17, fontWeight: 'bold' }}>Signup</Text>
           </View>
           {/* <MaterialCommunityIcons name='chevron-right' size={25} color='white' /> */}
