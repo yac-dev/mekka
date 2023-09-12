@@ -11,6 +11,7 @@ import Disapper from '../components/SpaceDetail/Disapper';
 import Reactions from '../components/SpaceDetail/Reactions';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { GlobalContext } from '../../../contexts/GlobalContext';
+import LoadingSpinner from '../../../components/LoadingSpinner';
 
 // props.route.params.spaceIdでくるよね。
 interface RouterProps {
@@ -74,7 +75,7 @@ const SpaceDetail: React.FC<RouterProps> = (props) => {
   const validateJoinButton = () => {
     if (!spaceAndUserRelationships.length) return true;
     for (let i = 0; i < spaceAndUserRelationships.length; i++) {
-      if (spaceAndUserRelationships[i]._id === props.route.params.spaceId) {
+      if (spaceAndUserRelationships[i].space._id === props.route.params.spaceId) {
         return false;
       }
     }
@@ -88,16 +89,26 @@ const SpaceDetail: React.FC<RouterProps> = (props) => {
 
   const onJoinPress = async () => {
     const payload = {
-      spaceId: props.route.params.spaceId,
       userId: authData._id,
+      space: {
+        _id: space._id,
+        name: space.name,
+        icon: space.icon,
+        contentType: space.contentType,
+      },
     };
     setLoading(true);
     const result = await backendAPI.post(`/spaces/${props.route.params.spaceId}/public`, payload);
     const { spaceAndUserRelationship } = result.data;
     setSpaceAndUserRelationships((previous) => [...previous, spaceAndUserRelationship]);
     setLoading(false);
-    setSnackBar({ isVisible: true, barType: 'success', message: `You have joined ${space.name} successfully` });
-    props.navigation.navigate('Discover');
+    setSnackBar({
+      isVisible: true,
+      barType: 'success',
+      message: `You have joined ${space.name} successfully`,
+      duration: 5000,
+    });
+    props.navigation.goBack();
   };
 
   useEffect(() => {
@@ -127,7 +138,7 @@ const SpaceDetail: React.FC<RouterProps> = (props) => {
         </TouchableOpacity>
       ),
     });
-  }, [isJoinValidated]);
+  }, [isJoinValidated, space]);
 
   useEffect(() => {
     getSpace();
@@ -159,6 +170,7 @@ const SpaceDetail: React.FC<RouterProps> = (props) => {
           <ActivityIndicator />
         )}
       </ScrollView>
+      <LoadingSpinner />
     </SpaceDetailContext.Provider>
   );
 };

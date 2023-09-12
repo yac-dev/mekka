@@ -1,6 +1,6 @@
 import React, { useMemo, useContext } from 'react';
 import { GlobalContext } from '../../../contexts/GlobalContext';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import GorhomBottomSheet, { BottomSheetView, BottomSheetBackdrop } from '@gorhom/bottom-sheet';
 import Header from '../components/Header';
@@ -36,10 +36,12 @@ const SpaceMenuBottomSheet = (props) => {
         // onClose={() => onSelectedItemBottomSheetClose()}
       >
         <BottomSheetView style={{ flex: 1 }}>
-          <Header />
-          {/* <ActionButtons navigation={props.navigation} /> */}
-          <MediaStats />
-          <Description />
+          <ScrollView>
+            <Header />
+            {/* <ActionButtons navigation={props.navigation} /> */}
+            <MediaStats />
+            <Description />
+          </ScrollView>
         </BottomSheetView>
       </GorhomBottomSheet>
     );

@@ -1,5 +1,5 @@
 import React, { useReducer, useState, useEffect, useContext, useCallback } from 'react';
-import { View, Text, FlatList, TouchableOpacity, Dimensions } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, Dimensions, ActivityIndicator } from 'react-native';
 import { NavigationProp } from '@react-navigation/native';
 import { GlobalContext } from '../../../contexts/GlobalContext';
 import backendAPI from '../../../apis/backend';
@@ -42,6 +42,7 @@ const Discover: React.FC<RouterProps> = (props) => {
     const result = await backendAPI.get('/spaces');
     const { spaces } = result.data;
     setSpaces(spaces);
+    setAreSpacesFetched(true);
   };
   useEffect(() => {
     getSpaces();
@@ -142,16 +143,32 @@ const Discover: React.FC<RouterProps> = (props) => {
   //   return <View style={{ flexDirection: 'row', alignItems: 'center' }}>{list}</View>;
   // };
 
+  const renderSpaces = () => {
+    if (areSpacesFetched) {
+      if (spaces.length) {
+        return (
+          <FlatList
+            data={spaces}
+            renderItem={({ item }) => renderSpace(item)}
+            keyExtractor={(item, index) => `${item._id}-${index}`}
+          />
+        );
+      } else {
+        return <Text style={{ paddingTop: 100, color: 'white' }}>There are no public spaces now.</Text>;
+      }
+    } else {
+      return (
+        <View style={{ flex: 1, paddingTop: 100, backgroundColor: 'black' }}>
+          <ActivityIndicator />
+        </View>
+      );
+    }
+  };
+
   return (
     <DiscoverContext.Provider value={{ spaces, setSpaces, navigation: props.navigation }}>
       <View style={{ flex: 1, backgroundColor: primaryBackgroundColor, padding: 10 }}>
-        <FlatList
-          data={spaces}
-          renderItem={({ item }) => renderSpace(item)}
-          keyExtractor={(item, index) => `${item._id}-${index}`}
-        />
-        {/* {renderSpaces()} */}
-        {/* <CreateNewButton /> */}
+        {renderSpaces()}
         <SnackBar />
       </View>
     </DiscoverContext.Provider>

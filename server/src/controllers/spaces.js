@@ -369,10 +369,10 @@ export const joinPrivateSpaceBySecretKey = async (request, response) => {
 
 export const joinPublicSpace = async (request, response) => {
   try {
-    const space = await Space.findOne({ secretKey });
+    const { space, userId } = request.body;
     const spaceAndUserRelationship = await SpaceAndUserRelationship.create({
       user: userId,
-      space: space._id,
+      space: request.params.spaceId,
       createdAt: new Date(),
       lastCheckedIn: new Date(),
     });

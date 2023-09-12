@@ -61,7 +61,7 @@ const TagView = (props) => {
     if (posts.length) {
       return (
         <View style={{ flex: 1, backgroundColor: 'black' }}>
-          <View
+          {/* <View
             style={{
               flexDirection: 'row',
               alignItems: 'center',
@@ -97,8 +97,9 @@ const TagView = (props) => {
             >
               <Text style={{ fontWeight: 'bold' }}>Edit</Text>
             </TouchableOpacity>
-          </View>
+          </View> */}
           <FlatList
+            style={{ paddingTop: 10 }}
             numColumns={3}
             data={posts}
             renderItem={({ item }) => renderItem(item)}

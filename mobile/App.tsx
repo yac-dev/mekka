@@ -35,6 +35,7 @@ const App: React.FC = function () {
   const [currentSpace, setCurrentSpace] = useState(null); // ここでspaceを持っていた方がいいのかも。。。
   const spaceMenuBottomSheetRef = useRef(null);
   const authMenuBottomSheetRef = useRef(null);
+  const [afterJoined, setAfterJoined] = useState(false);
 
   const loadMe = async () => {
     const jwt = await SecureStore.getItemAsync('secure_token');

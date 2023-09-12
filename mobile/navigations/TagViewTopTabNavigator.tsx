@@ -143,6 +143,7 @@ const TagViewTopTabNavigator = (props) => {
                 }}
                 // contentTypeによって、いくnavigatorが変わるわけですよ。。。そう、つまりここでnavigatingを分ければいいわけね。
                 onPress={onPress}
+                // onLongPress={() => console.log('long press')} edit画面をここに出す。
               >
                 {/* rgb(100, 100, 100) */}
                 <FastImage
@@ -152,6 +153,9 @@ const TagViewTopTabNavigator = (props) => {
                 />
                 <Text numberOfLines={1} style={{ color: 'white' }}>
                   {route.params?.tagObject.tag.name}
+                </Text>
+                <Text style={{ color: 'rgb(170,170,170)', position: 'absolute', top: 7, right: 10 }}>
+                  {route.params?.tagObject.tag.count}
                 </Text>
               </TouchableOpacity>
             );
