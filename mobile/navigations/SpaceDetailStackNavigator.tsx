@@ -16,12 +16,22 @@ const SpaceDetailStackNavigator: React.FC = () => {
         component={SpaceDetail}
         options={({ navigation }) => ({
           headerLeft: () => (
-            <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Ionicons name='close-circle-sharp' size={30} color={'white'} />
+            <TouchableOpacity
+              onPress={() => navigation.goBack()}
+              style={{
+                backgroundColor: 'white',
+                borderRadius: 20,
+                flexDirection: 'row',
+                alignItems: 'center',
+                padding: 5,
+              }}
+            >
+              <Ionicons name='close' size={20} color={'black'} />
+              <Text style={{ color: 'black', fontWeight: 'bold' }}>Close</Text>
             </TouchableOpacity>
           ),
           headerShown: true,
-          headerTitle: 'Space detail',
+          headerTitle: '',
           headerStyle: {
             backgroundColor: 'rgb(38, 38, 38)',
           },

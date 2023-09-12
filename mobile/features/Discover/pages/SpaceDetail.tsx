@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, ActivityIndicator, ScrollView } from 'react-native';
 import { NavigationProp, RouteProp } from '@react-navigation/native';
 import backendAPI from '../../../apis/backend';
@@ -9,6 +9,8 @@ import Description from '../components/SpaceDetail/Description';
 import ContentType from '../components/SpaceDetail/ContentType';
 import Disapper from '../components/SpaceDetail/Disapper';
 import Reactions from '../components/SpaceDetail/Reactions';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { GlobalContext } from '../../../contexts/GlobalContext';
 
 // props.route.params.spaceIdでくるよね。
 interface RouterProps {
@@ -55,8 +57,10 @@ type SpaceType = {
 
 // ここに、spaceのthumbnailから始まり、
 const SpaceDetail: React.FC<RouterProps> = (props) => {
+  const { spaceAndUserRelationships } = useContext(GlobalContext);
   const [space, setSpace] = useState(null);
   const [isSpaceFetched, setIsSpaceFetched] = useState(false);
+  const [isJoinValidated, setIsJoinValidated] = useState(false);
 
   const getSpace = async () => {
     const result = await backendAPI.get(`/spaces/${props.route.params.spaceId}`);
@@ -65,14 +69,42 @@ const SpaceDetail: React.FC<RouterProps> = (props) => {
     setIsSpaceFetched(true);
   };
 
+  // join button validation
+  useEffect(() => {
+    for (let i = 0; i < spaceAndUserRelationships.length; i++) {
+      if (spaceAndUserRelationships[i]._id === props.route.params.spaceId) {
+        setIsJoinValidated(false);
+      }
+
+      if (i === spaceAndUserRelationships.length - 1) {
+        if (spaceAndUserRelationships[i]._id === props.route.params.spaceId) {
+          setIsJoinValidated(false);
+        } else {
+          setIsJoinValidated(true);
+        }
+      }
+    }
+  }, []); // 違うaccount作って試さないとな。
+
   useEffect(() => {
     props.navigation.setOptions({
       headerRight: () => (
-        <TouchableOpacity onPress={() => console.log('join')}>
+        <TouchableOpacity
+          onPress={() => console.log('join')}
+          style={{
+            backgroundColor: isJoinValidated ? 'white' : 'rgb(150,150,150)',
+            borderRadius: 20,
+            padding: 5,
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}
+          disabled={isJoinValidated ? false : true}
+        >
+          <MaterialCommunityIcons name='human-greeting-variant' size={20} color='black' />
           <Text
             style={{
-              color: 'white',
-              fontSize: 20,
+              color: 'black',
+              fontSize: 15,
               fontWeight: 'bold',
             }}
           >

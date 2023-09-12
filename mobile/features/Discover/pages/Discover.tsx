@@ -66,11 +66,11 @@ const Discover: React.FC<RouterProps> = (props) => {
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <FastImage
             source={{ uri: space.icon }}
-            style={{ width: 80, height: 80, borderRadius: 10, marginRight: 20 }}
+            style={{ width: 80, height: 80, borderRadius: 13, marginRight: 20 }}
           />
           <View style={{ flexDirection: 'column' }}>
             <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 20, marginBottom: 5 }}>{space.name}</Text>
-            <Text numberOfLines={2} style={{ color: 'rgb(170,170,170)', width: 200 }}>
+            <Text numberOfLines={2} style={{ color: 'rgb(170,170,170)', width: 150 }}>
               {space.description}
             </Text>
           </View>

@@ -330,12 +330,23 @@ export const joinPrivateSpaceBySecretKey = async (request, response) => {
   try {
     const { userId, secretKey } = request.body;
     const space = await Space.findOne({ secretKey });
-    const spaceAndUserRelationship = await SpaceAndUserRelationship.create({
+    // 既にspaceに参加している場合は、エラーを返す。
+    const document = await SpaceAndUserRelationship.findOne({
       user: userId,
       space: space._id,
-      createdAt: new Date(),
-      lastCheckedIn: new Date(),
     });
+
+    let spaceAndUserRelationship;
+    if (document) {
+      throw new Error('Already joined this space.');
+    } else {
+      spaceAndUserRelationship = await SpaceAndUserRelationship.create({
+        user: userId,
+        space: space._id,
+        createdAt: new Date(),
+        lastCheckedIn: new Date(),
+      });
+    }
 
     response.status(201).json({
       spaceAndUserRelationship: {
@@ -349,6 +360,9 @@ export const joinPrivateSpaceBySecretKey = async (request, response) => {
       },
     });
   } catch (error) {
-    console.log(error);
+    console.log(error.message, error.name);
+    response.status(400).json({
+      message: 'OOPS! You have already joined this space.',
+    });
   }
 };
