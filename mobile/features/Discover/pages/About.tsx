@@ -100,7 +100,7 @@ const About = () => {
         <Text
           onTextLayout={onTextLayout}
           numberOfLines={textShown ? undefined : 3}
-          style={{ color: 'white', lineHeight: 20 }}
+          style={{ color: 'white', lineHeight: 22, padding: 5 }}
         >
           {space.description}
         </Text>

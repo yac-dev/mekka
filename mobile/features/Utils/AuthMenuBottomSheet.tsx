@@ -4,9 +4,10 @@ import GorhomBottomSheet, { BottomSheetView, BottomSheetBackdrop } from '@gorhom
 import * as SecureStore from 'expo-secure-store';
 import { GlobalContext } from '../../contexts/GlobalContext';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 
 const AuthMenuBottomSheet = () => {
-  const snapPoints = useMemo(() => ['50%'], []);
+  const snapPoints = useMemo(() => ['40%'], []);
   const {
     authData,
     isAuthenticated,
@@ -34,6 +35,10 @@ const AuthMenuBottomSheet = () => {
     // props.navigation.navigate('Welcome');
   };
 
+  const onClosePress = () => {
+    authMenuBottomSheetRef.current.close();
+  };
+
   if (isAuthenticated) {
     return (
       <GorhomBottomSheet
@@ -50,9 +55,51 @@ const AuthMenuBottomSheet = () => {
         // onClose={() => onSelectedItemBottomSheetClose()}
       >
         <BottomSheetView style={{ flex: 1 }}>
-          <TouchableOpacity onPress={() => onLogoutPress()} style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <MaterialCommunityIcons name='logout' color='white' size={25} style={{ marginRight: 10 }} />
-            <Text style={{ color: 'white' }}>Logout</Text>
+          <TouchableOpacity
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              backgroundColor: 'white',
+              borderRadius: 20,
+              padding: 5,
+              alignSelf: 'flex-start',
+              marginLeft: 10,
+              marginBottom: 20,
+            }}
+            onPress={() => onClosePress()}
+          >
+            <Ionicons name='close' color='black' size={20} style={{ marginRight: 5 }} />
+            <Text>Close</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}
+            onPress={() => console.log('edit')}
+          >
+            <View style={{ flexDirection: 'row', alignItems: 'center', padding: 10 }}>
+              <MaterialCommunityIcons name='logout' color='white' size={25} style={{ marginRight: 10 }} />
+              <Text style={{ color: 'white', fontSize: 18 }}>Edit my account</Text>
+            </View>
+            <MaterialCommunityIcons name='chevron-right' size={20} color='white' style={{ marginRight: 10 }} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}
+            onPress={() => onLogoutPress()}
+          >
+            <View style={{ flexDirection: 'row', alignItems: 'center', padding: 10 }}>
+              <MaterialCommunityIcons name='logout' color='white' size={25} style={{ marginRight: 10 }} />
+              <Text style={{ color: 'white', fontSize: 18 }}>Logout</Text>
+            </View>
+            <MaterialCommunityIcons name='chevron-right' size={20} color='white' style={{ marginRight: 10 }} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}
+            onPress={() => console.log('delete')}
+          >
+            <View style={{ flexDirection: 'row', alignItems: 'center', padding: 10 }}>
+              <MaterialCommunityIcons name='logout' color='white' size={25} style={{ marginRight: 10 }} />
+              <Text style={{ color: 'white', fontSize: 18 }}>Delete my account</Text>
+            </View>
+            <MaterialCommunityIcons name='chevron-right' size={20} color='white' style={{ marginRight: 10 }} />
           </TouchableOpacity>
         </BottomSheetView>
       </GorhomBottomSheet>

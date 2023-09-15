@@ -1,5 +1,5 @@
 import React, { useState, useContext, useCallback, useEffect } from 'react';
-import { View, Text, FlatList, ActivityIndicator } from 'react-native';
+import { View, Text, FlatList, ActivityIndicator, TouchableOpacity } from 'react-native';
 import backendAPI from '../../../apis/backend';
 import { SpaceDetailContext } from '../contexts/SpaceDetailContext';
 import FastImage from 'react-native-fast-image';
@@ -23,7 +23,7 @@ const Members = () => {
 
   const renderUser = useCallback((user) => {
     return (
-      <View
+      <TouchableOpacity
         style={{
           flexDirection: 'row',
           alignItems: 'center',
@@ -34,7 +34,7 @@ const Members = () => {
       >
         <FastImage source={{ uri: user.avatar }} style={{ width: 35, height: 35, marginRight: 15 }} />
         <Text style={{ color: 'white', fontSize: 17 }}>{user.name}</Text>
-      </View>
+      </TouchableOpacity>
     );
   }, []);
 

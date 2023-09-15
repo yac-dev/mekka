@@ -4,13 +4,15 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import backendAPI from '../apis/backend';
 import About from '../features/Discover/pages/About';
 import Members from '../features/Discover/pages/Members';
+import Posts from '../features/Discover/pages/Posts';
+import Tags from '../features/Discover/pages/Tags';
 
 const Tab = createMaterialTopTabNavigator();
 
 const SpaceDetailTopTabNavigator = () => {
   const CustomTabBar = ({ state, descriptors, navigation }) => {
     return (
-      <View style={{ alignItems: 'center' }}>
+      <View style={{ alignItems: 'center', marginBottom: 15 }}>
         <View style={{ flexDirection: 'row' }}>
           {state.routes.map((route, index) => {
             const { options } = descriptors[route.key];
@@ -52,7 +54,6 @@ const SpaceDetailTopTabNavigator = () => {
   };
 
   return (
-    // <View>
     <Tab.Navigator
       tabBar={(props) => <CustomTabBar {...props} />}
       screenOptions={({ route }) => ({
@@ -61,9 +62,10 @@ const SpaceDetailTopTabNavigator = () => {
       })}
     >
       <Tab.Screen name={'About'} component={About} />
+      <Tab.Screen name={'Posts'} component={Posts} />
+      <Tab.Screen name={'Tags'} component={Tags} />
       <Tab.Screen name={'Members'} component={Members} />
     </Tab.Navigator>
-    // </View>
   );
 };
 
