@@ -31,9 +31,10 @@ export const createMoment = async (request, response) => {
       await uploadPhoto(file.filename, content.type);
       return content;
     });
+
     const contentDocuments = await Promise.all(contentPromises);
     const contentIds = contentDocuments.map((content) => {
-      return contentPromises._id;
+      return content._id;
     });
     // var momentId = new mongoose.Types.ObjectId();
     const moment = await Moment.create({
@@ -61,9 +62,32 @@ export const createMoment = async (request, response) => {
 // disappearAfterの日付に気をつけてfetchしなくちゃいけない。
 export const getMomentsBySpaceId = async (request, response) => {
   try {
-    const moments = await Moment.find({ space: request.params.spaceId });
+    const now = new Date(new Date().getTime());
+    const moments = await Moment.find({ space: request.params.spaceId, disappearAt: { $gt: now } })
+      .populate({
+        path: 'contents',
+        model: 'Content',
+        select: '_id data type',
+      })
+      .populate({
+        path: 'createdBy',
+        model: 'User',
+        select: '_id name avatar',
+      });
+
+    const responseData = moments.map((moment) => {
+      return {
+        _id: moment._id,
+        content: {
+          data: moment.contents[0].data,
+          type: moment.contents[0].type,
+        },
+        createdAt: moment.createdAt,
+        disappearAt: moment.disappearAt,
+      };
+    });
     response.status(200).json({
-      moments,
+      moments: responseData,
     });
   } catch (error) {
     console.log(error);

@@ -14,23 +14,46 @@ const MomentsView = () => {
   const [moments, setMoments] = useState([]);
   const [haveMomentosBeenFetched, setHaveMomentosBeenFetched] = useState(false);
 
-  const getMomentos = async () => {
+  const getMoments = async () => {
     const result = await backendAPI.get(`/moments/${spaceAndUserRelationship.space._id}`);
     const { moments } = result.data;
     setMoments(moments);
     setHaveMomentosBeenFetched(true);
   };
 
+  console.log(moments);
+
   useEffect(() => {
-    getMomentos();
+    getMoments();
   }, []);
+
+  const calculateLeftTime = (disappearAt) => {
+    const now = new Date();
+    const last = new Date(disappearAt);
+    const timeLeftMs = last - now;
+    const hours = Math.floor(timeLeftMs / (1000 * 60 * 60));
+    const minutes = Math.floor((timeLeftMs % (1000 * 60 * 60)) / (1000 * 60));
+
+    return (
+      <View
+        style={{ flexDirection: 'row', alignItems: 'center', position: 'absolute', bottom: 5, alignSelf: 'center' }}
+      >
+        <FastImage
+          source={require('../../../assets/forApp/ghost.png')}
+          style={{ width: 15, height: 15, marginRight: 5 }}
+          tintColor={'white'}
+        />
+        <Text style={{ color: 'white' }}>{`${hours ? `${hours} h` : ''} ${minutes ? `${minutes} min` : ''}`}</Text>
+      </View>
+    );
+  };
 
   const renderItem = useCallback((moment) => {
     if (moment.content.type === 'video') {
       return (
         <TouchableOpacity
           style={{ width: oneAssetWidth, height: oneAssetWidth, padding: 2 }}
-          onPress={() => navigation.navigate({ name: 'ViewPost', params: { moment } })}
+          // onPress={() => navigation.navigate({ name: 'ViewPost', params: { moment } })}
         >
           <Video source={{ uri: moment.content.data }} style={{ width: '100%', height: '100%', borderRadius: 5 }} />;
         </TouchableOpacity>
@@ -39,9 +62,10 @@ const MomentsView = () => {
       return (
         <TouchableOpacity
           style={{ width: oneAssetWidth, height: oneAssetWidth, padding: 2 }}
-          onPress={() => navigation.navigate({ name: 'ViewPost', params: { moment } })}
+          // onPress={() => navigation.navigate({ name: 'ViewPost', params: { moment } })}
         >
           <FastImage source={{ uri: moment.content.data }} style={{ width: '100%', height: '100%', borderRadius: 5 }} />
+          {calculateLeftTime(moment.disappearAt)}
         </TouchableOpacity>
       );
     }
@@ -50,16 +74,19 @@ const MomentsView = () => {
   if (haveMomentosBeenFetched) {
     if (moments.length) {
       return (
-        <FlatList
-          style={{ paddingTop: 10 }}
-          numColumns={3}
-          data={moments}
-          renderItem={({ item }) => renderItem(item)}
-          keyExtractor={(item) => item._id}
-          // refreshControl={
-          //   <RefreshControl colors={['#FF0000', '#00FF00']} refreshing={isRefreshing} onRefresh={() => onRefresh()} />
-          // }
-        />
+        <View style={{ flex: 1, backgroundColor: 'black' }}>
+          <Text>Label or something...</Text>
+          <FlatList
+            style={{ paddingTop: 10 }}
+            numColumns={3}
+            data={moments}
+            renderItem={({ item }) => renderItem(item)}
+            keyExtractor={(item) => item._id}
+            // refreshControl={
+            //   <RefreshControl colors={['#FF0000', '#00FF00']} refreshing={isRefreshing} onRefresh={() => onRefresh()} />
+            // }
+          />
+        </View>
       );
     } else {
       return (
@@ -82,6 +109,8 @@ const MomentsView = () => {
       </View>
     );
   }
+
+  // return <Text style={{ color: 'white' }}>Moments</Text>;
 };
 
 export default MomentsView;

@@ -10,6 +10,6 @@ const momentSchema = mongoose.Schema({
   createdAt: Date,
 });
 
-const Moment = mongoose.model('Momento', momentSchema);
+const Moment = mongoose.model('Moment', momentSchema);
 
 export default Moment;
