@@ -26,7 +26,7 @@ const Header = () => {
   };
 
   return (
-    <View style={{ marginBottom: 20 }}>
+    <View style={{ marginBottom: 5 }}>
       <View style={{ height: 200, width: '100%', marginBottom: 20 }}>
         <FastImage
           source={{ uri: currentSpaceAndUserRelationship.space.icon }}
@@ -35,7 +35,7 @@ const Header = () => {
         <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 25, position: 'absolute', bottom: 10, left: 10 }}>
           {currentSpaceAndUserRelationship.space.name}
         </Text>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={{
             backgroundColor: 'white',
             width: 25,
@@ -49,45 +49,7 @@ const Header = () => {
           }}
         >
           <Feather name='more-horizontal' color='black' size={20} />
-        </TouchableOpacity>
-      </View>
-      <View style={{ paddingLeft: 10, paddingRight: 10 }}>
-        <View
-          style={{
-            marginBottom: 20,
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-          }}
-        >
-          <Text style={{ color: 'white' }}>4 members</Text>
-          <TouchableOpacity
-            style={{
-              paddingLeft: 20,
-              paddingRight: 20,
-              paddingTop: 10,
-              paddingBottom: 10,
-              backgroundColor: 'white',
-              borderRadius: 20,
-              marginRight: 15,
-            }}
-            onPress={() => onInvitePress()}
-          >
-            <Text style={{ fontWeight: 'bold' }}>Invite</Text>
-          </TouchableOpacity>
-        </View>
-        <Text style={{ fontSize: 25, fontWeight: 'bold', marginBottom: 15, color: 'white' }}>Description</Text>
-        <Text onTextLayout={onTextLayout} numberOfLines={textShown ? undefined : 3} style={{ color: 'white' }}>
-          {currentSpace.description}
-        </Text>
-        {lengthMore ? (
-          <Text
-            onPress={toggleNumberOfLines}
-            style={{ marginTop: 10, color: 'rgb(170,170,170)', alignSelf: 'flex-end' }}
-          >
-            {textShown ? 'Read less' : 'Read more'}
-          </Text>
-        ) : null}
+        </TouchableOpacity> */}
       </View>
     </View>
   );

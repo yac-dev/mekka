@@ -8,6 +8,7 @@ import Menus from '../components/Menus';
 import Description from '../components/Description';
 import ActionButtons from '../components/ActionButtons';
 import MediaStats from '../components/MediaStats';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 // rgb(35, 35, 35)
 const SpaceMenuBottomSheet = (props) => {
@@ -38,9 +39,25 @@ const SpaceMenuBottomSheet = (props) => {
         <BottomSheetView style={{ flex: 1 }}>
           <ScrollView>
             <Header />
-            <MediaStats />
+
             <Description />
+            <MediaStats />
           </ScrollView>
+          <TouchableOpacity
+            style={{
+              width: 50,
+              height: 50,
+              backgroundColor: 'white',
+              justifyContent: 'center',
+              alignItems: 'center',
+              position: 'absolute',
+              bottom: 20,
+              right: 20,
+              borderRadius: 25,
+            }}
+          >
+            <MaterialCommunityIcons name='widgets' color='black' size={20} />
+          </TouchableOpacity>
         </BottomSheetView>
       </GorhomBottomSheet>
     );

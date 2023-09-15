@@ -75,7 +75,6 @@ const MomentsView = () => {
     if (moments.length) {
       return (
         <View style={{ flex: 1, backgroundColor: 'black' }}>
-          <Text>Label or something...</Text>
           <FlatList
             style={{ paddingTop: 10 }}
             numColumns={3}
