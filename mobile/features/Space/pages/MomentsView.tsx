@@ -6,18 +6,18 @@ import { GlobalContext } from '../../../contexts/GlobalContext';
 import { SpaceRootContext } from '../contexts/SpaceRootContext';
 import backendAPI from '../../../apis/backend';
 
-const Momento = () => {
+const MomentsView = () => {
   const { isIpad } = useContext(GlobalContext);
   const oneAssetWidth = isIpad ? Dimensions.get('window').width / 6 : Dimensions.get('window').width / 3;
   const { spaceAndUserRelationship, navigation, space, hasSpaceBeenFetched, setHasSpaceBeenFetched } =
     useContext(SpaceRootContext);
-  const [momentos, setMomentos] = useState([]);
+  const [moments, setMoments] = useState([]);
   const [haveMomentosBeenFetched, setHaveMomentosBeenFetched] = useState(false);
 
   const getMomentos = async () => {
-    const result = await backendAPI.get(`/momentos/${spaceAndUserRelationship.space._id}`);
-    const { momentos } = result.data;
-    setMomentos(momentos);
+    const result = await backendAPI.get(`/moments/${spaceAndUserRelationship.space._id}`);
+    const { moments } = result.data;
+    setMoments(moments);
     setHaveMomentosBeenFetched(true);
   };
 
@@ -25,38 +25,35 @@ const Momento = () => {
     getMomentos();
   }, []);
 
-  const renderItem = useCallback((momento) => {
-    if (momento.content.type === 'video') {
+  const renderItem = useCallback((moment) => {
+    if (moment.content.type === 'video') {
       return (
         <TouchableOpacity
           style={{ width: oneAssetWidth, height: oneAssetWidth, padding: 2 }}
-          onPress={() => navigation.navigate({ name: 'ViewPost', params: { momento } })}
+          onPress={() => navigation.navigate({ name: 'ViewPost', params: { moment } })}
         >
-          <Video source={{ uri: momento.content.data }} style={{ width: '100%', height: '100%', borderRadius: 5 }} />;
+          <Video source={{ uri: moment.content.data }} style={{ width: '100%', height: '100%', borderRadius: 5 }} />;
         </TouchableOpacity>
       );
     } else {
       return (
         <TouchableOpacity
           style={{ width: oneAssetWidth, height: oneAssetWidth, padding: 2 }}
-          onPress={() => navigation.navigate({ name: 'ViewPost', params: { momento } })}
+          onPress={() => navigation.navigate({ name: 'ViewPost', params: { moment } })}
         >
-          <FastImage
-            source={{ uri: momento.content.data }}
-            style={{ width: '100%', height: '100%', borderRadius: 5 }}
-          />
+          <FastImage source={{ uri: moment.content.data }} style={{ width: '100%', height: '100%', borderRadius: 5 }} />
         </TouchableOpacity>
       );
     }
   }, []);
 
   if (haveMomentosBeenFetched) {
-    if (momentos.length) {
+    if (moments.length) {
       return (
         <FlatList
           style={{ paddingTop: 10 }}
           numColumns={3}
-          data={momentos}
+          data={moments}
           renderItem={({ item }) => renderItem(item)}
           keyExtractor={(item) => item._id}
           // refreshControl={
@@ -87,4 +84,4 @@ const Momento = () => {
   }
 };
 
-export default Momento;
+export default MomentsView;

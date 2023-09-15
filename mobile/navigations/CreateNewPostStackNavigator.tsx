@@ -6,7 +6,7 @@ const Stack = createNativeStackNavigator();
 import SelectPostType from '../features/CreateNewPost/pages/SelectPostType';
 import { Ionicons } from '@expo/vector-icons';
 import NormalPost from '../features/CreateNewPost/pages/NormalPost';
-import MomentoPost from '../features/CreateNewPost/pages/MomentoPost';
+import MomentPost from '../features/CreateNewPost/pages/MomentPost';
 
 const CreateNewPostStackNavigator = () => {
   return (
@@ -60,8 +60,8 @@ const CreateNewPostStackNavigator = () => {
         })}
       />
       <Stack.Screen
-        name='MomentoPost'
-        component={MomentoPost}
+        name='MomentPost'
+        component={MomentPost}
         options={({ navigation }) => ({
           headerShown: true,
           headerLeft: () => {

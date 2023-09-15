@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const momentoSchema = mongoose.Schema({
+const momentSchema = mongoose.Schema({
   contents: [{ type: mongoose.Schema.ObjectId, ref: 'Content' }],
   caption: String,
   space: { type: mongoose.Schema.ObjectId, ref: 'Space' },
@@ -10,6 +10,6 @@ const momentoSchema = mongoose.Schema({
   createdAt: Date,
 });
 
-const Momento = mongoose.model('Momento', momentoSchema);
+const Moment = mongoose.model('Momento', momentSchema);
 
-export default Momento;
+export default Moment;

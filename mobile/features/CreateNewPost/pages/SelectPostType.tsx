@@ -62,7 +62,7 @@ const SelectPostType = (props) => {
           }}
           onPress={() =>
             props.navigation?.navigate({
-              name: 'MomentoPost',
+              name: 'MomentPost',
               params: {
                 space: props.route?.params?.space,
                 spaceAndUserRelationship: props.route?.params?.spaceAndUserRelationship,
@@ -77,7 +77,7 @@ const SelectPostType = (props) => {
               tintColor={'white'}
               style={{ width: 25, height: 25, marginRight: 20 }}
             />
-            <Text style={{ color: 'white', fontSize: 17, fontWeight: 'bold' }}>Momento post</Text>
+            <Text style={{ color: 'white', fontSize: 17, fontWeight: 'bold' }}>Moment</Text>
           </View>
           <MaterialCommunityIcons name='chevron-right' color='white' size={25} />
         </TouchableOpacity>

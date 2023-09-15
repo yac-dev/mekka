@@ -11,7 +11,7 @@ const __dirname = dirname(__filename);
 import authRouter from './routers/auth';
 import spacesRouter from './routers/spaces';
 import postsRouter from './routers/posts';
-import momentosRouter from './routers/momentos';
+import momentsRouter from './routers/moments';
 import reactionStatusesRouter from './routers/reactionStatuses';
 import stickersRouter from './routers/stickers';
 import commentsRouter from './routers/comments';
@@ -32,7 +32,7 @@ app.get('/', (request, response) => {
 app.use('/api/auth', authRouter);
 app.use('/api/spaces', spacesRouter);
 app.use('/api/posts', postsRouter);
-app.use('/api/momentos', momentosRouter);
+app.use('/api/moments', momentsRouter);
 app.use('/api/reactionstatuses', reactionStatusesRouter);
 app.use('/api/stickers', stickersRouter);
 app.use('/api/comments', commentsRouter);

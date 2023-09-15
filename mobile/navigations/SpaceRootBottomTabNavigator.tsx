@@ -14,7 +14,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import TagViewTopTabNavigator from './TagViewTopTabNavigator';
 import PeopleViewTopTabNavigator from './PeopleViewTopTabNavigator';
 import LocationsViewTopTabNavigator from './LocationsViewTopTabNavigator';
-import MomentosView from '../features/Space/pages/MomentosView';
+import MomentsView from '../features/Space/pages/MomentsView';
 import FastImage from 'react-native-fast-image';
 
 const Tab = createBottomTabNavigator();
@@ -33,7 +33,7 @@ const SpaceRootBottomTabNavigator = (props) => {
     const result = await backendAPI.get(`/spaces/${props.spaceAndUserRelationship.space._id}`);
     const { space } = result.data;
     setSpace(space);
-    setCurrentSpace(space);
+    setCurrentSpace(space); // globalで持っているspaceだからねこれ。bottom sheetでrenderするためのもの。
     setHasSpaceBeenFetched(true);
   };
 
@@ -125,8 +125,8 @@ const SpaceRootBottomTabNavigator = (props) => {
             })}
           />
           <Tab.Screen
-            name='MomentosView'
-            component={MomentosView}
+            name='MomentsView'
+            component={MomentsView}
             options={({ navigation }) => ({
               tabBarShowLabel: false,
               tabBarIcon: ({ size, color, focused }) => (

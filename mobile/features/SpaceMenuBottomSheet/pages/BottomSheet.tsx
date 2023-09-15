@@ -38,7 +38,6 @@ const SpaceMenuBottomSheet = (props) => {
         <BottomSheetView style={{ flex: 1 }}>
           <ScrollView>
             <Header />
-            {/* <ActionButtons navigation={props.navigation} /> */}
             <MediaStats />
             <Description />
           </ScrollView>
