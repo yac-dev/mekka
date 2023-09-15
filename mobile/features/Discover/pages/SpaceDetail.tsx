@@ -11,6 +11,7 @@ import Disapper from '../components/SpaceDetail/Disapper';
 import Reactions from '../components/SpaceDetail/Reactions';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { GlobalContext } from '../../../contexts/GlobalContext';
+import SpaceDetailTopTabNavigator from '../../../navigations/SpaceDetailTopTabNavigator';
 import LoadingSpinner from '../../../components/LoadingSpinner';
 
 // props.route.params.spaceIdでくるよね。
@@ -146,30 +147,22 @@ const SpaceDetail: React.FC<RouterProps> = (props) => {
 
   return (
     <SpaceDetailContext.Provider value={{ space, navigation: props.navigation }}>
-      <ScrollView style={{ flex: 1, backgroundColor: 'rgb(38, 38, 38)' }}>
+      <View style={{ flex: 1, backgroundColor: 'rgb(40, 40, 40)' }}>
         {isSpaceFetched && space ? (
           <>
             <Header />
-            <Stats />
-            <View style={{ paddingLeft: 10, paddingRight: 10 }}>
+            <SpaceDetailTopTabNavigator />
+            {/* <View style={{ paddingLeft: 10, paddingRight: 10 }}>
               <Description />
               <ContentType />
               <Disapper />
               <Reactions />
-            </View>
-            {/* <TouchableOpacity onPress={() => props.navigation.navigate('Members')}>
-              <Text style={{ color: 'white' }}>Press to route members</Text>
-            </TouchableOpacity> */}
-            {/* <View style={{ width: '100%', position: 'absolute', bottom: 0, padding: 10, backgroundColor: 'red' }}>
-              <TouchableOpacity style={{ backgroundColor: 'blue', padding: 10, borderRadius: 8 }}>
-                <Text style={{ color: 'white' }}>Join this space</Text>
-              </TouchableOpacity>
             </View> */}
           </>
         ) : (
           <ActivityIndicator />
         )}
-      </ScrollView>
+      </View>
       <LoadingSpinner />
     </SpaceDetailContext.Provider>
   );

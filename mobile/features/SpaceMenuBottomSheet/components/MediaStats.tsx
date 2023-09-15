@@ -30,9 +30,9 @@ const MediaStats = () => {
 
     return (
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <Text style={{ color: 'white' }}>You can use </Text>
+        <Text style={{ color: 'white' }}>You'll use </Text>
         <View style={{ flexDirection: 'row', alignItems: 'center', alignSelf: 'center' }}>{list}</View>
-        <Text style={{ color: 'white' }}>to react each post. </Text>
+        <Text style={{ color: 'white' }}>to react each post.</Text>
       </View>
     );
   };

@@ -242,6 +242,8 @@ const SpacesDrawerNavigator = (props) => {
             drawerStyle: {
               backgroundColor: 'rgb(40,40,40)',
               width: 300,
+              // borderTopRightRadius: 10,
+              // borderBottomRightRadius: 10,
             },
             tabBarStyle: {
               backgroundColor: 'black',

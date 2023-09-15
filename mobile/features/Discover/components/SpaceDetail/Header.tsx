@@ -16,14 +16,6 @@ const Header = () => {
         />
         <View style={{ position: 'absolute', bottom: 10, left: 10 }}>
           <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 24, marginBottom: 10 }}>{space.name}</Text>
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <FastImage
-              source={{ uri: space.createdBy.avatar }}
-              style={{ width: 25, height: 25, borderRadius: 10, marginRight: 10, backgroundColor: 'blue' }}
-              tintColor={'white'}
-            />
-            <Text style={{ color: 'white' }}>{space.createdBy.name}</Text>
-          </View>
         </View>
       </View>
     </View>
