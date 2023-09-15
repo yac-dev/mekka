@@ -25,6 +25,7 @@ import SecretKeyForm from '../features/SecretKey/pages/Form';
 import CreateNewPostStackNavigator from './CreateNewPostStackNavigator';
 // import CreateNewPost from '../features/CreateNewPost/pages/Form';
 import SpaceMenuBottomSheet from '../features/SpaceMenuBottomSheet/pages/BottomSheet';
+import ActionMenuBottomSheet from '../features/SpaceMenuBottomSheet/pages/ActionMenuBottomSheet';
 import AuthMenuBottomSheet from '../features/Utils/AuthMenuBottomSheet';
 import SpacesDrawerNavigator from './SpacesDrawerNavigator';
 import ViewPost from '../features/ViewPost/pages/ViewPost';
@@ -407,6 +408,7 @@ const HomeStackNavigator: React.FC = (props) => {
         </Stack.Navigator>
         <AuthMenuBottomSheet />
         <SpaceMenuBottomSheet navigation={props.navigation} />
+        <ActionMenuBottomSheet navigation={props.navigation} />
       </GestureHandlerRootView>
     </HomeStackNavContext.Provider>
   );

@@ -9,17 +9,17 @@ import Description from '../components/Description';
 import ActionButtons from '../components/ActionButtons';
 import MediaStats from '../components/MediaStats';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 
 // rgb(35, 35, 35)
-const SpaceMenuBottomSheet = (props) => {
-  const snapPoints = useMemo(() => ['80%'], []);
+const ActionMenuBottomSheet = (props) => {
+  const snapPoints = useMemo(() => ['40%'], []);
   const {
-    spaceMenuBottomSheetRef,
+    spaceActionMenuBottomSheetRef,
     currentSpaceAndUserRelationship,
     setCurrentSpaceAndUserRelationship,
     currentSpace,
     setCurrentSpace,
-    spaceActionMenuBottomSheetRef,
   } = useContext(GlobalContext);
   // const { navigation } = useContext(HomeStackNavContext);
   if (currentSpaceAndUserRelationship && currentSpace) {
@@ -27,7 +27,7 @@ const SpaceMenuBottomSheet = (props) => {
       <GorhomBottomSheet
         index={-1}
         enableOverDrag={true}
-        ref={spaceMenuBottomSheetRef}
+        ref={spaceActionMenuBottomSheetRef}
         snapPoints={snapPoints}
         backdropComponent={(backdropProps) => (
           <BottomSheetBackdrop {...backdropProps} appearsOnIndex={0} disappearsOnIndex={-1} />
@@ -38,29 +38,33 @@ const SpaceMenuBottomSheet = (props) => {
         // onClose={() => onSelectedItemBottomSheetClose()}
       >
         <BottomSheetView style={{ flex: 1 }}>
-          <ScrollView>
-            <Header />
-
-            <Description />
-            <MediaStats />
-          </ScrollView>
           <TouchableOpacity
             style={{
-              width: 50,
-              height: 50,
-              backgroundColor: 'white',
-              justifyContent: 'center',
+              justifyContent: 'space-between',
               alignItems: 'center',
-              position: 'absolute',
-              bottom: 20,
-              right: 20,
-              borderRadius: 25,
-            }}
-            onPress={() => {
-              spaceActionMenuBottomSheetRef.current.snapToIndex(0);
+              flexDirection: 'row',
+              padding: 15,
             }}
           >
-            <MaterialCommunityIcons name='widgets' color='black' size={20} />
+            <View style={{ alignItems: 'center', flexDirection: 'row' }}>
+              <MaterialCommunityIcons name='account-group' color='white' size={25} style={{ marginRight: 15 }} />
+              <Text style={{ color: 'white', fontSize: 18 }}>Browse members</Text>
+            </View>
+            <MaterialCommunityIcons name='chevron-right' color='white' size={20} style={{ marginRight: 10 }} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              flexDirection: 'row',
+              padding: 15,
+            }}
+          >
+            <View style={{ alignItems: 'center', flexDirection: 'row' }}>
+              <MaterialIcons name='report-problem' color='white' size={25} style={{ marginRight: 15 }} />
+              <Text style={{ color: 'white', fontSize: 18 }}>Report this space</Text>
+            </View>
+            <MaterialCommunityIcons name='chevron-right' color='white' size={20} style={{ marginRight: 10 }} />
           </TouchableOpacity>
         </BottomSheetView>
       </GorhomBottomSheet>
@@ -70,4 +74,4 @@ const SpaceMenuBottomSheet = (props) => {
   }
 };
 
-export default SpaceMenuBottomSheet;
+export default ActionMenuBottomSheet;

@@ -34,6 +34,7 @@ const App: React.FC = function () {
   const [currentSpaceAndUserRelationship, setCurrentSpaceAndUserRelationship] = useState(null);
   const [currentSpace, setCurrentSpace] = useState(null); // ここでspaceを持っていた方がいいのかも。。。
   const spaceMenuBottomSheetRef = useRef(null);
+  const spaceActionMenuBottomSheetRef = useRef(null);
   const authMenuBottomSheetRef = useRef(null);
   const [afterJoined, setAfterJoined] = useState(false);
 
@@ -127,6 +128,7 @@ const App: React.FC = function () {
         haveSpaceAndUserRelationshipsBeenFetched,
         setHaveSpaceAndUserRelationshipsBeenFetched,
         spaceMenuBottomSheetRef,
+        spaceActionMenuBottomSheetRef,
         authMenuBottomSheetRef,
         currentSpaceAndUserRelationship,
         setCurrentSpaceAndUserRelationship,
