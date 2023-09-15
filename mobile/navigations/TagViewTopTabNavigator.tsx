@@ -158,9 +158,9 @@ const TagViewTopTabNavigator = (props) => {
                 <Text numberOfLines={1} style={{ color: 'white' }}>
                   {route.params?.tagObject.tag.name}
                 </Text>
-                <Text style={{ color: 'rgb(170,170,170)', position: 'absolute', top: 7, right: 10 }}>
+                {/* <Text style={{ color: 'rgb(170,170,170)', position: 'absolute', top: 7, right: 10 }}>
                   {route.params?.tagObject.tag.count}
-                </Text>
+                </Text> */}
               </TouchableOpacity>
             );
           })}

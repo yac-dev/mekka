@@ -65,7 +65,7 @@ const MomentsView = () => {
       return (
         <View style={{ flex: 1, backgroundColor: 'black', padding: 10 }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', paddingTop: 50, alignSelf: 'center' }}>
-            <Text style={{ color: 'white', marginRight: 10 }}>There are no momentos currently</Text>
+            <Text style={{ color: 'white', marginRight: 10 }}>There are no moments currently</Text>
             <FastImage
               source={require('../../../assets/forApp/ghost.png')}
               style={{ width: 25, height: 25 }}

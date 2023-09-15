@@ -110,7 +110,7 @@ const SpaceRootBottomTabNavigator = (props) => {
               // },
             })}
           />
-          <Tab.Screen
+          {/* <Tab.Screen
             name='PeopleViewTopTabNavigator'
             component={PeopleViewTopTabNavigator}
             options={({ navigation }) => ({
@@ -123,7 +123,7 @@ const SpaceRootBottomTabNavigator = (props) => {
                 />
               ),
             })}
-          />
+          /> */}
           <Tab.Screen
             name='MomentsView'
             component={MomentsView}
