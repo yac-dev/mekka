@@ -56,7 +56,7 @@ const SpaceRootBottomTabNavigator = (props) => {
             headerShown: false,
             tabBarStyle: {
               backgroundColor: 'rgb(40,40,40)',
-              marginHorizontal: 100,
+              marginHorizontal: 80,
               paddingBottom: 0, // きたー。これよ。これ。
               borderRadius: 30,
               height: 50,
@@ -115,20 +115,25 @@ const SpaceRootBottomTabNavigator = (props) => {
               // },
             })}
           />
-          {/* <Tab.Screen
+          <Tab.Screen
             name='PeopleViewTopTabNavigator'
             component={PeopleViewTopTabNavigator}
             options={({ navigation }) => ({
               tabBarShowLabel: false,
               tabBarIcon: ({ size, color, focused }) => (
-                <MaterialCommunityIcons
-                  name='account-group'
-                  color={focused ? 'white' : 'rgb(100, 100, 100)'}
-                  size={23}
+                // <MaterialCommunityIcons
+                //   name='account-group'
+                //   color={focused ? 'white' : 'rgb(100, 100, 100)'}
+                //   size={23}
+                // />
+                <FastImage
+                  source={require('../assets/forApp/cameraman.png')}
+                  style={{ width: 25, height: 25 }}
+                  tintColor={focused ? 'white' : 'rgb(100, 100, 100)'}
                 />
               ),
             })}
-          /> */}
+          />
           <Tab.Screen
             name='MomentsView'
             component={MomentsView}
@@ -144,31 +149,6 @@ const SpaceRootBottomTabNavigator = (props) => {
             })}
           />
         </Tab.Navigator>
-        <TouchableOpacity
-          onPress={() => {
-            props.navigation?.navigate('CreateNewPostStackNavigator', {
-              screen: 'SelectPostType',
-              params: {
-                space: currentSpace,
-                spaceAndUserRelationship: currentSpaceAndUserRelationship,
-              }, // なんで、spaceUserRelが必要？？いらなくね。。。
-              merge: true,
-            });
-          }}
-          style={{
-            backgroundColor: 'white',
-            width: 50,
-            height: 50,
-            borderRadius: 25,
-            position: 'absolute',
-            bottom: 30,
-            right: 20,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <MaterialCommunityIcons name='plus' color='black' size={25} />
-        </TouchableOpacity>
       </View>
     </SpaceRootContext.Provider>
   );

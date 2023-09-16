@@ -301,22 +301,49 @@ const SpacesDrawerNavigator = (props) => {
                   },
                   headerRight: () => {
                     return (
-                      <TouchableOpacity
-                        onPress={() => {
-                          // spaceMenuBottomSheetRef.current.snapToIndex(0);
-                          navigation.navigate('SpaceInfoStackNavigator');
-                        }}
-                      >
-                        <FastImage
-                          source={{ uri: spaceAndUserRelationship.space.icon }}
-                          style={{
-                            width: 35,
-                            height: 35,
-                            borderRadius: 8,
-                            marginRight: 10,
+                      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <TouchableOpacity
+                          onPress={() => {
+                            props.navigation?.navigate('CreateNewPostStackNavigator', {
+                              screen: 'SelectPostType',
+                              // params: {
+                              //   space: currentSpace,
+                              //   spaceAndUserRelationship: currentSpaceAndUserRelationship,
+                              // }, // なんで、spaceUserRelが必要？？いらなくね。。。
+                              merge: true,
+                            });
                           }}
-                        />
-                      </TouchableOpacity>
+                          // style={{
+                          //   backgroundColor: 'white',
+                          //   width: 36,
+                          //   height: 36,
+                          //   borderRadius: 18,
+                          //   // position: 'absolute',
+                          //   justifyContent: 'center',
+                          //   alignItems: 'center',
+                          //   marginRight: 10,
+                          // }}
+                        >
+                          {/* <MaterialCommunityIcons name='plus' color='black' size={20} /> */}
+                          <Ionicons name='add-circle' size={35} color='white' style={{ marginRight: 10 }} />
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                          onPress={() => {
+                            // spaceMenuBottomSheetRef.current.snapToIndex(0);
+                            navigation.navigate('SpaceInfoStackNavigator');
+                          }}
+                        >
+                          <FastImage
+                            source={{ uri: spaceAndUserRelationship.space.icon }}
+                            style={{
+                              width: 30,
+                              height: 30,
+                              borderRadius: 8,
+                              marginRight: 10,
+                            }}
+                          />
+                        </TouchableOpacity>
+                      </View>
                     );
                   },
                 })}

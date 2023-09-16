@@ -8,12 +8,14 @@ import GorhomBottomSheet, { BottomSheetView, BottomSheetBackdrop } from '@gorhom
 import MapView, { Marker } from 'react-native-maps';
 import { GlobalContext } from '../../../contexts/GlobalContext';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { Ionicons } from '@expo/vector-icons';
 
 const LocationsView = (props) => {
   const { isIpad } = useContext(GlobalContext);
   const oneAssetWidth = isIpad ? Dimensions.get('window').width / 6 : Dimensions.get('window').width / 3;
-  const snapPoints = useMemo(() => ['20%', '60%', '80%'], []);
+  const snapPoints = useMemo(() => ['60%', '80%'], []);
   const locationsViewPostsBottomSheetRef = useRef(null);
+  const mapRef = useRef(null);
   const { height, width } = Dimensions.get('window');
   const LATITUDE = props.locationTag.point.coordinates[1]; // これ、bottom sheetでかくれないようにしなきゃ。
   const LONGITUDE = props.locationTag.point.coordinates[0];
@@ -34,6 +36,16 @@ const LocationsView = (props) => {
 
   useEffect(() => {
     getPostsByLocationTagId();
+  }, []);
+
+  useEffect(() => {
+    const newLat = props.selectedLocationTag.point.coordinates[1] - 0.0065;
+    mapRef.current.animateToRegion({
+      latitude: newLat,
+      longitude: props.selectedLocationTag.point.coordinates[0],
+      latitudeDelta: 0.0322,
+      longitudeDelta: 0.0221,
+    });
   }, []);
 
   const renderItem = useCallback((post) => {
@@ -61,20 +73,17 @@ const LocationsView = (props) => {
   const renderPosts = () => {
     return (
       <GorhomBottomSheet
-        index={1}
+        index={0}
         enableOverDrag={true}
         ref={locationsViewPostsBottomSheetRef}
         snapPoints={snapPoints}
-        // backdropComponent={(backdropProps) => (
-        //   <BottomSheetBackdrop {...backdropProps} appearsOnIndex={0} disappearsOnIndex={-1} />
-        // )}
         enablePanDownToClose={true}
         backgroundStyle={{ backgroundColor: 'rgb(40, 40, 40)' }}
         handleIndicatorStyle={{ backgroundColor: 'white' }}
         // onClose={() => onSelectedItemBottomSheetClose()}
       >
         <BottomSheetView style={{ flex: 1 }}>
-          <View
+          {/* <View
             style={{
               flexDirection: 'row',
               alignItems: 'center',
@@ -110,7 +119,13 @@ const LocationsView = (props) => {
             >
               <Text style={{ fontWeight: 'bold' }}>Edit</Text>
             </TouchableOpacity>
-          </View>
+          </View> */}
+          <TouchableOpacity
+            onPress={() => locationsViewPostsBottomSheetRef.current.close()}
+            style={{ marginBottom: 10, marginLeft: 10 }}
+          >
+            <Ionicons name='close-circle' size={30} color='white' />
+          </TouchableOpacity>
           {havePostsBeenFetched ? (
             <FlatList
               numColumns={3}
@@ -134,7 +149,7 @@ const LocationsView = (props) => {
   return (
     <GestureHandlerRootView style={{ flex: 1, backgroundColor: 'black' }}>
       <MapView
-        // ref={mapRef}
+        ref={mapRef}
         style={{ width: Dimensions.get('window').width, height: Dimensions.get('window').height }}
         showsUserLocation={true}
         // customMapStyle={mapStyle}
@@ -161,14 +176,13 @@ const LocationsView = (props) => {
             longitude: props.selectedLocationTag.point.coordinates[0],
           }}
           pinColor='black'
-          // onPress={() => {
-          //   // getSelectedMeetup(meetup._id);
-          //   props.navigation.navigate('ViewPost', { post });
-          // }}
+          onPress={() => {
+            locationsViewPostsBottomSheetRef.current.snapToIndex(0);
+          }}
         >
           <TouchableOpacity
             style={{ width: 45, height: 45 }}
-            onPress={() => locationsViewPostsBottomSheetRef.current.snapToIndex(1)}
+            // onPress={() => locationsViewPostsBottomSheetRef.current.snapToIndex(1)}
           >
             <FastImage
               // onLoad={() => setInitialRender(false)}
