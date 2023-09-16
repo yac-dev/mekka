@@ -75,10 +75,12 @@ const LocationsViewTopTabNavigator = () => {
                 marginRight: 10,
                 // backgroundColor: isFocused ? 'rgb(110,110,110)' : null,
                 padding: 10,
-                borderRadius: 20,
+                // borderRadius: 20,
                 // backgroundColor: isFocused ? 'rgb(150, 150,150)' : 'rgb(60,60,60)',
-                borderBottomWidth: isFocused ? 1 : null,
-                borderBottomColor: isFocused ? 'black' : null,
+                width: 70,
+                height: 70,
+                borderBottomWidth: isFocused && 1,
+                borderBottomColor: isFocused && 'white',
               }}
               // contentTypeによって、いくnavigatorが変わるわけですよ。。。そう、つまりここでnavigatingを分ければいいわけね。
               onPress={onPress}
@@ -86,8 +88,9 @@ const LocationsViewTopTabNavigator = () => {
               <FastImage
                 source={{ uri: route.params?.locationTag.icon }}
                 style={{ width: 35, height: 35, borderRadius: 8, marginBottom: 5 }}
+                tintColor={'white'}
               />
-              <Text numberOfLines={1} style={{ color: 'black' }}>
+              <Text numberOfLines={1} style={{ color: 'white', marginBottom: 5 }}>
                 {route.params?.locationTag.name}
               </Text>
             </TouchableOpacity>

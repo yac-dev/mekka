@@ -43,8 +43,8 @@ const LocationsView = (props) => {
     mapRef.current.animateToRegion({
       latitude: newLat,
       longitude: props.selectedLocationTag.point.coordinates[0],
-      latitudeDelta: 0.0322,
-      longitudeDelta: 0.0221,
+      latitudeDelta: LATITUDE_DELTA,
+      longitudeDelta: LONGITUDE_DELTA,
     });
   }, []);
 
@@ -149,6 +149,7 @@ const LocationsView = (props) => {
   return (
     <GestureHandlerRootView style={{ flex: 1, backgroundColor: 'black' }}>
       <MapView
+        userInterfaceStyle='dark'
         ref={mapRef}
         style={{ width: Dimensions.get('window').width, height: Dimensions.get('window').height }}
         showsUserLocation={true}
@@ -196,6 +197,7 @@ const LocationsView = (props) => {
                 priority: FastImage.priority.normal,
               }}
               resizeMode={FastImage.resizeMode.contain}
+              tintColor={'white'}
             />
           </TouchableOpacity>
         </Marker>
