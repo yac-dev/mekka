@@ -28,6 +28,7 @@ import SpaceMenuBottomSheet from '../features/SpaceMenuBottomSheet/pages/BottomS
 import ActionMenuBottomSheet from '../features/SpaceMenuBottomSheet/pages/ActionMenuBottomSheet';
 import AuthMenuBottomSheet from '../features/Utils/AuthMenuBottomSheet';
 import SpacesDrawerNavigator from './SpacesDrawerNavigator';
+import SpaceInfoStackNavigator from './SpaceInfoStackNavigator';
 import ViewPost from '../features/ViewPost/pages/ViewPost';
 import Comments from '../features/ViewPost/pages/Comments';
 import Discover from '../features/Discover/pages/Discover';
@@ -404,10 +405,30 @@ const HomeStackNavigator: React.FC = (props) => {
                 },
               })}
             />
+            <Stack.Screen
+              name='SpaceInfoStackNavigator'
+              component={SpaceInfoStackNavigator}
+              options={({ navigation }) => ({
+                headerShown: false,
+                headerLeft: () => (
+                  <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <Ionicons name='close-circle-sharp' size={30} color={'white'} />
+                  </TouchableOpacity>
+                ),
+                headerTitle: 'SPInfo',
+                headerStyle: {
+                  backgroundColor: 'black',
+                },
+                headerTitleStyle: {
+                  fontWeight: 'bold',
+                  color: 'white',
+                },
+              })}
+            />
           </Stack.Group>
         </Stack.Navigator>
         <AuthMenuBottomSheet />
-        <SpaceMenuBottomSheet navigation={props.navigation} />
+        {/* <SpaceMenuBottomSheet navigation={props.navigation} /> */}
         <ActionMenuBottomSheet navigation={props.navigation} />
       </GestureHandlerRootView>
     </HomeStackNavContext.Provider>

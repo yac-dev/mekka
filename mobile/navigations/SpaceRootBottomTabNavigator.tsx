@@ -99,7 +99,12 @@ const SpaceRootBottomTabNavigator = (props) => {
             options={({ navigation }) => ({
               tabBarShowLabel: false,
               tabBarIcon: ({ size, color, focused }) => (
-                <Entypo name='globe' color={focused ? 'white' : 'rgb(102, 104, 109)'} size={23} />
+                // <Entypo name='globe' color={focused ? 'white' : 'rgb(102, 104, 109)'} size={23} />
+                <FastImage
+                  source={require('../assets/forApp/globe.png')}
+                  style={{ width: 25, height: 25 }}
+                  tintColor={focused ? 'white' : 'rgb(100, 100, 100)'}
+                />
               ),
               // tabBarLabel: ({ focused }) => {
               //   // Only show the label when the tab is focused

@@ -1,10 +1,11 @@
-import React, { useContext, useState, useCallback } from 'react';
-import { View, Text, TouchableOpacity, Share } from 'react-native';
-import FastImage from 'react-native-fast-image';
+import React, { useContext, useCallback, useState } from 'react';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { GlobalContext } from '../../../contexts/GlobalContext';
+import FastImage from 'react-native-fast-image';
 import { Feather } from '@expo/vector-icons';
+import SpaceInfoTopTabNavigator from '../../../navigations/SpaceInfoTopTabNavigator';
 
-const Header = () => {
+const SpaceInfo = () => {
   const { currentSpaceAndUserRelationship, spaceMenuBottomSheetRef, currentSpace } = useContext(GlobalContext);
   const [textShown, setTextShown] = useState(false);
   const [lengthMore, setLengthMore] = useState(false);
@@ -14,20 +15,13 @@ const Header = () => {
   };
 
   const onTextLayout = useCallback((e) => {
-    setLengthMore(e.nativeEvent.lines.length >= 3); //to check the text is more than 4 lines or not
+    setLengthMore(e.nativeEvent.lines.length >= 3);
     // console.log(e.nativeEvent);
   }, []);
 
-  const onInvitePress = async () => {
-    spaceMenuBottomSheetRef?.current.close();
-    const result = await Share.share({
-      message: `Invite friend to Space.${'\n'}Download link: https://apps.apple.com/us/app/lampost/id1668526833${'\n'}And then enter the secret key to join this space.${'\n'}Secret key: kokokoko`,
-    });
-  };
-
   return (
-    <View style={{ marginBottom: 5 }}>
-      <View style={{ height: 200, width: '100%', marginBottom: 20 }}>
+    <View style={{ flex: 1, backgroundColor: 'rgb(30,30,30)', padding: 10 }}>
+      <View style={{ height: 200, width: '100%', marginBottom: 10 }}>
         <FastImage
           source={{ uri: currentSpaceAndUserRelationship.space.icon }}
           style={{ width: '100%', height: '100%', borderRadius: 10 }}
@@ -35,7 +29,7 @@ const Header = () => {
         <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 25, position: 'absolute', bottom: 10, left: 10 }}>
           {currentSpaceAndUserRelationship.space.name}
         </Text>
-        {/* <TouchableOpacity
+        <TouchableOpacity
           style={{
             backgroundColor: 'white',
             width: 25,
@@ -49,10 +43,11 @@ const Header = () => {
           }}
         >
           <Feather name='more-horizontal' color='black' size={20} />
-        </TouchableOpacity> */}
+        </TouchableOpacity>
       </View>
+      <SpaceInfoTopTabNavigator />
     </View>
   );
 };
 
-export default Header;
+export default SpaceInfo;

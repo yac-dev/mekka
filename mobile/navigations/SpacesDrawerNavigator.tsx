@@ -303,7 +303,8 @@ const SpacesDrawerNavigator = (props) => {
                     return (
                       <TouchableOpacity
                         onPress={() => {
-                          spaceMenuBottomSheetRef.current.snapToIndex(0);
+                          // spaceMenuBottomSheetRef.current.snapToIndex(0);
+                          navigation.navigate('SpaceInfoStackNavigator');
                         }}
                       >
                         <FastImage

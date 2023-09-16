@@ -8,7 +8,9 @@ import Menus from '../components/Menus';
 import Description from '../components/Description';
 import ActionButtons from '../components/ActionButtons';
 import MediaStats from '../components/MediaStats';
+import SpaceMenuTopTabNavigator from '../../../navigations/SpaceMenuTopTabNavigator';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 
 // rgb(35, 35, 35)
 const SpaceMenuBottomSheet = (props) => {
@@ -37,14 +39,28 @@ const SpaceMenuBottomSheet = (props) => {
         handleIndicatorStyle={{ backgroundColor: 'white' }}
         // onClose={() => onSelectedItemBottomSheetClose()}
       >
-        <BottomSheetView style={{ flex: 1 }}>
-          <ScrollView>
-            <Header />
-
-            <Description />
-            <MediaStats />
-          </ScrollView>
+        <BottomSheetView style={{ flex: 1, paddingTop: 10, paddingLeft: 10, paddingRight: 10 }}>
           <TouchableOpacity
+            style={{
+              backgroundColor: 'white',
+              padding: 5,
+              borderRadius: 20,
+              flexDirection: 'row',
+              alignItems: 'center',
+              alignSelf: 'flex-start',
+              marginBottom: 10,
+            }}
+            onPress={() => spaceMenuBottomSheetRef.current.close()}
+          >
+            <Ionicons name='close' size={20} color='black' />
+            <Text>Close</Text>
+          </TouchableOpacity>
+
+          <Header />
+          {/* <SpaceMenuTopTabNavigator /> */}
+          {/* <Description />
+          <MediaStats /> */}
+          {/* <TouchableOpacity
             style={{
               width: 50,
               height: 50,
@@ -61,7 +77,7 @@ const SpaceMenuBottomSheet = (props) => {
             }}
           >
             <MaterialCommunityIcons name='widgets' color='black' size={20} />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </BottomSheetView>
       </GorhomBottomSheet>
     );
