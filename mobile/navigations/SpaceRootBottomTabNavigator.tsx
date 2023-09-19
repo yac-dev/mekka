@@ -57,7 +57,7 @@ const SpaceRootBottomTabNavigator = (props) => {
             headerShown: false,
             tabBarStyle: {
               backgroundColor: 'rgb(40,40,40)',
-              marginHorizontal: 80,
+              marginHorizontal: 130,
               paddingBottom: 0, // きたー。これよ。これ。
               borderRadius: 30,
               height: 50,
@@ -150,6 +150,33 @@ const SpaceRootBottomTabNavigator = (props) => {
             })}
           />
         </Tab.Navigator>
+        <TouchableOpacity
+          onPress={() => {
+            props.navigation?.navigate('CreateNewPostStackNavigator', {
+              screen: 'SelectPostType',
+              params: {
+                space: currentSpace,
+                spaceAndUserRelationship: currentSpaceAndUserRelationship,
+              }, // なんで、spaceUserRelが必要？？いらなくね。。。
+              merge: true,
+            });
+          }}
+          style={{
+            backgroundColor: 'white',
+            width: 50,
+            height: 50,
+            borderRadius: 25,
+            position: 'absolute',
+            bottom: 30,
+            right: 20,
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginRight: 10,
+          }}
+        >
+          <MaterialCommunityIcons name='plus' color='black' size={20} />
+          {/* <Ionicons name='add-circle' size={35} color='black' style={{ marginRight: 10 }} /> */}
+        </TouchableOpacity>
       </View>
     </SpaceRootContext.Provider>
   );

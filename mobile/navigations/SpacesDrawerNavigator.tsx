@@ -302,7 +302,7 @@ const SpacesDrawerNavigator = (props) => {
                   headerRight: () => {
                     return (
                       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <TouchableOpacity
+                        {/* <TouchableOpacity
                           onPress={() => {
                             props.navigation?.navigate('CreateNewPostStackNavigator', {
                               screen: 'SelectPostType',
@@ -324,9 +324,8 @@ const SpacesDrawerNavigator = (props) => {
                           //   marginRight: 10,
                           // }}
                         >
-                          {/* <MaterialCommunityIcons name='plus' color='black' size={20} /> */}
-                          <Ionicons name='add-circle' size={35} color='white' style={{ marginRight: 10 }} />
-                        </TouchableOpacity>
+                          <MaterialCommunityIcons name='plus' color='black' size={20} />
+                        </TouchableOpacity> */}
                         <TouchableOpacity
                           onPress={() => {
                             // spaceMenuBottomSheetRef.current.snapToIndex(0);

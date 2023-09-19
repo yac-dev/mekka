@@ -13,14 +13,15 @@ const Grid = (props) => {
       <TouchableOpacity
         style={{
           backgroundColor: 'white',
+          width: 50,
+          height: 50,
+          borderRadius: 25,
           position: 'absolute',
           bottom: 30,
-          left: 10,
-          width: 40,
-          height: 40,
+          left: 20,
           justifyContent: 'center',
           alignItems: 'center',
-          borderRadius: 20,
+          marginRight: 10,
         }}
         onPress={() => chooseViewBottomSheetRef.current.snapToIndex(0)}
       >
