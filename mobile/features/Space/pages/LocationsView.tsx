@@ -11,7 +11,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Ionicons } from '@expo/vector-icons';
 
 const LocationsView = (props) => {
-  const { isIpad } = useContext(GlobalContext);
+  const { isIpad, authData } = useContext(GlobalContext);
   const oneAssetWidth = isIpad ? Dimensions.get('window').width / 6 : Dimensions.get('window').width / 3;
   const snapPoints = useMemo(() => ['60%', '80%'], []);
   const locationsViewPostsBottomSheetRef = useRef(null);
@@ -43,8 +43,8 @@ const LocationsView = (props) => {
     mapRef.current.animateToRegion({
       latitude: newLat,
       longitude: props.selectedLocationTag.point.coordinates[0],
-      latitudeDelta: LATITUDE_DELTA,
-      longitudeDelta: LONGITUDE_DELTA,
+      latitudeDelta: 0.0322,
+      longitudeDelta: 0.0221,
     });
   }, []);
 
@@ -83,22 +83,25 @@ const LocationsView = (props) => {
         // onClose={() => onSelectedItemBottomSheetClose()}
       >
         <BottomSheetView style={{ flex: 1 }}>
-          {/* <View
+          <TouchableOpacity
+            onPress={() => locationsViewPostsBottomSheetRef.current.close()}
+            style={{ marginBottom: 10, marginLeft: 10 }}
+          >
+            <Ionicons name='close-circle' size={30} color='white' />
+          </TouchableOpacity>
+          <View
             style={{
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'space-between',
-              paddingLeft: 20,
-              paddingRight: 20,
-              paddingTop: 30,
-              paddingBottom: 30,
+              padding: 10,
             }}
           >
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <FastImage
                 source={{ uri: props.locationTag.icon }}
                 style={{ width: 50, height: 50, marginRight: 15, borderRadius: 10 }}
-                // tintColor={'white'}
+                tintColor={props.locationTag.iconType === 'icon' ? props.locationTag.color : null}
               />
               <View style={{ flexDirection: 'column' }}>
                 <Text style={{ color: 'white', fontSize: 20, marginBottom: 5, fontWeight: 'bold' }}>
@@ -107,25 +110,22 @@ const LocationsView = (props) => {
                 <Text style={{ color: 'rgb(170,170,170)' }}>{props.locationTag.count}posts</Text>
               </View>
             </View>
-            <TouchableOpacity
-              style={{
-                paddingLeft: 20,
-                paddingRight: 20,
-                paddingTop: 10,
-                paddingBottom: 10,
-                backgroundColor: 'white',
-                borderRadius: 20,
-              }}
-            >
-              <Text style={{ fontWeight: 'bold' }}>Edit</Text>
-            </TouchableOpacity>
-          </View> */}
-          <TouchableOpacity
-            onPress={() => locationsViewPostsBottomSheetRef.current.close()}
-            style={{ marginBottom: 10, marginLeft: 10 }}
-          >
-            <Ionicons name='close-circle' size={30} color='white' />
-          </TouchableOpacity>
+            {authData._id === props.locationTag.createdBy ? (
+              <TouchableOpacity
+                style={{
+                  paddingLeft: 20,
+                  paddingRight: 20,
+                  paddingTop: 10,
+                  paddingBottom: 10,
+                  backgroundColor: 'white',
+                  borderRadius: 20,
+                }}
+              >
+                <Text style={{ fontWeight: 'bold' }}>Edit</Text>
+              </TouchableOpacity>
+            ) : null}
+          </View>
+
           {havePostsBeenFetched ? (
             <FlatList
               numColumns={3}
@@ -197,7 +197,7 @@ const LocationsView = (props) => {
                 priority: FastImage.priority.normal,
               }}
               resizeMode={FastImage.resizeMode.contain}
-              tintColor={'white'}
+              tintColor={props.selectedLocationTag.iconType === 'icon' ? props.selectedLocationTag.color : null}
             />
           </TouchableOpacity>
         </Marker>

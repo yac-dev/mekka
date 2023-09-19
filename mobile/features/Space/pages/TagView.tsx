@@ -8,7 +8,7 @@ import { GlobalContext } from '../../../contexts/GlobalContext';
 import { PostsContext } from '../../../contexts/PostsContext';
 
 const TagView = (props) => {
-  const { isIpad } = useContext(GlobalContext);
+  const { isIpad, authData } = useContext(GlobalContext);
   const oneAssetWidth = isIpad ? Dimensions.get('window').width / 6 : Dimensions.get('window').width / 3;
   const { spaceAndUserRelationship, navigation } = useContext(SpaceRootContext);
   // const { posts, havePostsBeenFetched, setHavePostsBeenFetched, onRefresh, isRefreshing } = useContext(PostsContext);
@@ -76,7 +76,7 @@ const TagView = (props) => {
               <FastImage
                 source={{ uri: props.tagObject.tag.icon }}
                 style={{ width: 30, height: 30, marginRight: 15 }}
-                tintColor={'white'}
+                tintColor={props.tagObject.tag.iconType === 'icon' ? props.tagObject.tag.color : null}
               />
               <View style={{ flexDirection: 'column' }}>
                 <Text style={{ color: 'white', fontSize: 20, marginBottom: 5, fontWeight: 'bold' }}>
@@ -85,18 +85,21 @@ const TagView = (props) => {
                 <Text style={{ color: 'rgb(170,170,170)' }}>{props.tagObject.tag.count}posts</Text>
               </View>
             </View>
-            <TouchableOpacity
-              style={{
-                paddingLeft: 20,
-                paddingRight: 20,
-                paddingTop: 10,
-                paddingBottom: 10,
-                backgroundColor: 'white',
-                borderRadius: 20,
-              }}
-            >
-              <Text style={{ fontWeight: 'bold' }}>Edit</Text>
-            </TouchableOpacity>
+            {authData._id === props.tagObject.tag.createdBy ? (
+              <TouchableOpacity
+                style={{
+                  paddingLeft: 20,
+                  paddingRight: 20,
+                  paddingTop: 10,
+                  paddingBottom: 10,
+                  backgroundColor: 'white',
+                  borderRadius: 20,
+                }}
+                onPress={() => props.navigation.navigate('EditTag', { tag: props.tagObject.tag })}
+              >
+                <Text style={{ fontWeight: 'bold' }}>Edit</Text>
+              </TouchableOpacity>
+            ) : null}
           </View> */}
           <FlatList
             style={{ paddingTop: 10 }}

@@ -16,6 +16,7 @@ import PeopleViewTopTabNavigator from './PeopleViewTopTabNavigator';
 import LocationsViewTopTabNavigator from './LocationsViewTopTabNavigator';
 import MomentsView from '../features/Space/pages/MomentsView';
 import FastImage from 'react-native-fast-image';
+import TagsTopTabNavigator from './TagsTopTabNavigator';
 
 const Tab = createBottomTabNavigator();
 
@@ -66,7 +67,7 @@ const SpaceRootBottomTabNavigator = (props) => {
               justifyContent: 'center',
               alignItems: 'center',
               // height: 60,
-
+              // display: 'none',
               // Shadow...
               // shadowColor: '#000',
               // shadowOpacity: 0.26,
@@ -84,8 +85,8 @@ const SpaceRootBottomTabNavigator = (props) => {
           // })}
         >
           <Tab.Screen
-            name='TagViewTopTabNavigator'
-            component={TagViewTopTabNavigator}
+            name='TagsTopTabNavigator'
+            component={TagsTopTabNavigator}
             options={({ navigation }) => ({
               tabBarShowLabel: false,
               tabBarIcon: ({ size, color, focused }) => (
@@ -93,7 +94,7 @@ const SpaceRootBottomTabNavigator = (props) => {
               ),
             })}
           />
-          <Tab.Screen
+          {/* <Tab.Screen
             name='LocationsViewTopTabNavigator'
             component={LocationsViewTopTabNavigator}
             options={({ navigation }) => ({
@@ -133,7 +134,7 @@ const SpaceRootBottomTabNavigator = (props) => {
                 />
               ),
             })}
-          />
+          /> */}
           <Tab.Screen
             name='MomentsView'
             component={MomentsView}

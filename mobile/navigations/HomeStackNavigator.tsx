@@ -42,6 +42,8 @@ import WelcomePage from '../features/NotAuthenticated/pages/WelcomePage';
 import Login from '../features/NotAuthenticated/pages/Login';
 import Signup from '../features/NotAuthenticated/pages/Signup';
 
+import EditTag from '../features/EditTag/pages/Form';
+
 import { HomeStackNavContext } from '../contexts/HomeStackNavContext';
 const HomeStackNavigator: React.FC = (props) => {
   const { isAuthenticated } = useContext(GlobalContext);
@@ -151,6 +153,26 @@ const HomeStackNavigator: React.FC = (props) => {
             <Stack.Screen
               name='CreateNewSpace'
               component={CreateNewSpace}
+              options={({ navigation }) => ({
+                headerShown: true,
+                headerLeft: () => (
+                  <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <Ionicons name='close-circle-sharp' size={30} color={'white'} />
+                  </TouchableOpacity>
+                ),
+                headerTitle: '',
+                headerStyle: {
+                  backgroundColor: primaryBackgroundColor,
+                },
+                headerTitleStyle: {
+                  fontWeight: 'bold',
+                  color: primaryTextColor,
+                },
+              })}
+            />
+            <Stack.Screen
+              name='EditTag'
+              component={EditTag}
               options={({ navigation }) => ({
                 headerShown: true,
                 headerLeft: () => (

@@ -60,14 +60,14 @@ const PeopleView = (props) => {
     if (posts.length) {
       return (
         <View style={{ flex: 1, backgroundColor: 'black' }}>
-          {/* <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
             <View
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
                 paddingLeft: 20,
                 paddingRight: 20,
-                paddingTop: 30,
+                paddingTop: 20,
                 paddingBottom: 20,
               }}
             >
@@ -95,7 +95,7 @@ const PeopleView = (props) => {
             >
               <Text style={{ fontWeight: 'bold' }}>Follow</Text>
             </TouchableOpacity>
-          </View> */}
+          </View>
           <FlatList
             style={{ paddingTop: 10 }}
             numColumns={3}

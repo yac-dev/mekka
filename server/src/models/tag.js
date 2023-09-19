@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 // だから、lastUpdateするのは、first tagだけでいいかも。。。
 const tagSchema = mongoose.Schema({
   icon: String,
+  iconType: String, // icon, image, sticker　(emojiは無し)
   name: String,
   color: String,
   count: Number,

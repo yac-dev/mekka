@@ -1,11 +1,12 @@
 import mongoose from 'mongoose';
 
-const iconSchema = mongoose.Schema({
-  url: String,
-  name: String,
-  color: String,
+const tagIconSchema = mongoose.Schema({
+  type: String, // 'icon','sticker', 'image'
+  icon: String, // url
+  sticker: String,
+  image: String,
 });
 
-const Icon = mongoose.model('Icon', iconSchema);
+const TagIcon = mongoose.model('TagIcon', tagIconSchema);
 
-export default Icon;
+export default TagIcon;

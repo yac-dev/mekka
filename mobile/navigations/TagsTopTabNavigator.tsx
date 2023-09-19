@@ -21,10 +21,11 @@ import SnackBar from '../components/SnackBar';
 // import Grid from '../features/Space/components/Grid';
 import TagView from '../features/Space/pages/TagView';
 import Map from '../features/Space/components/Map';
+import ViewPostsTopTabNavigator from './ViewPostsTopTabMavigator';
 
 const Tab = createMaterialTopTabNavigator();
 
-const TagViewTopTabNavigator = (props) => {
+const TagsTopTabNavigator = (props) => {
   const { spaceAndUserRelationship, navigation, space, hasSpaceBeenFetched, setHasSpaceBeenFetched } =
     useContext(SpaceRootContext);
   const { isIpad, spaceMenuBottomSheetRef, currentSpace, setCurrentSpace } = useContext(GlobalContext);
@@ -35,22 +36,6 @@ const TagViewTopTabNavigator = (props) => {
   const [tags, setTags] = useState({});
   const [haveTagsBeenFetched, setHaveTagsBeenFetched] = useState(false);
   // const spaceMenuBottomSheetRef = useRef(null);
-
-  // useEffect(() => {
-  //   if (props.route.params.addedTags) {
-  //     // これ、for in の方か？？
-  //     props.route.params.addedTags.forEach((element) => {
-  //       if (!(element in tags)) {
-  //         setTags((previous) => {
-  //           return {
-  //             ...previous,
-  //             [element._id]: element,
-  //           };
-  //         });
-  //       }
-  //     });
-  //   }
-  // }, [props.route.params.addedTags]);
 
   const getSpaceById = async () => {
     setHasSpaceBeenFetched(false);
@@ -78,19 +63,6 @@ const TagViewTopTabNavigator = (props) => {
     });
     setHaveTagsBeenFetched(true);
   };
-
-  // useEffect(() => {
-  //   getSpaceById();
-  // }, []);
-
-  // console.log(props.route);
-
-  // useEffect(() => {
-  //   if (hasSpaceBeenFetched || props.route?.params?.afterPosted) {
-  //     getTags();
-  //     // setHasSpaceBeenFetched(false);
-  //   }
-  // }, [hasSpaceBeenFetched, props.route?.params?.afterPosted]);
 
   useEffect(() => {
     getTags();
@@ -182,8 +154,9 @@ const TagViewTopTabNavigator = (props) => {
       <Tab.Navigator
         tabBar={(props) => <CustomTabBar {...props} />}
         screenOptions={({ route }) => ({
-          lazy: true,
+          lazy: false,
           swipeEnabled: false,
+          animationEnabled: false,
         })}
       >
         {Object.values(tags).map((tagObject, index) => (
@@ -193,13 +166,19 @@ const TagViewTopTabNavigator = (props) => {
             options={{ title: tagObject.tag.name }} // Set the tab title to the space name
             initialParams={{ tagObject }}
           >
-            {({ navigation }) => <TagView navigation={navigation} tagObject={tagObject} />}
+            {({ navigation }) => <ViewPostsTopTabNavigator navigation={navigation} tagObject={tagObject} />}
           </Tab.Screen>
         ))}
+        {/* <Tab.Screen
+          name={`SpaceTab_${tagObject._id}-${index}`}
+          options={{ title: tagObject.tag.name }} // Set the tab title to the space name
+          initialParams={{ tagObject }}
+          component={ViewPostsTopTabNavigator}
+        /> */}
       </Tab.Navigator>
       <SnackBar />
     </View>
   );
 };
 
-export default TagViewTopTabNavigator;
+export default TagsTopTabNavigator;

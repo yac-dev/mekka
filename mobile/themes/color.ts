@@ -19,10 +19,10 @@ export const iconParameterBackgroundColorTable = {
   black1: 'rgba(70, 70, 70, 0.3)',
   brown1: 'rgba(155, 81, 15, 0.3)',
   no: 'rgba(130, 130, 130, 0.1)',
+  white: 'white',
 };
 
 export const iconButtonBackgroundColorTable = {
-  none: 'rgba(245, 245, 245, 0.3)',
   red1: 'rgba(255, 51, 51, 0.3)',
   yellow1: 'rgba(229, 188, 0, 0.3)',
   orange1: 'rgba(254, 115, 0, 0.3)',
@@ -35,7 +35,7 @@ export const iconButtonBackgroundColorTable = {
   pink1: 'rgba(240, 103, 165, 0.3)',
   black1: 'rgba(70, 70, 70, 0.3)',
   brown1: 'rgba(155, 81, 15, 0.3)',
-  no: 'rgba(130, 130, 130, 0.1)',
+  white: 'white',
 };
 
 export const iconColorTable = {

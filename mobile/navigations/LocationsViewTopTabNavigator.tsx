@@ -88,7 +88,7 @@ const LocationsViewTopTabNavigator = () => {
               <FastImage
                 source={{ uri: route.params?.locationTag.icon }}
                 style={{ width: 35, height: 35, borderRadius: 8, marginBottom: 5 }}
-                tintColor={'white'}
+                tintColor={route.params?.locationTag.iconType === 'icon' ? route.params?.locationTag.color : null}
               />
               <Text numberOfLines={1} style={{ color: 'white', marginBottom: 5 }}>
                 {route.params?.locationTag.name}
