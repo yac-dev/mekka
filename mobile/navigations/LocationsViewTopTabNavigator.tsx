@@ -1,16 +1,21 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, ActivityIndicator, Dimensions } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import FastImage from 'react-native-fast-image';
 import { SpaceRootContext } from '../features/Space/contexts/SpaceRootContext';
 import backendAPI from '../apis/backend';
 import LocationsView from '../features/Space/pages/LocationsView';
+import MapView, { Marker } from 'react-native-maps';
 
 const Tab = createMaterialTopTabNavigator();
 
 const LocationsViewTopTabNavigator = () => {
   const { spaceAndUserRelationship, navigation, space, hasSpaceBeenFetched, setHasSpaceBeenFetched } =
     useContext(SpaceRootContext);
+  const { locationsViewPostsBottomSheetRef, locationsViewPosts, setLocationsViewPosts } = useContext(SpaceRootContext);
+  const { height, width } = Dimensions.get('window');
+  const LATITUDE_DELTA = 100; // zoom levelを後でやろうか。。
+  const LONGITUDE_DELTA = LATITUDE_DELTA * (width / height);
   const [locationTags, setLocationTags] = useState([]);
   const [haveLocationTagsBeenFetched, setHaveLocationTagsBeenFetched] = useState(false);
   const [selectedLocationTag, setSelectedLocationTag] = useState(null);
@@ -27,24 +32,47 @@ const LocationsViewTopTabNavigator = () => {
     getLocationTagsBySpaceId();
   }, []);
 
+  const getPostsByLocationTagId = async (locationTag) => {
+    const result = await backendAPI.get(`/posts/locationtag/${locationTag._id}/space/${space._id}`);
+    const { posts } = result.data;
+    setLocationsViewPosts(posts);
+    // setHavePostsBeenFetched(true);
+  };
+
+  // useEffect(() => {
+  //   getPostsByLocationTagId();
+  // }, []);
+
+  // useEffect(() => {
+  //   const newLat = props.selectedLocationTag.point.coordinates[1] - 0.0065;
+  //   mapRef.current.animateToRegion({
+  //     latitude: newLat,
+  //     longitude: props.selectedLocationTag.point.coordinates[0],
+  //     latitudeDelta: 0.0322,
+  //     longitudeDelta: 0.0221,
+  //   });
+  // }, []);
+
   const CustomTabBar = ({ state, descriptors, navigation }) => {
     return (
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{ paddingHorizontal: 0 }}
-        style={{
-          backgroundColor: 'transparent',
-          paddingTop: 10,
-          paddingBottom: 10,
-          paddingLeft: 10,
-          paddingRight: 10,
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          zIndex: 1,
-          height: 80,
+      <MapView
+        userInterfaceStyle='dark'
+        // ref={mapRef}
+        style={{ width: Dimensions.get('window').width, height: Dimensions.get('window').height }}
+        showsUserLocation={true}
+        showsCompass={true}
+        scrollEnabled={true}
+        zoomEnabled={true}
+        // onPress={(event) => setMeetupLocation(event)}
+        // initial regionっていうのは、最初に地図がloadされたときに画面の中心にどのlatitudeとlongitudeを映すかって言うことね。
+        // これ、今のuserの場所にしたほうがいいわな。開発中は、ずっとsanfransisco中心に進めていたけど。。
+        initialRegion={{
+          latitude: 37.78825,
+          longitude: -122.4324,
+          latitudeDelta: LATITUDE_DELTA,
+          longitudeDelta: LONGITUDE_DELTA,
         }}
+        // mapType={'satellite'}
       >
         {state.routes.map((route, index) => {
           const { options } = descriptors[route.key];
@@ -66,44 +94,136 @@ const LocationsViewTopTabNavigator = () => {
             }
           };
           return (
-            <TouchableOpacity
-              key={route.key}
-              style={{
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginRight: 10,
-                // backgroundColor: isFocused ? 'rgb(110,110,110)' : null,
-                padding: 10,
-                // borderRadius: 20,
-                // backgroundColor: isFocused ? 'rgb(150, 150,150)' : 'rgb(60,60,60)',
-                width: 70,
-                height: 70,
-                borderBottomWidth: isFocused && 1,
-                borderBottomColor: isFocused && 'white',
+            // <TouchableOpacity
+            //   key={route.key}
+            //   style={{
+            //     flexDirection: 'column',
+            //     justifyContent: 'center',
+            //     alignItems: 'center',
+            //     marginRight: 10,
+            //     // backgroundColor: isFocused ? 'rgb(110,110,110)' : null,
+            //     padding: 10,
+            //     // borderRadius: 20,
+            //     // backgroundColor: isFocused ? 'rgb(150, 150,150)' : 'rgb(60,60,60)',
+            //     width: 70,
+            //     height: 70,
+            //     borderBottomWidth: isFocused && 1,
+            //     borderBottomColor: isFocused && 'white',
+            //   }}
+            //   // contentTypeによって、いくnavigatorが変わるわけですよ。。。そう、つまりここでnavigatingを分ければいいわけね。
+            //   onPress={onPress}
+            // >
+            //   <FastImage
+            //     source={{ uri: route.params?.locationTag.icon }}
+            //     style={{ width: 35, height: 35, borderRadius: 8, marginBottom: 5 }}
+            //     tintColor={route.params?.locationTag.iconType === 'icon' ? route.params?.locationTag.color : null}
+            //   />
+            //   <Text numberOfLines={1} style={{ color: 'white', marginBottom: 5 }}>
+            //     {route.params?.locationTag.name}
+            //   </Text>
+            // </TouchableOpacity>
+            <Marker
+              tracksViewChanges={false}
+              coordinate={{
+                latitude: route.params?.locationTag.point.coordinates[1],
+                longitude: route.params?.locationTag.point.coordinates[0],
               }}
-              // contentTypeによって、いくnavigatorが変わるわけですよ。。。そう、つまりここでnavigatingを分ければいいわけね。
-              onPress={onPress}
+              pinColor='black'
+              onPress={() => {
+                onPress();
+                // locationsViewPostsBottomSheetRef.current.snapToIndex(0);
+              }}
             >
-              <FastImage
-                source={{ uri: route.params?.locationTag.icon }}
-                style={{ width: 35, height: 35, borderRadius: 8, marginBottom: 5 }}
-                tintColor={route.params?.locationTag.iconType === 'icon' ? route.params?.locationTag.color : null}
-              />
-              <Text numberOfLines={1} style={{ color: 'white', marginBottom: 5 }}>
-                {route.params?.locationTag.name}
-              </Text>
-            </TouchableOpacity>
+              <TouchableOpacity
+                style={{ width: 45, height: 45 }}
+                // onPress={() => locationsViewPostsBottomSheetRef.current.snapToIndex(1)}
+              >
+                <FastImage
+                  // onLoad={() => setInitialRender(false)}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    borderRadius: 10,
+                  }}
+                  source={{ uri: route.params?.locationTag.icon }}
+                  style={{ width: 35, height: 35, borderRadius: 8, marginBottom: 5 }}
+                  tintColor={route.params?.locationTag.iconType === 'icon' ? route.params?.locationTag.color : null}
+                />
+              </TouchableOpacity>
+            </Marker>
           );
         })}
-      </ScrollView>
+      </MapView>
     );
+  };
+
+  const renderMarkers = () => {
+    if (locationTags.length) {
+      const list = locationTags.map((locationTag, index) => {
+        return (
+          <Marker
+            tracksViewChanges={false}
+            coordinate={{
+              latitude: locationTag.point.coordinates[1],
+              longitude: locationTag.point.coordinates[0],
+            }}
+            pinColor='black'
+            onPress={() => {
+              // onPress();
+              locationsViewPostsBottomSheetRef.current.snapToIndex(0);
+              getPostsByLocationTagId(locationTag);
+            }}
+          >
+            <TouchableOpacity
+              style={{ width: 45, height: 45 }}
+              // onPress={() => locationsViewPostsBottomSheetRef.current.snapToIndex(1)}
+            >
+              <FastImage
+                // onLoad={() => setInitialRender(false)}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  borderRadius: 10,
+                }}
+                source={{ uri: locationTag.icon }}
+                style={{ width: 35, height: 35, borderRadius: 8, marginBottom: 5 }}
+                // tintColor={route.params?.locationTag.iconType === 'icon' ? route.params?.locationTag.color : null}
+              />
+            </TouchableOpacity>
+          </Marker>
+        );
+      });
+
+      return <>{list}</>;
+    } else {
+      return null;
+    }
   };
 
   if (haveLocationTagsBeenFetched) {
     return (
       <View style={{ flex: 1, backgroundColor: 'black' }}>
-        <Tab.Navigator
+        <MapView
+          userInterfaceStyle='dark'
+          // ref={mapRef}
+          style={{ flex: 1, width: Dimensions.get('window').width, height: Dimensions.get('window').height }}
+          showsUserLocation={true}
+          showsCompass={true}
+          scrollEnabled={true}
+          zoomEnabled={true}
+          // onPress={(event) => setMeetupLocation(event)}
+          // initial regionっていうのは、最初に地図がloadされたときに画面の中心にどのlatitudeとlongitudeを映すかって言うことね。
+          // これ、今のuserの場所にしたほうがいいわな。開発中は、ずっとsanfransisco中心に進めていたけど。。
+          initialRegion={{
+            latitude: 37.78825,
+            longitude: -122.4324,
+            latitudeDelta: LATITUDE_DELTA,
+            longitudeDelta: LONGITUDE_DELTA,
+          }}
+          // mapType={'satellite'}
+        >
+          {renderMarkers()}
+          {/* <Tab.Navigator
           tabBar={(props) => <CustomTabBar {...props} />}
           screenOptions={({ route }) => ({
             lazy: true,
@@ -126,7 +246,8 @@ const LocationsViewTopTabNavigator = () => {
               )}
             </Tab.Screen>
           ))}
-        </Tab.Navigator>
+        </Tab.Navigator> */}
+        </MapView>
       </View>
     );
   } else {

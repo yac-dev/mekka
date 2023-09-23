@@ -27,26 +27,26 @@ const LocationsView = (props) => {
   const [havePostsBeenFetched, setHavePostsBeenFetched] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
-  const getPostsByLocationTagId = async () => {
-    const result = await backendAPI.get(`/posts/locationtag/${props.locationTag._id}/space/${space._id}`);
-    const { posts } = result.data;
-    setPosts(posts);
-    setHavePostsBeenFetched(true);
-  };
+  // const getPostsByLocationTagId = async () => {
+  //   const result = await backendAPI.get(`/posts/locationtag/${props.locationTag._id}/space/${space._id}`);
+  //   const { posts } = result.data;
+  //   setPosts(posts);
+  //   setHavePostsBeenFetched(true);
+  // };
 
-  useEffect(() => {
-    getPostsByLocationTagId();
-  }, []);
+  // useEffect(() => {
+  //   getPostsByLocationTagId();
+  // }, []);
 
-  useEffect(() => {
-    const newLat = props.selectedLocationTag.point.coordinates[1] - 0.0065;
-    mapRef.current.animateToRegion({
-      latitude: newLat,
-      longitude: props.selectedLocationTag.point.coordinates[0],
-      latitudeDelta: 0.0322,
-      longitudeDelta: 0.0221,
-    });
-  }, []);
+  // useEffect(() => {
+  //   const newLat = props.selectedLocationTag.point.coordinates[1] - 0.0065;
+  //   mapRef.current.animateToRegion({
+  //     latitude: newLat,
+  //     longitude: props.selectedLocationTag.point.coordinates[0],
+  //     latitudeDelta: 0.0322,
+  //     longitudeDelta: 0.0221,
+  //   });
+  // }, []);
 
   const renderItem = useCallback((post) => {
     if (post.content.type === 'video') {
@@ -147,63 +147,66 @@ const LocationsView = (props) => {
   // selectedLocationTag
 
   return (
-    <GestureHandlerRootView style={{ flex: 1, backgroundColor: 'black' }}>
-      <MapView
-        userInterfaceStyle='dark'
-        ref={mapRef}
-        style={{ width: Dimensions.get('window').width, height: Dimensions.get('window').height }}
-        showsUserLocation={true}
-        // customMapStyle={mapStyle}
-        // // showsMyLocationButton={true}
-        // followsUserLocation={true}
-        showsCompass={true}
-        scrollEnabled={true}
-        zoomEnabled={true}
-        // onPress={(event) => setMeetupLocation(event)}
-        // initial regionっていうのは、最初に地図がloadされたときに画面の中心にどのlatitudeとlongitudeを映すかって言うことね。
-        // これ、今のuserの場所にしたほうがいいわな。開発中は、ずっとsanfransisco中心に進めていたけど。。
-        initialRegion={{
-          latitude: LATITUDE,
-          longitude: LONGITUDE,
-          latitudeDelta: LATITUDE_DELTA,
-          longitudeDelta: LONGITUDE_DELTA,
-        }}
-        // mapType={'satellite'}
-      >
-        <Marker
-          tracksViewChanges={false}
-          coordinate={{
-            latitude: props.selectedLocationTag.point.coordinates[1],
-            longitude: props.selectedLocationTag.point.coordinates[0],
-          }}
-          pinColor='black'
-          onPress={() => {
-            locationsViewPostsBottomSheetRef.current.snapToIndex(0);
-          }}
-        >
-          <TouchableOpacity
-            style={{ width: 45, height: 45 }}
-            // onPress={() => locationsViewPostsBottomSheetRef.current.snapToIndex(1)}
-          >
-            <FastImage
-              // onLoad={() => setInitialRender(false)}
-              style={{
-                width: '100%',
-                height: '100%',
-                borderRadius: 10,
-              }}
-              source={{
-                uri: props.selectedLocationTag.icon,
-                priority: FastImage.priority.normal,
-              }}
-              resizeMode={FastImage.resizeMode.contain}
-              tintColor={props.selectedLocationTag.iconType === 'icon' ? props.selectedLocationTag.color : null}
-            />
-          </TouchableOpacity>
-        </Marker>
-      </MapView>
-      {renderPosts()}
-    </GestureHandlerRootView>
+    // <GestureHandlerRootView style={{ flex: 1, backgroundColor: 'black' }}>
+    //   <MapView
+    //     userInterfaceStyle='dark'
+    //     ref={mapRef}
+    //     style={{ width: Dimensions.get('window').width, height: Dimensions.get('window').height }}
+    //     showsUserLocation={true}
+    //     // customMapStyle={mapStyle}
+    //     // // showsMyLocationButton={true}
+    //     // followsUserLocation={true}
+    //     showsCompass={true}
+    //     scrollEnabled={true}
+    //     zoomEnabled={true}
+    //     // onPress={(event) => setMeetupLocation(event)}
+    //     // initial regionっていうのは、最初に地図がloadされたときに画面の中心にどのlatitudeとlongitudeを映すかって言うことね。
+    //     // これ、今のuserの場所にしたほうがいいわな。開発中は、ずっとsanfransisco中心に進めていたけど。。
+    //     initialRegion={{
+    //       latitude: LATITUDE,
+    //       longitude: LONGITUDE,
+    //       latitudeDelta: LATITUDE_DELTA,
+    //       longitudeDelta: LONGITUDE_DELTA,
+    //     }}
+    //     // mapType={'satellite'}
+    //   >
+    //     <Marker
+    //       tracksViewChanges={false}
+    //       coordinate={{
+    //         latitude: props.selectedLocationTag.point.coordinates[1],
+    //         longitude: props.selectedLocationTag.point.coordinates[0],
+    //       }}
+    //       pinColor='black'
+    //       onPress={() => {
+    //         locationsViewPostsBottomSheetRef.current.snapToIndex(0);
+    //       }}
+    //     >
+    //       <TouchableOpacity
+    //         style={{ width: 45, height: 45 }}
+    //         // onPress={() => locationsViewPostsBottomSheetRef.current.snapToIndex(1)}
+    //       >
+    //         <FastImage
+    //           // onLoad={() => setInitialRender(false)}
+    //           style={{
+    //             width: '100%',
+    //             height: '100%',
+    //             borderRadius: 10,
+    //           }}
+    //           source={{
+    //             uri: props.selectedLocationTag.icon,
+    //             priority: FastImage.priority.normal,
+    //           }}
+    //           resizeMode={FastImage.resizeMode.contain}
+    //           tintColor={props.selectedLocationTag.iconType === 'icon' ? props.selectedLocationTag.color : null}
+    //         />
+    //       </TouchableOpacity>
+    //     </Marker>
+    //   </MapView>
+    //   {renderPosts()}
+    // </GestureHandlerRootView>
+    <View style={{ backgroundColor: 'transparent' }}>
+      <Text style={{ color: 'red' }}>Hello</Text>
+    </View>
   );
 };
 

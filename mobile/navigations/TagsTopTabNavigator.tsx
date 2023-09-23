@@ -183,7 +183,8 @@ const TagsTopTabNavigator = (props) => {
             options={{ title: tagObject.tag.name }}
             initialParams={{ tagObject }}
           >
-            {({ navigation }) => <ViewPostsTopTabNavigator navigation={navigation} tagObject={tagObject} />}
+            {/* {({ navigation }) => <ViewPostsTopTabNavigator navigation={navigation} tagObject={tagObject} />} */}
+            {({ navigation }) => <TagView navigation={navigation} tagObject={tagObject} />}
           </Tab.Screen>
         ))}
         {/* <Tab.Screen
@@ -194,7 +195,7 @@ const TagsTopTabNavigator = (props) => {
         /> */}
       </Tab.Navigator>
       {/* <ChooseViewBottomSheet /> */}
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={{
           backgroundColor: 'white',
           width: 40,
@@ -210,7 +211,7 @@ const TagsTopTabNavigator = (props) => {
         onPress={() => chooseViewBottomSheetRef.current.snapToIndex(0)}
       >
         <MaterialCommunityIcons name='dots-grid' color='black' size={20} />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       <SnackBar />
     </View>
   );
