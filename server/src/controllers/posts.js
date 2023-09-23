@@ -234,18 +234,17 @@ export const getPostsByTagId = async (request, response) => {
     }).populate({
       path: 'post',
       model: 'Post',
-      select: '_id contents type location',
+      select: '_id contents type location createdAt',
       populate: {
         path: 'contents',
         model: 'Content',
       },
     });
 
-    console.log(postAndTagRelationships);
-
     const posts = postAndTagRelationships
       .filter((relationship) => relationship.post !== null)
       .map((relationship, index) => {
+        // console.log(relationship.post);
         return {
           _id: relationship.post._id,
           content: {
@@ -253,9 +252,10 @@ export const getPostsByTagId = async (request, response) => {
             type: relationship.post.contents[0].type,
           },
           location: relationship.post.location,
+          createdAt: relationship.post.createdAt,
         };
       });
-
+    console.log(posts);
     response.status(200).json({
       posts,
     });

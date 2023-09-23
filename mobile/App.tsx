@@ -37,6 +37,7 @@ const App: React.FC = function () {
   const spaceMenuBottomSheetRef = useRef(null);
   const spaceActionMenuBottomSheetRef = useRef(null);
   const authMenuBottomSheetRef = useRef(null);
+  const chooseViewBottomSheetRef = useRef(null);
   const [afterJoined, setAfterJoined] = useState(false);
   // console.log(currentTagObject);
   // console.log(currentSpaceAndUserRelationship);

@@ -28,8 +28,14 @@ import { TagViewRootContext } from '../features/SpaceMenuBottomSheet/contexts/Ta
 const Tab = createMaterialTopTabNavigator();
 
 const TagsTopTabNavigator = (props) => {
-  const { spaceAndUserRelationship, navigation, space, hasSpaceBeenFetched, setHasSpaceBeenFetched } =
-    useContext(SpaceRootContext);
+  const {
+    spaceAndUserRelationship,
+    navigation,
+    space,
+    hasSpaceBeenFetched,
+    setHasSpaceBeenFetched,
+    chooseViewBottomSheetRef,
+  } = useContext(SpaceRootContext);
   const { isIpad, spaceMenuBottomSheetRef, currentSpace, setCurrentSpace, currentTagObject, setCurrentTagObject } =
     useContext(GlobalContext);
   const oneGridWidth = isIpad ? Dimensions.get('window').width / 6 : Dimensions.get('window').width / 4;
@@ -39,7 +45,6 @@ const TagsTopTabNavigator = (props) => {
   const [tags, setTags] = useState({});
   const [haveTagsBeenFetched, setHaveTagsBeenFetched] = useState(false);
   // const spaceMenuBottomSheetRef = useRef(null);
-  const chooseViewBottomSheetRef = useRef(null);
   const getSpaceById = async () => {
     setHasSpaceBeenFetched(false);
     const result = await backendAPI.get(`/spaces/${spaceAndUserRelationship.space._id}`);
@@ -64,6 +69,12 @@ const TagsTopTabNavigator = (props) => {
 
       return table;
     });
+    const defaultTagObject = {
+      tag: tags[0],
+      hasUnreadPosts: tags[0].updatedAt > props.route?.params?.lastCheckedIn ? true : false,
+      createdPosts: false,
+    };
+    setCurrentTagObject(defaultTagObject);
     setHaveTagsBeenFetched(true);
   };
 
@@ -186,8 +197,8 @@ const TagsTopTabNavigator = (props) => {
       <TouchableOpacity
         style={{
           backgroundColor: 'white',
-          width: 50,
-          height: 50,
+          width: 40,
+          height: 40,
           borderRadius: 25,
           position: 'absolute',
           bottom: 30,

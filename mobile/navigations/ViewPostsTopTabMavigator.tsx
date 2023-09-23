@@ -12,6 +12,7 @@ import SnackBar from '../components/SnackBar';
 import Grid from '../features/Space/pages/Grid';
 import Map from '../features/Space/pages/Map';
 import Calendar from '../features/Space/pages/Calendar';
+import { ViewPostsRootContext } from '../features/SpaceMenuBottomSheet/contexts/ViewPostsRootContext';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -28,7 +29,7 @@ const ViewPostsTopTabNavigator = (props) => {
     const result = await backendAPI.get(`/posts/tag/${props.tagObject.tag._id}`);
     const { posts } = result.data;
     setPosts(posts);
-    // setSelectedTag(tags[0]);
+    console.log(posts);
     setHavePostsBeenFetched(true);
   };
 
@@ -42,36 +43,39 @@ const ViewPostsTopTabNavigator = (props) => {
     getPostsByTagId();
   }, []);
 
-  // ここ、むずいなー。でもまあ、完璧でなくてもいいかね。それぞれのcomponentでひょうじするので。。。。
   return (
-    <View style={{ flex: 1 }}>
-      <Tab.Navigator
-        screenOptions={({ route }) => ({
-          lazy: false,
-          swipeEnabled: false,
-          tabBarStyle: {
-            display: 'none',
-          },
-          animationEnabled: false,
-        })}
-      >
-        <Tab.Screen
-          name={'Grid'}
-          options={{ title: 'Grid' }} // Set the tab title to the space name
-          component={Grid}
-        />
-        <Tab.Screen
-          name={'Map'}
-          options={{ title: 'Map' }} // Set the tab title to the space name
-          component={Map}
-        />
-        <Tab.Screen
-          name={'Calendar'}
-          options={{ title: 'Calendar' }} // Set the tab title to the space name
-          component={Calendar}
-        />
-      </Tab.Navigator>
-    </View>
+    <ViewPostsRootContext.Provider
+      value={{ posts, havePostsBeenFetched, setHavePostsBeenFetched, isRefreshing, setIsRefreshing }}
+    >
+      <View style={{ flex: 1 }}>
+        <Tab.Navigator
+          screenOptions={({ route }) => ({
+            lazy: false,
+            swipeEnabled: false,
+            tabBarStyle: {
+              display: 'none',
+            },
+            animationEnabled: false,
+          })}
+        >
+          <Tab.Screen
+            name={'Grid'}
+            options={{ title: 'Grid' }} // Set the tab title to the space name
+            component={Grid}
+          />
+          <Tab.Screen
+            name={'Map'}
+            options={{ title: 'Map' }} // Set the tab title to the space name
+            component={Map}
+          />
+          <Tab.Screen
+            name={'Calendar'}
+            options={{ title: 'Calendar' }} // Set the tab title to the space name
+            component={Calendar}
+          />
+        </Tab.Navigator>
+      </View>
+    </ViewPostsRootContext.Provider>
   );
 };
 

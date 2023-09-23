@@ -141,8 +141,8 @@ const SpaceRootBottomTabNavigator = (props) => {
           }}
           style={{
             backgroundColor: 'white',
-            width: 50,
-            height: 50,
+            width: 40,
+            height: 40,
             borderRadius: 25,
             position: 'absolute',
             bottom: 30,

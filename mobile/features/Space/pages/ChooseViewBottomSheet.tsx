@@ -30,7 +30,7 @@ const ChooseViewBottomSheet = (props) => {
     >
       {/* `SpaceTab_${currentTagObject.tag._id}`, params: { screen: 'Grid' }  */}
       <BottomSheetView style={{ flex: 1, paddingTop: 10, paddingLeft: 10, paddingRight: 10 }}>
-        <Text style={{ fontWeight: 'bold', color: 'white', marginBottom: 20, fontSize: 25, marginLeft: 10 }}>
+        <Text style={{ fontWeight: 'bold', color: 'white', marginBottom: 10, fontSize: 25, marginLeft: 10 }}>
           Choose View
         </Text>
         <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%' }}>
@@ -55,7 +55,7 @@ const ChooseViewBottomSheet = (props) => {
               }}
             >
               <MaterialCommunityIcons name='dots-grid' size={35} color='white' style={{ marginBottom: 10 }} />
-              <Text style={{ color: 'white' }}>Grid</Text>
+              <Text style={{ color: 'white', fontWeight: 'bold' }}>Grid</Text>
             </TouchableOpacity>
           </View>
           <View style={{ width: '50%', padding: 5 }}>
@@ -83,7 +83,7 @@ const ChooseViewBottomSheet = (props) => {
                 style={{ width: 25, height: 35, marginBottom: 10 }}
                 tintColor={'white'}
               />
-              <Text style={{ color: 'white' }}>Map</Text>
+              <Text style={{ color: 'white', fontWeight: 'bold' }}>Map</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -109,10 +109,10 @@ const ChooseViewBottomSheet = (props) => {
               }}
             >
               <Ionicons name='calendar' size={35} color='white' style={{ marginBottom: 10 }} />
-              <Text style={{ color: 'white' }}>Date</Text>
+              <Text style={{ color: 'white', fontWeight: 'bold' }}>Date</Text>
             </TouchableOpacity>
           </View>
-          <View style={{ width: '50%', padding: 5 }}>
+          {/* <View style={{ width: '50%', padding: 5 }}>
             <TouchableOpacity
               onPress={() => {
                 navigation.navigate(`Space_${currentSpaceAndUserRelationship._id}`, {
@@ -133,9 +133,9 @@ const ChooseViewBottomSheet = (props) => {
               }}
             >
               <MaterialCommunityIcons name='account-group' size={35} color='white' style={{ marginBottom: 10 }} />
-              <Text style={{ color: 'white' }}>People</Text>
+              <Text style={{ color: 'white', fontWeight: 'bold' }}>People</Text>
             </TouchableOpacity>
-          </View>
+          </View> */}
         </View>
 
         {/* <TouchableOpacity
