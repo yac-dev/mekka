@@ -5,16 +5,20 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import GorhomBottomSheet, { BottomSheetView, BottomSheetBackdrop } from '@gorhom/bottom-sheet';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
+import { SpaceRootContext } from '../contexts/SpaceRootContext';
+import FastImage from 'react-native-fast-image';
 
 // rgb(35, 35, 35)
 const ChooseViewBottomSheet = (props) => {
-  const snapPoints = useMemo(() => ['60%'], []);
-
+  const snapPoints = useMemo(() => ['55%'], []);
+  const { chooseViewBottomSheetRef, navigation } = useContext(SpaceRootContext);
+  const { currentSpaceAndUserRelationship, currentTagObject } = useContext(GlobalContext);
+  // だめだね。。。SpaceRootBottomのnavigationだとなんか挙動がおかしいわ。
   return (
     <GorhomBottomSheet
       index={-1}
       enableOverDrag={true}
-      ref={props.chooseViewBottomSheetRef}
+      ref={chooseViewBottomSheetRef}
       snapPoints={snapPoints}
       backdropComponent={(backdropProps) => (
         <BottomSheetBackdrop {...backdropProps} appearsOnIndex={0} disappearsOnIndex={-1} />
@@ -24,16 +28,116 @@ const ChooseViewBottomSheet = (props) => {
       handleIndicatorStyle={{ backgroundColor: 'white' }}
       // onClose={() => onSelectedItemBottomSheetClose()}
     >
+      {/* `SpaceTab_${currentTagObject.tag._id}`, params: { screen: 'Grid' }  */}
       <BottomSheetView style={{ flex: 1, paddingTop: 10, paddingLeft: 10, paddingRight: 10 }}>
-        <TouchableOpacity style={{ padding: 20 }}>
-          <Text style={{ color: 'white' }}>Grid</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={{ padding: 20 }} onPress={() => props.navigation.navigate('Map')}>
-          <Text style={{ color: 'white' }}>Map</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={{ padding: 20 }}>
-          <Text style={{ color: 'white' }}>Calendar</Text>
-        </TouchableOpacity>
+        <Text style={{ fontWeight: 'bold', color: 'white', marginBottom: 20, fontSize: 25, marginLeft: 10 }}>
+          Choose View
+        </Text>
+        <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%' }}>
+          <View style={{ width: '50%', padding: 5 }}>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate(`Space_${currentSpaceAndUserRelationship._id}`, {
+                  screen: `TagsTopTabNavigator`,
+                  params: {
+                    screen: `SpaceTab_${currentTagObject.tag._id}`,
+                    params: { screen: 'Grid' },
+                  },
+                });
+                chooseViewBottomSheetRef.current.close();
+              }}
+              style={{
+                backgroundColor: 'rgb(70,70,70)',
+                borderRadius: 10,
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: 100,
+              }}
+            >
+              <MaterialCommunityIcons name='dots-grid' size={35} color='white' style={{ marginBottom: 10 }} />
+              <Text style={{ color: 'white' }}>Grid</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={{ width: '50%', padding: 5 }}>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate(`Space_${currentSpaceAndUserRelationship._id}`, {
+                  screen: `TagsTopTabNavigator`,
+                  params: {
+                    screen: `SpaceTab_${currentTagObject.tag._id}`,
+                    params: { screen: 'Map' },
+                  },
+                });
+                chooseViewBottomSheetRef.current.close();
+              }}
+              style={{
+                backgroundColor: 'rgb(70,70,70)',
+                borderRadius: 10,
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: 100,
+              }}
+            >
+              <FastImage
+                source={require('../../../assets/forApp/globe.png')}
+                style={{ width: 25, height: 35, marginBottom: 10 }}
+                tintColor={'white'}
+              />
+              <Text style={{ color: 'white' }}>Map</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%' }}>
+          <View style={{ width: '50%', padding: 5 }}>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate(`Space_${currentSpaceAndUserRelationship._id}`, {
+                  screen: `TagsTopTabNavigator`,
+                  params: {
+                    screen: `SpaceTab_${currentTagObject.tag._id}`,
+                    params: { screen: 'Calendar' },
+                  },
+                });
+                chooseViewBottomSheetRef.current.close();
+              }}
+              style={{
+                backgroundColor: 'rgb(70,70,70)',
+                borderRadius: 10,
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: 100,
+              }}
+            >
+              <Ionicons name='calendar' size={35} color='white' style={{ marginBottom: 10 }} />
+              <Text style={{ color: 'white' }}>Date</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={{ width: '50%', padding: 5 }}>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate(`Space_${currentSpaceAndUserRelationship._id}`, {
+                  screen: `TagsTopTabNavigator`,
+                  params: {
+                    screen: `SpaceTab_${currentTagObject.tag._id}`,
+                    params: { screen: 'Calendar' },
+                  },
+                });
+                chooseViewBottomSheetRef.current.close();
+              }}
+              style={{
+                backgroundColor: 'rgb(70,70,70)',
+                borderRadius: 10,
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: 100,
+              }}
+            >
+              <MaterialCommunityIcons name='account-group' size={35} color='white' style={{ marginBottom: 10 }} />
+              <Text style={{ color: 'white' }}>People</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
         {/* <TouchableOpacity
             style={{
               backgroundColor: 'white',

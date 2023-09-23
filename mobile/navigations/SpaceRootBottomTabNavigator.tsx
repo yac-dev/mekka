@@ -17,10 +17,9 @@ import LocationsViewTopTabNavigator from './LocationsViewTopTabNavigator';
 import MomentsView from '../features/Space/pages/MomentsView';
 import FastImage from 'react-native-fast-image';
 import TagsTopTabNavigator from './TagsTopTabNavigator';
+import ChooseViewBottomSheet from '../features/Space/pages/ChooseViewBottomSheet';
 
 const Tab = createBottomTabNavigator();
-
-// const Tab = createMaterialTopTabNavigator();
 
 const SpaceRootBottomTabNavigator = (props) => {
   const { spaceAndUserRelationship } = useContext(SpaceRootContext);
@@ -28,6 +27,9 @@ const SpaceRootBottomTabNavigator = (props) => {
     useContext(GlobalContext);
   const [space, setSpace] = useState(null);
   const [hasSpaceBeenFetched, setHasSpaceBeenFetched] = useState(false);
+  const [tags, setTags] = useState({});
+  const [haveTagsBeenFetched, setHaveTagsBeenFetched] = useState(false);
+  const chooseViewBottomSheetRef = useRef(null);
 
   const getSpaceById = async () => {
     setHasSpaceBeenFetched(false);
@@ -38,10 +40,40 @@ const SpaceRootBottomTabNavigator = (props) => {
     setHasSpaceBeenFetched(true);
   };
 
+  const getTags = async () => {
+    const result = await backendAPI.get(`/spaces/${spaceAndUserRelationship.space._id}/tags`);
+    const { tags } = result.data;
+    setTags(() => {
+      const table = {};
+      tags.forEach((tag, index) => {
+        table[tag._id] = {
+          tag,
+          hasUnreadPosts: tag.updatedAt > props.route?.params?.lastCheckedIn ? true : false,
+          createdPosts: false,
+        };
+      });
+
+      return table;
+    });
+    setHaveTagsBeenFetched(true);
+  };
+
   useEffect(() => {
     getSpaceById();
   }, []);
 
+  // useEffect(() => {
+  //   if(space){
+  //     getTags();
+  //   }
+  // },[hasSpaceBeenFetched, space])
+
+  // useEffect(() => {
+  //   getTags();
+  // }, []);
+
+  // useNavigationでも使ってみようかね。
+  // うん。とりあえず、ここでまんまnavigationをすることは難しそう。。。
   return (
     <SpaceRootContext.Provider
       value={{
@@ -49,6 +81,8 @@ const SpaceRootBottomTabNavigator = (props) => {
         space,
         hasSpaceBeenFetched,
         setHasSpaceBeenFetched,
+        chooseViewBottomSheetRef,
+        navigation: props.navigation,
       }}
     >
       <View style={{ flex: 1 }}>
@@ -66,23 +100,8 @@ const SpaceRootBottomTabNavigator = (props) => {
               bottom: 30,
               justifyContent: 'center',
               alignItems: 'center',
-              // height: 60,
-              // display: 'none',
-              // Shadow...
-              // shadowColor: '#000',
-              // shadowOpacity: 0.26,
-              // shadowOffset: {
-              //   width: 10,
-              //   height: 10,
-              // },
             },
           })}
-          // tabBar={(props) => <CustomTabBar {...props} />}
-          // screenOptions={({ route }) => ({
-          //   tabBarScrollEnabled: false,
-          //   lazy: true,
-          //   swipeEnabled: false,
-          // })}
         >
           <Tab.Screen
             name='TagsTopTabNavigator'
@@ -94,47 +113,6 @@ const SpaceRootBottomTabNavigator = (props) => {
               ),
             })}
           />
-          {/* <Tab.Screen
-            name='LocationsViewTopTabNavigator'
-            component={LocationsViewTopTabNavigator}
-            options={({ navigation }) => ({
-              tabBarShowLabel: false,
-              tabBarIcon: ({ size, color, focused }) => (
-                // <Entypo name='globe' color={focused ? 'white' : 'rgb(102, 104, 109)'} size={23} />
-                <FastImage
-                  source={require('../assets/forApp/globe.png')}
-                  style={{ width: 25, height: 25 }}
-                  tintColor={focused ? 'white' : 'rgb(100, 100, 100)'}
-                />
-              ),
-              // tabBarLabel: ({ focused }) => {
-              //   // Only show the label when the tab is focused
-              //   if (focused) {
-              //     return <Text style={{ color: 'white' }}>Locations</Text>;
-              //   }
-              //   return null;
-              // },
-            })}
-          />
-          <Tab.Screen
-            name='PeopleViewTopTabNavigator'
-            component={PeopleViewTopTabNavigator}
-            options={({ navigation }) => ({
-              tabBarShowLabel: false,
-              tabBarIcon: ({ size, color, focused }) => (
-                // <MaterialCommunityIcons
-                //   name='account-group'
-                //   color={focused ? 'white' : 'rgb(100, 100, 100)'}
-                //   size={23}
-                // />
-                <FastImage
-                  source={require('../assets/forApp/cameraman.png')}
-                  style={{ width: 25, height: 25 }}
-                  tintColor={focused ? 'white' : 'rgb(100, 100, 100)'}
-                />
-              ),
-            })}
-          /> */}
           <Tab.Screen
             name='MomentsView'
             component={MomentsView}
@@ -175,11 +153,62 @@ const SpaceRootBottomTabNavigator = (props) => {
           }}
         >
           <MaterialCommunityIcons name='plus' color='black' size={20} />
-          {/* <Ionicons name='add-circle' size={35} color='black' style={{ marginRight: 10 }} /> */}
         </TouchableOpacity>
+        <ChooseViewBottomSheet />
       </View>
     </SpaceRootContext.Provider>
   );
 };
 
 export default SpaceRootBottomTabNavigator;
+
+// tabBar={(props) => <CustomTabBar {...props} />}
+// screenOptions={({ route }) => ({
+//   tabBarScrollEnabled: false,
+//   lazy: true,
+//   swipeEnabled: false,
+// })}
+
+{
+  /* <Tab.Screen
+            name='LocationsViewTopTabNavigator'
+            component={LocationsViewTopTabNavigator}
+            options={({ navigation }) => ({
+              tabBarShowLabel: false,
+              tabBarIcon: ({ size, color, focused }) => (
+                // <Entypo name='globe' color={focused ? 'white' : 'rgb(102, 104, 109)'} size={23} />
+                <FastImage
+                  source={require('../assets/forApp/globe.png')}
+                  style={{ width: 25, height: 25 }}
+                  tintColor={focused ? 'white' : 'rgb(100, 100, 100)'}
+                />
+              ),
+              // tabBarLabel: ({ focused }) => {
+              //   // Only show the label when the tab is focused
+              //   if (focused) {
+              //     return <Text style={{ color: 'white' }}>Locations</Text>;
+              //   }
+              //   return null;
+              // },
+            })}
+          />
+          <Tab.Screen
+            name='PeopleViewTopTabNavigator'
+            component={PeopleViewTopTabNavigator}
+            options={({ navigation }) => ({
+              tabBarShowLabel: false,
+              tabBarIcon: ({ size, color, focused }) => (
+                // <MaterialCommunityIcons
+                //   name='account-group'
+                //   color={focused ? 'white' : 'rgb(100, 100, 100)'}
+                //   size={23}
+                // />
+                <FastImage
+                  source={require('../assets/forApp/cameraman.png')}
+                  style={{ width: 25, height: 25 }}
+                  tintColor={focused ? 'white' : 'rgb(100, 100, 100)'}
+                />
+              ),
+            })}
+          /> */
+}

@@ -22,13 +22,16 @@ import SnackBar from '../components/SnackBar';
 import TagView from '../features/Space/pages/TagView';
 import Map from '../features/Space/components/Map';
 import ViewPostsTopTabNavigator from './ViewPostsTopTabMavigator';
+import ChooseViewBottomSheet from '../features/Space/pages/ChooseViewBottomSheet';
+import { TagViewRootContext } from '../features/SpaceMenuBottomSheet/contexts/TagViewRootContext';
 
 const Tab = createMaterialTopTabNavigator();
 
 const TagsTopTabNavigator = (props) => {
   const { spaceAndUserRelationship, navigation, space, hasSpaceBeenFetched, setHasSpaceBeenFetched } =
     useContext(SpaceRootContext);
-  const { isIpad, spaceMenuBottomSheetRef, currentSpace, setCurrentSpace } = useContext(GlobalContext);
+  const { isIpad, spaceMenuBottomSheetRef, currentSpace, setCurrentSpace, currentTagObject, setCurrentTagObject } =
+    useContext(GlobalContext);
   const oneGridWidth = isIpad ? Dimensions.get('window').width / 6 : Dimensions.get('window').width / 4;
   const oneGridHeight = isIpad ? Dimensions.get('window').height / 7.5 : Dimensions.get('window').height / 6.5;
   const route = useRoute();
@@ -36,7 +39,7 @@ const TagsTopTabNavigator = (props) => {
   const [tags, setTags] = useState({});
   const [haveTagsBeenFetched, setHaveTagsBeenFetched] = useState(false);
   // const spaceMenuBottomSheetRef = useRef(null);
-
+  const chooseViewBottomSheetRef = useRef(null);
   const getSpaceById = async () => {
     setHasSpaceBeenFetched(false);
     const result = await backendAPI.get(`/spaces/${spaceAndUserRelationship.space._id}`);
@@ -97,10 +100,13 @@ const TagsTopTabNavigator = (props) => {
                 canPreventDefault: true,
               });
 
+              setCurrentTagObject(route.params?.tagObject);
+
               if (!isFocused && !event.defaultPrevented) {
                 navigation.navigate(route.name);
               }
             };
+
             return (
               <TouchableOpacity
                 key={route.key}
@@ -162,8 +168,8 @@ const TagsTopTabNavigator = (props) => {
         {Object.values(tags).map((tagObject, index) => (
           <Tab.Screen
             key={index}
-            name={`SpaceTab_${tagObject._id}-${index}`}
-            options={{ title: tagObject.tag.name }} // Set the tab title to the space name
+            name={`SpaceTab_${tagObject.tag._id}`}
+            options={{ title: tagObject.tag.name }}
             initialParams={{ tagObject }}
           >
             {({ navigation }) => <ViewPostsTopTabNavigator navigation={navigation} tagObject={tagObject} />}
@@ -176,6 +182,24 @@ const TagsTopTabNavigator = (props) => {
           component={ViewPostsTopTabNavigator}
         /> */}
       </Tab.Navigator>
+      {/* <ChooseViewBottomSheet /> */}
+      <TouchableOpacity
+        style={{
+          backgroundColor: 'white',
+          width: 50,
+          height: 50,
+          borderRadius: 25,
+          position: 'absolute',
+          bottom: 30,
+          left: 20,
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginRight: 10,
+        }}
+        onPress={() => chooseViewBottomSheetRef.current.snapToIndex(0)}
+      >
+        <MaterialCommunityIcons name='dots-grid' color='black' size={20} />
+      </TouchableOpacity>
       <SnackBar />
     </View>
   );

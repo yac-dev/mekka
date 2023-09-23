@@ -42,6 +42,7 @@ const ViewPostsTopTabNavigator = (props) => {
     getPostsByTagId();
   }, []);
 
+  // ここ、むずいなー。でもまあ、完璧でなくてもいいかね。それぞれのcomponentでひょうじするので。。。。
   return (
     <View style={{ flex: 1 }}>
       <Tab.Navigator

@@ -33,10 +33,13 @@ const App: React.FC = function () {
   const [haveSpaceAndUserRelationshipsBeenFetched, setHaveSpaceAndUserRelationshipsBeenFetched] = useState(false);
   const [currentSpaceAndUserRelationship, setCurrentSpaceAndUserRelationship] = useState(null);
   const [currentSpace, setCurrentSpace] = useState(null); // ここでspaceを持っていた方がいいのかも。。。
+  const [currentTagObject, setCurrentTagObject] = useState(null);
   const spaceMenuBottomSheetRef = useRef(null);
   const spaceActionMenuBottomSheetRef = useRef(null);
   const authMenuBottomSheetRef = useRef(null);
   const [afterJoined, setAfterJoined] = useState(false);
+  // console.log(currentTagObject);
+  // console.log(currentSpaceAndUserRelationship);
 
   const loadMe = async () => {
     const jwt = await SecureStore.getItemAsync('secure_token');
@@ -134,6 +137,8 @@ const App: React.FC = function () {
         setCurrentSpaceAndUserRelationship,
         currentSpace,
         setCurrentSpace,
+        currentTagObject,
+        setCurrentTagObject,
       }}
     >
       <PaperProvider>
