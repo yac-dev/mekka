@@ -5,7 +5,7 @@ import FastImage from 'react-native-fast-image';
 import { Feather } from '@expo/vector-icons';
 import SpaceInfoTopTabNavigator from '../../../navigations/SpaceInfoTopTabNavigator';
 
-const SpaceInfo = () => {
+const SpaceInfo = (props) => {
   const { currentSpaceAndUserRelationship, spaceMenuBottomSheetRef, currentSpace } = useContext(GlobalContext);
   const [textShown, setTextShown] = useState(false);
   const [lengthMore, setLengthMore] = useState(false);
@@ -41,6 +41,7 @@ const SpaceInfo = () => {
             bottom: 10,
             right: 10,
           }}
+          onPress={() => props.navigation.navigate('ReportSpace')}
         >
           <Feather name='more-horizontal' color='black' size={20} />
         </TouchableOpacity>

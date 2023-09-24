@@ -103,11 +103,11 @@ const SpaceRootBottomTabNavigator = (props) => {
     >
       <View style={{ flex: 1 }}>
         <Tab.Navigator
-          screenOptions={({ navigation }) => ({
+          screenOptions={({ navigation, route }) => ({
             headerShown: false,
             tabBarStyle: {
               backgroundColor: 'rgb(40,40,40)',
-              marginHorizontal: 80,
+              marginHorizontal: 90,
               paddingBottom: 0, // きたー。これよ。これ。
               borderRadius: 30,
               height: 50,
@@ -117,23 +117,27 @@ const SpaceRootBottomTabNavigator = (props) => {
               justifyContent: 'center',
               alignItems: 'center',
             },
+            // tabBarLabel: navigation.isFocused() ? route.name : '',
           })}
         >
           <Tab.Screen
             name='TagsTopTabNavigator'
             component={TagsTopTabNavigator}
-            options={({ navigation }) => ({
-              tabBarShowLabel: false,
+            options={({ navigation, route }) => ({
+              // tabBarShowLabel: false,
               tabBarIcon: ({ size, color, focused }) => (
-                <Octicons name='hash' color={focused ? 'white' : 'rgb(100, 100, 100)'} size={23} style={{}} />
+                <Octicons name='hash' color={focused ? 'white' : 'rgb(100, 100, 100)'} size={23} />
               ),
+              tabBarLabel: ({ focused }) => {
+                return <Text style={{ color: 'white' }}>{focused ? 'Home' : null}</Text>;
+              },
             })}
           />
           <Tab.Screen
             name='LocationsViewTopTabNavigator'
             component={LocationsViewTopTabNavigator}
             options={({ navigation }) => ({
-              tabBarShowLabel: false,
+              // tabBarShowLabel: false,
               tabBarIcon: ({ size, color, focused }) => (
                 // <Entypo name='globe' color={focused ? 'white' : 'rgb(102, 104, 109)'} size={23} />
                 <FastImage
@@ -142,6 +146,10 @@ const SpaceRootBottomTabNavigator = (props) => {
                   tintColor={focused ? 'white' : 'rgb(100, 100, 100)'}
                 />
               ),
+              tabBarLabel: ({ focused }) => {
+                return <Text style={{ color: 'white' }}>{focused ? 'Map' : null}</Text>;
+              },
+              // tabBarLabel: 'Map',
               // tabBarLabel: ({ focused }) => {
               //   // Only show the label when the tab is focused
               //   if (focused) {
@@ -155,7 +163,7 @@ const SpaceRootBottomTabNavigator = (props) => {
             name='PeopleViewTopTabNavigator'
             component={PeopleViewTopTabNavigator}
             options={({ navigation }) => ({
-              tabBarShowLabel: false,
+              // tabBarShowLabel: false,
               tabBarIcon: ({ size, color, focused }) => (
                 <MaterialIcons name='supervisor-account' color={focused ? 'white' : 'rgb(100, 100, 100)'} size={30} />
                 // <FastImage
@@ -164,13 +172,16 @@ const SpaceRootBottomTabNavigator = (props) => {
                 //   tintColor={focused ? 'white' : 'rgb(100, 100, 100)'}
                 // />
               ),
+              tabBarLabel: ({ focused }) => {
+                return <Text style={{ color: 'white' }}>{focused ? 'People' : null}</Text>;
+              },
             })}
           />
           <Tab.Screen
             name='MomentsView'
             component={MomentsView}
             options={({ navigation }) => ({
-              tabBarShowLabel: false,
+              // tabBarShowLabel: false,
               tabBarIcon: ({ size, color, focused }) => (
                 <FastImage
                   source={require('../assets/forApp/ghost.png')}
@@ -178,6 +189,9 @@ const SpaceRootBottomTabNavigator = (props) => {
                   tintColor={focused ? 'white' : 'rgb(100, 100, 100)'}
                 />
               ),
+              tabBarLabel: ({ focused }) => {
+                return <Text style={{ color: 'white' }}>{focused ? 'Moments' : null}</Text>;
+              },
             })}
           />
         </Tab.Navigator>

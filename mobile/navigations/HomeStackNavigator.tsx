@@ -43,6 +43,7 @@ import Login from '../features/NotAuthenticated/pages/Login';
 import Signup from '../features/NotAuthenticated/pages/Signup';
 
 import EditTag from '../features/EditTag/pages/Form';
+import ReportSpace from '../features/SpaceInfo/pages/ReportSpace';
 
 import { HomeStackNavContext } from '../contexts/HomeStackNavContext';
 const HomeStackNavigator: React.FC = (props) => {
@@ -408,16 +409,16 @@ const HomeStackNavigator: React.FC = (props) => {
               })}
             />
             <Stack.Screen
-              name='Report'
-              component={Report}
+              name='ReportSpace'
+              component={ReportSpace}
               options={({ navigation }) => ({
                 headerShown: true,
                 headerLeft: () => (
                   <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <Ionicons name='close-circle-sharp' size={30} color={'white'} />
+                    <Ionicons name='close-circle' size={30} color={'white'} />
                   </TouchableOpacity>
                 ),
-                headerTitle: 'Report',
+                headerTitle: '',
                 headerStyle: {
                   backgroundColor: 'black',
                 },
