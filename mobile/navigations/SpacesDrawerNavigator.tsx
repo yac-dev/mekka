@@ -34,6 +34,12 @@ const SpacesDrawerNavigator = (props) => {
       <DrawerContentScrollView {...props} style={{ paddingTop: 10 }}>
         {isAuthenticated ? (
           <>
+            <TouchableOpacity
+              style={{ alignSelf: 'flex-end', marginBottom: 5, marginRight: 10 }}
+              onPress={() => navigation.closeDrawer()}
+            >
+              <Ionicons name='close-circle' size={30} color='white' />
+            </TouchableOpacity>
             <View style={{ flexDirection: 'column', alignItems: 'center', marginBottom: 10 }}>
               <FastImage source={{ uri: authData.avatar }} style={{ width: 35, height: 35, marginBottom: 10 }} />
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -73,9 +79,9 @@ const SpacesDrawerNavigator = (props) => {
                 style={{
                   flexDirection: 'column',
                   alignItems: 'center',
-                  padding: 10,
                   justifyContent: 'center',
-                  marginRight: 10,
+                  width: 80,
+                  height: 80,
                 }}
                 onPress={() => {
                   navigation.navigate('CreateNewSpace');
@@ -84,22 +90,27 @@ const SpacesDrawerNavigator = (props) => {
               >
                 <View
                   style={{
-                    width: 40,
+                    width: 50,
                     aspectRatio: 1,
-                    borderRadius: 10,
-                    // marginRight: 15,
+                    borderRadius: 25,
                     marginBottom: 10,
-                    backgroundColor: iconParameterBackgroundColorTable['red1'],
+                    backgroundColor: 'white',
                     justifyContent: 'center',
                     alignItems: 'center',
                   }}
                 >
-                  <MaterialCommunityIcons name='plus' color={iconColorTable['red1']} size={25} />
+                  <MaterialCommunityIcons name='plus' color={'black'} size={25} />
                 </View>
                 <Text style={{ color: 'white' }}>Create</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                style={{ flexDirection: 'column', alignItems: 'center', padding: 10, justifyContent: 'center' }}
+                style={{
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: 80,
+                  height: 80,
+                }}
                 onPress={() => {
                   navigation.navigate('Discover');
                   // navigation.closeDrawer();
@@ -107,22 +118,27 @@ const SpacesDrawerNavigator = (props) => {
               >
                 <View
                   style={{
-                    width: 40,
+                    width: 50,
                     aspectRatio: 1,
-                    borderRadius: 10,
-                    // marginRight: 15,
+                    borderRadius: 25,
                     marginBottom: 10,
-                    backgroundColor: iconParameterBackgroundColorTable['blue1'],
+                    backgroundColor: 'white',
                     justifyContent: 'center',
                     alignItems: 'center',
                   }}
                 >
-                  <MaterialCommunityIcons name='compass' color={iconColorTable['blue1']} size={25} />
+                  <MaterialCommunityIcons name='compass' color={'black'} size={25} />
                 </View>
                 <Text style={{ color: 'white' }}>Discover</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                style={{ flexDirection: 'column', alignItems: 'center', padding: 10, justifyContent: 'center' }}
+                style={{
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: 80,
+                  height: 80,
+                }}
                 onPress={() => {
                   navigation.navigate('SecretKeyForm');
                   navigation.closeDrawer();
@@ -130,17 +146,17 @@ const SpacesDrawerNavigator = (props) => {
               >
                 <View
                   style={{
-                    width: 40,
+                    width: 50,
                     aspectRatio: 1,
-                    borderRadius: 10,
+                    borderRadius: 25,
                     // marginRight: 15,
                     marginBottom: 10,
-                    backgroundColor: iconParameterBackgroundColorTable['green1'],
+                    backgroundColor: 'white',
                     justifyContent: 'center',
                     alignItems: 'center',
                   }}
                 >
-                  <Ionicons name='key' color={iconColorTable['green1']} size={25} />
+                  <Ionicons name='key' color={'black'} size={25} />
                 </View>
                 <Text style={{ color: 'white' }}>Enter key</Text>
               </TouchableOpacity>
@@ -241,9 +257,9 @@ const SpacesDrawerNavigator = (props) => {
           screenOptions={({ navigation }) => ({
             drawerStyle: {
               backgroundColor: 'rgb(40,40,40)',
-              width: 300,
-              // borderTopRightRadius: 10,
-              // borderBottomRightRadius: 10,
+              width: 320,
+              // borderTopRightRadius: 20,
+              // borderBottomRightRadius: 20,
             },
             tabBarStyle: {
               backgroundColor: 'black',

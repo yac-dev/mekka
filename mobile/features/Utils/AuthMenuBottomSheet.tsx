@@ -57,19 +57,18 @@ const AuthMenuBottomSheet = () => {
         <BottomSheetView style={{ flex: 1 }}>
           <TouchableOpacity
             style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              backgroundColor: 'white',
-              borderRadius: 20,
-              padding: 5,
+              // flexDirection: 'row',
+              // alignItems: 'center',
+              // backgroundColor: 'white',
+              // borderRadius: 20,
+              // padding: 5,
               alignSelf: 'flex-start',
               marginLeft: 10,
               marginBottom: 20,
             }}
             onPress={() => onClosePress()}
           >
-            <Ionicons name='close' color='black' size={20} style={{ marginRight: 5 }} />
-            <Text>Close</Text>
+            <Ionicons name='close-circle' color='white' size={30} style={{ marginRight: 5 }} />
           </TouchableOpacity>
           <TouchableOpacity
             style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}

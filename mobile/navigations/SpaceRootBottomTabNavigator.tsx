@@ -11,6 +11,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { Octicons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 import TagViewTopTabNavigator from './TagViewTopTabNavigator';
 import PeopleViewTopTabNavigator from './PeopleViewTopTabNavigator';
 import LocationsViewTopTabNavigator from './LocationsViewTopTabNavigator';
@@ -156,16 +157,12 @@ const SpaceRootBottomTabNavigator = (props) => {
             options={({ navigation }) => ({
               tabBarShowLabel: false,
               tabBarIcon: ({ size, color, focused }) => (
-                // <MaterialCommunityIcons
-                //   name='account-group'
-                //   color={focused ? 'white' : 'rgb(100, 100, 100)'}
-                //   size={23}
+                <MaterialIcons name='supervisor-account' color={focused ? 'white' : 'rgb(100, 100, 100)'} size={30} />
+                // <FastImage
+                //   source={require('../assets/forApp/cameraman.png')}
+                //   style={{ width: 25, height: 25 }}
+                //   tintColor={focused ? 'white' : 'rgb(100, 100, 100)'}
                 // />
-                <FastImage
-                  source={require('../assets/forApp/cameraman.png')}
-                  style={{ width: 25, height: 25 }}
-                  tintColor={focused ? 'white' : 'rgb(100, 100, 100)'}
-                />
               ),
             })}
           />
@@ -197,18 +194,18 @@ const SpaceRootBottomTabNavigator = (props) => {
           }}
           style={{
             backgroundColor: 'white',
-            width: 40,
-            height: 40,
+            width: 50,
+            height: 50,
             borderRadius: 25,
             position: 'absolute',
             bottom: 30,
-            right: 20,
+            right: 10,
             justifyContent: 'center',
             alignItems: 'center',
             marginRight: 10,
           }}
         >
-          <MaterialCommunityIcons name='plus' color='black' size={20} />
+          <MaterialCommunityIcons name='plus' color='black' size={30} />
         </TouchableOpacity>
         {/* <ChooseViewBottomSheet /> */}
         <LocationsViewPostsBottomSheet />
