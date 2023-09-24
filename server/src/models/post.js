@@ -11,11 +11,11 @@ const postSchema = mongoose.Schema({
     },
     coordinates: [Number],
   },
+  locationTag: { type: mongoose.Schema.ObjectId, ref: 'LocationTag' }, // これは一つのみ。
   space: { type: mongoose.Schema.ObjectId, ref: 'Space' },
   createdBy: { type: mongoose.Schema.ObjectId, ref: 'User' },
   createdAt: Date,
   // disappearAt: Date, // もしくはnull
-  // locationTag: { type: mongoose.Schema.ObjectId, ref: 'LocationTag' }, // これは一つのみ。
 
   // tags: [{ type: mongoose.Schema.ObjectId, ref: 'Tag' }],
 });

@@ -33,6 +33,9 @@ const SpaceRootBottomTabNavigator = (props) => {
   const chooseViewBottomSheetRef = useRef(null);
   const locationsViewPostsBottomSheetRef = useRef(null);
   const [locationsViewPosts, setLocationsViewPosts] = useState([]);
+  const [haveLocationsViewPostsBeenFetched, setHaveLocationsViewPostsBeenFetched] = useState(false);
+  const [isFetchingLocationsViewPosts, setIsFetchingLocationsViewPosts] = useState(false);
+  const [selectedLocationTag, setSelectedLocationTag] = useState(null);
 
   const getSpaceById = async () => {
     setHasSpaceBeenFetched(false);
@@ -88,7 +91,13 @@ const SpaceRootBottomTabNavigator = (props) => {
         navigation: props.navigation,
         locationsViewPosts,
         setLocationsViewPosts,
+        haveLocationsViewPostsBeenFetched,
+        setHaveLocationsViewPostsBeenFetched,
         locationsViewPostsBottomSheetRef,
+        selectedLocationTag,
+        setSelectedLocationTag,
+        isFetchingLocationsViewPosts,
+        setIsFetchingLocationsViewPosts,
       }}
     >
       <View style={{ flex: 1 }}>

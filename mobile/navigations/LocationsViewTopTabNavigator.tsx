@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, ActivityIndicator, Dimensions } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import FastImage from 'react-native-fast-image';
@@ -12,19 +12,29 @@ const Tab = createMaterialTopTabNavigator();
 const LocationsViewTopTabNavigator = () => {
   const { spaceAndUserRelationship, navigation, space, hasSpaceBeenFetched, setHasSpaceBeenFetched } =
     useContext(SpaceRootContext);
-  const { locationsViewPostsBottomSheetRef, locationsViewPosts, setLocationsViewPosts } = useContext(SpaceRootContext);
+  const {
+    locationsViewPostsBottomSheetRef,
+    locationsViewPosts,
+    setLocationsViewPosts,
+    haveLocationsViewPostsBeenFetched,
+    setHaveLocationsViewPostsBeenFetched,
+    selectedLocationTag,
+    setSelectedLocationTag,
+    isFetchingLocationsViewPosts,
+    setIsFetchingLocationsViewPosts,
+  } = useContext(SpaceRootContext);
   const { height, width } = Dimensions.get('window');
   const LATITUDE_DELTA = 100; // zoom levelを後でやろうか。。
   const LONGITUDE_DELTA = LATITUDE_DELTA * (width / height);
   const [locationTags, setLocationTags] = useState([]);
   const [haveLocationTagsBeenFetched, setHaveLocationTagsBeenFetched] = useState(false);
-  const [selectedLocationTag, setSelectedLocationTag] = useState(null);
+  const mapRef = useRef(null);
 
   const getLocationTagsBySpaceId = async () => {
     const result = await backendAPI.get(`/spaces/${spaceAndUserRelationship.space._id}/locationtags`);
     const { locationTags } = result.data;
     setLocationTags(locationTags);
-    setSelectedLocationTag(locationTags[0]);
+    // setSelectedLocationTag(locationTags[0]);
     setHaveLocationTagsBeenFetched(true);
   };
 
@@ -33,9 +43,12 @@ const LocationsViewTopTabNavigator = () => {
   }, []);
 
   const getPostsByLocationTagId = async (locationTag) => {
+    setIsFetchingLocationsViewPosts(true);
     const result = await backendAPI.get(`/posts/locationtag/${locationTag._id}/space/${space._id}`);
     const { posts } = result.data;
     setLocationsViewPosts(posts);
+    setSelectedLocationTag(locationTag);
+    setIsFetchingLocationsViewPosts(false);
     // setHavePostsBeenFetched(true);
   };
 
@@ -43,15 +56,18 @@ const LocationsViewTopTabNavigator = () => {
   //   getPostsByLocationTagId();
   // }, []);
 
+  // 近寄りすぎ。もっと遠くていい。
   // useEffect(() => {
-  //   const newLat = props.selectedLocationTag.point.coordinates[1] - 0.0065;
-  //   mapRef.current.animateToRegion({
-  //     latitude: newLat,
-  //     longitude: props.selectedLocationTag.point.coordinates[0],
-  //     latitudeDelta: 0.0322,
-  //     longitudeDelta: 0.0221,
-  //   });
-  // }, []);
+  //   if (selectedLocationTag) {
+  //     const newLat = selectedLocationTag.point.coordinates[1] - 0.0065;
+  //     mapRef.current.animateToRegion({
+  //       latitude: newLat,
+  //       longitude: selectedLocationTag.point.coordinates[0],
+  //       latitudeDelta: 0.0322,
+  //       longitudeDelta: 0.0221,
+  //     });
+  //   }
+  // }, [selectedLocationTag]);
 
   const CustomTabBar = ({ state, descriptors, navigation }) => {
     return (
@@ -162,6 +178,7 @@ const LocationsViewTopTabNavigator = () => {
       const list = locationTags.map((locationTag, index) => {
         return (
           <Marker
+            key={index}
             tracksViewChanges={false}
             coordinate={{
               latitude: locationTag.point.coordinates[1],
@@ -170,6 +187,7 @@ const LocationsViewTopTabNavigator = () => {
             pinColor='black'
             onPress={() => {
               // onPress();
+              console.log(locationTag._id);
               locationsViewPostsBottomSheetRef.current.snapToIndex(0);
               getPostsByLocationTagId(locationTag);
             }}
@@ -205,7 +223,7 @@ const LocationsViewTopTabNavigator = () => {
       <View style={{ flex: 1, backgroundColor: 'black' }}>
         <MapView
           userInterfaceStyle='dark'
-          // ref={mapRef}
+          ref={mapRef}
           style={{ flex: 1, width: Dimensions.get('window').width, height: Dimensions.get('window').height }}
           showsUserLocation={true}
           showsCompass={true}
