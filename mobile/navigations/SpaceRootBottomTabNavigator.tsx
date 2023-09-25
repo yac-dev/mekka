@@ -106,16 +106,16 @@ const SpaceRootBottomTabNavigator = (props) => {
           screenOptions={({ navigation, route }) => ({
             headerShown: false,
             tabBarStyle: {
-              backgroundColor: 'rgb(40,40,40)',
-              marginHorizontal: 90,
-              paddingBottom: 0, // きたー。これよ。これ。
-              borderRadius: 30,
-              height: 50,
+              backgroundColor: 'black',
+              // marginHorizontal: 90,
+              // paddingBottom: 0, // きたー。これよ。これ。
+              // borderRadius: 30,
+              // height: 50,
               borderTopWidth: 0,
-              position: 'absolute',
-              bottom: 30,
-              justifyContent: 'center',
-              alignItems: 'center',
+              // position: 'absolute',
+              // bottom: 30,
+              // justifyContent: 'center',
+              // alignItems: 'center',
             },
             // tabBarLabel: navigation.isFocused() ? route.name : '',
           })}
@@ -212,8 +212,8 @@ const SpaceRootBottomTabNavigator = (props) => {
             height: 50,
             borderRadius: 25,
             position: 'absolute',
-            bottom: 30,
-            right: 10,
+            bottom: 70,
+            right: 20,
             justifyContent: 'center',
             alignItems: 'center',
             marginRight: 10,

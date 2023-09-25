@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import { GlobalContext } from '../../../contexts/GlobalContext';
 import FastImage from 'react-native-fast-image';
 import { Feather } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 import SpaceInfoTopTabNavigator from '../../../navigations/SpaceInfoTopTabNavigator';
 
 const SpaceInfo = (props) => {
@@ -31,19 +32,20 @@ const SpaceInfo = (props) => {
         </Text>
         <TouchableOpacity
           style={{
-            backgroundColor: 'white',
-            width: 25,
-            height: 25,
-            borderRadius: 15,
-            justifyContent: 'center',
-            alignItems: 'center',
+            // backgroundColor: 'white',
+            // width: 25,
+            // height: 25,
+            // borderRadius: 15,
+            // justifyContent: 'center',
+            // alignItems: 'center',
             position: 'absolute',
             bottom: 10,
             right: 10,
           }}
           onPress={() => props.navigation.navigate('ReportSpace')}
         >
-          <Feather name='more-horizontal' color='black' size={20} />
+          {/* <Feather name='more-horizontal' color='black' size={20} /> */}
+          <MaterialIcons name='report' color='white' size={30} />
         </TouchableOpacity>
       </View>
       <SpaceInfoTopTabNavigator />

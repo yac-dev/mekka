@@ -64,13 +64,7 @@ const ReportMeetup = (props) => {
   useEffect(() => {
     props.navigation.setOptions({
       headerRight: () => (
-        <TouchableOpacity
-          onPress={() =>
-            // onDonePress()
-            console.log('done')
-          }
-          disabled={isSubmitDisabled ? true : false}
-        >
+        <TouchableOpacity onPress={() => props.navigation.goBack()} disabled={isSubmitDisabled ? true : false}>
           <Text
             style={{
               color: isSubmitDisabled ? 'rgb(150,150,150)' : 'white',
@@ -185,20 +179,3 @@ const ReportMeetup = (props) => {
 };
 
 export default ReportMeetup;
-
-{
-  /* <View style={{ paddingLeft: 30, paddingRight: 30, paddingTop: 20, paddingBottom: 20 }}>
-        <Text
-          style={{
-            color: 'white',
-            textAlign: 'center',
-            fontWeight: 'bold',
-            fontSize: 20,
-            marginBottom: 10,
-          }}
-        >
-          Report Space
-        </Text>
-        <Text style={{ textAlign: 'center', color: 'rgb(180, 180, 180)' }}>What happened in this space?</Text>
-      </View> */
-}
