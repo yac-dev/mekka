@@ -152,6 +152,7 @@ const NormalPost = (props) => {
         locationTagOptions,
         setLocationTagOptions,
         spaceAndUserRelationship: props.route.params.spaceAndUserRelationship,
+        space: props.route?.params?.space,
       }}
     >
       <View style={{ flex: 1, padding: 10, backgroundColor: 'black' }}>

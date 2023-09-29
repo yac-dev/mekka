@@ -8,6 +8,7 @@ import CommentForm from './CreateNewSpace/CommentForm';
 import ReactionForm from './CreateNewSpace/ReactionForm';
 import Description from './CreateNewSpace/DescriptionForm';
 import AddTagForm from './CreateNewSpace/AddTagForm';
+import MomentForm from './CreateNewSpace/MomentForm';
 
 const Form = () => {
   return (
@@ -16,6 +17,7 @@ const Form = () => {
       <IconForm />
       <VisibilityForm />
       <ContentTypeForm />
+      <MomentForm />
       <CommentForm />
       <ReactionForm />
       <Description />

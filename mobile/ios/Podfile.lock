@@ -18,7 +18,7 @@ PODS:
   - EXJSONUtils (0.7.0)
   - EXManifests (0.7.1):
     - ExpoModulesCore
-  - Expo (49.0.10):
+  - Expo (49.0.11):
     - ExpoModulesCore
   - expo-dev-client (2.4.8):
     - EXManifests
@@ -538,6 +538,8 @@ PODS:
     - React-jsi (= 0.72.4)
     - React-logger (= 0.72.4)
     - React-perflogger (= 0.72.4)
+  - RNCPicker (2.4.10):
+    - React-Core
   - RNDateTimePicker (7.2.0):
     - React-Core
   - RNFastImage (8.6.3):
@@ -654,6 +656,7 @@ DEPENDENCIES:
   - React-runtimescheduler (from `../node_modules/react-native/ReactCommon/react/renderer/runtimescheduler`)
   - React-utils (from `../node_modules/react-native/ReactCommon/react/utils`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
+  - "RNCPicker (from `../node_modules/@react-native-picker/picker`)"
   - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
   - RNFastImage (from `../node_modules/react-native-fast-image`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
@@ -797,6 +800,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/react/utils"
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
+  RNCPicker:
+    :path: "../node_modules/@react-native-picker/picker"
   RNDateTimePicker:
     :path: "../node_modules/@react-native-community/datetimepicker"
   RNFastImage:
@@ -823,7 +828,7 @@ SPEC CHECKSUMS:
   EXImageLoader: 34b214f9387e98f3c73989f15d8d5b399c9ab3f7
   EXJSONUtils: 09273cf1b6a6bedc5bdae06121011123815c7f32
   EXManifests: 8a4a480e3b58891d5657d3996a39229e5c96d912
-  Expo: 0ff83f0415a0e7a9368ce38bf25cad539b18a08c
+  Expo: 8a2d2c235bcbe4f41774562a0635bd74c174858c
   expo-dev-client: d2f9caff2df2512889068bc0df2856e1001856af
   expo-dev-launcher: 89ab677e6ebe586ab41725aea0255b9d2aac8256
   expo-dev-menu: 3b7e413a52fca62d4a54a2f5da7ecb22c1e6268e
@@ -878,6 +883,7 @@ SPEC CHECKSUMS:
   React-runtimescheduler: 4941cc1b3cf08b792fbf666342c9fc95f1969035
   React-utils: b79f2411931f9d3ea5781404dcbb2fa8a837e13a
   ReactCommon: 4b2bdcb50a3543e1c2b2849ad44533686610826d
+  RNCPicker: 0bc2f0a29abcca7b7ed44a2d036aac9ab6d25700
   RNDateTimePicker: 3942382593f104af226ad9c56e16166960c7ae30
   RNFastImage: 5c9c9fed9c076e521b3f509fe79e790418a544e8
   RNGestureHandler: c0d04458598fcb26052494ae23dda8f8f5162b13

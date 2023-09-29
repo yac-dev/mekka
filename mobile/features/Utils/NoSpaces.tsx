@@ -18,7 +18,7 @@ const NoSpaces = () => {
           No Spaces...
         </Text>
         <Text style={{ textAlign: 'center', color: 'rgb(180, 180, 180)' }}>
-          You haven't joined any spaces now. To get started, open menu from top left corner and make some actions.
+          You haven't joined any spaces now. To get started, open menu from top left corner.
         </Text>
       </View>
       <SnackBar />

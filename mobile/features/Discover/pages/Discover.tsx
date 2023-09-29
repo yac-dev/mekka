@@ -154,7 +154,11 @@ const Discover: React.FC<RouterProps> = (props) => {
           />
         );
       } else {
-        return <Text style={{ paddingTop: 100, color: 'white' }}>There are no public spaces now.</Text>;
+        return (
+          <Text style={{ paddingTop: 100, color: 'white', textAlign: 'center', fontSize: 20 }}>
+            There are no public spaces now.
+          </Text>
+        );
       }
     } else {
       return (

@@ -8,22 +8,11 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { iconColorTable } from '../../../themes/color';
 import { iconParameterBackgroundColorTable } from '../../../themes/color';
+import { Video } from 'expo-av';
 
 const AddPhoto = () => {
-  const { formData, setFormData, route, spaceAndUserRelationship } = useContext(CreateNewPostContext);
+  const { formData, setFormData, route, spaceAndUserRelationship, space } = useContext(CreateNewPostContext);
   const [accordion, setAccordion] = useState<boolean>(true);
-
-  // useEffect(() => {
-  //   setAllowedMedia(() => {
-  //     if(route?.params?.space.contentType === 'photo'){
-  //       setAllowedMedia(ImagePicker.MediaTypeOptions.All)
-  //     } else if(route?.params?.space.contentType === 'video'){
-  //       setAllowedMedia(ImagePicker.MediaTypeOptions.All)
-  //     } else {
-
-  //     }
-  //   })
-  // },[])
 
   const pickAndSendImage = async () => {
     const pickerOption = {
@@ -35,23 +24,30 @@ const AddPhoto = () => {
           : ImagePicker.MediaTypeOptions.All,
       allowsMultipleSelection: true,
       quality: 1,
-      duration: route?.params?.spaceAndUserRelationship.space.videoLength ? 3000 : null,
+      // duration: space.videoLength ? space.videoLength : 3000,
     };
     let result = await ImagePicker.launchImageLibraryAsync(pickerOption);
     if (!result.canceled && result.assets) {
       // result assets それぞれのassetに対して、dataを作る様にすると。
       setFormData((previous) => {
-        const addedAssets = result.assets.map((asset) => {
-          return {
-            uri: asset.uri,
-            type: asset.type === 'image' ? 'image' : 'video',
-            duration: asset.duration ? asset.duration : null,
-          };
+        console.log(result.assets);
+        const adding = [];
+        const addedAssets = result.assets.forEach((asset) => {
+          if (asset.type === 'video') {
+            // 基本は, videoの時はdurationがspace以下の時だけ入れる様にする。
+            if (asset.duration / 1000 <= space.videoLength) {
+              adding.push({ uri: asset.uri, type: 'video', duration: asset.duration ? asset.duration : null });
+            } else {
+              // addingのarrayに入れないで、snacbarを出してあげる。無理ですって。
+            }
+          } else if (asset.type === 'image') {
+            adding.push({ uri: asset.uri, type: 'image', duration: asset.duration ? asset.duration : null });
+          }
         });
 
         return {
           ...previous,
-          contents: [...previous.contents, ...addedAssets],
+          contents: [...previous.contents, ...adding],
         };
       });
 
@@ -81,7 +77,17 @@ const AddPhoto = () => {
       const list = formData.contents.map((content, index) => {
         return (
           <View key={index}>
-            <Image source={{ uri: content.uri }} style={{ width: 90, height: 90, borderRadius: 12, marginRight: 10 }} />
+            {content.type === 'image' ? (
+              <Image
+                source={{ uri: content.uri }}
+                style={{ width: 90, height: 90, borderRadius: 12, marginRight: 10 }}
+              />
+            ) : (
+              <Video
+                source={{ uri: content.uri }}
+                style={{ width: 90, height: 90, borderRadius: 12, marginRight: 10 }}
+              />
+            )}
             <TouchableOpacity
               style={{
                 position: 'absolute',

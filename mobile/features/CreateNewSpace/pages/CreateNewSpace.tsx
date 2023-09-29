@@ -50,10 +50,9 @@ const CreateNewSpace: React.FC<RouterProps> = (props) => {
     isCommentAvailable: undefined,
     isReactionAvailable: undefined,
     videoLength: 60,
-    disappearAfter: 0,
+    disappearAfter: 24, // from 5 minutes to 1440 minutes(24 hours), 720 minutes(12 hours)
     reactions: [],
     description: '',
-    // tags: [],
   });
   const [validation, setValidation] = useState({
     name: false,

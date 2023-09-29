@@ -270,11 +270,10 @@ const ContentTypeForm = () => {
               {renderVideoLength()}
             </>
           ) : null}
-          {formData.contentType ? (
+          {/* {formData.contentType ? (
             <>
               <Text style={{ color: 'white', marginBottom: 10 }}>
                 ⏰ How long can members view each post?
-                {/* You can choose between 1–10 seconds, or choose ∞ to let them view it for as long as they’d like! */}
               </Text>
               <View style={{ flexDirection: 'row' }}>
                 <TouchableOpacity
@@ -342,7 +341,7 @@ const ContentTypeForm = () => {
                 </TouchableOpacity>
               </View>
             </>
-          ) : null}
+          ) : null} */}
         </View>
       ) : null}
     </View>

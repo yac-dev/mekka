@@ -34,7 +34,11 @@ const MomentPost = (props) => {
 
   const calcurateMinutes = () => {
     if (space.disappearAfter >= 60) {
-      return <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 18 }}>24 hours.</Text>;
+      return (
+        <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 18, textAlign: 'center' }}>
+          {space.disappearAfter / 60} hours.
+        </Text>
+      );
     } else {
       return (
         <Text style={{ color: 'white', fontWeight: 'bold', textAlign: 'center', fontSize: 18 }}>
