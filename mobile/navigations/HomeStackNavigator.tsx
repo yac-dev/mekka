@@ -216,6 +216,14 @@ const HomeStackNavigator: React.FC = (props) => {
               component={CreateNewPostStackNavigator}
               options={({ navigation }) => ({
                 headerShown: false,
+                headerTitle: '',
+                headerStyle: {
+                  backgroundColor: 'black',
+                },
+                headerTitleStyle: {
+                  fontWeight: 'bold',
+                  color: 'white',
+                },
               })}
             />
             <Stack.Screen
@@ -224,7 +232,6 @@ const HomeStackNavigator: React.FC = (props) => {
               options={({ navigation }) => ({
                 // headerShown: true, // ここtrueにすると、,,,
                 headerShown: false, // ここtrueにすると、,,,
-
                 headerLeft: () => (
                   <TouchableOpacity onPress={() => navigation.goBack()}>
                     <Ionicons name='close-circle-sharp' size={30} color={'white'} />

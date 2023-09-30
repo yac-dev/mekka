@@ -10,7 +10,7 @@ import { SpaceInfoContext } from '../features/SpaceInfo/contexts/SpaceInfoContex
 
 const SpaceInfoStackNavigator: React.FC = (props) => {
   return (
-    <SpaceInfoContext.Provider value={{ spaceAndUserRelationship: props.route?.params.spaceAndUserRelationship }}>
+    <SpaceInfoContext.Provider value={{ spaceAndUserRelationship: props.route.params.spaceAndUserRelationship }}>
       <Stack.Navigator>
         <Stack.Screen
           name='SpaceInfo'

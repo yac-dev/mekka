@@ -31,28 +31,25 @@ const TagsTopTabNavigator = (props) => {
   const {
     spaceAndUserRelationship,
     navigation,
-    space,
     hasSpaceBeenFetched,
     setHasSpaceBeenFetched,
     chooseViewBottomSheetRef,
   } = useContext(SpaceRootContext);
   const { isIpad, spaceMenuBottomSheetRef, currentSpace, setCurrentSpace, currentTagObject, setCurrentTagObject } =
     useContext(GlobalContext);
-  const oneGridWidth = isIpad ? Dimensions.get('window').width / 6 : Dimensions.get('window').width / 4;
-  const oneGridHeight = isIpad ? Dimensions.get('window').height / 7.5 : Dimensions.get('window').height / 6.5;
   const route = useRoute();
   // const [space, setSpace] = useState(null);
   const [tags, setTags] = useState({});
   const [haveTagsBeenFetched, setHaveTagsBeenFetched] = useState(false);
   // const spaceMenuBottomSheetRef = useRef(null);
-  const getSpaceById = async () => {
-    setHasSpaceBeenFetched(false);
-    const result = await backendAPI.get(`/spaces/${spaceAndUserRelationship.space._id}`);
-    const { space } = result.data;
-    // setSpace(space);
-    setCurrentSpace(space);
-    setHasSpaceBeenFetched(true);
-  };
+  // const getSpaceById = async () => {
+  //   setHasSpaceBeenFetched(false);
+  //   const result = await backendAPI.get(`/spaces/${spaceAndUserRelationship.space._id}`);
+  //   const { space } = result.data;
+  //   // setSpace(space);
+  //   setCurrentSpace(space);
+  //   setHasSpaceBeenFetched(true);
+  // };
 
   const getTags = async () => {
     const result = await backendAPI.get(`/spaces/${spaceAndUserRelationship.space._id}/tags`);
@@ -159,7 +156,7 @@ const TagsTopTabNavigator = (props) => {
     );
   };
 
-  if (!hasSpaceBeenFetched || !haveTagsBeenFetched) {
+  if (!haveTagsBeenFetched) {
     return (
       <View style={{ flex: 1, backgroundColor: 'black' }}>
         <ActivityIndicator />

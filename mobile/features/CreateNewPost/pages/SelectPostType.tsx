@@ -1,9 +1,24 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { CreateNewPostContext } from '../contexts/CreateNewPostContext';
+import { Ionicons } from '@expo/vector-icons';
 
 const SelectPostType = (props) => {
+  const { navigation, setPostType } = useContext(CreateNewPostContext);
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => null,
+      headerLeft: () => (
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Ionicons name='close-circle-sharp' size={30} color={'white'} />
+        </TouchableOpacity>
+      ),
+    });
+  });
+
   return (
     <View style={{ backgroundColor: 'black', flex: 1 }}>
       <View style={{ paddingLeft: 30, paddingRight: 30, paddingTop: 20, paddingBottom: 20 }}>
@@ -33,16 +48,10 @@ const SelectPostType = (props) => {
             borderRadius: 10,
             marginBottom: 20,
           }}
-          onPress={() =>
-            props.navigation?.navigate({
-              name: 'NormalPost',
-              params: {
-                space: props.route?.params?.space,
-                spaceAndUserRelationship: props.route?.params?.spaceAndUserRelationship,
-              }, // なんで、spaceUserRelが必要？？いらなくね。。。
-              merge: true,
-            })
-          }
+          onPress={() => {
+            setPostType('normalPost');
+            navigation?.navigate('NormalPost');
+          }}
         >
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <MaterialCommunityIcons name='send' color='white' size={25} style={{ marginRight: 20 }} />
@@ -60,16 +69,10 @@ const SelectPostType = (props) => {
             borderRadius: 10,
             marginBottom: 20,
           }}
-          onPress={() =>
-            props.navigation?.navigate({
-              name: 'MomentPost',
-              params: {
-                space: props.route?.params?.space,
-                spaceAndUserRelationship: props.route?.params?.spaceAndUserRelationship,
-              }, // なんで、spaceUserRelが必要？？いらなくね。。。
-              merge: true,
-            })
-          }
+          onPress={() => {
+            setPostType('moment');
+            navigation?.navigate('MomentPost');
+          }}
         >
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <FastImage

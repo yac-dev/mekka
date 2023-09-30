@@ -38,36 +38,36 @@ const SpaceRootBottomTabNavigator = (props) => {
   const [isFetchingLocationsViewPosts, setIsFetchingLocationsViewPosts] = useState(false);
   const [selectedLocationTag, setSelectedLocationTag] = useState(null);
 
-  const getSpaceById = async () => {
-    setHasSpaceBeenFetched(false);
-    const result = await backendAPI.get(`/spaces/${props.spaceAndUserRelationship.space._id}`);
-    const { space } = result.data;
-    setSpace(space);
-    setCurrentSpace(space); // globalで持っているspaceだからねこれ。bottom sheetでrenderするためのもの。
-    setHasSpaceBeenFetched(true);
-  };
+  // const getSpaceById = async () => {
+  //   setHasSpaceBeenFetched(false);
+  //   const result = await backendAPI.get(`/spaces/${props.spaceAndUserRelationship.space._id}`);
+  //   const { space } = result.data;
+  //   setSpace(space);
+  //   setCurrentSpace(space); // globalで持っているspaceだからねこれ。bottom sheetでrenderするためのもの。
+  //   setHasSpaceBeenFetched(true);
+  // };
 
-  const getTags = async () => {
-    const result = await backendAPI.get(`/spaces/${props.spaceAndUserRelationship.space._id}/tags`);
-    const { tags } = result.data;
-    setTags(() => {
-      const table = {};
-      tags.forEach((tag, index) => {
-        table[tag._id] = {
-          tag,
-          hasUnreadPosts: tag.updatedAt > props.route?.params?.lastCheckedIn ? true : false,
-          createdPosts: false,
-        };
-      });
+  // const getTags = async () => {
+  //   const result = await backendAPI.get(`/spaces/${props.spaceAndUserRelationship.space._id}/tags`);
+  //   const { tags } = result.data;
+  //   setTags(() => {
+  //     const table = {};
+  //     tags.forEach((tag, index) => {
+  //       table[tag._id] = {
+  //         tag,
+  //         hasUnreadPosts: tag.updatedAt > props.route?.params?.lastCheckedIn ? true : false,
+  //         createdPosts: false,
+  //       };
+  //     });
 
-      return table;
-    });
-    setHaveTagsBeenFetched(true);
-  };
+  //     return table;
+  //   });
+  //   setHaveTagsBeenFetched(true);
+  // };
 
-  useEffect(() => {
-    getSpaceById();
-  }, []);
+  // useEffect(() => {
+  //   getSpaceById();
+  // }, []);
 
   // useEffect(() => {
   //   if(space){
@@ -85,7 +85,7 @@ const SpaceRootBottomTabNavigator = (props) => {
     <SpaceRootContext.Provider
       value={{
         spaceAndUserRelationship: props.spaceAndUserRelationship,
-        space,
+        // space,
         hasSpaceBeenFetched,
         setHasSpaceBeenFetched,
         chooseViewBottomSheetRef,
@@ -197,14 +197,19 @@ const SpaceRootBottomTabNavigator = (props) => {
         </Tab.Navigator>
         <TouchableOpacity
           onPress={() => {
-            props.navigation?.navigate('CreateNewPostStackNavigator', {
-              screen: 'SelectPostType',
-              params: {
-                space: currentSpace,
-                spaceAndUserRelationship: currentSpaceAndUserRelationship,
-              }, // なんで、spaceUserRelが必要？？いらなくね。。。
-              merge: true,
-            });
+            props.navigation?.navigate(
+              'CreateNewPostStackNavigator',
+              { spaceAndUserRelationship: props.spaceAndUserRelationship }
+              // {
+              //   screen: 'SelectPostType',
+              //   params: {
+              //     // space: currentSpace,
+              //     // spaceAndUserRelationship: currentSpaceAndUserRelationship,
+              //     spaceAndUserRelationship: props.spaceAndUserRelationship,
+              //   }, // なんで、spaceUserRelが必要？？いらなくね。。。
+              //   merge: true,
+              // }
+            );
           }}
           style={{
             backgroundColor: 'white',

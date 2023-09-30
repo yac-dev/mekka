@@ -44,7 +44,9 @@ const LocationsViewTopTabNavigator = () => {
 
   const getPostsByLocationTagId = async (locationTag) => {
     setIsFetchingLocationsViewPosts(true);
-    const result = await backendAPI.get(`/posts/locationtag/${locationTag._id}/space/${space._id}`);
+    const result = await backendAPI.get(
+      `/posts/locationtag/${locationTag._id}/space/${spaceAndUserRelationship.space._id}`
+    );
     const { posts } = result.data;
     setLocationsViewPosts(posts);
     setSelectedLocationTag(locationTag);
