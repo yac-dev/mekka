@@ -48,7 +48,7 @@ const SpaceRootBottomTabNavigator = (props) => {
   };
 
   const getTags = async () => {
-    const result = await backendAPI.get(`/spaces/${spaceAndUserRelationship.space._id}/tags`);
+    const result = await backendAPI.get(`/spaces/${props.spaceAndUserRelationship.space._id}/tags`);
     const { tags } = result.data;
     setTags(() => {
       const table = {};

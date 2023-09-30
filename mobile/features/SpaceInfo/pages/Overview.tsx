@@ -6,9 +6,11 @@ import { Ionicons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Foundation } from '@expo/vector-icons';
 import { Fontisto } from '@expo/vector-icons';
+import { SpaceInfoContext } from '../contexts/SpaceInfoContext';
 
 const Overview = () => {
   const { currentSpace } = useContext(GlobalContext);
+  const { spaceAndUserRelationship } = useContext(SpaceInfoContext);
   const [textShown, setTextShown] = useState(false);
   const [lengthMore, setLengthMore] = useState(false);
 
@@ -32,7 +34,7 @@ const Overview = () => {
   }, []);
 
   const renderReactions = (space) => {
-    const list = space.reactions.map((reaction, index) => {
+    const list = spaceAndUserRelationship.space.reactions.map((reaction, index) => {
       if (reaction) {
         if (reaction.type === 'emoji') {
           return (
@@ -66,19 +68,21 @@ const Overview = () => {
           >
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <FastImage
-                source={{ uri: currentSpace.createdBy.avatar }}
+                source={{ uri: spaceAndUserRelationship.space.createdBy.avatar }}
                 style={{ width: 30, height: 30, borderRadius: 20, marginRight: 10 }}
               />
-              <Text style={{ color: 'white', fontWeight: 'bold' }}>{currentSpace.createdBy.name}</Text>
+              <Text style={{ color: 'white', fontWeight: 'bold' }}>
+                {spaceAndUserRelationship.space.createdBy.name}
+              </Text>
             </View>
-            {renderDate(currentSpace.createdAt)}
+            {renderDate(spaceAndUserRelationship.space.createdAt)}
           </View>
           <Text
             onTextLayout={onTextLayout}
             numberOfLines={textShown ? undefined : 3}
             style={{ color: 'white', lineHeight: 22, padding: 5 }}
           >
-            {currentSpace.description}
+            {spaceAndUserRelationship.space.description}
           </Text>
           {lengthMore ? (
             <Text
@@ -94,30 +98,32 @@ const Overview = () => {
           <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
             <MaterialIcons name='photo-library' size={25} color='rgb(130,130,130)' style={{ marginRight: 15 }} />
             <Text style={{ color: 'white' }}>{`You can post ${
-              currentSpace.contentType === 'photo'
+              spaceAndUserRelationship.space.contentType === 'photo'
                 ? 'only Photos'
-                : currentSpace.contentType === 'video'
+                : spaceAndUserRelationship.space.contentType === 'video'
                 ? 'Videos'
                 : 'Photos and Videos'
             }.`}</Text>
           </View>
-          {currentSpace.videoLength ? (
+          {spaceAndUserRelationship.space.videoLength ? (
             <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
               <Ionicons name='play-circle-sharp' size={25} color='rgb(130,130,130)' style={{ marginRight: 15 }} />
               <Text
                 style={{ color: 'white' }}
-              >{`You can post at most ${currentSpace.videoLength} seconds length videos.`}</Text>
+              >{`You can post at most ${spaceAndUserRelationship.space.videoLength} seconds length videos.`}</Text>
             </View>
           ) : null}
 
           <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
             <Fontisto name='smiley' size={25} color='rgb(130,130,130)' style={{ marginRight: 15 }} />
-            {renderReactions(currentSpace)}
+            {renderReactions(spaceAndUserRelationship.space)}
           </View>
           <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
             <Foundation name='comments' size={25} color='rgb(130,130,130)' style={{ marginRight: 15 }} />
             <Text style={{ color: 'white' }}>
-              {currentSpace.isCommentAvailable ? 'Comments are available.' : 'Comments are not available.'}
+              {spaceAndUserRelationship.space.isCommentAvailable
+                ? 'Comments are available.'
+                : 'Comments are not available.'}
             </Text>
           </View>
           <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
@@ -127,8 +133,8 @@ const Overview = () => {
               tintColor={'rgb(130,130,130)'}
             />
             <Text style={{ color: 'white' }}>
-              {currentSpace.disappearAfter
-                ? `Momento will be disappeared after ${currentSpace.disappearAfter} minutes`
+              {spaceAndUserRelationship.space.disappearAfter
+                ? `Momento will be disappeared after ${spaceAndUserRelationship.space.disappearAfter} minutes`
                 : 'Comments are not available.'}
             </Text>
           </View>

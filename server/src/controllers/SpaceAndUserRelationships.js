@@ -7,7 +7,15 @@ export const getMySpaces = async (request, response) => {
       user: request.params.userId,
     }).populate({
       path: 'space',
-      select: '_id name icon contentType',
+      populate: {
+        path: 'reactions',
+        select: {
+          path: 'sticker',
+        },
+      },
+      populate: {
+        path: 'createdBy',
+      },
     });
 
     const spaceAndUserRelationships = documents.filter((relationship) => relationship.space !== null);

@@ -36,13 +36,6 @@ const spaceSchema = mongoose.Schema({
       ref: 'Reaction',
     },
   ],
-  roles: [
-    // これいらないかな。。。
-    {
-      type: mongoose.Schema.ObjectId,
-      ref: 'Role',
-    },
-  ],
   totalPosts: Number,
   totalMembers: Number,
   rate: Number,

@@ -4,14 +4,17 @@ import backendAPI from '../../../apis/backend';
 import { GlobalContext } from '../../../contexts/GlobalContext';
 import FastImage from 'react-native-fast-image';
 import { FadingTransition } from 'react-native-reanimated';
+import { SpaceInfoContext } from '../contexts/SpaceInfoContext';
 
 const Members = () => {
   const { currentSpace } = useContext(GlobalContext);
+  const { spaceAndUserRelationship } = useContext(SpaceInfoContext);
+  const { space } = spaceAndUserRelationship;
   const [members, setMembers] = useState([]);
   const [haveMembersBeenFetched, setHaveMembersBeenFetched] = useState(false);
 
   const getSpaceMembersBySpaceId = async () => {
-    const result = await backendAPI.get(`/users/${currentSpace._id}/space`);
+    const result = await backendAPI.get(`/users/${space._id}/space`);
     const { users } = result.data;
     setMembers(users);
     setHaveMembersBeenFetched(true);

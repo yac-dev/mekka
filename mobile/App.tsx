@@ -1,4 +1,4 @@
-import React, { useState, useReducer, useEffect, useRef } from 'react';
+import React, { useState, useReducer, useEffect, useRef, useCallback } from 'react';
 import { View, Platform, StatusBar, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { GlobalContext } from './contexts/GlobalContext';
 import { NavigationContainer } from '@react-navigation/native';
