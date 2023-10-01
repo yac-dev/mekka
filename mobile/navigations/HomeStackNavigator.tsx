@@ -34,7 +34,7 @@ import Comments from '../features/ViewPost/pages/Comments';
 import Discover from '../features/Discover/pages/Discover';
 import ProfileStackNavigator from './ProfileStackNavigator';
 import LocationPicker from '../features/CreateNewPost/pages/LocationPicker';
-import CreateTag from '../features/CreateNewPost/pages/CreateTag';
+import CreateTag from '../features/CreateNewPost/pages/CreateNewTag';
 import CreateNewLocationTag from '../features/CreateNewPost/pages/CreateNewLocationTag';
 import Report from '../features/Report/pages/Report';
 import SpaceDetailStackNavigator from './SpaceDetailStackNavigator';

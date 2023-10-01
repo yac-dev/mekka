@@ -58,7 +58,7 @@ const CreateLocationTag = (props) => {
 
   const onDonePress = () => {
     props.navigation.navigate({
-      name: 'NormalPost',
+      name: 'AddLocationTag',
       params: { createdLocationTag: locationTag },
       merge: true,
     });
@@ -87,29 +87,55 @@ const CreateLocationTag = (props) => {
           color: locationTag.name.length <= 40 ? 'rgb(170,170,170)' : 'red',
           alignSelf: 'flex-end',
           marginRight: 10,
-          marginBottom: 10,
+          // marginBottom: 10,
         }}
       >
         {locationTag.name.length}/30
       </Text>
-      <TextInput
-        placeholder='Type location tag name.'
-        placeholderTextColor={'rgb(170, 170, 170)'}
-        value={locationTag.name}
-        onChangeText={(text) =>
-          setLocationTag((previous) => {
-            return {
-              ...previous,
-              name: text,
-            };
-          })
-        }
-        style={{ padding: 10, backgroundColor: 'rgb(88,88,88)', borderRadius: 5, color: 'white', marginBottom: 20 }}
-      />
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          borderBottomColor: 'rgb(88, 88, 88)',
+          borderBottomWidth: 1,
+          paddingLeft: 10,
+          paddingRight: 10,
+          marginBottom: 20,
+        }}
+      >
+        <FastImage
+          source={require('../../../assets/forApp/map-pin.png')}
+          style={{ width: 25, height: 25 }}
+          tintColor={'rgb(170,170,170)'}
+        />
+        <TextInput
+          style={{
+            // backgroundColor: 'rgb(88, 88, 88)',
+            padding: 10,
+            // borderRadius: 5,
+            fontSize: 17,
+            flex: 1,
+            color: 'white',
+          }}
+          placeholder='Location tag name'
+          placeholderTextColor={'rgb(170,170,170)'}
+          autoCapitalize='none'
+          value={locationTag.name}
+          onChangeText={(text) =>
+            setLocationTag((previous) => {
+              return {
+                ...previous,
+                name: text,
+              };
+            })
+          }
+        />
+      </View>
       <MapView
         // ref={mapRef}
+        userInterfaceStyle='dark'
         onPress={(event) => onMapPress(event)}
-        style={{ width: '100%', height: 600, marginBottom: 20 }}
+        style={{ width: '100%', height: 350, marginBottom: 20 }}
         initialRegion={{
           latitude: 37.78825,
           longitude: -122.4324,
@@ -129,7 +155,11 @@ const CreateLocationTag = (props) => {
               longitude: locationTag.point.coordinates[0],
             }}
           >
-            <FastImage source={{ uri: locationTag.icon }} style={{ width: 40, height: 40, borderRadius: 10 }} />
+            <FastImage
+              source={require('../../../assets/forApp/map-pin.png')}
+              style={{ width: 40, height: 40, borderRadius: 10 }}
+              tintColor={'white'}
+            />
           </Marker>
         ) : null}
       </MapView>

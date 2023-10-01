@@ -1,5 +1,16 @@
 import React, { useState, useContext, useEffect, useCallback } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, Dimensions, TextInput } from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+  Dimensions,
+  TextInput,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Keyboard,
+  Platform,
+} from 'react-native';
 import { GlobalContext } from '../../../contexts/GlobalContext';
 import { CreateNewPostContext } from '../contexts/CreateNewPostContext';
 import * as ImagePicker from 'expo-image-picker';
@@ -34,35 +45,35 @@ const NormalPost = () => {
   // const [tagOptions, setTagOptions] = useState({});
   // const [locationTagOptions, setLocationTagOptions] = useState([]);
 
-  useEffect(
-    () => {
-      navigation.setOptions({
-        headerRight: () => (
-          <TouchableOpacity
-            onPress={() => navigation.navigate('AddTags')}
-            disabled={contents.length && caption.length ? false : true}
-          >
-            <Text
-              style={{
-                color: contents.length && caption.length ? 'white' : 'rgb(170,170,170)',
-                fontSize: 20,
-                fontWeight: 'bold',
-              }}
-            >
-              Next
-            </Text>
-          </TouchableOpacity>
-        ),
-        headerLeft: () => (
-          <TouchableOpacity onPress={() => navigation.navigate('SelectPostType')}>
-            <Ionicons name='arrow-back-circle-sharp' size={30} color={'white'} />
-          </TouchableOpacity>
-        ),
-      });
-    },
-    [contents, caption],
-    addedTags
-  );
+  // useEffect(
+  //   () => {
+  //     navigation.setOptions({
+  //       headerRight: () => (
+  //         <TouchableOpacity
+  //           onPress={() => navigation.navigate('AddTags')}
+  //           disabled={contents.length && caption.length ? false : true}
+  //         >
+  //           <Text
+  //             style={{
+  //               color: contents.length && caption.length ? 'white' : 'rgb(170,170,170)',
+  //               fontSize: 20,
+  //               fontWeight: 'bold',
+  //             }}
+  //           >
+  //             Next
+  //           </Text>
+  //         </TouchableOpacity>
+  //       ),
+  //       headerLeft: () => (
+  //         <TouchableOpacity onPress={() => navigation.navigate('SelectPostType')}>
+  //           <Ionicons name='arrow-back-circle-sharp' size={30} color={'white'} />
+  //         </TouchableOpacity>
+  //       ),
+  //     });
+  //   },
+  //   [contents, caption],
+  //   addedTags
+  // );
 
   // const getTags = async () => {
   //   const result = await backendAPI.get(`/spaces/${props.route.params.space._id}/tags`);
@@ -151,56 +162,79 @@ const NormalPost = () => {
   //   }
   // };
 
-  const renderContents = () => {
-    if (contents.length) {
-      const list = contents.map((content, index) => {
-        return (
-          <View key={index}>
-            {content.type === 'image' ? (
-              <FastImage
-                source={{ uri: content.uri }}
-                style={{ width: 90, height: 90, borderRadius: 12, marginRight: 10 }}
-              />
-            ) : (
-              <Video
-                source={{ uri: content.uri }}
-                style={{ width: 90, height: 90, borderRadius: 12, marginRight: 10 }}
-              />
-            )}
-            <TouchableOpacity
-              style={{
-                position: 'absolute',
-                top: -10,
-                right: 0,
-                backgroundColor: 'red',
-                width: 30,
-                height: 30,
-                borderRadius: 15,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-              onPress={() =>
-                setContents((previous) => {
-                  const updating = [...previous.contents];
-                  const updated = updating.filter((content, idx) => index !== idx);
-                  return updated;
-                })
-              }
-            >
-              <Ionicons name='trash' size={20} color={'white'} />
-            </TouchableOpacity>
-          </View>
-        );
-      });
+  // <TouchableOpacity
+  //         style={{ width: oneAssetWidth, height: oneAssetWidth, padding: 2 }}
+  //         onPress={() => props.navigation.navigate({ name: 'ViewPost', params: { post } })}
+  //       >
+  //         <Video source={{ uri: post.content.data }} style={{ width: '100%', height: '100%', borderRadius: 5 }} />;
+  //       </TouchableOpacity>
 
+  const renderContents = () => {
+    const list = contents.map((content, index) => {
       return (
-        <View style={{ paddingTop: 10, paddingBottom: 10, marginBottom: 30 }}>
-          <View style={{ flexDirection: 'row' }}>{list}</View>
+        <View key={index} style={{ width: oneAssetWidth, height: oneAssetWidth, padding: 2 }}>
+          {content.type === 'image' ? (
+            <FastImage
+              source={{ uri: content.uri }}
+              style={{ width: '100%', height: '100%', borderRadius: 12, marginRight: 10 }}
+            />
+          ) : (
+            <Video
+              source={{ uri: content.uri }}
+              style={{ width: '100%', height: '100%', borderRadius: 12, marginRight: 10 }}
+            />
+          )}
+          <TouchableOpacity
+            style={{
+              position: 'absolute',
+              top: -10,
+              right: 0,
+              backgroundColor: 'red',
+              width: 30,
+              height: 30,
+              borderRadius: 15,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+            onPress={() =>
+              setContents((previous) => {
+                const updating = [...previous];
+                const updated = updating.filter((content, idx) => index !== idx);
+                return updated;
+              })
+            }
+          >
+            <Ionicons name='trash' size={20} color={'white'} />
+          </TouchableOpacity>
         </View>
       );
-    } else {
-      return null;
-    }
+    });
+
+    return (
+      <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginBottom: 30 }}>
+        {contents.length >= 6 ? null : (
+          <TouchableOpacity
+            style={{
+              backgroundColor: 'rgb(80,80,80)',
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: oneAssetWidth,
+              height: oneAssetWidth,
+              padding: 2,
+              borderRadius: 20,
+            }}
+            onPress={() => pickContents()}
+          >
+            <AntDesign name='plus' size={30} color='white' style={{ marginBottom: 10 }} />
+            <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 20 }}>Add</Text>
+          </TouchableOpacity>
+        )}
+
+        {/* {contents.length && list} この記法、react native ではダメらしい。reactではいいんだけど。。。 */}
+        {/* Error: Text strings must be rendered within a <Text> component.って言われる。 */}
+        {contents.length ? list : null}
+      </View>
+    );
   };
 
   const renderContentType = useCallback(() => {
@@ -288,59 +322,54 @@ const NormalPost = () => {
     //     space: props.route?.params?.space,
     //   }}
     // >
-    <View style={{ flex: 1, padding: 10, backgroundColor: 'black' }}>
-      <View style={{ paddingLeft: 30, paddingRight: 30, paddingTop: 20, paddingBottom: 20 }}>
-        <Text
-          style={{
-            color: 'white',
-            textAlign: 'center',
-            fontWeight: 'bold',
-            fontSize: 20,
-            marginBottom: 10,
-          }}
-        >
-          Normal post
-        </Text>
-        <Text style={{ textAlign: 'center', color: 'rgb(180, 180, 180)' }}>
-          Firstly, please select {renderContentType()}
-        </Text>
-      </View>
-      <View style={{ alignSelf: 'center', marginBottom: 30 }}>
-        <TouchableOpacity
-          style={{
-            backgroundColor: 'white',
-            justifyContent: 'center',
-            alignItems: 'center',
-            padding: 10,
-            width: 90,
-            height: 90,
-            borderRadius: 20,
-          }}
-          onPress={() => pickContents()}
-        >
-          <AntDesign name='plus' size={25} color='black' style={{ marginBottom: 10 }} />
-          <Text style={{ color: 'black', fontWeight: 'bold', fontSize: 20 }}>Add</Text>
-        </TouchableOpacity>
-      </View>
-      {renderContents()}
-      <TextInput
-        style={{
-          // backgroundColor: 'rgb(88, 88, 88)',
-          padding: 10,
-          // borderRadius: 5,
-          marginBottom: 20,
-          color: 'white',
-          borderBottomColor: 'rgb(88, 88, 88)',
-          borderBottomWidth: 1,
-        }}
-        placeholder='Add caption...'
-        placeholderTextColor={'rgb(170,170,170)'}
-        autoCapitalize='none'
-        value={caption}
-        onChangeText={(text) => setCaption(text)}
-      />
-      <SnackBar />
-    </View>
+    <KeyboardAvoidingView
+      // これ動かねーな。
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={{ flex: 1, backgroundColor: 'black' }}
+      // keyboardVerticalOffset={Platform.select({
+      //   ios: Header.HEIGHT, // iOS
+      //   android:Header.HEIGHT + StatusBar.currentHeight, // android
+      // })}
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View>
+          <View style={{ paddingLeft: 30, paddingRight: 30, paddingTop: 20, paddingBottom: 20 }}>
+            <Text
+              style={{
+                color: 'white',
+                textAlign: 'center',
+                fontWeight: 'bold',
+                fontSize: 20,
+                marginBottom: 10,
+              }}
+            >
+              Normal post
+            </Text>
+            <Text style={{ textAlign: 'center', color: 'rgb(180, 180, 180)' }}>
+              Firstly, please select {renderContentType()}
+            </Text>
+          </View>
+          {renderContents()}
+          <TextInput
+            style={{
+              // backgroundColor: 'rgb(88, 88, 88)',
+              padding: 10,
+              // borderRadius: 5,
+              marginBottom: 20,
+              color: 'white',
+              borderBottomColor: 'rgb(88, 88, 88)',
+              borderBottomWidth: 1,
+            }}
+            placeholder='Add caption...'
+            placeholderTextColor={'rgb(170,170,170)'}
+            autoCapitalize='none'
+            value={caption}
+            onChangeText={(text) => setCaption(text)}
+          />
+          <SnackBar />
+        </View>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
     // </CreateNewPostContext.Provider>
   );
 };

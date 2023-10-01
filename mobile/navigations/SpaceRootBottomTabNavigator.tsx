@@ -18,6 +18,7 @@ import LocationsViewTopTabNavigator from './LocationsViewTopTabNavigator';
 import MomentsView from '../features/Space/pages/MomentsView';
 import FastImage from 'react-native-fast-image';
 import TagsTopTabNavigator from './TagsTopTabNavigator';
+import Projects from '../features/Space/pages/Projects';
 import ChooseViewBottomSheet from '../features/Space/pages/ChooseViewBottomSheet';
 import LocationsViewPostsBottomSheet from '../features/Space/components/LocationsViewPostsBottomSheet';
 
@@ -160,24 +161,6 @@ const SpaceRootBottomTabNavigator = (props) => {
             })}
           />
           <Tab.Screen
-            name='PeopleViewTopTabNavigator'
-            component={PeopleViewTopTabNavigator}
-            options={({ navigation }) => ({
-              // tabBarShowLabel: false,
-              tabBarIcon: ({ size, color, focused }) => (
-                <MaterialIcons name='supervisor-account' color={focused ? 'white' : 'rgb(100, 100, 100)'} size={30} />
-                // <FastImage
-                //   source={require('../assets/forApp/cameraman.png')}
-                //   style={{ width: 25, height: 25 }}
-                //   tintColor={focused ? 'white' : 'rgb(100, 100, 100)'}
-                // />
-              ),
-              tabBarLabel: ({ focused }) => {
-                return <Text style={{ color: 'white' }}>{focused ? 'People' : null}</Text>;
-              },
-            })}
-          />
-          <Tab.Screen
             name='MomentsView'
             component={MomentsView}
             options={({ navigation }) => ({
@@ -191,6 +174,24 @@ const SpaceRootBottomTabNavigator = (props) => {
               ),
               tabBarLabel: ({ focused }) => {
                 return <Text style={{ color: 'white' }}>{focused ? 'Moments' : null}</Text>;
+              },
+            })}
+          />
+          <Tab.Screen
+            name='Projects'
+            component={Projects}
+            options={({ navigation }) => ({
+              // tabBarShowLabel: false,
+              tabBarIcon: ({ size, color, focused }) => (
+                <Ionicons name='musical-notes' color={focused ? 'white' : 'rgb(100, 100, 100)'} size={30} />
+                // <FastImage
+                //   source={require('../assets/forApp/cameraman.png')}
+                //   style={{ width: 25, height: 25 }}
+                //   tintColor={focused ? 'white' : 'rgb(100, 100, 100)'}
+                // />
+              ),
+              tabBarLabel: ({ focused }) => {
+                return <Text style={{ color: 'white' }}>{focused ? 'Projects' : null}</Text>;
               },
             })}
           />
@@ -217,8 +218,8 @@ const SpaceRootBottomTabNavigator = (props) => {
             height: 50,
             borderRadius: 25,
             position: 'absolute',
-            bottom: 100,
-            right: 20,
+            bottom: 80,
+            right: 10,
             justifyContent: 'center',
             alignItems: 'center',
             marginRight: 10,

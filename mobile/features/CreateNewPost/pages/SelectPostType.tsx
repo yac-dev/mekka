@@ -8,16 +8,16 @@ import { Ionicons } from '@expo/vector-icons';
 const SelectPostType = (props) => {
   const { navigation, setPostType } = useContext(CreateNewPostContext);
 
-  useEffect(() => {
-    navigation.setOptions({
-      headerRight: () => null,
-      headerLeft: () => (
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Ionicons name='close-circle-sharp' size={30} color={'white'} />
-        </TouchableOpacity>
-      ),
-    });
-  });
+  // useEffect(() => {
+  //   navigation.setOptions({
+  //     headerRight: () => null,
+  //     headerLeft: () => (
+  //       <TouchableOpacity onPress={() => navigation.goBack()}>
+  //         <Ionicons name='close-circle-sharp' size={30} color={'white'} />
+  //       </TouchableOpacity>
+  //     ),
+  //   });
+  // });
 
   return (
     <View style={{ backgroundColor: 'black', flex: 1 }}>
