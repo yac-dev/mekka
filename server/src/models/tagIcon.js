@@ -1,10 +1,10 @@
 import mongoose from 'mongoose';
 
 const tagIconSchema = mongoose.Schema({
-  type: String, // 'icon','sticker', 'image'
-  icon: String, // url
-  sticker: String,
+  type: String, // 'icon', 'image', 'emoji', 'sticker'
+  icon: String, // url実際のdata
   image: String,
+  // sticker: String,
 });
 
 const TagIcon = mongoose.model('TagIcon', tagIconSchema);

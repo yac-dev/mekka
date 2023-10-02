@@ -68,7 +68,7 @@ const AddTags = (props) => {
           <FastImage
             source={{ uri: tag.icon }}
             style={{ width: 20, height: 20, marginRight: 10 }}
-            tintColor={'white'}
+            tintColor={tag.iconType === 'icon' ? tag.color : null}
           />
           <Text style={{ color: 'white' }}>{tag.name}</Text>
           {addedTags[tag._id] && (
@@ -137,7 +137,7 @@ const AddTags = (props) => {
             marginBottom: 10,
           }}
         >
-          Add tags #
+          # Add tags
         </Text>
         <Text style={{ textAlign: 'center', color: 'rgb(180, 180, 180)' }}>Please add at least one tag.</Text>
       </View>
@@ -155,8 +155,8 @@ const AddTags = (props) => {
         }}
       >
         <View style={{ flexDirection: 'row', alignItems: 'center', alignSelf: 'center' }}>
-          <Ionicons name='add' color='black' size={25} style={{ marginRight: 5 }} />
-          <Text style={{ color: 'black', fontWeight: 'bold' }}>Create new?</Text>
+          {/* <Ionicons name='add' color='black' size={25} style={{ marginRight: 5 }} /> */}
+          <Text style={{ color: 'black', fontWeight: 'bold', fontSize: 20 }}>Create new?</Text>
         </View>
       </TouchableOpacity>
     </View>

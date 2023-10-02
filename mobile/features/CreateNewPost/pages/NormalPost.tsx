@@ -31,143 +31,6 @@ const NormalPost = () => {
   const { isIpad, setSnackBar } = useContext(GlobalContext);
   const { contents, setContents, caption, setCaption, space, navigation, addedTags } = useContext(CreateNewPostContext);
   const oneAssetWidth = isIpad ? Dimensions.get('window').width / 6 : Dimensions.get('window').width / 3;
-  // const { authData, setLoading, setSnackBar } = useContext(GlobalContext);
-  // const [formData, setFormData] = useState({
-  //   contents: [],
-  //   caption: '',
-  //   location: { type: 'Point', coordinates: [] },
-  //   addedTags: {},
-  //   createdTags: [],
-  //   addedLocationTag: null,
-  //   createdLocationTag: null,
-  // });
-  // // const [createdTags, setCreatedTags] = useState([]);
-  // const [tagOptions, setTagOptions] = useState({});
-  // const [locationTagOptions, setLocationTagOptions] = useState([]);
-
-  // useEffect(
-  //   () => {
-  //     navigation.setOptions({
-  //       headerRight: () => (
-  //         <TouchableOpacity
-  //           onPress={() => navigation.navigate('AddTags')}
-  //           disabled={contents.length && caption.length ? false : true}
-  //         >
-  //           <Text
-  //             style={{
-  //               color: contents.length && caption.length ? 'white' : 'rgb(170,170,170)',
-  //               fontSize: 20,
-  //               fontWeight: 'bold',
-  //             }}
-  //           >
-  //             Next
-  //           </Text>
-  //         </TouchableOpacity>
-  //       ),
-  //       headerLeft: () => (
-  //         <TouchableOpacity onPress={() => navigation.navigate('SelectPostType')}>
-  //           <Ionicons name='arrow-back-circle-sharp' size={30} color={'white'} />
-  //         </TouchableOpacity>
-  //       ),
-  //     });
-  //   },
-  //   [contents, caption],
-  //   addedTags
-  // );
-
-  // const getTags = async () => {
-  //   const result = await backendAPI.get(`/spaces/${props.route.params.space._id}/tags`);
-  //   const { tags } = result.data;
-  //   setTagOptions(() => {
-  //     const table = {};
-  //     tags.forEach((tag, index) => {
-  //       table[tag._id] = tag;
-  //     });
-
-  //     return table;
-  //   });
-  // };
-
-  // const getLocationTags = async () => {
-  //   const result = await backendAPI.get(`/spaces/${props.route.params.space._id}/locationtags`);
-  //   const { locationTags } = result.data;
-  //   setLocationTagOptions(locationTags);
-  //   // setLocationTagOptions(() => {
-  //   //   const table = {};
-  //   //   locationTags.forEach((locationTag, index) => {
-  //   //     table[locationTag._id] = locationTag;
-  //   //   });
-
-  //   //   return table;
-  //   // });
-  // };
-
-  // useEffect(() => {
-  //   getTags();
-  //   getLocationTags();
-  // }, []);
-
-  // ここまじで謎だよなー。なんで毎回undefinedになるんだろうか。。。
-  // 💡 必ず、paramsを"merge"しろ。じゃないと、objectを上書きしちまう。
-  // const onDonePress = async () => {
-  //   // console.log('this is the space object', JSON.stringify(props.route?.params?.space._id));
-  //   // console.log('this is the space reactios', props.route?.params?.space.reactions);
-  //   try {
-  //     const payload = new FormData();
-  //     payload.append('reactions', JSON.stringify(props.route?.params?.space.reactions));
-  //     payload.append('caption', formData.caption);
-  //     payload.append('createdTags', JSON.stringify(formData.createdTags));
-  //     payload.append('addedTags', JSON.stringify(Object.keys(formData.addedTags)));
-  //     payload.append('createdLocationTag', JSON.stringify(formData.createdLocationTag)); // これがない場合もある。
-  //     // payload.append('location', JSON.stringify(formData.location));
-  //     // payload.append('addedLocationTag', formData.addedLocationTag ? formData.addedLocationTag._id : '');
-  //     if (formData.addedLocationTag) {
-  //       payload.append('addedLocationTag', JSON.stringify(formData.addedLocationTag?._id)); // ない場合もある。
-  //     } else {
-  //       payload.append('addedLocationTag', '');
-  //     }
-  //     // payload.append('disappearAfter', props.route?.params?.space.disappearAfter);
-  //     payload.append('createdBy', authData._id);
-  //     payload.append('spaceId', props.route?.params?.space._id);
-  //     for (let content of formData.contents) {
-  //       const obj = {
-  //         name: content.uri.split('/').pop(),
-  //         uri: content.uri,
-  //         type: content.type === 'image' ? 'image/jpg' : 'video/mp4',
-  //       };
-  //       payload.append('contents', JSON.parse(JSON.stringify(obj)));
-  //     }
-  //     console.log(payload);
-  //     setLoading(true);
-  //     const result = await backendAPI.post('/posts', payload, {
-  //       headers: { 'Content-type': 'multipart/form-data' },
-  //     });
-  //     setLoading(false);
-  //     const { post } = result.data;
-  //     setSnackBar({
-  //       isVisible: true,
-  //       barType: 'success',
-  //       message: 'Post has been created successfully.',
-  //       duration: 7000,
-  //     });
-  //     //ここのcomponentは、photos. video or photoAndVideoどれかになる。
-  //     // なるほど、戻る時に必要になるのか。。。でもなーーーー。
-  //     props.navigation.navigate({
-  //       name: `Space_${props.route?.params?.spaceAndUserRelationship._id}`,
-  //       params: { afterPosted: true }, // 作ったtagをSpaceRootに入れる。
-  //       merge: true,
-  //     });
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  // <TouchableOpacity
-  //         style={{ width: oneAssetWidth, height: oneAssetWidth, padding: 2 }}
-  //         onPress={() => props.navigation.navigate({ name: 'ViewPost', params: { post } })}
-  //       >
-  //         <Video source={{ uri: post.content.data }} style={{ width: '100%', height: '100%', borderRadius: 5 }} />;
-  //       </TouchableOpacity>
 
   const renderContents = () => {
     const list = contents.map((content, index) => {
@@ -239,11 +102,11 @@ const NormalPost = () => {
 
   const renderContentType = useCallback(() => {
     if (space.contentType === 'photo') {
-      return <Text style={{ color: 'white' }}>Photo</Text>;
+      return <Text style={{ color: 'rgb(180, 180, 180)' }}>Photos</Text>;
     } else if (space.contentType === 'video') {
-      return <Text style={{ color: 'white' }}>Video</Text>;
+      return <Text style={{ color: 'rgb(180, 180, 180)' }}>Videos</Text>;
     } else {
-      return <Text style={{ color: 'white' }}>Photos or videos</Text>;
+      return <Text style={{ color: 'rgb(180, 180, 180)' }}>Photos or Videos</Text>;
     }
   }, []);
 
@@ -308,20 +171,6 @@ const NormalPost = () => {
   };
 
   return (
-    // <CreateNewPostContext.Provider
-    //   value={{
-    //     formData,
-    //     setFormData,
-    //     navigation: props.navigation,
-    //     route: props.route,
-    //     tagOptions,
-    //     setTagOptions,
-    //     locationTagOptions,
-    //     setLocationTagOptions,
-    //     spaceAndUserRelationship: props.route.params.spaceAndUserRelationship,
-    //     space: props.route?.params?.space,
-    //   }}
-    // >
     <KeyboardAvoidingView
       // これ動かねーな。
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -346,7 +195,7 @@ const NormalPost = () => {
               Normal post
             </Text>
             <Text style={{ textAlign: 'center', color: 'rgb(180, 180, 180)' }}>
-              Firstly, please select {renderContentType()}
+              Please select at most 6 {renderContentType()} at first. {'\n'}The caption is optional.
             </Text>
           </View>
           {renderContents()}
@@ -370,7 +219,6 @@ const NormalPost = () => {
         </View>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
-    // </CreateNewPostContext.Provider>
   );
 };
 

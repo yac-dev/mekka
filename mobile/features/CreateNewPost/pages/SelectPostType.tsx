@@ -44,8 +44,8 @@ const SelectPostType = (props) => {
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
-            backgroundColor: 'rgb(70,70,70)',
-            borderRadius: 10,
+            backgroundColor: 'white',
+            borderRadius: 30,
             marginBottom: 20,
           }}
           onPress={() => {
@@ -54,10 +54,10 @@ const SelectPostType = (props) => {
           }}
         >
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <MaterialCommunityIcons name='send' color='white' size={25} style={{ marginRight: 20 }} />
-            <Text style={{ color: 'white', fontSize: 17, fontWeight: 'bold' }}>Normal post</Text>
+            <Ionicons name='images' color='black' size={25} style={{ marginRight: 20 }} />
+            <Text style={{ color: 'black', fontSize: 17, fontWeight: 'bold' }}>Normal post</Text>
           </View>
-          <MaterialCommunityIcons name='chevron-right' color='white' size={25} />
+          <MaterialCommunityIcons name='chevron-right' color='black' size={25} />
         </TouchableOpacity>
         <TouchableOpacity
           style={{
@@ -65,8 +65,8 @@ const SelectPostType = (props) => {
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
-            backgroundColor: 'rgb(70,70,70)',
-            borderRadius: 10,
+            backgroundColor: 'white',
+            borderRadius: 30,
             marginBottom: 20,
           }}
           onPress={() => {
@@ -77,12 +77,12 @@ const SelectPostType = (props) => {
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <FastImage
               source={require('../../../assets/forApp/ghost.png')}
-              tintColor={'white'}
+              tintColor={'black'}
               style={{ width: 25, height: 25, marginRight: 20 }}
             />
-            <Text style={{ color: 'white', fontSize: 17, fontWeight: 'bold' }}>Moment</Text>
+            <Text style={{ color: 'black', fontSize: 17, fontWeight: 'bold' }}>Moment</Text>
           </View>
-          <MaterialCommunityIcons name='chevron-right' color='white' size={25} />
+          <MaterialCommunityIcons name='chevron-right' color='black' size={25} />
         </TouchableOpacity>
       </View>
     </View>

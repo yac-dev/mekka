@@ -9,28 +9,21 @@ import NormalPost from '../features/CreateNewPost/pages/NormalPost';
 import AddTags from '../features/CreateNewPost/pages/AddTags';
 import AddLocationTag from '../features/CreateNewPost/pages/AddLocationTag';
 import MomentPost from '../features/CreateNewPost/pages/MomentPost';
+import { GlobalContext } from '../contexts/GlobalContext';
 import { CreateNewPostContext } from '../features/CreateNewPost/contexts/CreateNewPostContext';
 import backendAPI from '../apis/backend';
 import CreateNewTag from '../features/CreateNewPost/pages/CreateNewTag';
 import CreateNewLocationTag from '../features/CreateNewPost/pages/CreateNewLocationTag';
 
 const CreateNewPostStackNavigator = (props) => {
-  // const [formData, setFormData] = useState({
-  //   contents: [],
-  //   caption: '',
-  //   location: { type: 'Point', coordinates: [] },
-  //   addedTags: {},
-  //   createdTags: [],
-  //   addedLocationTag: null,
-  //   createdLocationTag: null,
-  // });
+  const { authData, setLoading, setSnackBar } = useContext(GlobalContext);
   const [postType, setPostType] = useState('');
   const [contents, setContents] = useState([]);
   const [caption, setCaption] = useState('');
-  const [addedTags, setAddedTags] = useState({});
-  const [tagOptions, setTagOptions] = useState({});
-  const [createdTags, setCreatedTags] = useState([]);
   const [dummyCreatedTagId, setDummyCreatedTagId] = useState(1);
+  const [addedTags, setAddedTags] = useState([]);
+  const [tagOptions, setTagOptions] = useState([]);
+  // const [createdTags, setCreatedTags] = useState([]);
   const [locationTagOptions, setLocationTagOptions] = useState([]);
   const [addedLocationTag, setAddedLocationTag] = useState(null);
   const [createdLocationTag, setCreatedLocationTag] = useState(null);
@@ -41,67 +34,110 @@ const CreateNewPostStackNavigator = (props) => {
   const getTags = async () => {
     const result = await backendAPI.get(`/spaces/${space._id}/tags`);
     const { tags } = result.data;
-    setTagOptions(() => {
-      const table = {};
-      tags.forEach((tag, index) => {
-        table[tag._id] = tag;
-      });
+    // setTagOptions(() => {
+    //   const table = {};
+    //   tags.forEach((tag, index) => {
+    //     table[tag._id] = tag;
+    //   });
 
-      return table;
+    //   return table;
+    // });
+    setTagOptions(() => {
+      const options = tags.map((tag, index) => {
+        return {
+          ...tag,
+          added: false,
+          created: false,
+        };
+      });
+      return options;
     });
+    // 最終的に、addedのやつだけを切り抜いてくれば良いいね。addedTagsっていうarrayはもういらんね。
+  };
+
+  const getLocationTags = async () => {
+    const result = await backendAPI.get(`/spaces/${space._id}/locationtags`);
+    const { locationTags } = result.data;
+    const options = locationTags.map((locationTag, index) => {
+      return {
+        ...locationTag,
+        created: false,
+      };
+    });
+    setLocationTagOptions(options);
   };
 
   useEffect(() => {
     getTags();
+    getLocationTags;
   }, []);
 
-  // tag createしたらここにたす。
+  const onPostPress = async () => {
+    try {
+      const payload = new FormData();
+      payload.append('reactions', JSON.stringify(space.reactions));
+      payload.append('caption', caption);
+      payload.append('createdTags', JSON.stringify(createdTags));
+      payload.append('addedTags', JSON.stringify(Object.keys(addedTags)));
+      // そもそもaddedLocationTagがない場合もあり、それを考慮しないといけない。
+      if (addedLocationTag) {
+        if (addedLocationTag.created) {
+          payload.append('createdLocationTag', JSON.stringify(addedLocationTag)); // これがない場合もある。
+        } else {
+          payload.append('addedLocationTag', JSON.stringify(addedLocationTag)); // これがない場合もある。
+        }
+      } else {
+        payload.append('addedLocationTag', '');
+      }
+      payload.append('createdBy', authData._id);
+      payload.append('spaceId', space._id);
+      for (let content of contents) {
+        const obj = {
+          name: content.uri.split('/').pop(),
+          uri: content.uri,
+          type: content.type === 'image' ? 'image/jpg' : 'video/mp4',
+        };
+        payload.append('contents', JSON.parse(JSON.stringify(obj)));
+      }
+      console.log(payload);
+      setLoading(true);
+      const result = await backendAPI.post('/posts', payload, {
+        headers: { 'Content-type': 'multipart/form-data' },
+      });
+      setLoading(false);
+      const { post } = result.data;
+      setSnackBar({
+        isVisible: true,
+        barType: 'success',
+        message: 'Post has been created successfully.',
+        duration: 7000,
+      });
+      //ここのcomponentは、photos. video or photoAndVideoどれかになる。
+      // なるほど、戻る時に必要になるのか。。。でもなーーーー。
+      props.navigation.navigate({
+        name: `Space_${props.route?.params?.spaceAndUserRelationship._id}`,
+        params: { afterPosted: true }, // 作ったtagをSpaceRootに入れる。
+        merge: true,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   // useEffect(() => {
   //   if (props.route.params.createdTag) {
-  //     // setTagOptions((previous) => {
-  //     //   return {
-  //     //     ...previous,
-  //     //     1: {
-  //     //       _id: 'dummy',
-  //     //       name: props.route.params.createdTag,
-  //     //       icon: '',
-  //     //     },
-  //     //   };
-  //     // });
-  //     // setAddedTags((previous) => {
-  //     //   return {
-  //     //     ...previous,
-  //     //     1: {
-  //     //       _id: 'dummy',
-  //     //       name: props.route.params.createdTag,
-  //     //       icon: '',
-  //     //     },
-  //     //   };
-  //     // });
+  //     console.log(props.route.params.createdTag);
   //     setCreatedTags((previous) => {
   //       const tagObject = {
+  //         _id: dummyCreatedTagId,
   //         icon: '',
   //         name: props.route.params.createdTag,
   //       };
+  //       setDummyCreatedTagId((previous) => previous + 1);
   //       return [...previous, tagObject];
   //     });
   //   }
   // }, [props.route.params.createdTag]);
-
-  useEffect(() => {
-    if (props.route.params.createdTag) {
-      console.log(props.route.params.createdTag);
-      setCreatedTags((previous) => {
-        const tagObject = {
-          _id: dummyCreatedTagId,
-          icon: '',
-          name: props.route.params.createdTag,
-        };
-        setDummyCreatedTagId((previous) => previous + 1);
-        return [...previous, tagObject];
-      });
-    }
-  }, [props.route.params.createdTag]);
 
   return (
     <CreateNewPostContext.Provider
@@ -169,11 +205,11 @@ const CreateNewPostStackNavigator = (props) => {
               headerRight: () => (
                 <TouchableOpacity
                   onPress={() => navigation.navigate('AddTags')}
-                  disabled={contents.length && caption.length ? false : true}
+                  disabled={contents.length ? false : true}
                 >
                   <Text
                     style={{
-                      color: contents.length && caption.length ? 'white' : 'rgb(170,170,170)',
+                      color: contents.length ? 'white' : 'rgb(170,170,170)',
                       fontSize: 20,
                       fontWeight: 'bold',
                     }}
@@ -186,16 +222,6 @@ const CreateNewPostStackNavigator = (props) => {
               headerStyle: {
                 backgroundColor: 'black',
               },
-              // headerTintColor: 'red',
-              // headerStyle: {
-              //   backgroundColor: 'black',
-              //   borderBottomWidth: 0,
-              // },
-              // tabBarLabel: 'Home',
-              // tabBarStyle: {
-              //   backgroundColor: 'black',
-              //   borderTopWidth: 0,
-              // },
             })}
           />
           <Stack.Screen
@@ -246,7 +272,7 @@ const CreateNewPostStackNavigator = (props) => {
               },
               headerRight: () => {
                 return (
-                  <TouchableOpacity onPress={() => navigation.goBack()}>
+                  <TouchableOpacity onPress={() => onPostPress()}>
                     <Text
                       style={{
                         color: 'white',

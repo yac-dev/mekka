@@ -140,7 +140,7 @@ const TagsTopTabNavigator = (props) => {
                   source={{ uri: route.params?.tagObject.tag.icon }}
                   style={{ width: 25, height: 25, marginBottom: 5 }}
                   // tintColor={route.params?.tagObject.tag.iconType === 'icon' ? route.params?.tagObject.tag.color : null}
-                  tintColor={'white'}
+                  tintColor={route.params?.tagObject.tag.iconType === 'icon' ? route.params?.tagObject.tag.color : null}
                 />
                 <Text numberOfLines={1} style={{ color: 'white' }}>
                   {route.params?.tagObject.tag.name}

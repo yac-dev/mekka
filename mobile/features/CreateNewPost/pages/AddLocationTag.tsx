@@ -7,6 +7,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { iconColorTable, iconParameterBackgroundColorTable } from '../../../themes/color';
 import MapView, { Marker } from 'react-native-maps';
 import FastImage from 'react-native-fast-image';
+import backendAPI from '../../../apis/backend';
 
 // いいや、locationは、
 const AddLocationTag = (props) => {
@@ -19,39 +20,22 @@ const AddLocationTag = (props) => {
     setCreatedLocationTag,
     locationTagOptions,
     setLocationTagOptions,
+    space,
   } = useContext(CreateNewPostContext);
   const mapRef = useRef(null);
 
   useEffect(() => {
     if (props.route?.params?.createdLocationTag) {
-      setCreatedLocationTag(props.route?.params?.createdLocationTag);
+      // setCreatedLocationTag(props.route?.params?.createdLocationTag);
+      setAddedLocationTag(props.route?.params?.createdLocationTag);
+      setLocationTagOptions((previous) => {
+        const updating = [...previous];
+        updating.unshift(props.route?.params?.createdLocationTag);
+        return updating;
+      });
     }
   }, [props.route?.params?.createdLocationTag]);
 
-  // useEffect(() => {
-  //   if (props.route?.params?.selectedLocation) {
-  //     setFormData((previous) => {
-  //       return {
-  //         ...previous,
-  //         location: route?.params?.selectedLocation,
-  //       };
-  //     });
-  //   }
-  // }, [props.route?.params?.selectedLocation]);
-
-  // useEffect(() => {
-  //   if (props.route?.params?.createdLocationTag) {
-  //     setFormData((previous) => {
-  //       return {
-  //         ...previous,
-  //         createdLocationTag: route?.params?.createdLocationTag,
-  //       };
-  //     });
-  //   }
-  // }, [props.route?.params?.createdLocationTag]);
-  // setLocationTagOptions
-
-  // 近寄りすぎる。直す。
   useEffect(() => {
     if (addedLocationTag) {
       const newLat = addedLocationTag.point.coordinates[1] - 0.0065;
@@ -158,17 +142,17 @@ const AddLocationTag = (props) => {
           <TouchableOpacity
             key={index}
             style={{
-              padding: 10,
+              padding: 12,
               flexDirection: 'row',
               alignItems: 'center',
               backgroundColor: 'rgb(90,90,90)',
-              borderRadius: 8,
+              borderRadius: 20,
               marginRight: 10,
               marginBottom: 10,
             }}
             disabled={addedLocationTag || createdLocationTag ? true : false}
             onPress={() => {
-              if (locationTag._id) {
+              if (addedLocationTag._id === locationTag._id) {
                 setAddedLocationTag(null);
               } else {
                 setAddedLocationTag(locationTag);
@@ -177,20 +161,28 @@ const AddLocationTag = (props) => {
           >
             <FastImage
               source={{ uri: locationTag.icon }}
-              style={{ width: 30, height: 30, marginRight: 10, borderRadius: 8 }}
+              style={{ width: 20, height: 20, marginRight: 10, borderRadius: 8 }}
+              tintColor={locationTag.iconType === 'icon' ? locationTag.color : null}
             />
-            <Text style={{ color: 'white', marginRight: 10 }}>{locationTag.name}</Text>
-            {locationTag._id === addedLocationTag._Id ? (
-              <Ionicons name='delete' size={20} color='white' style={{ position: 'absolute', top: -10, right: -7 }} />
+            <Text style={{ color: 'white' }}>{locationTag.name}</Text>
+            {addedLocationTag._id === locationTag._id ? (
+              <Ionicons
+                name='checkmark-circle'
+                size={25}
+                color='green'
+                style={{ position: 'absolute', right: -7, top: -10 }}
+              />
             ) : null}
           </TouchableOpacity>
         );
       });
 
-      return <View style={{ flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap' }}>{list}</View>;
+      return (
+        <View style={{ flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', marginBottom: 20 }}>{list}</View>
+      );
     } else {
       return (
-        <View style={{ marginTop: 20, marginBottom: 20 }}>
+        <View style={{ marginBottom: 20 }}>
           <Text style={{ textAlign: 'center', color: 'white' }}>There are no location tag options yet.</Text>
         </View>
       );
@@ -200,18 +192,26 @@ const AddLocationTag = (props) => {
   return (
     <View style={{ flex: 1, backgroundColor: 'black', padding: 10 }}>
       <View style={{ paddingLeft: 30, paddingRight: 30, paddingTop: 20, paddingBottom: 20 }}>
-        <Text
-          style={{
-            color: 'white',
-            textAlign: 'center',
-            fontWeight: 'bold',
-            fontSize: 20,
-            marginBottom: 10,
-          }}
-        >
-          Add Location Tag (Optional)
+        <View style={{ flexDirection: 'row', alignItems: 'center', alignSelf: 'center', marginBottom: 10 }}>
+          <FastImage
+            source={require('../../../assets/forApp/map-pin.png')}
+            style={{ width: 20, height: 20, marginRight: 10 }}
+            tintColor={'white'}
+          />
+          <Text
+            style={{
+              color: 'white',
+              textAlign: 'center',
+              fontWeight: 'bold',
+              fontSize: 20,
+            }}
+          >
+            Add Location Tag (Optional)
+          </Text>
+        </View>
+        <Text style={{ textAlign: 'center', color: 'rgb(180, 180, 180)' }}>
+          Where did you take that snap? Please choose a location tag as needed.
         </Text>
-        <Text style={{ textAlign: 'center', color: 'rgb(180, 180, 180)' }}>Where did you take that snap?</Text>
       </View>
       {/* {renderAddedLocationTag()}
           {renderCreatedLocationTag()} */}
@@ -241,10 +241,14 @@ const AddLocationTag = (props) => {
               longitude: addedLocationTag.point.coordinates[0],
             }}
           >
-            <FastImage source={{ uri: addedLocationTag.icon }} style={{ width: 40, height: 40, borderRadius: 10 }} />
+            <FastImage
+              source={{ uri: addedLocationTag.icon }}
+              style={{ width: 40, height: 40, borderRadius: 10 }}
+              tintColor={addedLocationTag.iconType === 'icon' ? addedLocationTag.color : null}
+            />
           </Marker>
         ) : null}
-        {createdLocationTag ? (
+        {/* {createdLocationTag ? (
           <Marker
             tracksViewChanges={false}
             coordinate={{
@@ -252,9 +256,13 @@ const AddLocationTag = (props) => {
               longitude: createdLocationTag.point.coordinates[0],
             }}
           >
-            <FastImage source={{ uri: createdLocationTag.icon }} style={{ width: 40, height: 40, borderRadius: 10 }} />
+            <FastImage
+              source={{ uri: createdLocationTag.icon }}
+              style={{ width: 40, height: 40, borderRadius: 10 }}
+              tintColor={'white'}
+            />
           </Marker>
-        ) : null}
+        ) : null} */}
       </MapView>
       <TouchableOpacity
         style={{
@@ -268,8 +276,8 @@ const AddLocationTag = (props) => {
         }}
       >
         <View style={{ flexDirection: 'row', alignItems: 'center', alignSelf: 'center' }}>
-          <Ionicons name='add' color='black' size={25} style={{ marginRight: 5 }} />
-          <Text style={{ color: 'black', fontWeight: 'bold' }}>Create new?</Text>
+          {/* <Ionicons name='add' color='black' size={25} style={{ marginRight: 5 }} /> */}
+          <Text style={{ color: 'black', fontWeight: 'bold', fontSize: 20 }}>Create new?</Text>
         </View>
       </TouchableOpacity>
 

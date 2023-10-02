@@ -7,12 +7,15 @@ import FastImage from 'react-native-fast-image';
 const CreateLocationTag = (props) => {
   const mapRef = useRef(null);
   const [locationTag, setLocationTag] = useState({
+    iconType: 'icon',
+    icon: 'https://mekka-dev.s3.us-east-2.amazonaws.com/locationTagIcons/map-pin.png',
     name: '',
     point: {
       type: 'Point',
       coordinates: [],
     },
-    icon: 'https://mekka-dev.s3.us-east-2.amazonaws.com/locationTagIcons/map-pin.png',
+    color: 'white',
+    created: true,
   });
 
   const onMapPress = (event) => {
@@ -44,7 +47,8 @@ const CreateLocationTag = (props) => {
         >
           <Text
             style={{
-              color: locationTag.name && locationTag.name.length <= 40 ? 'white' : 'rgb(117,117, 117)',
+              color:
+                locationTag.name.length <= 40 && locationTag.point.coordinates.length ? 'white' : 'rgb(117,117, 117)',
               fontSize: 20,
               fontWeight: 'bold',
             }}
@@ -79,7 +83,7 @@ const CreateLocationTag = (props) => {
           Create location tag
         </Text>
         <Text style={{ textAlign: 'center', color: 'rgb(180, 180, 180)' }}>
-          Couldn't find a location tag you want to add?{'\n'} Type location name and tap the location point down below.
+          Type location name, tap the location point down below.
         </Text>
       </View>
       <Text
