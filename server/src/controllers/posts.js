@@ -35,7 +35,10 @@ export const createPost = async (request, response) => {
     const createdAt = new Date();
     const contentIds = [];
     const contents = [];
-    const parsedCreatedLocationTag = JSON.parse(createdLocationTag);
+    let parsedCreatedLocationTag;
+    if (createdLocationTag) {
+      parsedCreatedLocationTag = JSON.parse(createdLocationTag);
+    }
 
     // 1 contentsを作る。
     // batch creation

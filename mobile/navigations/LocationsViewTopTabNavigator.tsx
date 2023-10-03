@@ -207,7 +207,7 @@ const LocationsViewTopTabNavigator = () => {
                 }}
                 source={{ uri: locationTag.icon }}
                 style={{ width: 35, height: 35, borderRadius: 8, marginBottom: 5 }}
-                // tintColor={route.params?.locationTag.iconType === 'icon' ? route.params?.locationTag.color : null}
+                tintColor={locationTag.iconType === 'icon' ? locationTag.color : null}
               />
             </TouchableOpacity>
           </Marker>

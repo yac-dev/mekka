@@ -83,7 +83,7 @@ const LocationsViewPostsBottomSheet = (props) => {
           />
         );
       } else {
-        return <Text style={{ color: 'white' }}>There are no posts yet.</Text>;
+        return <Text style={{ color: 'white', marginTop: 20, textAlign: 'center' }}>There are no posts yet.</Text>;
       }
     }
   };
@@ -123,6 +123,7 @@ const LocationsViewPostsBottomSheet = (props) => {
               <FastImage
                 source={{ uri: selectedLocationTag.icon }}
                 style={{ width: 45, height: 45, marginRight: 15, borderRadius: 10 }}
+                tintColor={selectedLocationTag.iconType === 'icon' ? selectedLocationTag.color : null}
               />
               <Text style={{ color: 'white', fontSize: 20 }}>{selectedLocationTag.name}</Text>
             </View>
