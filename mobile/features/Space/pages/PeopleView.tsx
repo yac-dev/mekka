@@ -17,7 +17,7 @@ const PeopleView = (props) => {
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   const getPostsByTagId = async () => {
-    const result = await backendAPI.get(`/posts/user/${props.user._id}/space/${space._id}`);
+    const result = await backendAPI.get(`/posts/user/${props.user._id}/space/${spaceAndUserRelationship.space._id}`);
     const { posts } = result.data;
     setPosts(posts);
     setHavePostsBeenFetched(true);

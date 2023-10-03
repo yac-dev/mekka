@@ -11,7 +11,7 @@ import FastImage from 'react-native-fast-image';
 // rgb(35, 35, 35)
 const ChooseViewBottomSheet = (props) => {
   const snapPoints = useMemo(() => ['55%'], []);
-  const { chooseViewBottomSheetRef, navigation } = useContext(SpaceRootContext);
+  const { chooseViewBottomSheetRef, viewPostsType, setViewPostsType, navigation } = useContext(SpaceRootContext);
   const { currentSpaceAndUserRelationship, currentTagObject } = useContext(GlobalContext);
   // だめだね。。。SpaceRootBottomのnavigationだとなんか挙動がおかしいわ。
   return (
@@ -37,13 +37,15 @@ const ChooseViewBottomSheet = (props) => {
           <View style={{ width: '50%', padding: 5 }}>
             <TouchableOpacity
               onPress={() => {
-                navigation.navigate(`Space_${currentSpaceAndUserRelationship._id}`, {
-                  screen: `TagsTopTabNavigator`,
-                  params: {
-                    screen: `SpaceTab_${currentTagObject.tag._id}`,
-                    params: { screen: 'Grid' },
-                  },
-                });
+                // navigation.navigate(`Space_${currentSpaceAndUserRelationship._id}`, {
+                //   screen: `TagsTopTabNavigator`,
+                //   params: {
+                //     screen: `SpaceTab_${currentTagObject.tag._id}`,
+                //     // params: { screen: 'Grid' },
+                //   },
+                // });
+                navigation.navigate('ViewPostsTopTabNavigator', { screen: 'TagsTopTabNavigator' });
+                setViewPostsType('grid');
                 chooseViewBottomSheetRef.current.close();
               }}
               style={{
@@ -61,13 +63,15 @@ const ChooseViewBottomSheet = (props) => {
           <View style={{ width: '50%', padding: 5 }}>
             <TouchableOpacity
               onPress={() => {
-                navigation.navigate(`Space_${currentSpaceAndUserRelationship._id}`, {
-                  screen: `TagsTopTabNavigator`,
-                  params: {
-                    screen: `SpaceTab_${currentTagObject.tag._id}`,
-                    params: { screen: 'Map' },
-                  },
-                });
+                // navigation.navigate(`Space_${currentSpaceAndUserRelationship._id}`, {
+                //   screen: `LocationsViewTopTabNavigator`,
+                //   params: {
+                //     screen: `SpaceTab_${currentTagObject.tag._id}`,
+                //     // params: { screen: 'Map' },
+                //   },
+                // });
+                navigation.navigate('ViewPostsTopTabNavigator', { screen: 'LocationsViewTopTabNavigator' });
+                setViewPostsType('map');
                 chooseViewBottomSheetRef.current.close();
               }}
               style={{
@@ -91,13 +95,15 @@ const ChooseViewBottomSheet = (props) => {
           <View style={{ width: '50%', padding: 5 }}>
             <TouchableOpacity
               onPress={() => {
-                navigation.navigate(`Space_${currentSpaceAndUserRelationship._id}`, {
-                  screen: `TagsTopTabNavigator`,
-                  params: {
-                    screen: `SpaceTab_${currentTagObject.tag._id}`,
-                    params: { screen: 'Calendar' },
-                  },
-                });
+                // navigation.navigate(`Space_${currentSpaceAndUserRelationship._id}`, {
+                //   screen: `PeopleViewTopTabNavigator`,
+                //   params: {
+                //     screen: `SpaceTab_${currentTagObject.tag._id}`,
+                //     // params: { screen: 'Calendar' },
+                //   },
+                // });
+                navigation.navigate('ViewPostsTopTabNavigator', { screen: 'PeopleViewTopTabNavigator' });
+                setViewPostsType('people');
                 chooseViewBottomSheetRef.current.close();
               }}
               style={{
@@ -108,8 +114,9 @@ const ChooseViewBottomSheet = (props) => {
                 height: 100,
               }}
             >
-              <Ionicons name='calendar' size={35} color='white' style={{ marginBottom: 10 }} />
-              <Text style={{ color: 'white', fontWeight: 'bold' }}>Date</Text>
+              {/* <Ionicons name='calendar' size={35} color='white' style={{ marginBottom: 10 }} /> */}
+              <MaterialCommunityIcons name='account-multiple' size={35} color='white' style={{ marginBottom: 10 }} />
+              <Text style={{ color: 'white', fontWeight: 'bold' }}>People</Text>
             </TouchableOpacity>
           </View>
           {/* <View style={{ width: '50%', padding: 5 }}>

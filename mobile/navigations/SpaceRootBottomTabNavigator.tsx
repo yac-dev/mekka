@@ -17,12 +17,20 @@ import PeopleViewTopTabNavigator from './PeopleViewTopTabNavigator';
 import LocationsViewTopTabNavigator from './LocationsViewTopTabNavigator';
 import MomentsView from '../features/Space/pages/MomentsView';
 import FastImage from 'react-native-fast-image';
+import ViewPostsTopTabNavigator from './ViewPostsTopTabNavigator';
 import TagsTopTabNavigator from './TagsTopTabNavigator';
 import Projects from '../features/Space/pages/Projects';
 import ChooseViewBottomSheet from '../features/Space/pages/ChooseViewBottomSheet';
 import LocationsViewPostsBottomSheet from '../features/Space/components/LocationsViewPostsBottomSheet';
 
 const Tab = createBottomTabNavigator();
+const viewTypeObject = {
+  grid: <MaterialCommunityIcons name='dots-grid' color='black' size={25} />,
+  map: (
+    <FastImage source={require('../assets/forApp/globe.png')} style={{ width: 25, height: 25 }} tintColor={'black'} />
+  ),
+  people: <MaterialCommunityIcons name='account-multiple' color='black' size={25} />,
+};
 
 const SpaceRootBottomTabNavigator = (props) => {
   const { spaceAndUserRelationship } = useContext(SpaceRootContext);
@@ -38,6 +46,7 @@ const SpaceRootBottomTabNavigator = (props) => {
   const [haveLocationsViewPostsBeenFetched, setHaveLocationsViewPostsBeenFetched] = useState(false);
   const [isFetchingLocationsViewPosts, setIsFetchingLocationsViewPosts] = useState(false);
   const [selectedLocationTag, setSelectedLocationTag] = useState(null);
+  const [viewPostsType, setViewPostsType] = useState('grid'); // grid, map, people
 
   // const getSpaceById = async () => {
   //   setHasSpaceBeenFetched(false);
@@ -89,7 +98,6 @@ const SpaceRootBottomTabNavigator = (props) => {
         // space,
         hasSpaceBeenFetched,
         setHasSpaceBeenFetched,
-        chooseViewBottomSheetRef,
         navigation: props.navigation,
         locationsViewPosts,
         setLocationsViewPosts,
@@ -100,6 +108,9 @@ const SpaceRootBottomTabNavigator = (props) => {
         setSelectedLocationTag,
         isFetchingLocationsViewPosts,
         setIsFetchingLocationsViewPosts,
+        chooseViewBottomSheetRef,
+        viewPostsType,
+        setViewPostsType,
       }}
     >
       <View style={{ flex: 1 }}>
@@ -122,8 +133,8 @@ const SpaceRootBottomTabNavigator = (props) => {
           })}
         >
           <Tab.Screen
-            name='TagsTopTabNavigator'
-            component={TagsTopTabNavigator}
+            name='ViewPostsTopTabNavigator'
+            component={ViewPostsTopTabNavigator}
             options={({ navigation, route }) => ({
               // tabBarShowLabel: false,
               tabBarIcon: ({ size, color, focused }) => (
@@ -134,7 +145,7 @@ const SpaceRootBottomTabNavigator = (props) => {
               },
             })}
           />
-          <Tab.Screen
+          {/* <Tab.Screen
             name='LocationsViewTopTabNavigator'
             component={LocationsViewTopTabNavigator}
             options={({ navigation }) => ({
@@ -159,7 +170,8 @@ const SpaceRootBottomTabNavigator = (props) => {
               //   return null;
               // },
             })}
-          />
+          /> */}
+
           <Tab.Screen
             name='MomentsView'
             component={MomentsView}
@@ -177,7 +189,7 @@ const SpaceRootBottomTabNavigator = (props) => {
               },
             })}
           />
-          <Tab.Screen
+          {/* <Tab.Screen
             name='Projects'
             component={Projects}
             options={({ navigation }) => ({
@@ -194,7 +206,7 @@ const SpaceRootBottomTabNavigator = (props) => {
                 return <Text style={{ color: 'white' }}>{focused ? 'Projects' : null}</Text>;
               },
             })}
-          />
+          /> */}
         </Tab.Navigator>
         <TouchableOpacity
           onPress={() => {
@@ -227,7 +239,26 @@ const SpaceRootBottomTabNavigator = (props) => {
         >
           <MaterialCommunityIcons name='plus' color='black' size={30} />
         </TouchableOpacity>
-        {/* <ChooseViewBottomSheet /> */}
+        <TouchableOpacity
+          onPress={() => {
+            chooseViewBottomSheetRef.current.snapToIndex(0);
+          }}
+          style={{
+            backgroundColor: 'white',
+            width: 50,
+            height: 50,
+            borderRadius: 25,
+            position: 'absolute',
+            bottom: 150,
+            right: 10,
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginRight: 10,
+          }}
+        >
+          {viewTypeObject[viewPostsType]}
+        </TouchableOpacity>
+        <ChooseViewBottomSheet />
         <LocationsViewPostsBottomSheet />
       </View>
     </SpaceRootContext.Provider>
