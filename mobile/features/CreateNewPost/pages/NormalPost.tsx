@@ -78,18 +78,18 @@ const NormalPost = () => {
         {contents.length >= 6 ? null : (
           <TouchableOpacity
             style={{
-              backgroundColor: 'rgb(80,80,80)',
+              backgroundColor: 'white',
               justifyContent: 'center',
               alignItems: 'center',
               width: oneAssetWidth,
               height: oneAssetWidth,
               padding: 2,
-              borderRadius: 20,
+              borderRadius: oneAssetWidth / 2,
             }}
             onPress={() => pickContents()}
           >
-            <AntDesign name='plus' size={30} color='white' style={{ marginBottom: 10 }} />
-            <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 20 }}>Add</Text>
+            <AntDesign name='plus' size={30} color='black' style={{ marginBottom: 10 }} />
+            <Text style={{ color: 'black', fontWeight: 'bold', fontSize: 20 }}>Add</Text>
           </TouchableOpacity>
         )}
 

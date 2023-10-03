@@ -17,18 +17,8 @@ export const createPost = async (request, response) => {
   try {
     session.startTransaction();
     // postで、reactionを全部持っておかないとね。
-    const {
-      caption,
-      createdBy,
-      // location,
-      spaceId,
-      reactions,
-      addedTags,
-      createdTags,
-      // disappearAfter,
-      createdLocationTag,
-      addedLocationTag,
-    } = request.body;
+    const { caption, createdBy, spaceId, reactions, addedTags, createdTags, createdLocationTag, addedLocationTag } =
+      request.body;
 
     // const disappearAt = new Date(new Date().getTime() + Number(disappearAfter) * 60 * 1000);
     // 現在の時間にdissaperAfter(minute)を足した日時を出す。
@@ -93,10 +83,14 @@ export const createPost = async (request, response) => {
         [
           {
             _id: locationTagId,
+            iconType: parsedCreatedLocationTag.iconType,
+            icon: parsedCreatedLocationTag.icon,
+            image: parsedCreatedLocationTag.image,
             name: parsedCreatedLocationTag.name,
-            icon: `https://mekka-${process.env.NODE_ENV}.s3.us-east-2.amazonaws.com/locationTagIcons/map-pin.png`,
-            space: spaceId,
             point: parsedCreatedLocationTag.point,
+            color: parsedCreatedLocationTag.color,
+            space: spaceId,
+            createdBy: createdBy,
           },
         ],
         { session }
@@ -110,9 +104,7 @@ export const createPost = async (request, response) => {
           contents: contentIds,
           caption,
           space: spaceId,
-          // location: parsedLocation,
           locationTag: createdLocationTag ? locationTagId : addedLocationTag,
-          // disappearAt,
           createdBy,
           createdAt,
         },
@@ -134,22 +126,25 @@ export const createPost = async (request, response) => {
 
     // 4 新しいtagを作る、もし、createdTagsがあったら。
     if (parsedCreatedTags.length) {
-      const tagObjects = parsedCreatedTags.map((tagName) => {
+      const tagObjects = parsedCreatedTags.map((tag) => {
         const tagId = new mongoose.Types.ObjectId();
         tagIds.push(tagId);
         return {
           _id: tagId,
-          name: tagName,
-          icon: `https://mekka-${process.env.NODE_ENV}.s3.us-east-2.amazonaws.com/tagIcons/hashtag-normal.png`,
+          iconType: tag.iconType,
+          icon: tag.icon,
+          image: tag.image,
+          name: tag.name,
           count: 1,
           space: spaceId,
+          createdBy: createdBy,
           updatedAt: new Date(),
         };
       });
       const tagDocuments = await Tag.insertMany(tagObjects, { session });
       // tagDocuments.forEach((tagDocument) => {
       //   tagIds.push(tagDocument._id);
-      // });
+      // });s
     }
 
     // だから、client側ではtagのidだけを入れておく感じな。

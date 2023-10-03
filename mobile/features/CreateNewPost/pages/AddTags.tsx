@@ -20,22 +20,23 @@ const AddTags = (props) => {
 
   useEffect(() => {
     if (props.route?.params?.createdTag) {
-      console.log(props.route.params.createdTag);
-      setCreatedTags((previous) => {
-        const tagObject = {
-          _id: dummyCreatedTagId,
-          icon: '',
-          name: props.route.params.createdTag,
+      setAddedTags((previous) => {
+        return {
+          ...previous,
+          [props.route?.params?.createdTag._id]: props.route?.params?.createdTag,
         };
-        return [...previous, tagObject];
       });
-      setDummyCreatedTagId((previous) => previous + 1);
+      setTagOptions((previous) => {
+        const updating = [...previous];
+        updating.unshift(props.route?.params?.createdTag);
+        return updating;
+      });
     }
   }, [props.route?.params?.createdTag]);
 
   const renderTagOptions = () => {
     // if (Object.values(tagOptions).length) {
-    const list = Object.values(tagOptions).map((tag, index) => {
+    const list = tagOptions.map((tag, index) => {
       return (
         <TouchableOpacity
           key={index}
@@ -49,20 +50,18 @@ const AddTags = (props) => {
             marginBottom: 10,
           }}
           onPress={() => {
-            if (addedTags[tag._id]) {
-              setAddedTags((previous) => {
-                const updating = { ...previous };
+            setAddedTags((previous) => {
+              const updating = { ...previous };
+              if (addedTags[tag._id]) {
                 delete updating[tag._id];
                 return updating;
-              });
-            } else {
-              setAddedTags((previous) => {
+              } else {
                 return {
-                  ...previous,
+                  ...updating,
                   [tag._id]: tag,
                 };
-              });
-            }
+              }
+            });
           }}
         >
           <FastImage
@@ -71,11 +70,11 @@ const AddTags = (props) => {
             tintColor={tag.iconType === 'icon' ? tag.color : null}
           />
           <Text style={{ color: 'white' }}>{tag.name}</Text>
-          {addedTags[tag._id] && (
+          {addedTags[tag._id] ? (
             <View style={{ position: 'absolute', top: -10, right: -7 }}>
               <Ionicons name='checkmark-circle' color='green' size={25} />
             </View>
-          )}
+          ) : null}
         </TouchableOpacity>
       );
     });
@@ -83,47 +82,47 @@ const AddTags = (props) => {
     return <View style={{ flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', padding: 10 }}>{list}</View>;
   };
 
-  const renderCreatedTags = () => {
-    if (createdTags.length) {
-      const list = createdTags.map((tag, index) => {
-        return (
-          <View
-            key={index}
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              backgroundColor: 'rgb(80,80,80)',
-              padding: 10,
-              borderRadius: 20,
-              marginRight: 10,
-              marginBottom: 10,
-            }}
-          >
-            <FastImage
-              source={require('../../../assets/forApp/hashtag-normal.png')}
-              style={{ width: 20, height: 20, marginRight: 10 }}
-              tintColor={'white'}
-            />
-            <Text style={{ color: 'white', marginRight: 15 }}>{tag.name}</Text>
-            <TouchableOpacity
-              onPress={() =>
-                setCreatedTags((previous) => {
-                  const updating = [...previous];
-                  return updating.filter((element, idx) => element._id !== tag._id);
-                })
-              }
-            >
-              <Ionicons name='close-circle' color='white' size={20} />
-            </TouchableOpacity>
-          </View>
-        );
-      });
+  // const renderCreatedTags = () => {
+  //   if (createdTags.length) {
+  //     const list = createdTags.map((tag, index) => {
+  //       return (
+  //         <View
+  //           key={index}
+  //           style={{
+  //             flexDirection: 'row',
+  //             alignItems: 'center',
+  //             backgroundColor: 'rgb(80,80,80)',
+  //             padding: 10,
+  //             borderRadius: 20,
+  //             marginRight: 10,
+  //             marginBottom: 10,
+  //           }}
+  //         >
+  //           <FastImage
+  //             source={require('../../../assets/forApp/hashtag-normal.png')}
+  //             style={{ width: 20, height: 20, marginRight: 10 }}
+  //             tintColor={'white'}
+  //           />
+  //           <Text style={{ color: 'white', marginRight: 15 }}>{tag.name}</Text>
+  //           <TouchableOpacity
+  //             onPress={() =>
+  //               setCreatedTags((previous) => {
+  //                 const updating = [...previous];
+  //                 return updating.filter((element, idx) => element._id !== tag._id);
+  //               })
+  //             }
+  //           >
+  //             <Ionicons name='close-circle' color='white' size={20} />
+  //           </TouchableOpacity>
+  //         </View>
+  //       );
+  //     });
 
-      return <View style={{ flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', padding: 10 }}>{list}</View>;
-    } else {
-      return null;
-    }
-  };
+  //     return <View style={{ flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', padding: 10 }}>{list}</View>;
+  //   } else {
+  //     return null;
+  //   }
+  // };
 
   return (
     <View style={{ flex: 1, padding: 10, backgroundColor: 'black' }}>
@@ -142,7 +141,6 @@ const AddTags = (props) => {
         <Text style={{ textAlign: 'center', color: 'rgb(180, 180, 180)' }}>Please add at least one tag.</Text>
       </View>
       {renderTagOptions()}
-      {renderCreatedTags()}
       <TouchableOpacity
         style={{
           backgroundColor: 'white',

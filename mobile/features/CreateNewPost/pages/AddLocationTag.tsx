@@ -21,18 +21,21 @@ const AddLocationTag = (props) => {
     locationTagOptions,
     setLocationTagOptions,
     space,
+    setDummyCreatedTagId,
   } = useContext(CreateNewPostContext);
   const mapRef = useRef(null);
 
   useEffect(() => {
     if (props.route?.params?.createdLocationTag) {
       // setCreatedLocationTag(props.route?.params?.createdLocationTag);
-      setAddedLocationTag(props.route?.params?.createdLocationTag);
+      // setAddedLocationTag(props.route?.params?.createdLocationTag);
       setLocationTagOptions((previous) => {
         const updating = [...previous];
         updating.unshift(props.route?.params?.createdLocationTag);
         return updating;
       });
+      setAddedLocationTag(props.route?.params?.createdLocationTag);
+      setDummyCreatedTagId((previous) => previous + 1);
     }
   }, [props.route?.params?.createdLocationTag]);
 
@@ -134,6 +137,7 @@ const AddLocationTag = (props) => {
       return null;
     }
   };
+  // createしたものがきたら、すでにaddedなやつのaddedをfalseにする感じかな。
 
   const renderLocationTagOptions = () => {
     if (locationTagOptions.length) {
@@ -150,10 +154,14 @@ const AddLocationTag = (props) => {
               marginRight: 10,
               marginBottom: 10,
             }}
-            disabled={addedLocationTag || createdLocationTag ? true : false}
+            // disabled={addedLocationTag ? true : false}
             onPress={() => {
-              if (addedLocationTag._id === locationTag._id) {
-                setAddedLocationTag(null);
+              if (addedLocationTag) {
+                if (addedLocationTag._id === locationTag._id) {
+                  setAddedLocationTag(null);
+                } else {
+                  setAddedLocationTag(locationTag);
+                }
               } else {
                 setAddedLocationTag(locationTag);
               }
@@ -165,7 +173,7 @@ const AddLocationTag = (props) => {
               tintColor={locationTag.iconType === 'icon' ? locationTag.color : null}
             />
             <Text style={{ color: 'white' }}>{locationTag.name}</Text>
-            {addedLocationTag._id === locationTag._id ? (
+            {addedLocationTag && addedLocationTag._id === locationTag._id ? (
               <Ionicons
                 name='checkmark-circle'
                 size={25}
@@ -248,21 +256,6 @@ const AddLocationTag = (props) => {
             />
           </Marker>
         ) : null}
-        {/* {createdLocationTag ? (
-          <Marker
-            tracksViewChanges={false}
-            coordinate={{
-              latitude: createdLocationTag.point.coordinates[1],
-              longitude: createdLocationTag.point.coordinates[0],
-            }}
-          >
-            <FastImage
-              source={{ uri: createdLocationTag.icon }}
-              style={{ width: 40, height: 40, borderRadius: 10 }}
-              tintColor={'white'}
-            />
-          </Marker>
-        ) : null} */}
       </MapView>
       <TouchableOpacity
         style={{

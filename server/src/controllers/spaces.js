@@ -299,6 +299,17 @@ export const getTagsBySpaceId = async (request, response) => {
   }
 };
 
+export const getLocationTagsBySpaceId = async (request, response) => {
+  try {
+    const documents = await LocationTag.find({ space: request.params.spaceId });
+    response.status(200).json({
+      locationTags: documents,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const getPeopleBySpaceId = async (request, response) => {
   try {
     // relationshipのtableでもないし、大丈夫か。
@@ -308,18 +319,6 @@ export const getPeopleBySpaceId = async (request, response) => {
     });
     response.status(200).json({
       people,
-    });
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const getLocationTagsBySpaceId = async (request, response) => {
-  try {
-    const documents = await LocationTag.find({ space: request.params.spaceId });
-    console.log(documents);
-    response.status(200).json({
-      locationTags: documents,
     });
   } catch (error) {
     console.log(error);

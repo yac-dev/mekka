@@ -8,14 +8,24 @@ const CreateNewTag = (props) => {
   const { navigation } = useContext(CreateNewPostContext);
   const [tagName, setTagName] = useState('');
   const inputRef = useRef(null);
+  const [tag, setTag] = useState({
+    _id: new Date(),
+    iconType: 'icon',
+    icon: 'https://mekka-dev.s3.us-east-2.amazonaws.com/tagIcons/hashtag-normal.png',
+    image: '',
+    name: '',
+    color: 'white',
+    added: true,
+    created: true,
+  });
 
   useEffect(() => {
     props.navigation.setOptions({
       headerRight: () => (
-        <TouchableOpacity onPress={() => onDonePress()} disabled={tagName.length ? false : true}>
+        <TouchableOpacity onPress={() => onDonePress()} disabled={tag.name.length ? false : true}>
           <Text
             style={{
-              color: tagName.length && tagName.length <= 40 ? 'white' : 'rgb(117,117, 117)',
+              color: tag.name.length <= 40 ? 'white' : 'rgb(117,117, 117)',
               fontSize: 20,
               fontWeight: 'bold',
             }}
@@ -25,7 +35,7 @@ const CreateNewTag = (props) => {
         </TouchableOpacity>
       ),
     });
-  }, [tagName]);
+  }, [tag]);
   // createNewPostStackNavigatorに移動って、まさにこのcreateNewTagが今いる場所だもんね。だからpageが変わらないんだわ。
 
   useEffect(() => {
@@ -33,9 +43,14 @@ const CreateNewTag = (props) => {
   }, []);
 
   const onDonePress = () => {
+    const payload = {
+      ...tag,
+      name: removeEmojis(tag.name),
+    };
+
     navigation.navigate({
       name: 'AddTags',
-      params: { createdTag: removeEmojis(tagName) },
+      params: { createdTag: payload },
       merge: true,
     });
   };
@@ -60,13 +75,13 @@ const CreateNewTag = (props) => {
       </View>
       <Text
         style={{
-          color: tagName.length <= 40 ? 'rgb(170,170,170)' : 'red',
+          color: tag.name.length <= 40 ? 'rgb(170,170,170)' : 'red',
           alignSelf: 'flex-end',
           marginRight: 10,
           marginBottom: 10,
         }}
       >
-        {tagName.length}/30
+        {tag.name.length}/40
       </Text>
       <View
         style={{
@@ -96,8 +111,15 @@ const CreateNewTag = (props) => {
           placeholder='Tag name'
           placeholderTextColor={'rgb(170,170,170)'}
           autoCapitalize='none'
-          value={tagName}
-          onChangeText={(text) => setTagName(text)}
+          value={tag.name}
+          onChangeText={(text) =>
+            setTag((previous) => {
+              return {
+                ...previous,
+                name: text,
+              };
+            })
+          }
         />
       </View>
       {/* <TextInput

@@ -7,8 +7,8 @@ import {
   getPostsBySpaceId,
   getPostsBySpaceIdAndYearAndMonth,
   getTagsBySpaceId,
-  getPeopleBySpaceId,
   getLocationTagsBySpaceId,
+  getPeopleBySpaceId,
   joinPrivateSpaceBySecretKey,
   joinPublicSpace,
 } from '../controllers/spaces';

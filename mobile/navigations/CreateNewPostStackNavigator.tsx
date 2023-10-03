@@ -14,6 +14,7 @@ import { CreateNewPostContext } from '../features/CreateNewPost/contexts/CreateN
 import backendAPI from '../apis/backend';
 import CreateNewTag from '../features/CreateNewPost/pages/CreateNewTag';
 import CreateNewLocationTag from '../features/CreateNewPost/pages/CreateNewLocationTag';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 const CreateNewPostStackNavigator = (props) => {
   const { authData, setLoading, setSnackBar } = useContext(GlobalContext);
@@ -21,12 +22,11 @@ const CreateNewPostStackNavigator = (props) => {
   const [contents, setContents] = useState([]);
   const [caption, setCaption] = useState('');
   const [dummyCreatedTagId, setDummyCreatedTagId] = useState(1);
-  const [addedTags, setAddedTags] = useState([]);
+  const [addedTags, setAddedTags] = useState({});
   const [tagOptions, setTagOptions] = useState([]);
-  // const [createdTags, setCreatedTags] = useState([]);
-  const [locationTagOptions, setLocationTagOptions] = useState([]);
   const [addedLocationTag, setAddedLocationTag] = useState(null);
-  const [createdLocationTag, setCreatedLocationTag] = useState(null);
+  const [locationTagOptions, setLocationTagOptions] = useState([]);
+
   const {
     spaceAndUserRelationship: { space },
   } = props.route.params;
@@ -34,57 +34,50 @@ const CreateNewPostStackNavigator = (props) => {
   const getTags = async () => {
     const result = await backendAPI.get(`/spaces/${space._id}/tags`);
     const { tags } = result.data;
-    // setTagOptions(() => {
-    //   const table = {};
-    //   tags.forEach((tag, index) => {
-    //     table[tag._id] = tag;
-    //   });
-
-    //   return table;
-    // });
     setTagOptions(() => {
       const options = tags.map((tag, index) => {
         return {
           ...tag,
-          added: false,
           created: false,
         };
       });
       return options;
     });
-    // 最終的に、addedのやつだけを切り抜いてくれば良いいね。addedTagsっていうarrayはもういらんね。
   };
 
   const getLocationTags = async () => {
     const result = await backendAPI.get(`/spaces/${space._id}/locationtags`);
     const { locationTags } = result.data;
-    const options = locationTags.map((locationTag, index) => {
-      return {
-        ...locationTag,
-        created: false,
-      };
+    setLocationTagOptions(() => {
+      const options = locationTags.map((locationTag, index) => {
+        return {
+          ...locationTag,
+          created: false,
+        };
+      });
+      return options;
     });
-    setLocationTagOptions(options);
   };
 
   useEffect(() => {
     getTags();
-    getLocationTags;
+    getLocationTags();
   }, []);
 
   const onPostPress = async () => {
+    const filteredCreatedTags = Object.values(addedTags).filter((element, index) => element.created);
+    const filteredAddedTags = Object.values(addedTags).filter((element, index) => !element.created);
     try {
       const payload = new FormData();
       payload.append('reactions', JSON.stringify(space.reactions));
       payload.append('caption', caption);
-      payload.append('createdTags', JSON.stringify(createdTags));
-      payload.append('addedTags', JSON.stringify(Object.keys(addedTags)));
-      // そもそもaddedLocationTagがない場合もあり、それを考慮しないといけない。
+      payload.append('createdTags', JSON.stringify(filteredCreatedTags));
+      payload.append('addedTags', JSON.stringify(Object.keys(filteredAddedTags)));
       if (addedLocationTag) {
         if (addedLocationTag.created) {
           payload.append('createdLocationTag', JSON.stringify(addedLocationTag)); // これがない場合もある。
         } else {
-          payload.append('addedLocationTag', JSON.stringify(addedLocationTag)); // これがない場合もある。
+          payload.append('addedLocationTag', JSON.stringify(addedLocationTag._id)); // これがない場合もある。
         }
       } else {
         payload.append('addedLocationTag', '');
@@ -105,14 +98,12 @@ const CreateNewPostStackNavigator = (props) => {
         headers: { 'Content-type': 'multipart/form-data' },
       });
       setLoading(false);
-      const { post } = result.data;
       setSnackBar({
         isVisible: true,
         barType: 'success',
         message: 'Post has been created successfully.',
         duration: 7000,
       });
-      //ここのcomponentは、photos. video or photoAndVideoどれかになる。
       // なるほど、戻る時に必要になるのか。。。でもなーーーー。
       props.navigation.navigate({
         name: `Space_${props.route?.params?.spaceAndUserRelationship._id}`,
@@ -124,21 +115,6 @@ const CreateNewPostStackNavigator = (props) => {
     }
   };
 
-  // useEffect(() => {
-  //   if (props.route.params.createdTag) {
-  //     console.log(props.route.params.createdTag);
-  //     setCreatedTags((previous) => {
-  //       const tagObject = {
-  //         _id: dummyCreatedTagId,
-  //         icon: '',
-  //         name: props.route.params.createdTag,
-  //       };
-  //       setDummyCreatedTagId((previous) => previous + 1);
-  //       return [...previous, tagObject];
-  //     });
-  //   }
-  // }, [props.route.params.createdTag]);
-
   return (
     <CreateNewPostContext.Provider
       value={{
@@ -149,17 +125,13 @@ const CreateNewPostStackNavigator = (props) => {
         caption,
         setCaption,
         addedTags,
+        setAddedTags,
         tagOptions,
         setTagOptions,
-        setAddedTags,
-        createdTags,
-        setCreatedTags,
-        locationTagOptions,
-        setLocationTagOptions,
         addedLocationTag,
         setAddedLocationTag,
-        createdLocationTag,
-        setCreatedLocationTag,
+        locationTagOptions,
+        setLocationTagOptions,
         space,
         navigation: props.navigation,
         route: props.route,
@@ -240,6 +212,7 @@ const CreateNewPostStackNavigator = (props) => {
                 <TouchableOpacity
                   onPress={() => navigation.navigate('AddLocationTag')}
                   disabled={Object.keys(addedTags).length ? false : true}
+                  // disabled={validateAddedTags() ? false : true}
                 >
                   <Text
                     style={{
@@ -379,6 +352,7 @@ const CreateNewPostStackNavigator = (props) => {
           />
         </Stack.Group>
       </Stack.Navigator>
+      <LoadingSpinner />
     </CreateNewPostContext.Provider>
   );
 };

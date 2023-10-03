@@ -1,14 +1,18 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import { removeEmojis } from '../utils/removeEmoji';
 import MapView, { Marker } from 'react-native-maps';
 import FastImage from 'react-native-fast-image';
+import { CreateNewPostContext } from '../contexts/CreateNewPostContext';
 
 const CreateLocationTag = (props) => {
   const mapRef = useRef(null);
+
   const [locationTag, setLocationTag] = useState({
+    _id: new Date(),
     iconType: 'icon',
     icon: 'https://mekka-dev.s3.us-east-2.amazonaws.com/locationTagIcons/map-pin.png',
+    image: '',
     name: '',
     point: {
       type: 'Point',
@@ -30,12 +34,6 @@ const CreateLocationTag = (props) => {
         },
       };
     });
-    // setSelectingVenue((previous) => {
-    //   const updating = { ...previous };
-    //   updating.coordinates[0] = event.nativeEvent.coordinate.longitude;
-    //   updating.coordinates[1] = event.nativeEvent.coordinate.latitude;
-    //   return updating;
-    // });
   };
 
   useEffect(() => {
@@ -43,12 +41,18 @@ const CreateLocationTag = (props) => {
       headerRight: () => (
         <TouchableOpacity
           onPress={() => onDonePress()}
-          disabled={locationTag.name.length && locationTag.point.coordinates.length ? false : true}
+          disabled={
+            locationTag.name.length && locationTag.name.length <= 40 && locationTag.point.coordinates.length
+              ? false
+              : true
+          }
         >
           <Text
             style={{
               color:
-                locationTag.name.length <= 40 && locationTag.point.coordinates.length ? 'white' : 'rgb(117,117, 117)',
+                locationTag.name.length && locationTag.name.length <= 40 && locationTag.point.coordinates.length
+                  ? 'white'
+                  : 'rgb(117,117, 117)',
               fontSize: 20,
               fontWeight: 'bold',
             }}
@@ -94,7 +98,7 @@ const CreateLocationTag = (props) => {
           // marginBottom: 10,
         }}
       >
-        {locationTag.name.length}/30
+        {locationTag.name.length}/40
       </Text>
       <View
         style={{
@@ -143,8 +147,8 @@ const CreateLocationTag = (props) => {
         initialRegion={{
           latitude: 37.78825,
           longitude: -122.4324,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
+          // latitudeDelta: 0.0922,
+          // longitudeDelta: 0.0421,
         }}
         showsCompass={true}
         scrollEnabled={true}
