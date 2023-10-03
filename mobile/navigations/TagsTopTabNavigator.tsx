@@ -169,9 +169,9 @@ const TagsTopTabNavigator = (props) => {
       <Tab.Navigator
         tabBar={(props) => <CustomTabBar {...props} />}
         screenOptions={({ route }) => ({
-          lazy: false,
+          lazy: true,
           swipeEnabled: false,
-          animationEnabled: false,
+          // animationEnabled: false,
         })}
       >
         {Object.values(tags).map((tagObject, index) => (

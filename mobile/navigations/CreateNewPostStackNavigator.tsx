@@ -66,13 +66,15 @@ const CreateNewPostStackNavigator = (props) => {
 
   const onPostPress = async () => {
     const filteredCreatedTags = Object.values(addedTags).filter((element, index) => element.created);
-    const filteredAddedTags = Object.values(addedTags).filter((element, index) => !element.created);
+    const filteredAddedTags = Object.values(addedTags)
+      .filter((element, index) => !element.created)
+      .map((element, index) => element._id);
     try {
       const payload = new FormData();
       payload.append('reactions', JSON.stringify(space.reactions));
       payload.append('caption', caption);
       payload.append('createdTags', JSON.stringify(filteredCreatedTags));
-      payload.append('addedTags', JSON.stringify(Object.keys(filteredAddedTags)));
+      payload.append('addedTags', JSON.stringify(filteredAddedTags));
       if (addedLocationTag) {
         if (addedLocationTag.created) {
           payload.append('createdLocationTag', JSON.stringify(addedLocationTag)); // これがない場合もある。

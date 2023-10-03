@@ -19,6 +19,10 @@ export const createPost = async (request, response) => {
     // postで、reactionを全部持っておかないとね。
     const { caption, createdBy, spaceId, reactions, addedTags, createdTags, createdLocationTag, addedLocationTag } =
       request.body;
+    console.log('created tags', createdTags);
+    console.log('added tags', addedTags);
+    console.log('created locationtag', createdLocationTag);
+    console.log('added location tag', addedLocationTag);
 
     // const disappearAt = new Date(new Date().getTime() + Number(disappearAfter) * 60 * 1000);
     // 現在の時間にdissaperAfter(minute)を足した日時を出す。
@@ -133,6 +137,7 @@ export const createPost = async (request, response) => {
           _id: tagId,
           iconType: tag.iconType,
           icon: tag.icon,
+          color: tag.color,
           image: tag.image,
           name: tag.name,
           count: 1,
