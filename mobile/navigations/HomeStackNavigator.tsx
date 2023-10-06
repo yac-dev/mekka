@@ -255,19 +255,18 @@ const HomeStackNavigator: React.FC = (props) => {
                 headerLeft: () => (
                   <TouchableOpacity
                     onPress={() => navigation.goBack()}
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      paddingTop: 5,
-                      paddingBottom: 5,
-                      paddingLeft: 10,
-                      paddingRight: 10,
-                      backgroundColor: 'white',
-                      borderRadius: 20,
-                    }}
+                    // style={{
+                    //   flexDirection: 'row',
+                    //   alignItems: 'center',
+                    //   paddingTop: 5,
+                    //   paddingBottom: 5,
+                    //   paddingLeft: 10,
+                    //   paddingRight: 10,
+                    //   backgroundColor: 'white',
+                    //   borderRadius: 20,
+                    // }}
                   >
-                    <Ionicons name='close' size={20} color={'black'} />
-                    <Text style={{ color: 'black' }}>Cancel</Text>
+                    <Ionicons name='close-circle-sharp' size={30} color={'white'} />
                   </TouchableOpacity>
                 ),
                 headerTitle: '',
@@ -288,19 +287,18 @@ const HomeStackNavigator: React.FC = (props) => {
                 headerLeft: () => (
                   <TouchableOpacity
                     onPress={() => navigation.goBack()}
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      paddingTop: 5,
-                      paddingBottom: 5,
-                      paddingLeft: 10,
-                      paddingRight: 10,
-                      backgroundColor: 'white',
-                      borderRadius: 20,
-                    }}
+                    // style={{
+                    //   flexDirection: 'row',
+                    //   alignItems: 'center',
+                    //   paddingTop: 5,
+                    //   paddingBottom: 5,
+                    //   paddingLeft: 10,
+                    //   paddingRight: 10,
+                    //   backgroundColor: 'white',
+                    //   borderRadius: 20,
+                    // }}
                   >
-                    <Ionicons name='close' size={20} color={'black'} />
-                    <Text style={{ color: 'black' }}>Cancel</Text>
+                    <Ionicons name='close-circle-sharp' size={30} color={'white'} />
                   </TouchableOpacity>
                 ),
                 headerTitle: '',

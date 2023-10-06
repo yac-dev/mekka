@@ -57,17 +57,27 @@ const Login = (props) => {
           Login
         </Text>
         <Text style={{ textAlign: 'center', color: 'rgb(180, 180, 180)' }}>
-          Already signed up? Please fill out your email, password and then tap Continue button.
+          Already signed up? Please fill out your email, password and then tap Continue.
         </Text>
       </View>
-      <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 30 }}>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          marginBottom: 30,
+          borderBottomWidth: 0.3,
+          borderBottomColor: 'white',
+          marginLeft: 10,
+          marginRight: 10,
+        }}
+      >
         <TouchableOpacity
           style={{
             width: 50,
             height: 50,
             justifyContent: 'center',
             alignItems: 'center',
-            backgroundColor: 'rgb(80,80,80)',
+            // backgroundColor: 'rgb(80,80,80)',
             borderTopLeftRadius: 10,
             borderBottomLeftRadius: 10,
           }}
@@ -78,7 +88,7 @@ const Login = (props) => {
           placeholder='Email'
           placeholderTextColor={'rgb(170,170,170)'}
           style={{
-            backgroundColor: 'rgb(80,80,80)',
+            // backgroundColor: 'rgb(80,80,80)',
             height: 50,
             padding: 10,
             flex: 1,
@@ -91,14 +101,24 @@ const Login = (props) => {
           onChangeText={(text) => setEmail(text)}
         />
       </View>
-      <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 30 }}>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          marginBottom: 30,
+          borderBottomWidth: 0.3,
+          borderBottomColor: 'white',
+          marginLeft: 10,
+          marginRight: 10,
+        }}
+      >
         <TouchableOpacity
           style={{
             width: 50,
             height: 50,
             justifyContent: 'center',
             alignItems: 'center',
-            backgroundColor: 'rgb(80,80,80)',
+            // backgroundColor: 'rgb(80,80,80)',
             borderTopLeftRadius: 10,
             borderBottomLeftRadius: 10,
           }}
@@ -109,7 +129,7 @@ const Login = (props) => {
           placeholder='Password'
           placeholderTextColor={'rgb(170,170,170)'}
           style={{
-            backgroundColor: 'rgb(80,80,80)',
+            // backgroundColor: 'rgb(80,80,80)',
             height: 50,
             padding: 10,
             flex: 1,
@@ -127,7 +147,7 @@ const Login = (props) => {
             height: 50,
             justifyContent: 'center',
             alignItems: 'center',
-            backgroundColor: 'rgb(80,80,80)',
+            // backgroundColor: 'rgb(80,80,80)',
             borderTopRightRadius: 10,
             borderBottomRightRadius: 10,
           }}

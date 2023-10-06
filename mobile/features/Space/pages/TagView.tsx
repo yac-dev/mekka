@@ -19,6 +19,8 @@ const TagView = (props) => {
   const [currentPage, setCurrentPage] = useState(0);
   const [hasMoreItems, setHasMoreItems] = useState(true);
 
+  // 最初のfetchとloadmoreをそれぞれ分けた方がいいのかな。。。
+
   const getPostsByTagId = async () => {
     setIsLoading(true);
     const result = await backendAPI.get(`/posts/tag/${props.tagObject.tag._id}?page=${currentPage}`);
@@ -81,8 +83,7 @@ const TagView = (props) => {
       );
     }
   }, []);
-  // refresh次のindicatorが出ないのは後で直そう。
-  // if (havePostsBeenFetched) {
+
   if (posts.length) {
     return (
       <View style={{ flex: 1, backgroundColor: 'black' }}>
@@ -108,13 +109,6 @@ const TagView = (props) => {
       </View>
     );
   }
-  // } else {
-  //   return (
-  //     <View style={{ flex: 1, backgroundColor: 'black', padding: 10 }}>
-  //       <ActivityIndicator />
-  //     </View>
-  //   );
-  // }
 };
 
 export default TagView;
