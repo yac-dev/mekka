@@ -61,52 +61,12 @@ const TagView = (props) => {
     if (posts.length) {
       return (
         <View style={{ flex: 1, backgroundColor: 'black' }}>
-          {/* <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              paddingLeft: 20,
-              paddingRight: 20,
-              paddingTop: 20,
-              paddingBottom: 20,
-            }}
-          >
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <FastImage
-                source={{ uri: props.tagObject.tag.icon }}
-                style={{ width: 30, height: 30, marginRight: 15 }}
-                tintColor={props.tagObject.tag.iconType === 'icon' ? props.tagObject.tag.color : null}
-              />
-              <View style={{ flexDirection: 'column' }}>
-                <Text style={{ color: 'white', fontSize: 20, marginBottom: 5, fontWeight: 'bold' }}>
-                  {props.tagObject.tag.name}
-                </Text>
-                <Text style={{ color: 'rgb(170,170,170)' }}>{props.tagObject.tag.count}posts</Text>
-              </View>
-            </View>
-            {authData._id === props.tagObject.tag.createdBy ? (
-              <TouchableOpacity
-                style={{
-                  paddingLeft: 20,
-                  paddingRight: 20,
-                  paddingTop: 10,
-                  paddingBottom: 10,
-                  backgroundColor: 'white',
-                  borderRadius: 20,
-                }}
-                onPress={() => props.navigation.navigate('EditTag', { tag: props.tagObject.tag })}
-              >
-                <Text style={{ fontWeight: 'bold' }}>Edit</Text>
-              </TouchableOpacity>
-            ) : null}
-          </View> */}
           <FlatList
             style={{ paddingTop: 10 }}
             numColumns={3}
             data={posts}
             renderItem={({ item }) => renderItem(item)}
-            keyExtractor={(item) => item._id}
+            keyExtractor={(item, index) => `${item._id}-${index}`}
             refreshControl={
               <RefreshControl colors={['#FF0000', '#00FF00']} refreshing={isRefreshing} onRefresh={() => onRefresh()} />
             }

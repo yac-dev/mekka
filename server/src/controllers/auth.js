@@ -50,7 +50,6 @@ export const login = async (request, response) => {
     if (!user) {
       throw new Error('Nooooo.mail');
     }
-    console.log(user);
 
     const isEnteredPasswordCorrect = await user.isPasswordCorrect(password, user.password);
     if (!isEnteredPasswordCorrect) {
@@ -59,6 +58,8 @@ export const login = async (request, response) => {
 
     // 基本、10dayにしましょう。expirationは。
     const jwtToken = jwt.sign({ id: user._id }, process.env.JWT_PRIVATE_KEY);
+
+    console.log('sending this', user);
     response.json({
       user,
       jwt: jwtToken,

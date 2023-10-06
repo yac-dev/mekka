@@ -12,13 +12,206 @@ import mongoose from 'mongoose';
 // transaction, atomicityの実装。atlasで使えるのかな？？
 // contentsを作って、postを作って、reactionStatusを作って、tagを作って、もしくはtagをupdateして、spaceLogを作って、tagLogを作る。
 // かなりのoperationが必要になるよな。。。
+// export const createPost = async (request, response) => {
+//   const session = await mongoose.startSession();
+//   try {
+//     session.startTransaction();
+//     // postで、reactionを全部持っておかないとね。
+//     const { caption, createdBy, spaceId, reactions, addedTags, createdTags, createdLocationTag, addedLocationTag } =
+//       request.body;
+//     console.log('created tags', createdTags);
+//     console.log('added tags', addedTags);
+//     console.log('created locationtag', createdLocationTag);
+//     console.log('added location tag', addedLocationTag);
+
+//     // const disappearAt = new Date(new Date().getTime() + Number(disappearAfter) * 60 * 1000);
+//     // 現在の時間にdissaperAfter(minute)を足した日時を出す。
+//     // const parsedLocation = JSON.parse(location);
+//     const parsedReactions = JSON.parse(reactions);
+//     const parsedTags = JSON.parse(addedTags);
+//     const parsedCreatedTags = JSON.parse(createdTags);
+//     // const parsedLocationTag = JSON.parse(addedLocationTag);
+//     const files = request.files;
+//     const createdAt = new Date();
+//     const contentIds = [];
+//     const contents = [];
+//     let parsedCreatedLocationTag;
+//     if (createdLocationTag) {
+//       parsedCreatedLocationTag = JSON.parse(createdLocationTag);
+//     }
+
+//     // 1 contentsを作る。
+//     // batch creation
+//     // そう言うことで言うと、contentsのidもだわ。。。
+//     const contentPromises = files.map(async (file) => {
+//       const contentId = new mongoose.Types.ObjectId();
+//       contentIds.push(contentId);
+//       const content = await Content.create(
+//         [
+//           {
+//             _id: contentId,
+//             data: `https://mekka-${process.env.NODE_ENV}.s3.us-east-2.amazonaws.com/${
+//               file.mimetype === 'image/jpeg' ? 'photos' : 'videos'
+//             }/${file.filename}`,
+//             type: file.mimetype === 'image/jpeg' ? 'photo' : 'video',
+//             createdBy,
+//             createdAt,
+//           },
+//         ],
+//         { session }
+//       );
+//       contents.push(content);
+//       // contentIds.push(content._id);
+//       await uploadPhoto(file.filename, content.type);
+//       return content;
+//     });
+//     const contentDocuments = await Promise.all(contentPromises, { session });
+
+//     // for (let file of files) {
+//     //   const content = await Content.create({
+//     //     data: `https://mekka-${process.env.NODE_ENV}.s3.us-east-2.amazonaws.com/${
+//     //       file.mimetype === 'image/jpeg' ? 'photos' : 'videos'
+//     //     }/${file.filename}`,
+//     //     type: file.mimetype === 'image/jpeg' ? 'photo' : 'video',
+//     //     createdBy,
+//     //     createdAt,
+//     //   });
+//     //   contents.push(content);
+//     //   contentIds.push(content._id);
+//     //   await uploadPhoto(file.filename, content.type);
+//     // }
+//     // そもそも、これspaceもfetchしなきゃいけないよな。。。こういうの、すげー効率がなー。
+//     var postId = new mongoose.Types.ObjectId();
+//     // 2,postを作る
+//     const locationTagId = new mongoose.Types.ObjectId();
+//     let locationTag;
+//     if (createdLocationTag) {
+//       locationTag = await LocationTag.create(
+//         [
+//           {
+//             _id: locationTagId,
+//             iconType: parsedCreatedLocationTag.iconType,
+//             icon: parsedCreatedLocationTag.icon,
+//             image: parsedCreatedLocationTag.image,
+//             name: parsedCreatedLocationTag.name,
+//             point: parsedCreatedLocationTag.point,
+//             color: parsedCreatedLocationTag.color,
+//             space: spaceId,
+//             createdBy: createdBy,
+//           },
+//         ],
+//         { session }
+//       );
+//     }
+
+//     const post = await Post.create(
+//       [
+//         {
+//           _id: postId,
+//           contents: contentIds,
+//           caption,
+//           space: spaceId,
+//           locationTag: createdLocationTag ? locationTagId : addedLocationTag,
+//           createdBy,
+//           createdAt,
+//         },
+//       ],
+//       { session }
+//     );
+
+//     // 3 reactionのstatusを作る。
+//     const reacionStatusObjects = parsedReactions.map((reactionId) => {
+//       return {
+//         post: postId,
+//         reaction: reactionId,
+//         count: 0,
+//       };
+//     });
+//     const reactionAndStatuses = await ReactionStatus.insertMany(reacionStatusObjects, { session });
+
+//     const tagIds = [];
+
+//     // 4 新しいtagを作る、もし、createdTagsがあったら。
+//     if (parsedCreatedTags.length) {
+//       const tagObjects = parsedCreatedTags.map((tag) => {
+//         const tagId = new mongoose.Types.ObjectId();
+//         tagIds.push(tagId);
+//         return {
+//           _id: tagId,
+//           iconType: tag.iconType,
+//           icon: tag.icon,
+//           color: tag.color,
+//           image: tag.image,
+//           name: tag.name,
+//           count: 1,
+//           space: spaceId,
+//           createdBy: createdBy,
+//           updatedAt: new Date(),
+//         };
+//       });
+//       const tagDocuments = await Tag.insertMany(tagObjects, { session });
+//       // tagDocuments.forEach((tagDocument) => {
+//       //   tagIds.push(tagDocument._id);
+//       // });s
+//     }
+
+//     // だから、client側ではtagのidだけを入れておく感じな。
+//     if (parsedTags.length) {
+//       // parsedTags
+//       const tags = await Tag.find({ _id: { $in: parsedTags } });
+//       const updatePromises = tags.map((tag) => {
+//         tag.count += 1;
+//         tag.updatedAt = new Date();
+//         return tag.save();
+//       });
+
+//       // Execute all update promises in parallel
+//       await Promise.all(updatePromises, { session });
+//       tagIds.push(...parsedTags);
+//       // parsedTags.forEach((tagId) => {
+//       //   tagIds.push(tagId);
+//       // });
+//     }
+
+//     // tagIdsをもとにpostAndTagのrelationshipを作る、もちろん最終的にtagIdsのlengthがあったらね。
+//     // 最終的に、つけられたtagとpostのrelationshipを作る。
+//     if (tagIds.length) {
+//       const postAndTagRelationshipObjects = tagIds.map((tagId) => {
+//         return {
+//           post: postId,
+//           tag: tagId,
+//         };
+//       });
+
+//       const postAndTagRelationshipDocuments = await PostAndTagRelationship.insertMany(postAndTagRelationshipObjects, {
+//         session,
+//       });
+//     }
+//     await session.commitTransaction();
+
+//     response.status(201).json({
+//       post: {
+//         _id: postId,
+//         content: {
+//           data: contents[0].data,
+//           type: contents[0].type,
+//         },
+//       },
+//     });
+//   } catch (error) {
+//     await session.abortTransaction();
+//     console.log(error);
+//     response.status(500).json({ error: 'An error occurred' });
+//   } finally {
+//     session.endSession();
+//   }
+// };
 export const createPost = async (request, response) => {
-  const session = await mongoose.startSession();
   try {
-    session.startTransaction();
     // postで、reactionを全部持っておかないとね。
     const { caption, createdBy, spaceId, reactions, addedTags, createdTags, createdLocationTag, addedLocationTag } =
       request.body;
+    console.log('createdBy', createdBy);
     console.log('created tags', createdTags);
     console.log('added tags', addedTags);
     console.log('created locationtag', createdLocationTag);
@@ -39,105 +232,79 @@ export const createPost = async (request, response) => {
     if (createdLocationTag) {
       parsedCreatedLocationTag = JSON.parse(createdLocationTag);
     }
+    let parsedAddedLocationTag;
+    if (addedLocationTag) {
+      parsedAddedLocationTag = JSON.parse(addedLocationTag);
+    }
 
     // 1 contentsを作る。
     // batch creation
-    // そう言うことで言うと、contentsのidもだわ。。。
     const contentPromises = files.map(async (file) => {
-      const contentId = new mongoose.Types.ObjectId();
-      contentIds.push(contentId);
-      const content = await Content.create(
-        [
-          {
-            _id: contentId,
-            data: `https://mekka-${process.env.NODE_ENV}.s3.us-east-2.amazonaws.com/${
-              file.mimetype === 'image/jpeg' ? 'photos' : 'videos'
-            }/${file.filename}`,
-            type: file.mimetype === 'image/jpeg' ? 'photo' : 'video',
-            createdBy,
-            createdAt,
-          },
-        ],
-        { session }
-      );
-      contents.push(content);
-      // contentIds.push(content._id);
+      const content = await Content.create({
+        data: `https://mekka-${process.env.NODE_ENV}.s3.us-east-2.amazonaws.com/${
+          file.mimetype === 'image/jpeg' ? 'photos' : 'videos'
+        }/${file.filename}`,
+        type: file.mimetype === 'image/jpeg' ? 'photo' : 'video',
+        createdBy,
+        createdAt,
+      });
+      contentIds.push(content._id);
       await uploadPhoto(file.filename, content.type);
       return content;
     });
-    const contentDocuments = await Promise.all(contentPromises, { session });
+    const contentDocuments = await Promise.all(contentPromises);
 
-    // for (let file of files) {
-    //   const content = await Content.create({
-    //     data: `https://mekka-${process.env.NODE_ENV}.s3.us-east-2.amazonaws.com/${
-    //       file.mimetype === 'image/jpeg' ? 'photos' : 'videos'
-    //     }/${file.filename}`,
-    //     type: file.mimetype === 'image/jpeg' ? 'photo' : 'video',
-    //     createdBy,
-    //     createdAt,
-    //   });
-    //   contents.push(content);
-    //   contentIds.push(content._id);
-    //   await uploadPhoto(file.filename, content.type);
-    // }
-    // そもそも、これspaceもfetchしなきゃいけないよな。。。こういうの、すげー効率がなー。
-    var postId = new mongoose.Types.ObjectId();
     // 2,postを作る
-    const locationTagId = new mongoose.Types.ObjectId();
     let locationTag;
     if (createdLocationTag) {
-      locationTag = await LocationTag.create(
-        [
-          {
-            _id: locationTagId,
-            iconType: parsedCreatedLocationTag.iconType,
-            icon: parsedCreatedLocationTag.icon,
-            image: parsedCreatedLocationTag.image,
-            name: parsedCreatedLocationTag.name,
-            point: parsedCreatedLocationTag.point,
-            color: parsedCreatedLocationTag.color,
-            space: spaceId,
-            createdBy: createdBy,
-          },
-        ],
-        { session }
-      );
+      locationTag = await LocationTag.create({
+        iconType: parsedCreatedLocationTag.iconType,
+        icon: parsedCreatedLocationTag.icon,
+        image: parsedCreatedLocationTag.image,
+        name: parsedCreatedLocationTag.name,
+        point: parsedCreatedLocationTag.point,
+        color: parsedCreatedLocationTag.color,
+        space: spaceId,
+        createdBy: createdBy,
+      });
     }
 
-    const post = await Post.create(
-      [
-        {
-          _id: postId,
-          contents: contentIds,
-          caption,
-          space: spaceId,
-          locationTag: createdLocationTag ? locationTagId : addedLocationTag,
-          createdBy,
-          createdAt,
-        },
-      ],
-      { session }
-    );
+    let addingLocationTag;
+    if (createdLocationTag) {
+      addingLocationTag = createdLocationTag;
+    } else if (addedLocationTag) {
+      addingLocationTag = addedLocationTag;
+    } else {
+      addingLocationTag = null;
+    }
+
+    console.log(addingLocationTag);
+
+    const post = await Post.create({
+      contents: contentIds,
+      caption,
+      space: spaceId,
+      locationTag: createdLocationTag ? createdLocationTag : parsedAddedLocationTag ? parsedAddedLocationTag : null,
+      createdBy,
+      createdAt,
+    });
 
     // 3 reactionのstatusを作る。
     const reacionStatusObjects = parsedReactions.map((reactionId) => {
       return {
-        post: postId,
+        post: post._id,
         reaction: reactionId,
         count: 0,
       };
     });
-    const reactionAndStatuses = await ReactionStatus.insertMany(reacionStatusObjects, { session });
+    const reactionAndStatuses = await ReactionStatus.insertMany(reacionStatusObjects);
 
     const tagIds = [];
 
     // 4 新しいtagを作る、もし、createdTagsがあったら。
     if (parsedCreatedTags.length) {
       const tagObjects = parsedCreatedTags.map((tag) => {
-        const tagId = new mongoose.Types.ObjectId();
-        tagIds.push(tagId);
         return {
-          _id: tagId,
           iconType: tag.iconType,
           icon: tag.icon,
           color: tag.color,
@@ -149,10 +316,10 @@ export const createPost = async (request, response) => {
           updatedAt: new Date(),
         };
       });
-      const tagDocuments = await Tag.insertMany(tagObjects, { session });
-      // tagDocuments.forEach((tagDocument) => {
-      //   tagIds.push(tagDocument._id);
-      // });s
+      const tagDocuments = await Tag.insertMany(tagObjects);
+      tagDocuments.forEach((tagDocument) => {
+        tagIds.push(tagDocument._id);
+      });
     }
 
     // だから、client側ではtagのidだけを入れておく感じな。
@@ -166,7 +333,7 @@ export const createPost = async (request, response) => {
       });
 
       // Execute all update promises in parallel
-      await Promise.all(updatePromises, { session });
+      await Promise.all(updatePromises);
       tagIds.push(...parsedTags);
       // parsedTags.forEach((tagId) => {
       //   tagIds.push(tagId);
@@ -178,32 +345,26 @@ export const createPost = async (request, response) => {
     if (tagIds.length) {
       const postAndTagRelationshipObjects = tagIds.map((tagId) => {
         return {
-          post: postId,
+          post: post._id,
           tag: tagId,
         };
       });
 
-      const postAndTagRelationshipDocuments = await PostAndTagRelationship.insertMany(postAndTagRelationshipObjects, {
-        session,
-      });
+      const postAndTagRelationshipDocuments = await PostAndTagRelationship.insertMany(postAndTagRelationshipObjects);
     }
-    await session.commitTransaction();
 
     response.status(201).json({
       post: {
-        _id: postId,
-        content: {
-          data: contents[0].data,
-          type: contents[0].type,
-        },
+        _id: post._id,
+        // content: {
+        //   data: contents[0].data,
+        //   type: contents[0].type,
+        // },
       },
     });
   } catch (error) {
-    await session.abortTransaction();
     console.log(error);
     response.status(500).json({ error: 'An error occurred' });
-  } finally {
-    session.endSession();
   }
 };
 
@@ -231,18 +392,23 @@ export const getPost = async (request, response) => {
 
 export const getPostsByTagId = async (request, response) => {
   try {
+    const page = request.query.page;
+    const limitPerPage = 12;
     const postAndTagRelationships = await PostAndTagRelationship.find({
       tag: request.params.tagId,
       // post: { $ne: null },  // これ意味ない。結局、mongoにはrdbmsにおけるjoin的な機能を持ち合わせていないから。
-    }).populate({
-      path: 'post',
-      model: 'Post',
-      select: '_id contents type location createdAt',
-      populate: {
-        path: 'contents',
-        model: 'Content',
-      },
-    });
+    })
+      .limit(limitPerPage)
+      .skip(page)
+      .populate({
+        path: 'post',
+        model: 'Post',
+        select: '_id contents type locationTag createdAt',
+        populate: {
+          path: 'contents',
+          model: 'Content',
+        },
+      });
 
     const posts = postAndTagRelationships
       .filter((relationship) => relationship.post !== null)
@@ -254,11 +420,11 @@ export const getPostsByTagId = async (request, response) => {
             data: relationship.post.contents[0].data,
             type: relationship.post.contents[0].type,
           },
-          location: relationship.post.location,
+          locationTag: relationship.post.locationTag,
           createdAt: relationship.post.createdAt,
         };
       });
-    console.log(posts);
+    console.log('these are posts', posts);
     response.status(200).json({
       posts,
     });

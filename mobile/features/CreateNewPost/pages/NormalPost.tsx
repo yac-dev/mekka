@@ -122,6 +122,7 @@ const NormalPost = () => {
       quality: 1,
       // duration: space.videoLength ? space.videoLength : 3000,
     };
+    console.log(pickerOption);
     let result = await ImagePicker.launchImageLibraryAsync(pickerOption);
     if (!result.canceled && result.assets) {
       // result assets それぞれのassetに対して、dataを作る様にすると。
