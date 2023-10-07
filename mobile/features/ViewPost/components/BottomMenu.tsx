@@ -82,19 +82,19 @@ const BottomMenu = () => {
       style={{
         flexDirection: 'row',
         alignItems: 'center',
-        alignSelf: 'center',
-        backgroundColor: 'rgb(40,40,40)',
+        // alignSelf: 'center',
+        backgroundColor: 'black',
         position: 'absolute',
         bottom: 15,
-        marginHorizontal: 100,
+        // marginHorizontal: 100,
         height: 50,
-        borderRadius: 30,
+        // borderRadius: 30,
       }}
     >
       <View
         style={{
-          width: 60,
-          height: 40,
+          width: oneGridWidth,
+          aspectRatio: 1,
           justifyContent: 'center',
           alignItems: 'center',
           // backgroundColor: 'red',
@@ -104,8 +104,8 @@ const BottomMenu = () => {
       </View>
       <View
         style={{
-          width: 60,
-          height: 40,
+          width: oneGridWidth,
+          aspectRatio: 1,
           justifyContent: 'center',
           alignItems: 'center',
           // backgroundColor: 'red',
@@ -122,8 +122,8 @@ const BottomMenu = () => {
       </View>
       <View
         style={{
-          width: 60,
-          height: 40,
+          width: oneGridWidth,
+          aspectRatio: 1,
           justifyContent: 'center',
           alignItems: 'center',
           // backgroundColor: 'red',
@@ -135,8 +135,8 @@ const BottomMenu = () => {
       </View>
       <View
         style={{
-          width: 60,
-          height: 40,
+          width: oneGridWidth,
+          aspectRatio: 1,
           justifyContent: 'center',
           alignItems: 'center',
           // backgroundColor: 'red',

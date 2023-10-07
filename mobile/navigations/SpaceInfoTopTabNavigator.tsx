@@ -2,7 +2,8 @@ import React, { useState, useEffect, useContext, useRef } from 'react';
 import { View, Text, ActivityIndicator, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import backendAPI from '../apis/backend';
-import Overview from '../features/SpaceInfo/pages/Overview';
+import Feature from '../features/SpaceInfo/pages/Feature';
+import Description from '../features/SpaceInfo/pages/Description';
 import Members from '../features/SpaceInfo/pages/Members';
 
 const Tab = createMaterialTopTabNavigator();
@@ -60,8 +61,9 @@ const SpaceInfoTopTabNavigator = () => {
         swipeEnabled: false,
       })}
     >
-      <Tab.Screen name={'Overview'} component={Overview} />
+      <Tab.Screen name={'Feature'} component={Feature} />
       <Tab.Screen name={'Members'} component={Members} />
+      <Tab.Screen name={'Description'} component={Description} />
     </Tab.Navigator>
   );
 };

@@ -6,6 +6,7 @@ import { SpaceRootContext } from '../features/Space/contexts/SpaceRootContext';
 import backendAPI from '../apis/backend';
 import LocationsView from '../features/Space/pages/LocationsView';
 import MapView, { Marker } from 'react-native-maps';
+import * as Haptics from 'expo-haptics';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -190,6 +191,7 @@ const LocationsViewTopTabNavigator = () => {
             onPress={() => {
               // onPress();
               console.log(locationTag._id);
+              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
               locationsViewPostsBottomSheetRef.current.snapToIndex(0);
               getPostsByLocationTagId(locationTag);
             }}

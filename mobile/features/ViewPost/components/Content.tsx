@@ -76,7 +76,7 @@ const Content = (props) => {
       );
     } else if (viewingContent.type === 'photo') {
       return (
-        <View style={{ paddingTop: 10, paddingBottom: 10 }}>
+        <View style={{}}>
           <FastImage
             source={{ uri: viewingContent.data }}
             style={{ width: '100%', aspectRatio: 1, marginBottom: 10 }}

@@ -8,7 +8,7 @@ import { Foundation } from '@expo/vector-icons';
 import { Fontisto } from '@expo/vector-icons';
 import { SpaceInfoContext } from '../contexts/SpaceInfoContext';
 
-const Overview = () => {
+const Feature = () => {
   const { currentSpace } = useContext(GlobalContext);
   const { spaceAndUserRelationship } = useContext(SpaceInfoContext);
   const [textShown, setTextShown] = useState(false);
@@ -62,39 +62,7 @@ const Overview = () => {
   return (
     <View style={{ flex: 1, backgroundColor: 'rgb(30, 30, 30)', padding: 10 }}>
       <ScrollView>
-        <View style={{ marginBottom: 20 }}>
-          <View
-            style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}
-          >
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <FastImage
-                source={{ uri: spaceAndUserRelationship.space.createdBy.avatar }}
-                style={{ width: 30, height: 30, borderRadius: 20, marginRight: 10 }}
-              />
-              <Text style={{ color: 'white', fontWeight: 'bold' }}>
-                {spaceAndUserRelationship.space.createdBy.name}
-              </Text>
-            </View>
-            {renderDate(spaceAndUserRelationship.space.createdAt)}
-          </View>
-          <Text
-            onTextLayout={onTextLayout}
-            numberOfLines={textShown ? undefined : 3}
-            style={{ color: 'white', lineHeight: 22, padding: 5 }}
-          >
-            {spaceAndUserRelationship.space.description}
-          </Text>
-          {lengthMore ? (
-            <Text
-              onPress={toggleNumberOfLines}
-              style={{ marginTop: 10, color: 'rgb(170,170,170)', alignSelf: 'flex-end' }}
-            >
-              {textShown ? 'Read less' : 'Read more'}
-            </Text>
-          ) : null}
-        </View>
         <View>
-          <Text style={{ fontSize: 25, fontWeight: 'bold', marginBottom: 20, color: 'white' }}>Space feature</Text>
           <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
             <MaterialIcons name='photo-library' size={25} color='rgb(130,130,130)' style={{ marginRight: 15 }} />
             <Text style={{ color: 'white' }}>{`You can post ${
@@ -144,4 +112,4 @@ const Overview = () => {
   );
 };
 
-export default Overview;
+export default Feature;

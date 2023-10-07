@@ -9,6 +9,7 @@ import GalleryNew from '../features/Space/components/GalleryNew';
 import { SpaceRootContext } from '../features/Space/contexts/SpaceRootContext';
 import TaggedPosts from '../features/Space/components/TaggedPosts';
 import FastImage from 'react-native-fast-image';
+import * as Haptics from 'expo-haptics';
 import { Ionicons } from '@expo/vector-icons';
 import { Foundation } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
@@ -24,6 +25,7 @@ import Map from '../features/Space/components/Map';
 import ViewPostsTopTabNavigator from './ViewPostsTopTabMavigator';
 import ChooseViewBottomSheet from '../features/Space/pages/ChooseViewBottomSheet';
 import { TagViewRootContext } from '../features/SpaceMenuBottomSheet/contexts/TagViewRootContext';
+import TagViewStackNavigator from './TagViewStackNavigator';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -107,6 +109,7 @@ const TagsTopTabNavigator = (props) => {
                 target: route.key,
                 canPreventDefault: true,
               });
+              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
 
               setCurrentTagObject(route.params?.tagObject);
 
@@ -183,7 +186,7 @@ const TagsTopTabNavigator = (props) => {
             initialParams={{ tagObject }}
           >
             {/* {({ navigation }) => <ViewPostsTopTabNavigator navigation={navigation} tagObject={tagObject} />} */}
-            {({ navigation }) => <TagView navigation={navigation} tagObject={tagObject} />}
+            {({ navigation }) => <TagViewStackNavigator navigation={navigation} tagObject={tagObject} />}
           </Tab.Screen>
         ))}
         {/* <Tab.Screen
