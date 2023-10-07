@@ -89,7 +89,7 @@ const TagsTopTabNavigator = (props) => {
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{ paddingHorizontal: 0 }}
           style={{
-            backgroundColor: 'black',
+            backgroundColor: 'transparent',
             paddingTop: 10,
             // paddingBottom: 10,
             paddingLeft: 10,
@@ -169,7 +169,7 @@ const TagsTopTabNavigator = (props) => {
   }
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, backgroundColor: 'black' }}>
       <Tab.Navigator
         tabBar={(props) => <CustomTabBar {...props} />}
         screenOptions={({ route }) => ({

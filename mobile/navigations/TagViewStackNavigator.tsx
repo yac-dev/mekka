@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect, useCallback } from 'react';
+import React, { useContext, useState, useEffect, useCallback, useRef } from 'react';
 import { View, Text, TouchableOpacity, Dimensions, ActivityIndicator } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator();
@@ -24,6 +24,7 @@ const TagViewStackNavigator: React.FC = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
   const [hasMoreItems, setHasMoreItems] = useState(true);
+  const [currentPost, setCurrentPost] = useState({});
 
   const getPostsByTagId = async () => {
     setIsLoading(true);
@@ -45,7 +46,18 @@ const TagViewStackNavigator: React.FC = (props) => {
 
   return (
     <TagViewContext.Provider
-      value={{ posts, setPosts, isLoading, setIsLoading, currentPage, setCurrentPage, hasMoreItems, setHasMoreItems }}
+      value={{
+        posts,
+        setPosts,
+        isLoading,
+        setIsLoading,
+        currentPage,
+        setCurrentPage,
+        hasMoreItems,
+        setHasMoreItems,
+        currentPost,
+        setCurrentPost,
+      }}
     >
       <Stack.Navigator>
         <Stack.Group>

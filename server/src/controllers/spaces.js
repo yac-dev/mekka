@@ -94,11 +94,14 @@ export const createSpace = async (request, response) => {
     // tagを作るだけでいいのかね。もしかしたら。
     // tagの数は、結構多くの数になる。spaceが全部持っておくのはベストではないだろう。それよりも、他にdelegateする方がいい。
     const tag = await Tag.create({
+      iconType: 'icon',
       icon: `https://mekka-${process.env.NODE_ENV}.s3.us-east-2.amazonaws.com/tagIcons/hashtag-normal.png`,
       name: 'general',
+      color: 'white',
+      count: 1,
       space: space._id,
       createdBy: createdBy,
-      count: 0,
+      updatedAt: new Date(),
     });
 
     response.status(201).json({

@@ -7,11 +7,15 @@ import { Entypo } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import FastImage from 'react-native-fast-image';
+import { SpaceRootContext } from '../../Space/contexts/SpaceRootContext';
 
 const BottomMenu = () => {
   const { isIpad } = useContext(GlobalContext);
   const { navigation, reactionOptionsBottomSheetRef, commentInputBottomSheetRef, textInputRef, reactionStatuses } =
     useContext(ViewPostContext);
+  const {
+    spaceAndUserRelationship: { space },
+  } = useContext(SpaceRootContext);
 
   const oneGridWidth = isIpad ? Dimensions.get('window').width / 6 : Dimensions.get('window').width / 4;
 
@@ -20,8 +24,8 @@ const BottomMenu = () => {
   // };
 
   const renderReactionIcons = () => {
-    const list = reactionStatuses.slice(0, 2).map((reactionStatus, index) => {
-      if (reactionStatus.reaction.type === 'emoji') {
+    const list = space.reactions.slice(0, 2).map((reaction, index) => {
+      if (reaction.type === 'emoji') {
         return (
           <Text
             key={index}
@@ -35,14 +39,14 @@ const BottomMenu = () => {
               bottom: index === 0 ? null : -5,
             }}
           >
-            {reactionStatus.reaction.emoji}
+            {reaction.emoji}
           </Text>
         );
-      } else if (reactionStatus.reaction.type === 'sticker') {
+      } else if (reaction.type === 'sticker') {
         return (
           <FastImage
             key={index}
-            source={{ uri: reactionStatus.reaction.sticker.url }}
+            source={{ uri: reaction.sticker.url }}
             style={{
               width: 25,
               height: 25,
@@ -85,9 +89,9 @@ const BottomMenu = () => {
         // alignSelf: 'center',
         backgroundColor: 'black',
         position: 'absolute',
-        bottom: 15,
+        bottom: 0,
         // marginHorizontal: 100,
-        height: 50,
+        height: 54,
         // borderRadius: 30,
       }}
     >

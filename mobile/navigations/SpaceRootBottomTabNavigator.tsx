@@ -124,6 +124,8 @@ const SpaceRootBottomTabNavigator = (props) => {
               // borderRadius: 30,
               // height: 50,
               borderTopWidth: 0,
+              paddingTop: 5,
+              paddingBottom: 5,
               // position: 'absolute',
               // bottom: 30,
               // justifyContent: 'center',

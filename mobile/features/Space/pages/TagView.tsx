@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useContext } from 'react';
+import React, { useState, useEffect, useCallback, useContext, useRef } from 'react';
 import { View, Text, FlatList, ActivityIndicator, TouchableOpacity, RefreshControl, Dimensions } from 'react-native';
 import backendAPI from '../../../apis/backend';
 import { Video } from 'expo-av';
@@ -10,7 +10,9 @@ import { TagViewContext } from '../contexts/TagViewContext';
 
 const TagView = (props) => {
   const { isIpad } = useContext(GlobalContext);
-  const { posts, setPosts, hasMoreItems, setCurrentPage, currentPage, isLoading } = useContext(TagViewContext);
+  const { posts, setPosts, hasMoreItems, setCurrentPage, currentPage, isLoading, setCurrentPost } =
+    useContext(TagViewContext);
+  const mediaRefs = useRef([]);
   // const { isIpad, authData } = useContext(GlobalContext);
   const oneAssetWidth = isIpad ? Dimensions.get('window').width / 6 : Dimensions.get('window').width / 3;
   // const { spaceAndUserRelationship, navigation } = useContext(SpaceRootContext);
@@ -50,7 +52,10 @@ const TagView = (props) => {
       return (
         <TouchableOpacity
           style={{ width: oneAssetWidth, height: oneAssetWidth, padding: 2 }}
-          onPress={() => props.navigation.navigate({ name: 'ViewPost', params: { post } })}
+          onPress={() => {
+            setCurrentPost(post);
+            props.navigation.navigate({ name: 'ViewPost', params: { post } });
+          }}
         >
           <Video source={{ uri: post.content.data }} style={{ width: '100%', height: '100%', borderRadius: 5 }} />;
         </TouchableOpacity>
@@ -59,7 +64,10 @@ const TagView = (props) => {
       return (
         <TouchableOpacity
           style={{ width: oneAssetWidth, height: oneAssetWidth, padding: 2 }}
-          onPress={() => props.navigation.navigate({ name: 'ViewPost', params: { post } })}
+          onPress={() => {
+            setCurrentPost(post);
+            props.navigation.navigate({ name: 'ViewPost', params: { post } });
+          }}
         >
           <FastImage source={{ uri: post.content.data }} style={{ width: '100%', height: '100%', borderRadius: 5 }} />
         </TouchableOpacity>
