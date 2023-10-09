@@ -1,5 +1,14 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
-import { View, Text, TouchableOpacity, ActivityIndicator, ScrollView, Dimensions, SafeAreaView } from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ActivityIndicator,
+  ScrollView,
+  Dimensions,
+  SafeAreaView,
+  Platform,
+} from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { GlobalContext } from '../contexts/GlobalContext';
 import { SpaceRootContext } from '../features/Space/contexts/SpaceRootContext';
@@ -11,6 +20,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { Octicons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import * as Haptics from 'expo-haptics';
 import { MaterialIcons } from '@expo/vector-icons';
 import TagViewTopTabNavigator from './TagViewTopTabNavigator';
 import PeopleViewTopTabNavigator from './PeopleViewTopTabNavigator';
@@ -22,6 +32,7 @@ import TagsTopTabNavigator from './TagsTopTabNavigator';
 import Projects from '../features/Space/pages/Projects';
 import ChooseViewBottomSheet from '../features/Space/pages/ChooseViewBottomSheet';
 import LocationsViewPostsBottomSheet from '../features/Space/components/LocationsViewPostsBottomSheet';
+import CreateNewPostStackNavigator from './CreateNewPostStackNavigator';
 
 const Tab = createBottomTabNavigator();
 const viewTypeObject = {
@@ -122,7 +133,7 @@ const SpaceRootBottomTabNavigator = (props) => {
               // marginHorizontal: 90,
               // paddingBottom: 0, // きたー。これよ。これ。
               // borderRadius: 30,
-              // height: 50,
+              height: 60,
               borderTopWidth: 0,
               paddingTop: 5,
               paddingBottom: 5,
@@ -140,39 +151,55 @@ const SpaceRootBottomTabNavigator = (props) => {
             options={({ navigation, route }) => ({
               // tabBarShowLabel: false,
               tabBarIcon: ({ size, color, focused }) => (
-                <Octicons name='hash' color={focused ? 'white' : 'rgb(100, 100, 100)'} size={23} />
-              ),
-              tabBarLabel: ({ focused }) => {
-                return <Text style={{ color: 'white' }}>{focused ? 'Home' : null}</Text>;
-              },
-            })}
-          />
-          {/* <Tab.Screen
-            name='LocationsViewTopTabNavigator'
-            component={LocationsViewTopTabNavigator}
-            options={({ navigation }) => ({
-              // tabBarShowLabel: false,
-              tabBarIcon: ({ size, color, focused }) => (
-                // <Entypo name='globe' color={focused ? 'white' : 'rgb(102, 104, 109)'} size={23} />
-                <FastImage
-                  source={require('../assets/forApp/globe.png')}
-                  style={{ width: 25, height: 25 }}
-                  tintColor={focused ? 'white' : 'rgb(100, 100, 100)'}
+                <Octicons
+                  name='hash'
+                  color={focused ? 'white' : 'rgb(100, 100, 100)'}
+                  size={23}
+                  style={{ marginBottom: 5 }}
                 />
               ),
               tabBarLabel: ({ focused }) => {
-                return <Text style={{ color: 'white' }}>{focused ? 'Map' : null}</Text>;
+                return <Text style={{ color: focused ? 'white' : 'rgb(100, 100, 100)', fontSize: 13 }}>Home</Text>;
               },
-              // tabBarLabel: 'Map',
-              // tabBarLabel: ({ focused }) => {
-              //   // Only show the label when the tab is focused
-              //   if (focused) {
-              //     return <Text style={{ color: 'white' }}>Locations</Text>;
-              //   }
-              //   return null;
-              // },
             })}
-          /> */}
+          />
+          <Tab.Screen
+            name='Post'
+            component={CreateNewPostStackNavigator}
+            options={{
+              headerShown: false,
+              tabBarIcon: ({ size, color, focused }) => (
+                <MaterialCommunityIcons
+                  name='plus'
+                  color={focused ? 'white' : 'rgb(100, 100, 100)'}
+                  size={30}
+                  style={{ marginBottom: 5 }}
+                />
+              ),
+              tabBarLabel: ({ focused }) => {
+                return <Text style={{ color: focused ? 'white' : 'rgb(100, 100, 100)', fontSize: 13 }}>Post</Text>;
+              },
+            }}
+            listeners={({ navigation }) => ({
+              tabPress: (event) => {
+                event.preventDefault();
+                Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+                props.navigation?.navigate(
+                  'CreateNewPostStackNavigator',
+                  { spaceAndUserRelationship: props.spaceAndUserRelationship }
+                  // {
+                  //   screen: 'SelectPostType',
+                  //   params: {
+                  //     // space: currentSpace,
+                  //     // spaceAndUserRelationship: currentSpaceAndUserRelationship,
+                  //     spaceAndUserRelationship: props.spaceAndUserRelationship,
+                  //   }, // なんで、spaceUserRelが必要？？いらなくね。。。
+                  //   merge: true,
+                  // }
+                );
+              },
+            })}
+          />
 
           <Tab.Screen
             name='MomentsView'
@@ -182,12 +209,12 @@ const SpaceRootBottomTabNavigator = (props) => {
               tabBarIcon: ({ size, color, focused }) => (
                 <FastImage
                   source={require('../assets/forApp/ghost.png')}
-                  style={{ width: 25, height: 25 }}
+                  style={{ width: 25, height: 25, marginBottom: 5 }}
                   tintColor={focused ? 'white' : 'rgb(100, 100, 100)'}
                 />
               ),
               tabBarLabel: ({ focused }) => {
-                return <Text style={{ color: 'white' }}>{focused ? 'Moments' : null}</Text>;
+                return <Text style={{ color: focused ? 'white' : 'rgb(100, 100, 100)', fontSize: 13 }}>Moments</Text>;
               },
             })}
           />
@@ -210,7 +237,7 @@ const SpaceRootBottomTabNavigator = (props) => {
             })}
           /> */}
         </Tab.Navigator>
-        <TouchableOpacity
+        {/* <TouchableOpacity もともとのpost button
           onPress={() => {
             props.navigation?.navigate(
               'CreateNewPostStackNavigator',
@@ -240,26 +267,7 @@ const SpaceRootBottomTabNavigator = (props) => {
           }}
         >
           <MaterialCommunityIcons name='plus' color='black' size={30} />
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
-            chooseViewBottomSheetRef.current.snapToIndex(0);
-          }}
-          style={{
-            backgroundColor: 'white',
-            width: 50,
-            height: 50,
-            borderRadius: 25,
-            position: 'absolute',
-            bottom: 150,
-            right: 10,
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginRight: 10,
-          }}
-        >
-          {viewTypeObject[viewPostsType]}
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <ChooseViewBottomSheet />
         <LocationsViewPostsBottomSheet />
       </View>

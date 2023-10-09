@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext, useRef } from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { GlobalContext } from '../contexts/GlobalContext';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { View, Text, ActivityIndicator, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
+import { View, Text, ActivityIndicator, TouchableOpacity, ScrollView, Dimensions, Platform } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import backendAPI from '../apis/backend';
 import GalleryNew from '../features/Space/components/GalleryNew';
@@ -29,6 +29,14 @@ import TagViewStackNavigator from './TagViewStackNavigator';
 
 const Tab = createMaterialTopTabNavigator();
 
+const viewTypeObject = {
+  grid: <MaterialCommunityIcons name='dots-grid' color='black' size={25} />,
+  map: (
+    <FastImage source={require('../assets/forApp/globe.png')} style={{ width: 25, height: 25 }} tintColor={'black'} />
+  ),
+  people: <MaterialCommunityIcons name='account-multiple' color='black' size={25} />,
+};
+
 const TagsTopTabNavigator = (props) => {
   const {
     spaceAndUserRelationship,
@@ -36,6 +44,7 @@ const TagsTopTabNavigator = (props) => {
     hasSpaceBeenFetched,
     setHasSpaceBeenFetched,
     chooseViewBottomSheetRef,
+    viewPostsType,
   } = useContext(SpaceRootContext);
   const { isIpad, spaceMenuBottomSheetRef, currentSpace, setCurrentSpace, currentTagObject, setCurrentTagObject } =
     useContext(GlobalContext);
@@ -213,6 +222,37 @@ const TagsTopTabNavigator = (props) => {
         onPress={() => chooseViewBottomSheetRef.current.snapToIndex(0)}
       >
         <MaterialCommunityIcons name='dots-grid' color='black' size={20} />
+      </TouchableOpacity> */}
+      {/* ここじゃだめ、viewPostTopにしないとあかん。 */}
+      {/* <TouchableOpacity
+        onPress={() => {
+          chooseViewBottomSheetRef.current.snapToIndex(0);
+        }}
+        style={{
+          backgroundColor: 'white',
+          width: 40,
+          height: 40,
+          borderRadius: 20,
+          position: 'absolute',
+          bottom: 20,
+          right: 10,
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginRight: 10,
+          ...Platform.select({
+            ios: {
+              shadowColor: 'black',
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.3,
+              shadowRadius: 2,
+            },
+            android: {
+              elevation: 2, // Works on Android
+            },
+          }),
+        }}
+      >
+        {viewTypeObject[viewPostsType]}
       </TouchableOpacity> */}
       <SnackBar />
     </View>
