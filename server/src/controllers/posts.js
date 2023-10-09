@@ -405,25 +405,27 @@ export const getPostsByTagId = async (request, response) => {
       .populate({
         path: 'post',
         model: 'Post',
-        select: '_id contents type locationTag createdAt',
-        populate: {
-          path: 'contents',
-          model: 'Content',
-        },
+        select: '_id contents type locationTag createdAt createdBy caption',
+        populate: [
+          {
+            path: 'contents',
+            model: 'Content',
+          },
+          { path: 'createdBy', model: 'User', select: '_id name avatar' },
+        ],
       });
 
     const posts = postAndTagRelationships
-      .filter((relationship) => relationship.post !== null)
+      .filter((relationship) => relationship.post !== null && relationship.post.createdBY !== null)
       .map((relationship, index) => {
         // console.log(relationship.post);
         return {
           _id: relationship.post._id,
-          content: {
-            data: relationship.post.contents[0].data,
-            type: relationship.post.contents[0].type,
-          },
+          contents: relationship.post.contents,
+          caption: relationship.post.caption,
           locationTag: relationship.post.locationTag,
           createdAt: relationship.post.createdAt,
+          createdBy: relationship.post.createdBy,
         };
       });
     console.log('these are posts', posts);

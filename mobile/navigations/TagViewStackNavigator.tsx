@@ -88,7 +88,7 @@ const TagViewStackNavigator: React.FC = (props) => {
             component={ViewPost}
             options={({ navigation }) => ({
               headerShown: true,
-              headerTransparent: true,
+              // headerTransparent: true,
               headerLeft: () => (
                 <TouchableOpacity onPress={() => navigation.goBack()}>
                   <Ionicons name='close-circle-sharp' size={30} color={'white'} />

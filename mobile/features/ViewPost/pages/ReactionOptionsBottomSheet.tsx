@@ -7,6 +7,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import backendAPI from '../../../apis/backend';
 import FastImage from 'react-native-fast-image';
+import { SpaceRootContext } from '../../Space/contexts/SpaceRootContext';
 
 // rgb(35, 35, 35)
 const ReactionOptionsBottomSheet = (props) => {
@@ -14,6 +15,9 @@ const ReactionOptionsBottomSheet = (props) => {
   const { isIpad, setLoading, authData } = useContext(GlobalContext);
   // const { reactionOptionsBottomSheetRef, reactionStatuses, setReactionStatuses, areReactionStatusesFetched } =
   //   useContext(ViewPostContext);
+  const {
+    spaceAndUserRelationship: { space },
+  } = useContext(SpaceRootContext);
   const oneGridWidth = isIpad ? Dimensions.get('window').width / 6 : Dimensions.get('window').width / 3;
   const iconContainerWidth = oneGridWidth * 0.9;
 
@@ -159,26 +163,46 @@ const ReactionOptionsBottomSheet = (props) => {
       // onClose={() => onSelectedItemBottomSheetClose()}
     >
       <BottomSheetView style={{ flex: 1, paddingTop: 10 }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
-          <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 20, marginLeft: 10 }}>How do you feel?</Text>
-          <TouchableOpacity
-            style={{ marginRight: 10 }}
-            onPress={() => props.reactionStatusesBottomSheetRef.current.close()}
-          >
-            <Ionicons name='close-circle-sharp' size={30} color='white' />
-          </TouchableOpacity>
-        </View>
-        <TouchableOpacity
-          style={{
-            alignSelf: 'flex-end',
-            marginRight: 20,
-            borderBottomWidth: 0.3,
-            borderBottomColor: 'white',
-          }}
-        >
-          <Text style={{ color: 'white' }}>View all reactions</Text>
-        </TouchableOpacity>
-        {props.isLoadingReactionStatuses ? <ActivityIndicator /> : renderReactionStatuses()}
+        {space.isReactionAvailable ? (
+          <>
+            <View
+              style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}
+            >
+              <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 20, marginLeft: 10 }}>How do you feel?</Text>
+              <TouchableOpacity
+                style={{ marginRight: 10 }}
+                onPress={() => props.reactionStatusesBottomSheetRef.current.close()}
+              >
+                <Ionicons name='close-circle-sharp' size={30} color='white' />
+              </TouchableOpacity>
+            </View>
+            <TouchableOpacity
+              style={{
+                alignSelf: 'flex-end',
+                marginRight: 20,
+                borderBottomWidth: 0.3,
+                borderBottomColor: 'white',
+              }}
+            >
+              <Text style={{ color: 'white' }}>View all reactions</Text>
+            </TouchableOpacity>
+            {props.isLoadingReactionStatuses ? <ActivityIndicator /> : renderReactionStatuses()}
+          </>
+        ) : (
+          <View style={{}}>
+            <TouchableOpacity
+              style={{ marginRight: 10, alignSelf: 'flex-end', marginBottom: 10 }}
+              onPress={() => {
+                props.reactionStatusesBottomSheetRef.current.close();
+              }}
+            >
+              <Ionicons name='close-circle-sharp' size={30} color='white' />
+            </TouchableOpacity>
+            <Text style={{ color: 'white', textAlign: 'center', fontSize: 20 }}>
+              Reaction is not allowed in this space.
+            </Text>
+          </View>
+        )}
       </BottomSheetView>
     </GorhomBottomSheet>
   );

@@ -33,13 +33,13 @@ const BottomMenu = (props) => {
           <Text
             key={index}
             style={{
-              fontSize: 25,
+              fontSize: 22,
               // marginRight: 5,
-              position: 'absolute',
-              top: index === 0 ? -5 : null,
-              left: index === 0 ? -5 : null,
-              right: index === 0 ? null : -5,
-              bottom: index === 0 ? null : -5,
+              // position: 'absolute',
+              // top: index === 0 ? -5 : null,
+              // left: index === 0 ? -5 : null,
+              // right: index === 0 ? null : -5,
+              // bottom: index === 0 ? null : -5,
             }}
           >
             {reaction.emoji}
@@ -51,14 +51,14 @@ const BottomMenu = (props) => {
             key={index}
             source={{ uri: reaction.sticker.url }}
             style={{
-              width: 25,
-              height: 25,
+              width: 22,
+              height: 22,
               //  marginRight: 5
-              position: 'absolute',
-              top: index === 0 ? -5 : null,
-              left: index === 0 ? -5 : null,
-              right: index === 0 ? null : -5,
-              bottom: index === 0 ? null : -5,
+              // position: 'absolute',
+              // top: index === 0 ? -5 : null,
+              // left: index === 0 ? -5 : null,
+              // right: index === 0 ? null : -5,
+              // bottom: index === 0 ? null : -5,
             }}
           />
         );
@@ -71,9 +71,9 @@ const BottomMenu = (props) => {
           Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
           props.getReactionStatuses();
         }}
-        // style={{ flexDirection: 'row', alignItems: 'center' }}
       >
-        {list}
+        <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 5 }}>{list}</View>
+        <Text style={{ color: 'white', textAlign: 'center' }}>React</Text>
       </TouchableOpacity>
     );
   };
@@ -97,7 +97,9 @@ const BottomMenu = (props) => {
         position: 'absolute',
         bottom: 0,
         // marginHorizontal: 100,
-        height: 54,
+        height: 60,
+        paddingTop: 5,
+        paddingBottom: 5,
         // borderRadius: 30,
       }}
     >
@@ -125,10 +127,17 @@ const BottomMenu = (props) => {
           onPress={() => {
             Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
             props.commentInputBottomSheetRef?.current.snapToIndex(0);
-            props.textInputRef.current.focus();
+            if (space.isCommentAvailable) {
+              props.commentInputBottomSheetRef?.current.snapToIndex(1);
+              props.textInputRef.current.focus();
+            } else {
+              props.commentInputBottomSheetRef?.current.snapToIndex(0);
+            }
           }}
+          style={{ justifyContent: 'center', alignItems: 'center' }}
         >
-          <Entypo name='feather' size={20} color={'white'} />
+          <Entypo name='feather' size={20} color={'white'} style={{ marginBottom: 5 }} />
+          <Text style={{ color: 'white', fontSize: 13, textAlign: 'center' }}>Comment</Text>
         </TouchableOpacity>
       </View>
       <View
@@ -140,8 +149,9 @@ const BottomMenu = (props) => {
           // backgroundColor: 'red',
         }}
       >
-        <TouchableOpacity>
-          <MaterialCommunityIcons name='share-variant' size={25} color={'white'} />
+        <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center' }}>
+          <MaterialCommunityIcons name='share-variant' size={22} color={'white'} style={{ marginBottom: 5 }} />
+          <Text style={{ color: 'white', fontSize: 13, textAlign: 'center' }}>Info</Text>
         </TouchableOpacity>
       </View>
       <View
@@ -153,8 +163,9 @@ const BottomMenu = (props) => {
           // backgroundColor: 'red',
         }}
       >
-        <TouchableOpacity>
-          <Feather name='more-horizontal' size={25} color={'white'} />
+        <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center' }}>
+          <Feather name='more-horizontal' size={22} color={'white'} style={{ marginBottom: 5 }} />
+          <Text style={{ color: 'white', fontSize: 13, textAlign: 'center' }}>Other</Text>
         </TouchableOpacity>
       </View>
     </View>

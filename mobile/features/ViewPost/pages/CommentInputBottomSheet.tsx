@@ -14,11 +14,15 @@ import { GlobalContext } from '../../../contexts/GlobalContext';
 import { ViewPostContext } from '../contexts/ViewPostContext';
 import backendAPI from '../../../apis/backend';
 import { Ionicons } from '@expo/vector-icons';
+import { SpaceRootContext } from '../../Space/contexts/SpaceRootContext';
 
 // rgb(35, 35, 35)
 const CommentInputBottomSheet = (props) => {
-  const snapPoints = useMemo(() => ['80%'], []);
+  const snapPoints = useMemo(() => ['30%', '80%'], []);
   const { isIpad, setLoading, authData } = useContext(GlobalContext);
+  const {
+    spaceAndUserRelationship: { space },
+  } = useContext(SpaceRootContext);
   // const { commentInputBottomSheetRef, textInputRef, post, navigation } = useContext(ViewPostContext);
   const oneGridWidth = isIpad ? Dimensions.get('window').width / 6 : Dimensions.get('window').width / 3;
   const iconContainerWidth = oneGridWidth * 0.9;
@@ -56,90 +60,114 @@ const CommentInputBottomSheet = (props) => {
       keyboardBehavior={'extend'}
     >
       <BottomSheetView style={{ flex: 1, paddingTop: 10 }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
-          <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 20, marginLeft: 10 }}>
-            What are your thoughts?
-          </Text>
-          <TouchableOpacity
-            style={{ marginRight: 10 }}
-            onPress={() => {
-              Keyboard.dismiss();
-              setCommentInput('');
-              props.commentInputBottomSheetRef.current.close();
-            }}
-          >
-            <Ionicons name='close-circle-sharp' size={30} color='white' />
-          </TouchableOpacity>
-        </View>
-
-        <TouchableOpacity
-          style={{
-            marginBottom: 10,
-            alignSelf: 'flex-end',
-            marginRight: 20,
-            borderBottomWidth: 0.3,
-            borderBottomColor: 'white',
-            flexDirection: 'row',
-            alignItems: 'center',
-          }}
-          onPress={() => {
-            // navigation?.navigate('Comments', { post });
-            Keyboard.dismiss();
-            props.commentInputBottomSheetRef.current.close();
-          }}
-        >
-          <Text style={{ color: 'white' }}>View all comments</Text>
-        </TouchableOpacity>
-        <View style={{ height: '100%', flexDirection: 'row' }}>
-          <BottomSheetTextInput
-            multiline={true}
-            placeholder={'Type here...'}
-            placeholderTextColor={'rgb(170,170,170)'}
-            inputAccessoryViewID={inputAccessoryViewID}
-            style={{
-              padding: 15,
-              height: '100%',
-              // padding: 10,
-              // backgroundColor: 'rgb(235, 235, 235)',
-              width: '100%', // ここも、下の修正に沿って80 90%に変える。
-              color: 'white',
-            }}
-            ref={props.textInputRef}
-            value={commentInput}
-            onChangeText={setCommentInput}
-            autoCapitalize='none'
-          />
-          <InputAccessoryView
-            nativeID={inputAccessoryViewID}
-            backgroundColor={'rgb(88,88,88)'}
-            // style={{ paddingTop: 10, paddingBottom: 10 }}
-          >
-            <View>
-              <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
-                <View></View>
-                <View style={{ flexDirection: 'row' }}>
-                  <TouchableOpacity
-                    style={{ padding: 10 }}
-                    onPress={() => {
-                      Keyboard.dismiss();
-                      setCommentInput('');
-                      props.commentInputBottomSheetRef.current.close();
-                    }}
-                  >
-                    <Text style={{ color: 'white', fontWeight: 'bold' }}>Cancel</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={{ padding: 10 }}
-                    onPress={() => sendComment()}
-                    disabled={commentInput ? false : true}
-                  >
-                    <Text style={{ color: commentInput ? 'white' : 'rgb(130,130,130)', fontWeight: 'bold' }}>Send</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
+        {space.isCommentAvailable ? (
+          <>
+            <View
+              style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}
+            >
+              <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 20, marginLeft: 10 }}>
+                What are your thoughts?
+              </Text>
+              <TouchableOpacity
+                style={{ marginRight: 10 }}
+                onPress={() => {
+                  Keyboard.dismiss();
+                  setCommentInput('');
+                  props.commentInputBottomSheetRef.current.close();
+                }}
+              >
+                <Ionicons name='close-circle-sharp' size={30} color='white' />
+              </TouchableOpacity>
             </View>
-          </InputAccessoryView>
-        </View>
+
+            <TouchableOpacity
+              style={{
+                marginBottom: 10,
+                alignSelf: 'flex-end',
+                marginRight: 20,
+                borderBottomWidth: 0.3,
+                borderBottomColor: 'white',
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}
+              onPress={() => {
+                // navigation?.navigate('Comments', { post });
+                Keyboard.dismiss();
+                props.commentInputBottomSheetRef.current.close();
+              }}
+            >
+              <Text style={{ color: 'white' }}>View all comments</Text>
+            </TouchableOpacity>
+            <View style={{ height: '100%', flexDirection: 'row' }}>
+              <BottomSheetTextInput
+                multiline={true}
+                placeholder={'Type here...'}
+                placeholderTextColor={'rgb(170,170,170)'}
+                inputAccessoryViewID={inputAccessoryViewID}
+                style={{
+                  padding: 15,
+                  height: '100%',
+                  // padding: 10,
+                  // backgroundColor: 'rgb(235, 235, 235)',
+                  width: '100%', // ここも、下の修正に沿って80 90%に変える。
+                  color: 'white',
+                }}
+                ref={props.textInputRef}
+                value={commentInput}
+                onChangeText={setCommentInput}
+                autoCapitalize='none'
+              />
+              <InputAccessoryView
+                nativeID={inputAccessoryViewID}
+                backgroundColor={'rgb(88,88,88)'}
+                // style={{ paddingTop: 10, paddingBottom: 10 }}
+              >
+                <View>
+                  <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
+                    <View></View>
+                    <View style={{ flexDirection: 'row' }}>
+                      <TouchableOpacity
+                        style={{ padding: 10 }}
+                        onPress={() => {
+                          Keyboard.dismiss();
+                          setCommentInput('');
+                          props.commentInputBottomSheetRef.current.close();
+                        }}
+                      >
+                        <Text style={{ color: 'white', fontWeight: 'bold' }}>Cancel</Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        style={{ padding: 10 }}
+                        onPress={() => sendComment()}
+                        disabled={commentInput ? false : true}
+                      >
+                        <Text style={{ color: commentInput ? 'white' : 'rgb(130,130,130)', fontWeight: 'bold' }}>
+                          Send
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                </View>
+              </InputAccessoryView>
+            </View>
+          </>
+        ) : (
+          <View style={{}}>
+            <TouchableOpacity
+              style={{ marginRight: 10, alignSelf: 'flex-end', marginBottom: 10 }}
+              onPress={() => {
+                Keyboard.dismiss();
+                setCommentInput('');
+                props.commentInputBottomSheetRef.current.close();
+              }}
+            >
+              <Ionicons name='close-circle-sharp' size={30} color='white' />
+            </TouchableOpacity>
+            <Text style={{ color: 'white', textAlign: 'center', fontSize: 20 }}>
+              Comment is not allowed in this space.
+            </Text>
+          </View>
+        )}
       </BottomSheetView>
     </GorhomBottomSheet>
   );

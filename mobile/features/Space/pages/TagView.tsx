@@ -48,7 +48,7 @@ const TagView = (props) => {
   };
 
   const renderItem = useCallback((post) => {
-    if (post.content.type === 'video') {
+    if (post.contents[0].type === 'video') {
       return (
         <TouchableOpacity
           style={{ width: oneAssetWidth, height: oneAssetWidth, padding: 2 }}
@@ -57,7 +57,7 @@ const TagView = (props) => {
             props.navigation.navigate({ name: 'ViewPost', params: { post } });
           }}
         >
-          <Video source={{ uri: post.content.data }} style={{ width: '100%', height: '100%', borderRadius: 5 }} />;
+          <Video source={{ uri: post.contents[0].data }} style={{ width: '100%', height: '100%', borderRadius: 5 }} />;
         </TouchableOpacity>
       );
     } else {
@@ -69,7 +69,10 @@ const TagView = (props) => {
             props.navigation.navigate({ name: 'ViewPost', params: { post } });
           }}
         >
-          <FastImage source={{ uri: post.content.data }} style={{ width: '100%', height: '100%', borderRadius: 5 }} />
+          <FastImage
+            source={{ uri: post.contents[0].data }}
+            style={{ width: '100%', height: '100%', borderRadius: 5 }}
+          />
         </TouchableOpacity>
       );
     }
