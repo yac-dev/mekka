@@ -23,6 +23,7 @@ const ViewPostsTopTabNavigator = () => {
   return (
     <View style={{ flex: 1 }}>
       <Tab.Navigator
+        // toptab navigatorで表示させるが、top tab自体は表示しない
         tabBar={() => null}
         screenOptions={({ route }) => ({
           lazy: true,

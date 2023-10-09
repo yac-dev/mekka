@@ -156,30 +156,44 @@ const ViewPost = (props) => {
   // 最初の見るやつをcurrentPostに設定したいよね。多分、
 
   return (
-    <GestureHandlerRootView style={{ flex: 1, backgroundColor: 'black' }}>
-      <FlatList
-        data={posts}
-        renderItem={renderItem}
-        pagingEnabled
-        keyExtractor={(item, index) => `${item._id}-${index}`}
-        decelerationRate={'normal'}
-        onViewableItemsChanged={onViewableItemsChanged.current}
-      />
-      <BottomMenu
-        getReactionStatuses={getReactionStatuses}
-        reactionStatusesBottomSheetRef={reactionStatusesBottomSheetRef}
-        commentInputBottomSheetRef={commentInputBottomSheetRef}
-        textInputRef={textInputRef}
-      />
-      <CommentInputBottomSheet commentInputBottomSheetRef={commentInputBottomSheetRef} textInputRef={textInputRef} />
-      <ReactionOptionsBottomSheet
-        reactionStatusesBottomSheetRef={reactionStatusesBottomSheetRef}
-        reactionStatuses={reactionStatuses}
-        setReactionStatuses={setReactionStatuses}
-        isLoadingReactionStatuses={isLoadingReactionStatuses}
-      />
-      <LoadingSpinner />
-    </GestureHandlerRootView>
+    <ViewPostContext.Provider
+      value={{
+        getReactionStatuses,
+        viewPostStackNavigatorNavigation: props.navigation,
+        reactionStatusesBottomSheetRef,
+        commentInputBottomSheetRef,
+        textInputRef,
+        reactionStatuses,
+        setReactionStatuses,
+        isLoadingReactionStatuses,
+        setIsLoadingReactionStatuses,
+      }}
+    >
+      <GestureHandlerRootView style={{ flex: 1, backgroundColor: 'black' }}>
+        <FlatList
+          data={posts}
+          renderItem={renderItem}
+          pagingEnabled
+          keyExtractor={(item, index) => `${item._id}-${index}`}
+          decelerationRate={'normal'}
+          onViewableItemsChanged={onViewableItemsChanged.current}
+        />
+        <BottomMenu
+          getReactionStatuses={getReactionStatuses}
+          reactionStatusesBottomSheetRef={reactionStatusesBottomSheetRef}
+          commentInputBottomSheetRef={commentInputBottomSheetRef}
+          textInputRef={textInputRef}
+        />
+        <CommentInputBottomSheet commentInputBottomSheetRef={commentInputBottomSheetRef} textInputRef={textInputRef} />
+        <ReactionOptionsBottomSheet
+          reactionStatusesBottomSheetRef={reactionStatusesBottomSheetRef}
+          reactionStatuses={reactionStatuses}
+          setReactionStatuses={setReactionStatuses}
+          isLoadingReactionStatuses={isLoadingReactionStatuses}
+        />
+        <LoadingSpinner />
+      </GestureHandlerRootView>
+    </ViewPostContext.Provider>
   );
 };
 

@@ -54,7 +54,10 @@ const TagView = (props) => {
           style={{ width: oneAssetWidth, height: oneAssetWidth, padding: 2 }}
           onPress={() => {
             setCurrentPost(post);
-            props.navigation.navigate({ name: 'ViewPost', params: { post } });
+            props.navigation.navigate({
+              name: 'ViewPostStackNavigator',
+              params: { screen: 'ViewPost', params: { post } },
+            });
           }}
         >
           <Video source={{ uri: post.contents[0].data }} style={{ width: '100%', height: '100%', borderRadius: 5 }} />;
@@ -66,7 +69,10 @@ const TagView = (props) => {
           style={{ width: oneAssetWidth, height: oneAssetWidth, padding: 2 }}
           onPress={() => {
             setCurrentPost(post);
-            props.navigation.navigate({ name: 'ViewPost', params: { post } });
+            props.navigation.navigate({
+              name: 'ViewPostStackNavigator',
+              params: { screen: 'ViewPost', params: { post } },
+            });
           }}
         >
           <FastImage

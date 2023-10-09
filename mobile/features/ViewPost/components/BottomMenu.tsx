@@ -13,12 +13,18 @@ import * as Haptics from 'expo-haptics';
 
 const BottomMenu = (props) => {
   const { isIpad } = useContext(GlobalContext);
-  const { navigation, reactionOptionsBottomSheetRef, commentInputBottomSheetRef, textInputRef, reactionStatuses } =
-    useContext(ViewPostContext);
+  const {
+    navigation,
+    reactionStatusesBottomSheetRef,
+    commentInputBottomSheetRef,
+    textInputRef,
+    reactionStatuses,
+    getReactionStatuses,
+  } = useContext(ViewPostContext);
   const {
     spaceAndUserRelationship: { space },
   } = useContext(SpaceRootContext);
-  const { currentPost } = useContext(TagViewContext);
+  // const { currentPost } = useContext(TagViewContext);
 
   const oneGridWidth = isIpad ? Dimensions.get('window').width / 6 : Dimensions.get('window').width / 4;
 
@@ -69,7 +75,7 @@ const BottomMenu = (props) => {
       <TouchableOpacity
         onPress={() => {
           Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-          props.getReactionStatuses();
+          getReactionStatuses();
         }}
       >
         <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 5 }}>{list}</View>
@@ -126,12 +132,11 @@ const BottomMenu = (props) => {
         <TouchableOpacity
           onPress={() => {
             Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-            props.commentInputBottomSheetRef?.current.snapToIndex(0);
             if (space.isCommentAvailable) {
-              props.commentInputBottomSheetRef?.current.snapToIndex(1);
-              props.textInputRef.current.focus();
+              commentInputBottomSheetRef?.current.snapToIndex(1);
+              textInputRef.current.focus();
             } else {
-              props.commentInputBottomSheetRef?.current.snapToIndex(0);
+              commentInputBottomSheetRef?.current.snapToIndex(0);
             }
           }}
           style={{ justifyContent: 'center', alignItems: 'center' }}

@@ -12,6 +12,7 @@ import { GlobalContext } from '../contexts/GlobalContext';
 import { TagViewContext } from '../features/Space/contexts/TagViewContext';
 import { Video } from 'expo-av';
 import FastImage from 'react-native-fast-image';
+import ViewPostStackNavigator from './ViewPostStackNavigator';
 
 const TagViewStackNavigator: React.FC = (props) => {
   const { isIpad, authData } = useContext(GlobalContext);
@@ -84,16 +85,11 @@ const TagViewStackNavigator: React.FC = (props) => {
         </Stack.Group>
         <Stack.Group screenOptions={{ presentation: 'fullScreenModal' }}>
           <Stack.Screen
-            name='ViewPost'
-            component={ViewPost}
+            name='ViewPostStackNavigator'
+            component={ViewPostStackNavigator}
             options={({ navigation }) => ({
-              headerShown: true,
+              headerShown: false,
               // headerTransparent: true,
-              headerLeft: () => (
-                <TouchableOpacity onPress={() => navigation.goBack()}>
-                  <Ionicons name='close-circle-sharp' size={30} color={'white'} />
-                </TouchableOpacity>
-              ),
               headerTitle: '',
               headerStyle: {
                 backgroundColor: 'transparent',

@@ -18,11 +18,12 @@ import { SpaceRootContext } from '../../Space/contexts/SpaceRootContext';
 
 // rgb(35, 35, 35)
 const CommentInputBottomSheet = (props) => {
-  const snapPoints = useMemo(() => ['30%', '80%'], []);
+  const snapPoints = useMemo(() => ['30%', '90%'], []);
   const { isIpad, setLoading, authData } = useContext(GlobalContext);
   const {
     spaceAndUserRelationship: { space },
   } = useContext(SpaceRootContext);
+  const { commentInputBottomSheetRef, textInputRef, viewPostStackNavigatorNavigation } = useContext(ViewPostContext);
   // const { commentInputBottomSheetRef, textInputRef, post, navigation } = useContext(ViewPostContext);
   const oneGridWidth = isIpad ? Dimensions.get('window').width / 6 : Dimensions.get('window').width / 3;
   const iconContainerWidth = oneGridWidth * 0.9;
@@ -73,7 +74,7 @@ const CommentInputBottomSheet = (props) => {
                 onPress={() => {
                   Keyboard.dismiss();
                   setCommentInput('');
-                  props.commentInputBottomSheetRef.current.close();
+                  commentInputBottomSheetRef.current.close();
                 }}
               >
                 <Ionicons name='close-circle-sharp' size={30} color='white' />
@@ -93,7 +94,8 @@ const CommentInputBottomSheet = (props) => {
               onPress={() => {
                 // navigation?.navigate('Comments', { post });
                 Keyboard.dismiss();
-                props.commentInputBottomSheetRef.current.close();
+                commentInputBottomSheetRef.current.close();
+                viewPostStackNavigatorNavigation.navigate('CommentsPage');
               }}
             >
               <Text style={{ color: 'white' }}>View all comments</Text>
@@ -112,7 +114,7 @@ const CommentInputBottomSheet = (props) => {
                   width: '100%', // ここも、下の修正に沿って80 90%に変える。
                   color: 'white',
                 }}
-                ref={props.textInputRef}
+                ref={textInputRef}
                 value={commentInput}
                 onChangeText={setCommentInput}
                 autoCapitalize='none'
@@ -131,7 +133,7 @@ const CommentInputBottomSheet = (props) => {
                         onPress={() => {
                           Keyboard.dismiss();
                           setCommentInput('');
-                          props.commentInputBottomSheetRef.current.close();
+                          commentInputBottomSheetRef.current.close();
                         }}
                       >
                         <Text style={{ color: 'white', fontWeight: 'bold' }}>Cancel</Text>
@@ -158,7 +160,7 @@ const CommentInputBottomSheet = (props) => {
               onPress={() => {
                 Keyboard.dismiss();
                 setCommentInput('');
-                props.commentInputBottomSheetRef.current.close();
+                commentInputBottomSheetRef.current.close();
               }}
             >
               <Ionicons name='close-circle-sharp' size={30} color='white' />
