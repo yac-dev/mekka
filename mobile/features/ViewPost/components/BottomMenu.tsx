@@ -8,14 +8,17 @@ import { Feather } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import FastImage from 'react-native-fast-image';
 import { SpaceRootContext } from '../../Space/contexts/SpaceRootContext';
+import { TagViewContext } from '../../Space/contexts/TagViewContext';
+import * as Haptics from 'expo-haptics';
 
-const BottomMenu = () => {
+const BottomMenu = (props) => {
   const { isIpad } = useContext(GlobalContext);
   const { navigation, reactionOptionsBottomSheetRef, commentInputBottomSheetRef, textInputRef, reactionStatuses } =
     useContext(ViewPostContext);
   const {
     spaceAndUserRelationship: { space },
   } = useContext(SpaceRootContext);
+  const { currentPost } = useContext(TagViewContext);
 
   const oneGridWidth = isIpad ? Dimensions.get('window').width / 6 : Dimensions.get('window').width / 4;
 
@@ -64,7 +67,10 @@ const BottomMenu = () => {
 
     return (
       <TouchableOpacity
-        onPress={() => reactionOptionsBottomSheetRef.current.snapToIndex(0)}
+        onPress={() => {
+          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+          props.getReactionStatuses();
+        }}
         // style={{ flexDirection: 'row', alignItems: 'center' }}
       >
         {list}
@@ -117,8 +123,9 @@ const BottomMenu = () => {
       >
         <TouchableOpacity
           onPress={() => {
-            commentInputBottomSheetRef?.current.snapToIndex(0);
-            textInputRef.current.focus();
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+            props.commentInputBottomSheetRef?.current.snapToIndex(0);
+            props.textInputRef.current.focus();
           }}
         >
           <Entypo name='feather' size={20} color={'white'} />

@@ -12,6 +12,10 @@ export const getMySpaces = async (request, response) => {
           path: 'reactions',
           select: '_id type emoji sticker',
           model: 'Reaction',
+          populate: {
+            path: 'sticker',
+            model: 'Sticker',
+          },
         },
         {
           path: 'createdBy',

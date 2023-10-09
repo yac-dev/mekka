@@ -9,32 +9,32 @@ import backendAPI from '../../../apis/backend';
 import FastImage from 'react-native-fast-image';
 
 // rgb(35, 35, 35)
-const ReactionOptionsBottomSheet = () => {
+const ReactionOptionsBottomSheet = (props) => {
   const snapPoints = useMemo(() => ['60%'], []);
   const { isIpad, setLoading, authData } = useContext(GlobalContext);
-  const { reactionOptionsBottomSheetRef, reactionStatuses, setReactionStatuses, areReactionStatusesFetched } =
-    useContext(ViewPostContext);
+  // const { reactionOptionsBottomSheetRef, reactionStatuses, setReactionStatuses, areReactionStatusesFetched } =
+  //   useContext(ViewPostContext);
   const oneGridWidth = isIpad ? Dimensions.get('window').width / 6 : Dimensions.get('window').width / 3;
   const iconContainerWidth = oneGridWidth * 0.9;
 
-  const upvoteReaction = async (reactionStatus, index) => {
-    setLoading(true);
-    const result = await backendAPI.post(
-      `/userandreactionrelationships/user/${authData._id}/post/${reactionStatus.post}`,
-      { reactionId: reactionStatus.reaction._id }
-    );
-    setLoading(false);
-    setReactionStatuses((previous) => {
-      const updating = [...previous];
-      updating[index].count++;
-      return updating;
-    });
-  };
+  // const upvoteReaction = async (reactionStatus, index) => {
+  //   setLoading(true);
+  //   const result = await backendAPI.post(
+  //     `/userandreactionrelationships/user/${authData._id}/post/${reactionStatus.post}`,
+  //     { reactionId: reactionStatus.reaction._id }
+  //   );
+  //   setLoading(false);
+  //   setReactionStatuses((previous) => {
+  //     const updating = [...previous];
+  //     updating[index].count++;
+  //     return updating;
+  //   });
+  // };
 
   // とりあえず、1以上のものだけ、0のものをextractする感じでいいか。
   const renderReactionStatuses = () => {
-    if (reactionStatuses.length) {
-      const list = reactionStatuses.map((reactionStatus, index) => {
+    if (props.reactionStatuses.length) {
+      const list = props.reactionStatuses.map((reactionStatus, index) => {
         return (
           <View
             key={index}
@@ -60,7 +60,7 @@ const ReactionOptionsBottomSheet = () => {
                 justifyContent: 'center',
                 alignItems: 'center',
               }}
-              onPress={() => upvoteReaction(reactionStatus, index)}
+              // onPress={() => upvoteReaction(reactionStatus, index)}
             >
               {reactionStatus.reaction.type === 'emoji' ? (
                 <View style={{ flexDirection: 'column', alignItems: 'center' }}>
@@ -148,7 +148,7 @@ const ReactionOptionsBottomSheet = () => {
     <GorhomBottomSheet
       index={-1}
       enableOverDrag={true}
-      ref={reactionOptionsBottomSheetRef}
+      ref={props.reactionStatusesBottomSheetRef}
       snapPoints={snapPoints}
       backdropComponent={(backdropProps) => (
         <BottomSheetBackdrop {...backdropProps} appearsOnIndex={0} disappearsOnIndex={-1} />
@@ -159,15 +159,13 @@ const ReactionOptionsBottomSheet = () => {
       // onClose={() => onSelectedItemBottomSheetClose()}
     >
       <BottomSheetView style={{ flex: 1, paddingTop: 10 }}>
-        <View style={{ borderBottomWidth: 0.3, borderColor: 'rgb(150,150,150)', marginBottom: 10 }}>
-          <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 20, textAlign: 'center', marginBottom: 10 }}>
-            React
-          </Text>
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
+          <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 20, marginLeft: 10 }}>How do you feel?</Text>
           <TouchableOpacity
-            style={{ position: 'absolute', left: 0, top: -5, marginLeft: 10 }}
-            onPress={() => reactionOptionsBottomSheetRef.current.close()}
+            style={{ marginRight: 10 }}
+            onPress={() => props.reactionStatusesBottomSheetRef.current.close()}
           >
-            <Ionicons name='close-circle-sharp' size={25} color='white' />
+            <Ionicons name='close-circle-sharp' size={30} color='white' />
           </TouchableOpacity>
         </View>
         <TouchableOpacity
@@ -180,8 +178,7 @@ const ReactionOptionsBottomSheet = () => {
         >
           <Text style={{ color: 'white' }}>View all reactions</Text>
         </TouchableOpacity>
-
-        {renderReactionStatuses()}
+        {props.isLoadingReactionStatuses ? <ActivityIndicator /> : renderReactionStatuses()}
       </BottomSheetView>
     </GorhomBottomSheet>
   );

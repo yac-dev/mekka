@@ -18,6 +18,11 @@ import FastImage from 'react-native-fast-image';
 const ViewPost = (props) => {
   const { currentPost, setCurrentPost, posts } = useContext(TagViewContext);
   const mediaRefs = useRef([]);
+  const reactionStatusesBottomSheetRef = useRef(null);
+  const commentInputBottomSheetRef = useRef(null);
+  const textInputRef = useRef(null);
+  const [reactionStatuses, setReactionStatuses] = useState([]);
+  const [isLoadingReactionStatuses, setIsLoadingReactionStatuses] = useState(false);
   // const [post, setPost] = useState(null);
   // const [isPostFetched, setIsPostFetched] = useState(false);
   // const [reactionStatuses, setReactionStatuses] = useState([]);
@@ -76,6 +81,16 @@ const ViewPost = (props) => {
   //     </View>
   //   );
 
+  const getReactionStatuses = async () => {
+    // currentPostがあってこれを使う。
+    reactionStatusesBottomSheetRef.current.snapToIndex(0);
+    setIsLoadingReactionStatuses(true);
+    const result = await backendAPI.get(`/reactionstatuses/post/${currentPost._id}`);
+    const { reactionStatuses } = result.data;
+    setReactionStatuses(reactionStatuses);
+    setIsLoadingReactionStatuses(false);
+  };
+
   const renderItem = ({ item, index }) => {
     return (
       <View
@@ -133,14 +148,6 @@ const ViewPost = (props) => {
 
   const onViewableItemsChanged = useRef(({ changed }) => {
     changed.forEach((element) => {
-      // console.log(element);
-      // const cell = mediaRefs.current[element.key];
-      // if (cell) {
-      //   if (element.isViewable) {
-      //     setCurrentPost(element.item);
-      //   } else {
-      //   }
-      // }
       if (element.isViewable) {
         setCurrentPost(element.item);
       }
@@ -149,7 +156,7 @@ const ViewPost = (props) => {
   // 最初の見るやつをcurrentPostに設定したいよね。多分、
 
   return (
-    <View style={{ flex: 1 }}>
+    <GestureHandlerRootView style={{ flex: 1, backgroundColor: 'black' }}>
       <FlatList
         data={posts}
         renderItem={renderItem}
@@ -158,8 +165,21 @@ const ViewPost = (props) => {
         decelerationRate={'normal'}
         onViewableItemsChanged={onViewableItemsChanged.current}
       />
-      <BottomMenu />
-    </View>
+      <BottomMenu
+        getReactionStatuses={getReactionStatuses}
+        reactionStatusesBottomSheetRef={reactionStatusesBottomSheetRef}
+        commentInputBottomSheetRef={commentInputBottomSheetRef}
+        textInputRef={textInputRef}
+      />
+      <CommentInputBottomSheet commentInputBottomSheetRef={commentInputBottomSheetRef} textInputRef={textInputRef} />
+      <ReactionOptionsBottomSheet
+        reactionStatusesBottomSheetRef={reactionStatusesBottomSheetRef}
+        reactionStatuses={reactionStatuses}
+        setReactionStatuses={setReactionStatuses}
+        isLoadingReactionStatuses={isLoadingReactionStatuses}
+      />
+      <LoadingSpinner />
+    </GestureHandlerRootView>
   );
 };
 

@@ -16,35 +16,35 @@ import backendAPI from '../../../apis/backend';
 import { Ionicons } from '@expo/vector-icons';
 
 // rgb(35, 35, 35)
-const CommentInputBottomSheet = () => {
+const CommentInputBottomSheet = (props) => {
   const snapPoints = useMemo(() => ['80%'], []);
   const { isIpad, setLoading, authData } = useContext(GlobalContext);
-  const { commentInputBottomSheetRef, textInputRef, post, navigation } = useContext(ViewPostContext);
+  // const { commentInputBottomSheetRef, textInputRef, post, navigation } = useContext(ViewPostContext);
   const oneGridWidth = isIpad ? Dimensions.get('window').width / 6 : Dimensions.get('window').width / 3;
   const iconContainerWidth = oneGridWidth * 0.9;
   const [commentInput, setCommentInput] = useState('');
   const inputAccessoryViewID = 'COMMENT_INPUT';
 
-  const sendComment = async () => {
-    const payload = {
-      content: commentInput,
-      postId: post._id,
-      userId: authData._id,
-    };
-    setLoading(true);
-    const result = await backendAPI.post(`/comments/`, payload);
-    setLoading(false);
-    Keyboard.dismiss();
-    setCommentInput('');
-    commentInputBottomSheetRef.current.close();
-  };
+  // const sendComment = async () => {
+  //   const payload = {
+  //     content: commentInput,
+  //     postId: post._id,
+  //     userId: authData._id,
+  //   };
+  //   setLoading(true);
+  //   const result = await backendAPI.post(`/comments/`, payload);
+  //   setLoading(false);
+  //   Keyboard.dismiss();
+  //   setCommentInput('');
+  //   props.commentInputBottomSheetRef.current.close();
+  // };
   // まあ、bottomsheetが閉じないが、まあいいか。
 
   return (
     <GorhomBottomSheet
       index={-1}
       enableOverDrag={true}
-      ref={commentInputBottomSheetRef}
+      ref={props.commentInputBottomSheetRef}
       snapPoints={snapPoints}
       backdropComponent={(backdropProps) => (
         <BottomSheetBackdrop {...backdropProps} appearsOnIndex={0} disappearsOnIndex={-1} />
@@ -56,21 +56,22 @@ const CommentInputBottomSheet = () => {
       keyboardBehavior={'extend'}
     >
       <BottomSheetView style={{ flex: 1, paddingTop: 10 }}>
-        <View style={{ borderBottomWidth: 0.3, borderColor: 'rgb(150,150,150)', marginBottom: 10 }}>
-          <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 20, textAlign: 'center', marginBottom: 10 }}>
-            Write comment
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
+          <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 20, marginLeft: 10 }}>
+            What are your thoughts?
           </Text>
           <TouchableOpacity
-            style={{ position: 'absolute', left: 0, top: -5, marginLeft: 10 }}
+            style={{ marginRight: 10 }}
             onPress={() => {
               Keyboard.dismiss();
               setCommentInput('');
-              commentInputBottomSheetRef.current.close();
+              props.commentInputBottomSheetRef.current.close();
             }}
           >
-            <Ionicons name='close-circle-sharp' size={25} color='white' />
+            <Ionicons name='close-circle-sharp' size={30} color='white' />
           </TouchableOpacity>
         </View>
+
         <TouchableOpacity
           style={{
             marginBottom: 10,
@@ -82,9 +83,9 @@ const CommentInputBottomSheet = () => {
             alignItems: 'center',
           }}
           onPress={() => {
-            navigation?.navigate('Comments', { post });
+            // navigation?.navigate('Comments', { post });
             Keyboard.dismiss();
-            commentInputBottomSheetRef.current.close();
+            props.commentInputBottomSheetRef.current.close();
           }}
         >
           <Text style={{ color: 'white' }}>View all comments</Text>
@@ -92,7 +93,7 @@ const CommentInputBottomSheet = () => {
         <View style={{ height: '100%', flexDirection: 'row' }}>
           <BottomSheetTextInput
             multiline={true}
-            placeholder={'What are your thoughts?'}
+            placeholder={'Type here...'}
             placeholderTextColor={'rgb(170,170,170)'}
             inputAccessoryViewID={inputAccessoryViewID}
             style={{
@@ -103,7 +104,7 @@ const CommentInputBottomSheet = () => {
               width: '100%', // ここも、下の修正に沿って80 90%に変える。
               color: 'white',
             }}
-            ref={textInputRef}
+            ref={props.textInputRef}
             value={commentInput}
             onChangeText={setCommentInput}
             autoCapitalize='none'
@@ -122,7 +123,7 @@ const CommentInputBottomSheet = () => {
                     onPress={() => {
                       Keyboard.dismiss();
                       setCommentInput('');
-                      commentInputBottomSheetRef.current.close();
+                      props.commentInputBottomSheetRef.current.close();
                     }}
                   >
                     <Text style={{ color: 'white', fontWeight: 'bold' }}>Cancel</Text>
