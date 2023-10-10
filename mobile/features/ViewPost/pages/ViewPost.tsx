@@ -186,17 +186,19 @@ const ViewPost = (props) => {
           })}
         />
         <BottomMenu
-          getReactionStatuses={getReactionStatuses}
-          reactionStatusesBottomSheetRef={reactionStatusesBottomSheetRef}
-          commentInputBottomSheetRef={commentInputBottomSheetRef}
-          textInputRef={textInputRef}
+        // getReactionStatuses={getReactionStatuses}
+        // reactionStatusesBottomSheetRef={reactionStatusesBottomSheetRef}
+        // commentInputBottomSheetRef={commentInputBottomSheetRef}
+        // textInputRef={textInputRef}
         />
-        <CommentInputBottomSheet commentInputBottomSheetRef={commentInputBottomSheetRef} textInputRef={textInputRef} />
+        <CommentInputBottomSheet
+        // commentInputBottomSheetRef={commentInputBottomSheetRef} textInputRef={textInputRef}
+        />
         <ReactionOptionsBottomSheet
-          reactionStatusesBottomSheetRef={reactionStatusesBottomSheetRef}
-          reactionStatuses={reactionStatuses}
-          setReactionStatuses={setReactionStatuses}
-          isLoadingReactionStatuses={isLoadingReactionStatuses}
+        // reactionStatusesBottomSheetRef={reactionStatusesBottomSheetRef}
+        // reactionStatuses={reactionStatuses}
+        // setReactionStatuses={setReactionStatuses}
+        // isLoadingReactionStatuses={isLoadingReactionStatuses}
         />
         <LoadingSpinner />
       </GestureHandlerRootView>

@@ -13,8 +13,8 @@ import { SpaceRootContext } from '../../Space/contexts/SpaceRootContext';
 const ReactionOptionsBottomSheet = (props) => {
   const snapPoints = useMemo(() => ['60%'], []);
   const { isIpad, setLoading, authData } = useContext(GlobalContext);
-  // const { reactionOptionsBottomSheetRef, reactionStatuses, setReactionStatuses, areReactionStatusesFetched } =
-  //   useContext(ViewPostContext);
+  const { reactionStatusesBottomSheetRef, reactionStatuses, setReactionStatuses, isLoadingReactionStatuses } =
+    useContext(ViewPostContext);
   const {
     spaceAndUserRelationship: { space },
   } = useContext(SpaceRootContext);
@@ -37,8 +37,8 @@ const ReactionOptionsBottomSheet = (props) => {
 
   // とりあえず、1以上のものだけ、0のものをextractする感じでいいか。
   const renderReactionStatuses = () => {
-    if (props.reactionStatuses.length) {
-      const list = props.reactionStatuses.map((reactionStatus, index) => {
+    if (reactionStatuses.length) {
+      const list = reactionStatuses.map((reactionStatus, index) => {
         return (
           <View
             key={index}
@@ -152,7 +152,7 @@ const ReactionOptionsBottomSheet = (props) => {
     <GorhomBottomSheet
       index={-1}
       enableOverDrag={true}
-      ref={props.reactionStatusesBottomSheetRef}
+      ref={reactionStatusesBottomSheetRef}
       snapPoints={snapPoints}
       backdropComponent={(backdropProps) => (
         <BottomSheetBackdrop {...backdropProps} appearsOnIndex={0} disappearsOnIndex={-1} />
@@ -171,7 +171,7 @@ const ReactionOptionsBottomSheet = (props) => {
               <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 20, marginLeft: 10 }}>How do you feel?</Text>
               <TouchableOpacity
                 style={{ marginRight: 10 }}
-                onPress={() => props.reactionStatusesBottomSheetRef.current.close()}
+                onPress={() => reactionStatusesBottomSheetRef.current.close()}
               >
                 <Ionicons name='close-circle-sharp' size={30} color='white' />
               </TouchableOpacity>
@@ -186,7 +186,7 @@ const ReactionOptionsBottomSheet = (props) => {
             >
               <Text style={{ color: 'white' }}>View all reactions</Text>
             </TouchableOpacity>
-            {props.isLoadingReactionStatuses ? <ActivityIndicator /> : renderReactionStatuses()}
+            {isLoadingReactionStatuses ? <ActivityIndicator /> : renderReactionStatuses()}
           </>
         ) : (
           <View style={{}}>

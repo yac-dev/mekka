@@ -2,6 +2,7 @@ import Space from '../models/space';
 import Post from '../models/post';
 import Content from '../models/content';
 import ReactionStatus from '../models/reactionStatus';
+import Comment from '../models/comment';
 import Tag from '../models/tag';
 import LocationTag from '../models/locationTag';
 import PostAndTagRelationship from '../models/postAndTagRelationship';
@@ -494,6 +495,21 @@ export const getPostsByLocationTagId = async (request, response) => {
 
     response.status(200).json({
       posts,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getCommentsByPostId = async (request, response) => {
+  try {
+    const comments = await Comment.find({ post: request.params.postId }).populate({
+      path: 'createdBy',
+      model: 'User',
+    });
+
+    response.status(200).json({
+      comments,
     });
   } catch (error) {
     console.log(error);

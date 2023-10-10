@@ -49,15 +49,15 @@ const ChooseViewBottomSheet = (props) => {
                 chooseViewBottomSheetRef.current.close();
               }}
               style={{
-                backgroundColor: 'rgb(70,70,70)',
+                backgroundColor: 'white',
                 borderRadius: 10,
                 justifyContent: 'center',
                 alignItems: 'center',
                 height: 100,
               }}
             >
-              <MaterialCommunityIcons name='dots-grid' size={35} color='white' style={{ marginBottom: 10 }} />
-              <Text style={{ color: 'white', fontWeight: 'bold' }}>Grid</Text>
+              <MaterialCommunityIcons name='dots-grid' size={35} color='black' style={{ marginBottom: 10 }} />
+              <Text style={{ color: 'black', fontWeight: 'bold' }}>Grid</Text>
             </TouchableOpacity>
           </View>
           <View style={{ width: '50%', padding: 5 }}>
@@ -75,7 +75,7 @@ const ChooseViewBottomSheet = (props) => {
                 chooseViewBottomSheetRef.current.close();
               }}
               style={{
-                backgroundColor: 'rgb(70,70,70)',
+                backgroundColor: 'white',
                 borderRadius: 10,
                 justifyContent: 'center',
                 alignItems: 'center',
@@ -85,9 +85,9 @@ const ChooseViewBottomSheet = (props) => {
               <FastImage
                 source={require('../../../assets/forApp/globe.png')}
                 style={{ width: 25, height: 35, marginBottom: 10 }}
-                tintColor={'white'}
+                tintColor={'black'}
               />
-              <Text style={{ color: 'white', fontWeight: 'bold' }}>Map</Text>
+              <Text style={{ color: 'black', fontWeight: 'bold' }}>Map</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -107,7 +107,7 @@ const ChooseViewBottomSheet = (props) => {
                 chooseViewBottomSheetRef.current.close();
               }}
               style={{
-                backgroundColor: 'rgb(70,70,70)',
+                backgroundColor: 'white',
                 borderRadius: 10,
                 justifyContent: 'center',
                 alignItems: 'center',
@@ -115,8 +115,8 @@ const ChooseViewBottomSheet = (props) => {
               }}
             >
               {/* <Ionicons name='calendar' size={35} color='white' style={{ marginBottom: 10 }} /> */}
-              <MaterialCommunityIcons name='account-multiple' size={35} color='white' style={{ marginBottom: 10 }} />
-              <Text style={{ color: 'white', fontWeight: 'bold' }}>People</Text>
+              <MaterialCommunityIcons name='account-multiple' size={35} color='black' style={{ marginBottom: 10 }} />
+              <Text style={{ color: 'black', fontWeight: 'bold' }}>People</Text>
             </TouchableOpacity>
           </View>
           {/* <View style={{ width: '50%', padding: 5 }}>

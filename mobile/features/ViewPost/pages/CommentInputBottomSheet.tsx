@@ -12,18 +12,20 @@ import {
 import GorhomBottomSheet, { BottomSheetView, BottomSheetBackdrop, BottomSheetTextInput } from '@gorhom/bottom-sheet';
 import { GlobalContext } from '../../../contexts/GlobalContext';
 import { ViewPostContext } from '../contexts/ViewPostContext';
+import { TagViewContext } from '../../Space/contexts/TagViewContext';
 import backendAPI from '../../../apis/backend';
 import { Ionicons } from '@expo/vector-icons';
 import { SpaceRootContext } from '../../Space/contexts/SpaceRootContext';
 
 // rgb(35, 35, 35)
 const CommentInputBottomSheet = (props) => {
-  const snapPoints = useMemo(() => ['30%', '90%'], []);
+  const snapPoints = useMemo(() => ['30%', '85%'], []);
   const { isIpad, setLoading, authData } = useContext(GlobalContext);
   const {
     spaceAndUserRelationship: { space },
   } = useContext(SpaceRootContext);
   const { commentInputBottomSheetRef, textInputRef, viewPostStackNavigatorNavigation } = useContext(ViewPostContext);
+  const { currentIndex, posts } = useContext(TagViewContext);
   // const { commentInputBottomSheetRef, textInputRef, post, navigation } = useContext(ViewPostContext);
   const oneGridWidth = isIpad ? Dimensions.get('window').width / 6 : Dimensions.get('window').width / 3;
   const iconContainerWidth = oneGridWidth * 0.9;
@@ -49,7 +51,7 @@ const CommentInputBottomSheet = (props) => {
     <GorhomBottomSheet
       index={-1}
       enableOverDrag={true}
-      ref={props.commentInputBottomSheetRef}
+      ref={commentInputBottomSheetRef}
       snapPoints={snapPoints}
       backdropComponent={(backdropProps) => (
         <BottomSheetBackdrop {...backdropProps} appearsOnIndex={0} disappearsOnIndex={-1} />
@@ -95,7 +97,7 @@ const CommentInputBottomSheet = (props) => {
                 // navigation?.navigate('Comments', { post });
                 Keyboard.dismiss();
                 commentInputBottomSheetRef.current.close();
-                viewPostStackNavigatorNavigation.navigate('CommentsPage');
+                viewPostStackNavigatorNavigation.navigate('CommentsPage', { postId: posts[currentIndex]._id });
               }}
             >
               <Text style={{ color: 'white' }}>View all comments</Text>
