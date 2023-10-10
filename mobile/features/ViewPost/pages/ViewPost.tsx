@@ -16,7 +16,7 @@ import { Video } from 'expo-av';
 import FastImage from 'react-native-fast-image';
 
 const ViewPost = (props) => {
-  const { currentPost, setCurrentPost, posts } = useContext(TagViewContext);
+  const { currentPost, setCurrentPost, posts, currentIndex } = useContext(TagViewContext);
   const mediaRefs = useRef([]);
   const reactionStatusesBottomSheetRef = useRef(null);
   const commentInputBottomSheetRef = useRef(null);
@@ -177,6 +177,13 @@ const ViewPost = (props) => {
           keyExtractor={(item, index) => `${item._id}-${index}`}
           decelerationRate={'normal'}
           onViewableItemsChanged={onViewableItemsChanged.current}
+          viewabilityConfig={{ viewAreaCoveragePercentThreshold: 100 }}
+          initialScrollIndex={currentIndex}
+          getItemLayout={(data, index) => ({
+            length: Dimensions.get('window').height, // Set the height of each item
+            offset: Dimensions.get('window').height * index, // Calculate the offset based on the index
+            index, // Pass the index
+          })}
         />
         <BottomMenu
           getReactionStatuses={getReactionStatuses}

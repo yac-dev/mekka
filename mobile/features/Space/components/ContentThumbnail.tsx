@@ -10,7 +10,7 @@ import Skeleton from './Skeleton';
 const ContentThumbnail = (props) => {
   const [isLoading, setIsLoading] = useState(true);
   const { isIpad } = useContext(GlobalContext);
-  const { setCurrentPost } = useContext(TagViewContext);
+  const { setCurrentPost, setCurrentIndex, currentIndex } = useContext(TagViewContext);
   const oneAssetWidth = isIpad ? Dimensions.get('window').width / 6 : Dimensions.get('window').width / 3;
 
   const handleImageLoad = () => {
@@ -24,17 +24,18 @@ const ContentThumbnail = (props) => {
         style={{ width: oneAssetWidth, height: oneAssetWidth, padding: 2 }}
         onPress={() => {
           setCurrentPost(props.post);
+          setCurrentIndex(props.index);
           props.navigation.navigate({
             name: 'ViewPostStackNavigator',
             params: { screen: 'ViewPost', params: { post: props.post } },
           });
         }}
       >
+        {isLoading && <Skeleton />}
         <Video
           source={{ uri: props.post.contents[0].data }}
           style={{ width: '100%', height: '100%', borderRadius: 5 }}
         />
-        ;
       </TouchableOpacity>
     );
   } else {
@@ -43,6 +44,7 @@ const ContentThumbnail = (props) => {
         style={{ width: oneAssetWidth, height: oneAssetWidth, padding: 2 }}
         onPress={() => {
           setCurrentPost(props.post);
+          setCurrentIndex(props.index);
           props.navigation.navigate({
             name: 'ViewPostStackNavigator',
             params: { screen: 'ViewPost', params: { post: props.post } },

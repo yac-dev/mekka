@@ -26,6 +26,7 @@ const TagViewStackNavigator: React.FC = (props) => {
   const [currentPage, setCurrentPage] = useState(0);
   const [hasMoreItems, setHasMoreItems] = useState(true);
   const [currentPost, setCurrentPost] = useState({});
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   const getPostsByTagId = async () => {
     setIsLoading(true);
@@ -58,6 +59,8 @@ const TagViewStackNavigator: React.FC = (props) => {
         setHasMoreItems,
         currentPost,
         setCurrentPost,
+        currentIndex,
+        setCurrentIndex,
       }}
     >
       <Stack.Navigator>

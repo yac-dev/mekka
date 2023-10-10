@@ -48,8 +48,8 @@ const TagView = (props) => {
     }
   };
 
-  const renderItem = useCallback((post) => {
-    return <ContentThumbnail post={post} navigation={props.navigation} />;
+  const renderItem = useCallback((post, index) => {
+    return <ContentThumbnail post={post} index={index} navigation={props.navigation} />;
     // if (post.contents[0].type === 'video') {
     //   return (
     //     <TouchableOpacity
@@ -93,7 +93,7 @@ const TagView = (props) => {
           style={{ paddingTop: 10 }}
           numColumns={3}
           data={posts}
-          renderItem={({ item }) => renderItem(item)}
+          renderItem={({ item, index }) => renderItem(item, index)}
           keyExtractor={(item, index) => `${item._id}-${index}`}
           // refreshControl={
           //   <RefreshControl colors={['#FF0000', '#00FF00']} refreshing={isRefreshing} onRefresh={() => onRefresh()} />
