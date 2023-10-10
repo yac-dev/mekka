@@ -7,6 +7,7 @@ import { SpaceRootContext } from '../contexts/SpaceRootContext';
 import { GlobalContext } from '../../../contexts/GlobalContext';
 import { PostsContext } from '../../../contexts/PostsContext';
 import { TagViewContext } from '../contexts/TagViewContext';
+import ContentThumbnail from '../components/ContentThumbnail';
 
 const TagView = (props) => {
   const { isIpad } = useContext(GlobalContext);
@@ -48,40 +49,41 @@ const TagView = (props) => {
   };
 
   const renderItem = useCallback((post) => {
-    if (post.contents[0].type === 'video') {
-      return (
-        <TouchableOpacity
-          style={{ width: oneAssetWidth, height: oneAssetWidth, padding: 2 }}
-          onPress={() => {
-            setCurrentPost(post);
-            props.navigation.navigate({
-              name: 'ViewPostStackNavigator',
-              params: { screen: 'ViewPost', params: { post } },
-            });
-          }}
-        >
-          <Video source={{ uri: post.contents[0].data }} style={{ width: '100%', height: '100%', borderRadius: 5 }} />;
-        </TouchableOpacity>
-      );
-    } else {
-      return (
-        <TouchableOpacity
-          style={{ width: oneAssetWidth, height: oneAssetWidth, padding: 2 }}
-          onPress={() => {
-            setCurrentPost(post);
-            props.navigation.navigate({
-              name: 'ViewPostStackNavigator',
-              params: { screen: 'ViewPost', params: { post } },
-            });
-          }}
-        >
-          <FastImage
-            source={{ uri: post.contents[0].data }}
-            style={{ width: '100%', height: '100%', borderRadius: 5 }}
-          />
-        </TouchableOpacity>
-      );
-    }
+    return <ContentThumbnail post={post} navigation={props.navigation} />;
+    // if (post.contents[0].type === 'video') {
+    //   return (
+    //     <TouchableOpacity
+    //       style={{ width: oneAssetWidth, height: oneAssetWidth, padding: 2 }}
+    //       onPress={() => {
+    //         setCurrentPost(post);
+    //         props.navigation.navigate({
+    //           name: 'ViewPostStackNavigator',
+    //           params: { screen: 'ViewPost', params: { post } },
+    //         });
+    //       }}
+    //     >
+    //       <Video source={{ uri: post.contents[0].data }} style={{ width: '100%', height: '100%', borderRadius: 5 }} />;
+    //     </TouchableOpacity>
+    //   );
+    // } else {
+    //   return (
+    //     <TouchableOpacity
+    //       style={{ width: oneAssetWidth, height: oneAssetWidth, padding: 2 }}
+    //       onPress={() => {
+    //         setCurrentPost(post);
+    //         props.navigation.navigate({
+    //           name: 'ViewPostStackNavigator',
+    //           params: { screen: 'ViewPost', params: { post } },
+    //         });
+    //       }}
+    //     >
+    //       <FastImage
+    //         source={{ uri: post.contents[0].data }}
+    //         style={{ width: '100%', height: '100%', borderRadius: 5 }}
+    //       />
+    //     </TouchableOpacity>
+    //   );
+    // }
   }, []);
 
   if (posts.length) {
