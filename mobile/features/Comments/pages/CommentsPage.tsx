@@ -12,6 +12,7 @@ const CommentsPage = (props) => {
     setComments(comments);
     setIsLoading(false);
   };
+  console.log(comments);
 
   useEffect(() => {
     getCommentsByPostId();
@@ -20,7 +21,7 @@ const CommentsPage = (props) => {
   const renderComment = useCallback((item) => {
     return (
       <View style={{ padding: 15 }}>
-        <Text style={{ color: 'red' }}>{item.content}</Text>
+        <Text style={{ color: 'white' }}>{item.content}</Text>
       </View>
     );
   }, []);
@@ -36,7 +37,11 @@ const CommentsPage = (props) => {
   return (
     <View style={{ flex: 1, backgroundColor: 'black', padding: 10 }}>
       {comments.length ? (
-        <FlatList data={comments} renderItem={renderComment} keyExtractor={(item, index) => `${item._id}-${index}`} />
+        <FlatList
+          data={comments}
+          renderItem={({ item }) => renderComment(item)}
+          keyExtractor={(item, index) => `${item._id}-${index}`}
+        />
       ) : (
         <Text style={{ color: 'white', marginTop: 50, textAlign: 'center' }}>
           You'll see all the comments of this post.

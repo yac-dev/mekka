@@ -68,8 +68,13 @@ const Content = forwardRef(({ post }, parentRef) => {
     );
   } else if (viewingContent.type === 'photo') {
     return (
-      <View style={{ flex: 1 }}>
-        <View style={{}}>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <FastImage
+          source={{ uri: viewingContent.data }}
+          style={{ width: '100%', aspectRatio: 1, marginBottom: 10 }}
+          resizeMode='cover'
+        />
+        <View style={{ flexDirection: 'column', position: 'absolute', bottom: 80, left: 30 }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
             <FastImage
               source={{ uri: post.createdBy.avatar }}
@@ -87,14 +92,9 @@ const Content = forwardRef(({ post }, parentRef) => {
               <Text style={{ color: 'white' }}>{renderDate(post.createdAt)}</Text>
             </View>
           </View>
-          <View style={{ position: 'absolute', right: 10, top: 10 }}>{renderContentOptions()}</View>
           <Text style={{ color: 'white', fontSize: 17 }}>{post.caption}</Text>
         </View>
-        <FastImage
-          source={{ uri: viewingContent.data }}
-          style={{ width: '100%', aspectRatio: 1, marginBottom: 10 }}
-          resizeMode='cover'
-        />
+        <View style={{ position: 'absolute', right: 10, top: 10 }}>{renderContentOptions()}</View>
       </View>
     );
   }

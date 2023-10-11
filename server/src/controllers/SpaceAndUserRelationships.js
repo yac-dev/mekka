@@ -24,7 +24,7 @@ export const getMySpaces = async (request, response) => {
       ],
     });
 
-    console.log(JSON.stringify(documents, null, 4));
+    // console.log(JSON.stringify(documents, null, 4));
 
     const spaceAndUserRelationships = documents.filter((relationship) => relationship.space !== null);
     response.status(200).json({

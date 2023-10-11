@@ -5,8 +5,12 @@ const Stack = createNativeStackNavigator();
 import ViewPost from '../features/ViewPost/pages/ViewPost';
 import CommentsPage from '../features/Comments/pages/CommentsPage';
 import { Ionicons } from '@expo/vector-icons';
+import { GlobalContext } from '../contexts/GlobalContext';
+import FastImage from 'react-native-fast-image';
 
 const ViewPostStackNavigator = () => {
+  const { currentTagObject } = useContext(GlobalContext);
+
   return (
     <Stack.Navigator
       screenOptions={({ navigation, route }) => ({
@@ -29,12 +33,23 @@ const ViewPostStackNavigator = () => {
                 <Ionicons name='close-circle-sharp' size={30} color={'white'} />
               </TouchableOpacity>
             ),
-            headerTitle: '',
-            headerStyle: {
-              backgroundColor: 'black',
-            },
+            headerTransparent: true,
+            headerTitle: () => (
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <FastImage
+                  source={{ uri: currentTagObject.tag.icon }}
+                  style={{ width: 20, height: 20, marginRight: 10 }}
+                  tintColor={currentTagObject.tag.iconType === 'icon' ? currentTagObject.tag.color : null}
+                />
+                <Text style={{ color: 'white', fontSize: 20 }}>{currentTagObject.tag.name}</Text>
+              </View>
+            ),
+            // headerStyle: {
+            //   backgroundColor: 'black',
+            // },
             headerTitleStyle: {
               fontWeight: 'bold',
+              color: 'white',
             },
           })}
         />

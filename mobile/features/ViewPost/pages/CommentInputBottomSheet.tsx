@@ -20,7 +20,7 @@ import { SpaceRootContext } from '../../Space/contexts/SpaceRootContext';
 // rgb(35, 35, 35)
 const CommentInputBottomSheet = (props) => {
   const snapPoints = useMemo(() => ['30%', '85%'], []);
-  const { isIpad, setLoading, authData } = useContext(GlobalContext);
+  const { isIpad, setLoading, authData, setSnackBar } = useContext(GlobalContext);
   const {
     spaceAndUserRelationship: { space },
   } = useContext(SpaceRootContext);
@@ -42,6 +42,12 @@ const CommentInputBottomSheet = (props) => {
     setLoading(true);
     const result = await backendAPI.post(`/comments/`, payload);
     setLoading(false);
+    setSnackBar({
+      isVisible: true,
+      barType: 'success',
+      message: 'Sent a comment successfully.',
+      duration: 5000,
+    });
     Keyboard.dismiss();
     setCommentInput('');
     commentInputBottomSheetRef.current.close();

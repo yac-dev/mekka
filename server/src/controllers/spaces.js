@@ -328,10 +328,40 @@ export const getPeopleBySpaceId = async (request, response) => {
   }
 };
 
+// path: 'space',
+// populate: [
+// {
+//   path: 'reactions',
+//   select: '_id type emoji sticker',
+//   model: 'Reaction',
+//   populate: {
+//     path: 'sticker',
+//     model: 'Sticker',
+//   },
+// },
+// {
+//   path: 'createdBy',
+//   select: '_id name avatar',
+// },
+// ],
 export const joinPrivateSpaceBySecretKey = async (request, response) => {
   try {
     const { userId, secretKey } = request.body;
-    const space = await Space.findOne({ secretKey });
+    const space = await Space.findOne({ secretKey }).populate([
+      {
+        path: 'reactions',
+        select: '_id type emoji sticker',
+        model: 'Reaction',
+        populate: {
+          path: 'sticker',
+          model: 'Sticker',
+        },
+      },
+      {
+        path: 'createdBy',
+        select: '_id name avatar',
+      },
+    ]);
     // 既にspaceに参加している場合は、エラーを返す。
     const document = await SpaceAndUserRelationship.findOne({
       user: userId,
@@ -353,12 +383,7 @@ export const joinPrivateSpaceBySecretKey = async (request, response) => {
     response.status(201).json({
       spaceAndUserRelationship: {
         _id: spaceAndUserRelationship._id,
-        space: {
-          _id: space._id,
-          name: space.name,
-          icon: space.icon,
-          contentType: space.contentType,
-        },
+        space,
       },
     });
   } catch (error) {
@@ -378,15 +403,27 @@ export const joinPublicSpace = async (request, response) => {
       createdAt: new Date(),
       lastCheckedIn: new Date(),
     });
+
+    const spaceDocument = await Space.findById(space._id).populate([
+      {
+        path: 'reactions',
+        select: '_id type emoji sticker',
+        model: 'Reaction',
+        populate: {
+          path: 'sticker',
+          model: 'Sticker',
+        },
+      },
+      {
+        path: 'createdBy',
+        select: '_id name avatar',
+      },
+    ]);
+
     response.status(201).json({
       spaceAndUserRelationship: {
         _id: spaceAndUserRelationship._id,
-        space: {
-          _id: space._id,
-          name: space.name,
-          icon: space.icon,
-          contentType: space.contentType,
-        },
+        space: spaceDocument,
       },
     });
   } catch (error) {

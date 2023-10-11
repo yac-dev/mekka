@@ -11,6 +11,7 @@ import BottomMenu from '../components/BottomMenu';
 // import ReactionOptions from '../compoReactionOptions';
 import Comments from './Comments';
 import LoadingSpinner from '../../../components/LoadingSpinner';
+import SnackBar from '../../../components/SnackBar';
 import { TagViewContext } from '../../Space/contexts/TagViewContext';
 import { Video } from 'expo-av';
 import FastImage from 'react-native-fast-image';
@@ -201,6 +202,7 @@ const ViewPost = (props) => {
         // isLoadingReactionStatuses={isLoadingReactionStatuses}
         />
         <LoadingSpinner />
+        <SnackBar />
       </GestureHandlerRootView>
     </ViewPostContext.Provider>
   );
