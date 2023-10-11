@@ -31,20 +31,21 @@ const CommentInputBottomSheet = (props) => {
   const iconContainerWidth = oneGridWidth * 0.9;
   const [commentInput, setCommentInput] = useState('');
   const inputAccessoryViewID = 'COMMENT_INPUT';
+  console.log(posts[currentIndex]._id);
 
-  // const sendComment = async () => {
-  //   const payload = {
-  //     content: commentInput,
-  //     postId: post._id,
-  //     userId: authData._id,
-  //   };
-  //   setLoading(true);
-  //   const result = await backendAPI.post(`/comments/`, payload);
-  //   setLoading(false);
-  //   Keyboard.dismiss();
-  //   setCommentInput('');
-  //   props.commentInputBottomSheetRef.current.close();
-  // };
+  const sendComment = async () => {
+    const payload = {
+      content: commentInput,
+      postId: posts[currentIndex]._id,
+      userId: authData._id,
+    };
+    setLoading(true);
+    const result = await backendAPI.post(`/comments/`, payload);
+    setLoading(false);
+    Keyboard.dismiss();
+    setCommentInput('');
+    commentInputBottomSheetRef.current.close();
+  };
   // まあ、bottomsheetが閉じないが、まあいいか。
 
   return (
@@ -115,6 +116,7 @@ const CommentInputBottomSheet = (props) => {
                   // backgroundColor: 'rgb(235, 235, 235)',
                   width: '100%', // ここも、下の修正に沿って80 90%に変える。
                   color: 'white',
+                  fontSize: 17,
                 }}
                 ref={textInputRef}
                 value={commentInput}

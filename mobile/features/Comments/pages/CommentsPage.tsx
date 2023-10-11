@@ -7,7 +7,7 @@ const CommentsPage = (props) => {
   const [isLoading, setIsLoading] = useState(true);
 
   const getCommentsByPostId = async () => {
-    const result = await backendAPI.get(`/posts/${props.postId}/comments`);
+    const result = await backendAPI.get(`/posts/${props.route.params.postId}/comments`);
     const { comments } = result.data;
     setComments(comments);
     setIsLoading(false);
@@ -35,7 +35,13 @@ const CommentsPage = (props) => {
 
   return (
     <View style={{ flex: 1, backgroundColor: 'black', padding: 10 }}>
-      <FlatList data={comments} renderItem={renderComment} keyExtractor={(item, index) => `${item._id}-${index}`} />
+      {comments.length ? (
+        <FlatList data={comments} renderItem={renderComment} keyExtractor={(item, index) => `${item._id}-${index}`} />
+      ) : (
+        <Text style={{ color: 'white', marginTop: 50, textAlign: 'center' }}>
+          You'll see all the comments of this post.
+        </Text>
+      )}
     </View>
   );
 };

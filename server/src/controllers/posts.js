@@ -503,10 +503,11 @@ export const getPostsByLocationTagId = async (request, response) => {
 
 export const getCommentsByPostId = async (request, response) => {
   try {
-    const comments = await Comment.find({ post: request.params.postId }).populate({
-      path: 'createdBy',
-      model: 'User',
-    });
+    const comments = await Comment.find({ post: request.params.postId }).populate([
+      { path: 'createdBy', model: 'User' },
+      { path: 'reply', model: 'Comment' },
+    ]);
+    console.log('comments here', comments);
 
     response.status(200).json({
       comments,
