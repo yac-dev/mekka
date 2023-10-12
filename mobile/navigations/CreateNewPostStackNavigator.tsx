@@ -26,6 +26,7 @@ const CreateNewPostStackNavigator = (props) => {
   const [tagOptions, setTagOptions] = useState([]);
   const [addedLocationTag, setAddedLocationTag] = useState(null);
   const [locationTagOptions, setLocationTagOptions] = useState([]);
+  const [moments, setMoments] = useState([]);
 
   const {
     spaceAndUserRelationship: { space },
@@ -117,6 +118,39 @@ const CreateNewPostStackNavigator = (props) => {
     }
   };
 
+  const onMomentPostPress = async () => {
+    const payload = new FormData();
+    payload.append('disappearAfter', space.disappearAfter);
+    payload.append('createdBy', authData._id);
+    payload.append('spaceId', space._id);
+    for (let content of moments) {
+      const obj = {
+        name: content.uri.split('/').pop(),
+        uri: content.uri,
+        type: content.type === 'image' ? 'image/jpg' : 'video/mp4',
+      };
+      payload.append('contents', JSON.parse(JSON.stringify(obj)));
+    }
+    console.log(payload);
+    setLoading(true);
+    const result = await backendAPI.post('/moments', payload, {
+      headers: { 'Content-type': 'multipart/form-data' },
+    });
+    setLoading(false);
+    const { post } = result.data;
+    setSnackBar({
+      isVisible: true,
+      barType: 'success',
+      message: 'Post has been created successfully.',
+      duration: 7000,
+    });
+    props.navigation.navigate({
+      name: `Space_${props.route?.params?.spaceAndUserRelationship._id}`,
+      params: { afterPosted: true }, // 作ったtagをSpaceRootに入れる。
+      merge: true,
+    });
+  };
+
   return (
     <CreateNewPostContext.Provider
       value={{
@@ -139,6 +173,8 @@ const CreateNewPostStackNavigator = (props) => {
         route: props.route,
         dummyCreatedTagId,
         setDummyCreatedTagId,
+        moments,
+        setMoments,
       }}
     >
       <Stack.Navigator>
@@ -280,15 +316,15 @@ const CreateNewPostStackNavigator = (props) => {
               },
               headerRight: () => {
                 return (
-                  <TouchableOpacity onPress={() => navigation.goBack()}>
+                  <TouchableOpacity onPress={() => onMomentPostPress()} disabled={moments.length ? false : true}>
                     <Text
                       style={{
-                        color: 'white',
+                        color: moments.length ? 'white' : 'rgb(70,70,70)',
                         fontSize: 20,
                         fontWeight: 'bold',
                       }}
                     >
-                      Next
+                      Done
                     </Text>
                   </TouchableOpacity>
                 );

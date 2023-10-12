@@ -7,30 +7,16 @@ import FastImage from 'react-native-fast-image';
 import { Ionicons } from '@expo/vector-icons';
 import backendAPI from '../../../apis/backend';
 import LoadingSpinner from '../../../components/LoadingSpinner';
+import { CreateNewPostContext } from '../contexts/CreateNewPostContext';
+import { Video } from 'expo-av';
+import { AntDesign } from '@expo/vector-icons';
 
 const MomentPost = (props) => {
   const { isIpad, setLoading, setSnackBar, authData } = useContext(GlobalContext);
   const oneAssetWidth = isIpad ? Dimensions.get('window').width / 6 : Dimensions.get('window').width / 3;
   const [contents, setContets] = useState([]);
-  const { space } = props.route.params;
-
-  useEffect(() => {
-    props.navigation.setOptions({
-      headerRight: () => (
-        <TouchableOpacity onPress={() => onDonePress()} disabled={contents.length ? false : true}>
-          <Text
-            style={{
-              color: contents.length ? 'white' : 'rgb(70,70,70)',
-              fontSize: 20,
-              fontWeight: 'bold',
-            }}
-          >
-            Done
-          </Text>
-        </TouchableOpacity>
-      ),
-    });
-  }, [contents]);
+  // const { space } = props.route.params;
+  const { space, setMoments, moments } = useContext(CreateNewPostContext);
 
   const calcurateMinutes = () => {
     if (space.disappearAfter >= 60) {
@@ -48,7 +34,7 @@ const MomentPost = (props) => {
     }
   };
 
-  const pickImages = async () => {
+  const pickContents = async () => {
     const pickerOption = {
       mediaTypes:
         space.contentType === 'photo'
@@ -64,7 +50,7 @@ const MomentPost = (props) => {
     let result = await ImagePicker.launchImageLibraryAsync(pickerOption);
     if (!result.canceled && result.assets) {
       // result assets それぞれのassetに対して、dataを作る様にすると。
-      setContets((previous) => {
+      setMoments((previous) => {
         const addedAssets = result.assets.map((asset) => {
           return {
             uri: asset.uri,
@@ -78,86 +64,114 @@ const MomentPost = (props) => {
     }
   };
 
-  const onDonePress = async () => {
-    try {
-      const payload = new FormData();
-      payload.append('disappearAfter', space.disappearAfter);
-      payload.append('createdBy', authData._id);
-      payload.append('spaceId', space._id);
-      for (let content of contents) {
-        const obj = {
-          name: content.uri.split('/').pop(),
-          uri: content.uri,
-          type: content.type === 'image' ? 'image/jpg' : 'video/mp4',
-        };
-        payload.append('contents', JSON.parse(JSON.stringify(obj)));
-      }
-      console.log(payload);
-      setLoading(true);
-      const result = await backendAPI.post('/moments', payload, {
-        headers: { 'Content-type': 'multipart/form-data' },
-      });
-      setLoading(false);
-      const { post } = result.data;
-      setSnackBar({
-        isVisible: true,
-        barType: 'success',
-        message: 'Post has been created successfully.',
-        duration: 7000,
-      });
-      // props.navigation.navigate({
-      //   name: `Space_${props.route?.params?.spaceAndUserRelationship._id}`,
-      //   params: { afterPosted: true },
-      //   merge: true,
-      // });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const renderAddedContents = () => {
-    if (contents.length) {
-      const list = contents.map((content, index) => {
-        return (
-          <View key={index}>
+  const renderContents = () => {
+    const list = moments.map((content, index) => {
+      return (
+        <View key={index} style={{ width: oneAssetWidth, height: oneAssetWidth, padding: 2 }}>
+          {content.type === 'image' ? (
             <FastImage
               source={{ uri: content.uri }}
-              style={{ width: 90, height: 90, borderRadius: 12, marginRight: 10 }}
+              style={{ width: '100%', height: '100%', borderRadius: 12, marginRight: 10 }}
             />
-            <TouchableOpacity
-              style={{
-                position: 'absolute',
-                top: 0,
-                right: 10,
-                backgroundColor: 'red',
-                width: 30,
-                height: 30,
-                borderRadius: 15,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-              onPress={() =>
-                setContets((previous) => {
-                  const updating = [...previous];
-                  return updating.filter((element, idx) => index !== idx);
-                })
-              }
-            >
-              <Ionicons name='trash' size={20} color={'white'} />
-            </TouchableOpacity>
-          </View>
-        );
-      });
-
-      return (
-        <ScrollView horizontal={true}>
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>{list}</View>
-        </ScrollView>
+          ) : (
+            <Video
+              source={{ uri: content.uri }}
+              style={{ width: '100%', height: '100%', borderRadius: 12, marginRight: 10 }}
+            />
+          )}
+          <TouchableOpacity
+            style={{
+              position: 'absolute',
+              top: -10,
+              right: 0,
+              backgroundColor: 'red',
+              width: 30,
+              height: 30,
+              borderRadius: 15,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+            onPress={() =>
+              setMoments((previous) => {
+                const updating = [...previous];
+                const updated = updating.filter((content, idx) => index !== idx);
+                return updated;
+              })
+            }
+          >
+            <Ionicons name='trash' size={20} color={'white'} />
+          </TouchableOpacity>
+        </View>
       );
-    } else {
-      return null;
-    }
+    });
+
+    return (
+      <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginBottom: 30 }}>
+        {moments.length >= 6 ? null : (
+          <TouchableOpacity
+            style={{
+              backgroundColor: 'white',
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: oneAssetWidth,
+              height: oneAssetWidth,
+              padding: 2,
+              borderRadius: oneAssetWidth / 2,
+            }}
+            onPress={() => pickContents()}
+          >
+            <AntDesign name='plus' size={30} color='black' style={{ marginBottom: 10 }} />
+            <Text style={{ color: 'black', fontWeight: 'bold', fontSize: 20 }}>Add</Text>
+          </TouchableOpacity>
+        )}
+        {moments.length ? list : null}
+      </View>
+    );
   };
+
+  // const renderAddedContents = () => {
+  //   if (contents.length) {
+  //     const list = contents.map((content, index) => {
+  //       return (
+  //         <View key={index}>
+  //           <FastImage
+  //             source={{ uri: content.uri }}
+  //             style={{ width: 90, height: 90, borderRadius: 12, marginRight: 10 }}
+  //           />
+  //           <TouchableOpacity
+  //             style={{
+  //               position: 'absolute',
+  //               top: 0,
+  //               right: 10,
+  //               backgroundColor: 'red',
+  //               width: 30,
+  //               height: 30,
+  //               borderRadius: 15,
+  //               justifyContent: 'center',
+  //               alignItems: 'center',
+  //             }}
+  //             onPress={() =>
+  //               setContets((previous) => {
+  //                 const updating = [...previous];
+  //                 return updating.filter((element, idx) => index !== idx);
+  //               })
+  //             }
+  //           >
+  //             <Ionicons name='trash' size={20} color={'white'} />
+  //           </TouchableOpacity>
+  //         </View>
+  //       );
+  //     });
+
+  //     return (
+  //       <ScrollView horizontal={true}>
+  //         <View style={{ flexDirection: 'row', alignItems: 'center' }}>{list}</View>
+  //       </ScrollView>
+  //     );
+  //   } else {
+  //     return null;
+  //   }
+  // };
 
   return (
     <View style={{ flex: 1, backgroundColor: 'black', padding: 10 }}>
@@ -175,12 +189,13 @@ const MomentPost = (props) => {
         </Text>
         <View style={{ flexDirection: 'column' }}>
           <Text style={{ textAlign: 'center', color: 'rgb(180, 180, 180)' }}>
-            Moment is a story of IG. Instead of 24 hours rule, your post will be disappeared within
+            Moment is a story of IG. Instead of 24 hours constrain, your moment post will be disappeared within
           </Text>
           {calcurateMinutes()}
         </View>
       </View>
-      <View style={{ paddingTop: 10 }}>
+      {renderContents()}
+      {/* <View style={{ paddingTop: 10 }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 50 }}>
           <TouchableOpacity
             style={{
@@ -199,7 +214,7 @@ const MomentPost = (props) => {
           </TouchableOpacity>
           {renderAddedContents()}
         </View>
-      </View>
+      </View> */}
       <LoadingSpinner />
     </View>
   );

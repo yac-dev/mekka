@@ -37,52 +37,55 @@ const SelectPostType = (props) => {
           Post your photo/video and share your moments with your peers.
         </Text>
       </View>
-      <View style={{ padding: 10 }}>
+      <View style={{ padding: 10, flexDirection: 'row', alignItems: 'center', alignSelf: 'center', marginTop: 40 }}>
         <TouchableOpacity
           style={{
             padding: 20,
-            flexDirection: 'row',
+            flexDirection: 'column',
             alignItems: 'center',
-            justifyContent: 'space-between',
+            justifyContent: 'center',
             backgroundColor: 'white',
-            borderRadius: 30,
-            marginBottom: 20,
+            borderRadius: 60,
+            marginRight: 20,
+            width: 120,
+            height: 120,
           }}
           onPress={() => {
             setPostType('normalPost');
             navigation?.navigate('NormalPost');
           }}
         >
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Ionicons name='images' color='black' size={25} style={{ marginRight: 20 }} />
-            <Text style={{ color: 'black', fontSize: 17, fontWeight: 'bold' }}>Normal post</Text>
-          </View>
-          <MaterialCommunityIcons name='chevron-right' color='black' size={25} />
+          <Ionicons name='images' color='black' size={25} style={{ marginBottom: 5 }} />
+          <Text style={{ color: 'black', fontSize: 17, fontWeight: 'bold', textAlign: 'center' }}>
+            Normal{'\n'}post
+          </Text>
         </TouchableOpacity>
+        <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 23, marginRight: 20 }}>Or</Text>
         <TouchableOpacity
           style={{
-            padding: 20,
-            flexDirection: 'row',
+            flexDirection: 'column',
             alignItems: 'center',
-            justifyContent: 'space-between',
+            justifyContent: 'center',
             backgroundColor: 'white',
-            borderRadius: 30,
-            marginBottom: 20,
+            borderRadius: 60,
+            width: 120,
+            height: 120,
           }}
           onPress={() => {
             setPostType('moment');
             navigation?.navigate('MomentPost');
           }}
         >
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <FastImage
-              source={require('../../../assets/forApp/ghost.png')}
-              tintColor={'black'}
-              style={{ width: 25, height: 25, marginRight: 20 }}
-            />
-            <Text style={{ color: 'black', fontSize: 17, fontWeight: 'bold' }}>Moment</Text>
-          </View>
-          <MaterialCommunityIcons name='chevron-right' color='black' size={25} />
+          {/* <View style={{ flexDirection: 'row', alignItems: 'center' }}></View>
+          <MaterialCommunityIcons name='chevron-right' color='black' size={25} /> */}
+          <FastImage
+            source={require('../../../assets/forApp/ghost.png')}
+            tintColor={'black'}
+            style={{ width: 25, height: 25, marginBottom: 5 }}
+          />
+          <Text style={{ color: 'black', fontSize: 17, fontWeight: 'bold', textAlign: 'center' }}>
+            Moment{'\n'}post
+          </Text>
         </TouchableOpacity>
       </View>
     </View>

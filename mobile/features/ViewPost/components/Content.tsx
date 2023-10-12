@@ -84,11 +84,13 @@ const Content = forwardRef(({ post }, parentRef) => {
               // tintColor={'white'}
             />
             <View style={{ flexDirection: 'column' }}>
-              <Text style={{ color: 'white', marginBottom: 10 }}>{post.createdBy.name}</Text>
-              <Text style={{ color: 'white' }}>{renderDate(post.createdAt)}</Text>
+              <View style={{ flexDirection: 'row', marginBottom: 10 }}>
+                <Text style={{ color: 'white', marginRight: 20 }}>{post.createdBy.name}</Text>
+                <Text style={{ color: 'white' }}>{renderDate(post.createdAt)}</Text>
+              </View>
+              <Text style={{ color: 'white', fontSize: 18, fontWeight: 'bold' }}>{post.caption}</Text>
             </View>
           </View>
-          <Text style={{ color: 'white', fontSize: 17 }}>{post.caption}</Text>
         </View>
         <View style={{ justifyContent: 'center', alignItems: 'center' }}>
           <FastImage
