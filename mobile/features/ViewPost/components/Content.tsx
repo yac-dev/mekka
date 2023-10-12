@@ -11,6 +11,7 @@ const Content = forwardRef(({ post }, parentRef) => {
   const [viewingContent, setViewingContent] = useState(post.contents[0]);
   // const {} = useContext(SpaceRootContext)
 
+  // ここも横スクロールできるようにするといいよな。。。contentに対して。
   const renderDate = (date) => {
     const d = new Date(date).toLocaleDateString('en-US', {
       month: 'short',
@@ -29,28 +30,28 @@ const Content = forwardRef(({ post }, parentRef) => {
           return (
             <TouchableOpacity
               key={index}
-              style={{ width: 50, height: 50, marginRight: 10 }}
+              style={{ width: 40, height: 40, marginRight: 3 }}
               onPress={() => setViewingContent(content)}
             >
-              <Video source={{ uri: content.data }} style={{ width: '100%', height: '100%', borderRadius: 12 }} />
+              <Video source={{ uri: content.data }} style={{ width: '100%', height: '100%', borderRadius: 5 }} />
             </TouchableOpacity>
           );
         } else {
           return (
             <TouchableOpacity
               key={index}
-              style={{ width: 50, height: 50, marginRight: 10 }}
+              style={{ width: 40, height: 40, marginRight: 3 }}
               onPress={() => setViewingContent(content)}
             >
-              <FastImage source={{ uri: content.data }} style={{ width: '100%', height: '100%', borderRadius: 12 }} />
+              <FastImage source={{ uri: content.data }} style={{ width: '100%', height: '100%', borderRadius: 5 }} />
             </TouchableOpacity>
           );
         }
       });
 
       return (
-        <ScrollView style={{ marginBottom: 10 }}>
-          <View style={{ flexDirection: 'column', alignItems: 'center' }}>{list}</View>
+        <ScrollView horizontal={true} style={{ marginBottom: 10 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>{list}</View>
         </ScrollView>
       );
     } else {
@@ -69,12 +70,7 @@ const Content = forwardRef(({ post }, parentRef) => {
   } else if (viewingContent.type === 'photo') {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <FastImage
-          source={{ uri: viewingContent.data }}
-          style={{ width: '100%', aspectRatio: 1, marginBottom: 10 }}
-          resizeMode='cover'
-        />
-        <View style={{ flexDirection: 'column', position: 'absolute', bottom: 80, left: 30 }}>
+        <View style={{ flexDirection: 'column', position: 'absolute', top: 80, left: 10 }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
             <FastImage
               source={{ uri: post.createdBy.avatar }}
@@ -94,7 +90,14 @@ const Content = forwardRef(({ post }, parentRef) => {
           </View>
           <Text style={{ color: 'white', fontSize: 17 }}>{post.caption}</Text>
         </View>
-        <View style={{ position: 'absolute', right: 10, top: 10 }}>{renderContentOptions()}</View>
+        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+          <FastImage
+            source={{ uri: viewingContent.data }}
+            style={{ width: '100%', aspectRatio: 1, marginBottom: 10 }}
+            resizeMode='cover'
+          />
+        </View>
+        <View style={{ position: 'absolute', bottom: 60 }}>{renderContentOptions()}</View>
       </View>
     );
   }

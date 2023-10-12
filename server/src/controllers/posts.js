@@ -238,6 +238,9 @@ export const createPost = async (request, response) => {
       parsedAddedLocationTag = JSON.parse(addedLocationTag);
     }
 
+    console.log(parsedCreatedLocationTag);
+    console.log(parsedAddedLocationTag);
+
     // 1 contentsを作る。
     // batch creation
     const contentPromises = files.map(async (file) => {
@@ -285,7 +288,7 @@ export const createPost = async (request, response) => {
       contents: contentIds,
       caption,
       space: spaceId,
-      locationTag: createdLocationTag ? createdLocationTag : parsedAddedLocationTag ? parsedAddedLocationTag : null,
+      locationTag: addingLocationTag._id,
       createdBy,
       createdAt,
     });
