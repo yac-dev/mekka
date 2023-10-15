@@ -6,7 +6,7 @@ import { MomentsContext } from '../../Moments/contexts/MomentsContext';
 import Content from '../components/Content';
 
 const ViewMoment = (props) => {
-  const { currentPost, setCurrentPost, posts, currentIndex } = useContext(MomentsContext);
+  const { currentPost, setCurrentPost, moments, currentIndex } = useContext(MomentsContext);
   const mediaRefs = useRef([]);
   const reactionStatusesBottomSheetRef = useRef(null);
   const commentInputBottomSheetRef = useRef(null);
@@ -44,7 +44,7 @@ const ViewMoment = (props) => {
   return (
     <View style={{ flex: 1, backgroundColor: 'black' }}>
       <FlatList
-        data={posts}
+        data={moments}
         renderItem={renderItem}
         pagingEnabled
         keyExtractor={(item, index) => `${item._id}-${index}`}
