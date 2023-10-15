@@ -10,6 +10,7 @@ import LoadingSpinner from '../../../components/LoadingSpinner';
 import { CreateNewPostContext } from '../contexts/CreateNewPostContext';
 import { Video } from 'expo-av';
 import { AntDesign } from '@expo/vector-icons';
+import SnackBar from '../../../components/SnackBar';
 
 const MomentPost = (props) => {
   const { isIpad, setLoading, setSnackBar, authData } = useContext(GlobalContext);
@@ -33,6 +34,7 @@ const MomentPost = (props) => {
       );
     }
   };
+  // spaceのvideo lengthも含めてな。ここでやろうか。
 
   const pickContents = async () => {
     const pickerOption = {
@@ -48,18 +50,45 @@ const MomentPost = (props) => {
     };
 
     let result = await ImagePicker.launchImageLibraryAsync(pickerOption);
+    // if (!result.canceled && result.assets) {
+    //   // result assets それぞれのassetに対して、dataを作る様にすると。
+    //   setMoments((previous) => {
+    //     const addedAssets = result.assets.map((asset) => {
+    //       return {
+    //         uri: asset.uri,
+    //         type: asset.type === 'image' ? 'image' : 'video',
+    //         duration: asset.duration ? asset.duration : null,
+    //       };
+    //     });
+
+    //     return [...previous, ...addedAssets];
+    //   });
+    // }
     if (!result.canceled && result.assets) {
       // result assets それぞれのassetに対して、dataを作る様にすると。
       setMoments((previous) => {
-        const addedAssets = result.assets.map((asset) => {
-          return {
-            uri: asset.uri,
-            type: asset.type === 'image' ? 'image' : 'video',
-            duration: asset.duration ? asset.duration : null,
-          };
+        console.log(result.assets);
+        const adding = [];
+        result.assets.forEach((asset) => {
+          if (asset.type === 'video') {
+            // 基本は, videoの時はdurationがspaceのvideo length以下の時だけ入れる様にする。
+            if (asset.duration / 1000 <= space.videoLength) {
+              adding.push({ uri: asset.uri, type: 'video', duration: asset.duration ? asset.duration : null });
+            } else {
+              // addingのarrayに入れないで、snacbarを出してあげる。無理ですって。
+              setSnackBar({
+                isVisible: true,
+                barType: 'warning',
+                message: `OOPS. Video length is limited to ${space.videoLength} in this space.`,
+                duration: 5000,
+              });
+            }
+          } else if (asset.type === 'image') {
+            adding.push({ uri: asset.uri, type: 'image', duration: asset.duration ? asset.duration : null });
+          }
         });
 
-        return [...previous, ...addedAssets];
+        return [...previous, ...adding];
       });
     }
   };
@@ -215,6 +244,7 @@ const MomentPost = (props) => {
           {renderAddedContents()}
         </View>
       </View> */}
+      <SnackBar />
       <LoadingSpinner />
     </View>
   );

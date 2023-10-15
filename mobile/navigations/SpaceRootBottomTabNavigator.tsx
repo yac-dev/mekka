@@ -33,6 +33,7 @@ import Projects from '../features/Space/pages/Projects';
 import ChooseViewBottomSheet from '../features/Space/pages/ChooseViewBottomSheet';
 import LocationsViewPostsBottomSheet from '../features/Space/components/LocationsViewPostsBottomSheet';
 import CreateNewPostStackNavigator from './CreateNewPostStackNavigator';
+import MomentsViewStackNavigator from './MomentsViewStackNavigator';
 
 const Tab = createBottomTabNavigator();
 const viewTypeObject = {
@@ -202,8 +203,8 @@ const SpaceRootBottomTabNavigator = (props) => {
           />
 
           <Tab.Screen
-            name='MomentsView'
-            component={MomentsView}
+            name='MomentsViewStackNavigator'
+            component={MomentsViewStackNavigator}
             options={({ navigation }) => ({
               // tabBarShowLabel: false,
               tabBarIcon: ({ size, color, focused }) => (

@@ -75,19 +75,19 @@ export const getMomentsBySpaceId = async (request, response) => {
         select: '_id name avatar',
       });
 
-    const responseData = moments.map((moment) => {
-      return {
-        _id: moment._id,
-        content: {
-          data: moment.contents[0].data,
-          type: moment.contents[0].type,
-        },
-        createdAt: moment.createdAt,
-        disappearAt: moment.disappearAt,
-      };
-    });
+    // const responseData = moments.map((moment) => {
+    //   return {
+    //     _id: moment._id,
+    //     content: {
+    //       data: moment.contents[0].data,
+    //       type: moment.contents[0].type,
+    //     },
+    //     createdAt: moment.createdAt,
+    //     disappearAt: moment.disappearAt,
+    //   };
+    // });
     response.status(200).json({
-      moments: responseData,
+      moments,
     });
   } catch (error) {
     console.log(error);
