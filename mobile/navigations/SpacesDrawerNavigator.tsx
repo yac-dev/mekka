@@ -84,7 +84,7 @@ const SpacesDrawerNavigator = (props) => {
                   height: 80,
                 }}
                 onPress={() => {
-                  navigation.navigate('CreateNewSpace');
+                  navigation.navigate('CreateNewSpaceStackNavigator');
                   navigation.closeDrawer();
                 }}
               >

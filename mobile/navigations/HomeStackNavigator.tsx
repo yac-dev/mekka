@@ -18,6 +18,7 @@ import { Ionicons } from '@expo/vector-icons';
 import CreateNewSpace from '../features/CreateNewSpace/pages/CreateNewSpace';
 import WriteDescription from '../features/CreateNewSpace/pages/WriteDescription';
 import EmojiPicker from '../features/CreateNewSpace/pages/EmojiPicker';
+import CreateNewSpaceStackNavigator from './CreateNewSpaceStackNavigator';
 
 // secret key
 import SecretKeyForm from '../features/SecretKey/pages/Form';
@@ -152,10 +153,10 @@ const HomeStackNavigator: React.FC = (props) => {
 
           <Stack.Group screenOptions={{ presentation: 'fullScreenModal' }}>
             <Stack.Screen
-              name='CreateNewSpace'
-              component={CreateNewSpace}
+              name='CreateNewSpaceStackNavigator'
+              component={CreateNewSpaceStackNavigator}
               options={({ navigation }) => ({
-                headerShown: true,
+                headerShown: false,
                 headerLeft: () => (
                   <TouchableOpacity onPress={() => navigation.goBack()}>
                     <Ionicons name='close-circle-sharp' size={30} color={'white'} />
