@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { View, Text, TouchableOpacity, TextInput } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { CreateNewSpaceContext } from '../contexts/CreateNewSpace';
@@ -7,7 +7,6 @@ import { Picker } from '@react-native-picker/picker';
 
 const ContentType = () => {
   const { formData, setFormData } = useContext(CreateNewSpaceContext);
-  const [selectedLanguage, setSelectedLanguage] = useState();
   const [selectedMin, setSelectedMin] = useState();
   const [selectedSec, setSelectedSec] = useState();
   const pickerMinRef = useRef();
@@ -25,10 +24,40 @@ const ContentType = () => {
     // const secondText = seconds > 0 ? `${seconds} second` + (seconds > 1 ? 's' : '') : '';
 
     return {
-      minute: minutes,
+      minutes: minutes,
       seconds: seconds,
     };
   }
+
+  function calculateSeconds(minutes, seconds) {
+    const minNumber = Number(minutes);
+    const secNumber = Number(seconds);
+
+    if (minNumber < 0 || secNumber < 0 || secNumber >= 60) {
+      return 'Invalid input. Minutes should be non-negative, and seconds should be in the range 0-59.';
+    }
+
+    return minNumber * 60 + secNumber;
+  }
+
+  // 最後は、これの逆をやればいいのかな。
+  useEffect(() => {
+    const res = formatTime(formData.videoLength);
+    console.log(res);
+    setSelectedMin(res.minutes.toString());
+    setSelectedSec(res.seconds.toString());
+  }, []);
+
+  useEffect(() => {
+    const seconds = calculateSeconds(selectedMin, selectedSec);
+    setFormData((previous) => {
+      return {
+        ...previous,
+        videoLength: seconds,
+      };
+    });
+  }, [selectedMin, selectedSec]);
+  console.log(formData.videoLength);
 
   const renderMinPickerItems = () => {
     const minArr = Array.from({ length: 3 }, (x, i) => i);
