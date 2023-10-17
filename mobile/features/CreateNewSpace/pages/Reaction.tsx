@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import { CreateNewSpaceContext } from '../contexts/CreateNewSpace';
 import { Ionicons } from '@expo/vector-icons';
 
-const Reaction = () => {
+const Reaction = (props) => {
   const { formData, setFormData } = useContext(CreateNewSpaceContext);
 
   return (
@@ -102,7 +102,7 @@ const Reaction = () => {
             marginBottom: 20,
             marginTop: 30,
           }}
-          onPress={() => console.log('go to emoji picker')}
+          onPress={() => props.navigation.navigate('ReactionPicker')}
         >
           <Text>Add</Text>
         </TouchableOpacity>
