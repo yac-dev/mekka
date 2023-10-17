@@ -6,6 +6,8 @@ const Stack = createNativeStackNavigator();
 import Overview from '../features/CreateNewSpace/pages/Overview';
 import SelectSpaceVisibility from '../features/CreateNewSpace/pages/SelectSpaceVisibility';
 import ContentType from '../features/CreateNewSpace/pages/ContentType';
+import Moment from '../features/CreateNewSpace/pages/Moment';
+import Reaction from '../features/CreateNewSpace/pages/Reaction';
 import { Ionicons } from '@expo/vector-icons';
 import { GlobalContext } from '../contexts/GlobalContext';
 import { CreateNewSpaceContext } from '../features/CreateNewSpace/contexts/CreateNewSpace';
@@ -24,7 +26,7 @@ const CreateNewSpaceStackNavigator = (props) => {
     isCommentAvailable: undefined,
     isReactionAvailable: undefined,
     videoLength: 60,
-    disappearAfter: 24, // from 5 minutes to 1440 minutes(24 hours), 720 minutes(12 hours)
+    disappearAfter: 720, // from 5 minutes to 1440 minutes(24 hours), 720 minutes(12 hours)
     reactions: [],
     description: '',
   });
@@ -186,13 +188,49 @@ const CreateNewSpaceStackNavigator = (props) => {
             })}
           />
           <Stack.Screen
-            name='Reaction'
-            component={Overview}
+            name='Moment'
+            component={Moment}
             options={({ navigation }) => ({
               headerShown: true, // ここtrueにすると、,,,
               headerRight: () => (
                 <TouchableOpacity
-                  onPress={() => navigation.navigate('Moment')}
+                  onPress={() => navigation.navigate('Reaction')}
+                  disabled={formData.disappearAfter ? false : true}
+                >
+                  <Text
+                    style={{
+                      color: formData.disappearAfter ? 'white' : 'rgb(170,170,170)',
+                      fontSize: 20,
+                      fontWeight: 'bold',
+                    }}
+                  >
+                    Next
+                  </Text>
+                </TouchableOpacity>
+              ),
+              headerLeft: () => (
+                <TouchableOpacity onPress={() => navigation.goBack()}>
+                  <Ionicons name='arrow-back-circle-sharp' size={30} color={'white'} />
+                </TouchableOpacity>
+              ),
+              headerTitle: '',
+              headerStyle: {
+                backgroundColor: 'black',
+              },
+              headerTitleStyle: {
+                fontWeight: 'bold',
+                color: 'white',
+              },
+            })}
+          />
+          <Stack.Screen
+            name='Reaction'
+            component={Reaction}
+            options={({ navigation }) => ({
+              headerShown: true, // ここtrueにすると、,,,
+              headerRight: () => (
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('Description')}
                   disabled={formData.name.length && formData.icon && formData.isPublic !== undefined ? false : true}
                 >
                   <Text
@@ -228,7 +266,7 @@ const CreateNewSpaceStackNavigator = (props) => {
               headerShown: true, // ここtrueにすると、,,,
               headerRight: () => (
                 <TouchableOpacity
-                  onPress={() => navigation.navigate('Moment')}
+                  onPress={() => console.log('create done!!')}
                   disabled={formData.name.length && formData.icon && formData.isPublic !== undefined ? false : true}
                 >
                   <Text
@@ -238,7 +276,7 @@ const CreateNewSpaceStackNavigator = (props) => {
                       fontWeight: 'bold',
                     }}
                   >
-                    Next
+                    Create
                   </Text>
                 </TouchableOpacity>
               ),

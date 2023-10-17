@@ -48,42 +48,33 @@ const Overview = () => {
             sharing.
           </Text>
         </View>
-        {formData.icon ? (
-          <FastImage
-            source={{ uri: formData.icon }}
-            style={{ width: 120, height: 120, borderRadius: 120 / 2, alignSelf: 'center', marginBottom: 20 }}
-          />
-        ) : (
-          <TouchableOpacity
-            style={{
-              alignSelf: 'center',
-              backgroundColor: 'white',
-              justifyContent: 'center',
-              alignItems: 'center',
-              width: 120,
-              height: 120,
-              padding: 2,
-              borderRadius: 120 / 2,
-              marginBottom: 20,
-              marginTop: 30,
-            }}
-            onPress={() => pickImage()}
-          >
-            {formData.icon ? (
-              <FastImage
-                source={{ uri: formData.icon }}
-                style={{ width: 120, height: 120, borderRadius: 120 / 2, alignSelf: 'center', marginBottom: 20 }}
-              />
-            ) : (
-              <>
-                <MaterialCommunityIcons name='camera-plus' size={30} color='black' style={{ marginBottom: 10 }} />
-                <Text style={{ color: 'black', fontWeight: 'bold', fontSize: 20, textAlign: 'center' }}>
-                  Upload icon
-                </Text>
-              </>
-            )}
-          </TouchableOpacity>
-        )}
+        <TouchableOpacity
+          style={{
+            alignSelf: 'center',
+            backgroundColor: 'white',
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: 120,
+            height: 120,
+            padding: 2,
+            borderRadius: 120 / 2,
+            marginBottom: 20,
+            marginTop: 30,
+          }}
+          onPress={() => pickImage()}
+        >
+          {formData.icon ? (
+            <FastImage
+              source={{ uri: formData.icon }}
+              style={{ width: 120, height: 120, borderRadius: 120 / 2, alignSelf: 'center', marginBottom: 20 }}
+            />
+          ) : (
+            <>
+              <MaterialCommunityIcons name='camera-plus' size={30} color='black' style={{ marginBottom: 10 }} />
+              <Text style={{ color: 'black', fontWeight: 'bold', fontSize: 20, textAlign: 'center' }}>Upload icon</Text>
+            </>
+          )}
+        </TouchableOpacity>
 
         <View style={{ borderBottomColor: 'rgb(88, 88, 88)', borderBottomWidth: 1, padding: 10 }}>
           <TextInput
