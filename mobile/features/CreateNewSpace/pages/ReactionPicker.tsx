@@ -4,15 +4,18 @@ import { emojis } from '../../../utils/emojis';
 import { ReactionPickerContext } from '../contexts/ReactionPickerContext';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { GlobalContext } from '../../../contexts/GlobalContext';
+import { AntDesign } from '@expo/vector-icons';
 
 const Tab = createBottomTabNavigator();
 
 const Emojis = ({ emojiType }) => {
   const { isIpad } = useContext(GlobalContext);
   const { selectedReactions, setSelectedReactions } = useContext(ReactionPickerContext);
-  const oneGridWidth = isIpad ? Dimensions.get('window').width / 15 : Dimensions.get('window').width / 8;
+  const oneGridWidth = isIpad ? Dimensions.get('window').width / 15 : Dimensions.get('window').width / 9;
 
   const renderEmojis = () => {
+    const [emojiOptions, setEmojiOptions] = useState(emojis[emojiType]);
+
     // const list = emojis[emojiType].map((emoji, index) => {
     //   return (
     // <View key={index} style={{ width: oneGridWidth, aspectRatio: 1, padding: 3 }}>
@@ -43,8 +46,8 @@ const Emojis = ({ emojiType }) => {
     return (
       <View style={{ flex: 1, backgroundColor: 'black', paddingTop: 10 }}>
         <FlatList
-          data={emojis[emojiType]}
-          numColumns={8}
+          data={emojiOptions}
+          numColumns={9}
           renderItem={({ item }) => {
             return (
               <View style={{ width: oneGridWidth, aspectRatio: 1, padding: 3 }}>
@@ -57,9 +60,14 @@ const Emojis = ({ emojiType }) => {
                     alignItems: 'center',
                     borderRadius: 5,
                   }}
-                  // onPress={() => {
-                  //   setSelectedReaction({ type: 'emoji', emoji: emoji, sticker: undefined });
-                  // }}
+                  onPress={() => {
+                    // setSelectedReaction({ type: 'emoji', emoji: emoji, sticker: undefined });
+                    setSelectedReactions((previous) => [...previous, item]);
+                    setEmojiOptions((previous) => {
+                      const updating = [...previous];
+                      return updating.filter((element) => element !== item);
+                    });
+                  }}
                 >
                   <Text style={{ fontSize: 35 }}>{item}</Text>
                 </TouchableOpacity>
@@ -76,12 +84,45 @@ const Emojis = ({ emojiType }) => {
 };
 
 const ReactionPicker = () => {
-  const [selectedReactions, setSelectedReactions] = useState({}); // {emoji: true}
+  const [selectedReactions, setSelectedReactions] = useState([]); // {emoji: true}
+
+  const renderSelectedEmojis = () => {
+    if (selectedReactions.length) {
+      const list = selectedReactions.map((emoji, index) => {
+        return (
+          <View
+            style={{
+              width: 50,
+              height: 50,
+              backgroundColor: 'rgb(80, 80, 80)',
+              borderRadius: 15,
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginRight: 8,
+            }}
+          >
+            <Text style={{ fontSize: 40 }}>{emoji}</Text>
+            <TouchableOpacity style={{ position: 'absolute', top: -5, right: -5 }}>
+              <AntDesign name='minuscircle' color={'red'} size={20} />
+            </TouchableOpacity>
+          </View>
+        );
+      });
+
+      return (
+        <View style={{ flexDirection: 'row', alignItems: 'center', alignSelf: 'center', marginBottom: 20 }}>
+          {list}
+        </View>
+      );
+    } else {
+      return null;
+    }
+  };
 
   return (
     <ReactionPickerContext.Provider value={{ selectedReactions, setSelectedReactions }}>
       <View style={{ flex: 1, backgroundColor: 'black' }}>
-        <View style={{ paddingLeft: 30, paddingRight: 30, paddingTop: 20, paddingBottom: 50 }}>
+        <View style={{ paddingLeft: 30, paddingRight: 30, paddingTop: 20, paddingBottom: 20 }}>
           <Text
             style={{
               color: 'white',
@@ -97,6 +138,7 @@ const ReactionPicker = () => {
             Please choose at most 6 reaction options.
           </Text>
         </View>
+        {renderSelectedEmojis()}
         <Tab.Navigator
           screenOptions={{
             headerShown: false,

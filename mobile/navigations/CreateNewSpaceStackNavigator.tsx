@@ -8,6 +8,7 @@ import SelectSpaceVisibility from '../features/CreateNewSpace/pages/SelectSpaceV
 import ContentType from '../features/CreateNewSpace/pages/ContentType';
 import Moment from '../features/CreateNewSpace/pages/Moment';
 import Reaction from '../features/CreateNewSpace/pages/Reaction';
+import Description from '../features/CreateNewSpace/pages/Description';
 import ReactionPicker from '../features/CreateNewSpace/pages/ReactionPicker';
 import { Ionicons } from '@expo/vector-icons';
 import { GlobalContext } from '../contexts/GlobalContext';
@@ -247,7 +248,7 @@ const CreateNewSpaceStackNavigator = (props) => {
               ),
               headerLeft: () => (
                 <TouchableOpacity onPress={() => navigation.goBack()}>
-                  <Ionicons name='close-circle-sharp' size={30} color={'white'} />
+                  <Ionicons name='arrow-back-circle-sharp' size={30} color={'white'} />
                 </TouchableOpacity>
               ),
               headerTitle: '',
@@ -262,7 +263,7 @@ const CreateNewSpaceStackNavigator = (props) => {
           />
           <Stack.Screen
             name='Description'
-            component={Overview}
+            component={Description}
             options={({ navigation }) => ({
               headerShown: true, // ここtrueにすると、,,,
               headerRight: () => (
@@ -283,7 +284,7 @@ const CreateNewSpaceStackNavigator = (props) => {
               ),
               headerLeft: () => (
                 <TouchableOpacity onPress={() => navigation.goBack()}>
-                  <Ionicons name='close-circle-sharp' size={30} color={'white'} />
+                  <Ionicons name='arrow-back-circle-sharp' size={30} color={'white'} />
                 </TouchableOpacity>
               ),
               headerTitle: '',

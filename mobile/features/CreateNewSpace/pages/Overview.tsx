@@ -66,7 +66,7 @@ const Overview = () => {
           {formData.icon ? (
             <FastImage
               source={{ uri: formData.icon }}
-              style={{ width: 120, height: 120, borderRadius: 120 / 2, alignSelf: 'center', marginBottom: 20 }}
+              style={{ width: 120, height: 120, borderRadius: 120 / 2, alignSelf: 'center' }}
             />
           ) : (
             <>
@@ -79,9 +79,8 @@ const Overview = () => {
         <View style={{ borderBottomColor: 'rgb(88, 88, 88)', borderBottomWidth: 1, padding: 10 }}>
           <TextInput
             style={{
-              padding: 10,
-              fontSize: 17,
-              flex: 1,
+              padding: 0,
+              fontSize: 18,
               color: 'white',
             }}
             placeholder='Space name'
