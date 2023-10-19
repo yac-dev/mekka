@@ -1,48 +1,23 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, memo } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, FlatList, Dimensions } from 'react-native';
 import { emojis } from '../../../utils/emojis';
 import { ReactionPickerContext } from '../contexts/ReactionPickerContext';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { GlobalContext } from '../../../contexts/GlobalContext';
 import { AntDesign } from '@expo/vector-icons';
+import { CreateNewSpaceContext } from '../contexts/CreateNewSpace';
+import EmojisByCategory from '../components/EmojisByCategory';
 
 const Tab = createBottomTabNavigator();
 
-const Emojis = ({ emojiType }) => {
+const Emojis = memo(({ emojiType }) => {
   const { isIpad } = useContext(GlobalContext);
+  const { formData, setFormData } = useContext(CreateNewSpaceContext);
   const { selectedReactions, setSelectedReactions } = useContext(ReactionPickerContext);
   const oneGridWidth = isIpad ? Dimensions.get('window').width / 15 : Dimensions.get('window').width / 9;
 
   const renderEmojis = () => {
     const [emojiOptions, setEmojiOptions] = useState(emojis[emojiType]);
-
-    // const list = emojis[emojiType].map((emoji, index) => {
-    //   return (
-    // <View key={index} style={{ width: oneGridWidth, aspectRatio: 1, padding: 3 }}>
-    //   <TouchableOpacity
-    //     style={{
-    //       width: '100%',
-    //       height: '100%',
-    //       // backgroundColor: 'red',
-    //       justifyContent: 'center',
-    //       alignItems: 'center',
-    //       borderRadius: 5,
-    //     }}
-    //     // onPress={() => {
-    //     //   setSelectedReaction({ type: 'emoji', emoji: emoji, sticker: undefined });
-    //     // }}
-    //   >
-    //     <Text style={{ fontSize: 35 }}>{emoji}</Text>
-    //   </TouchableOpacity>
-    // </View>
-    //   );
-    // });
-
-    // return (
-    //   <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
-    //     <View style={{ flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center' }}>{list}</View>
-    //   </ScrollView>
-    // );
     return (
       <View style={{ flex: 1, backgroundColor: 'black', paddingTop: 10 }}>
         <FlatList
@@ -81,11 +56,11 @@ const Emojis = ({ emojiType }) => {
   };
 
   return <>{renderEmojis()}</>;
-};
+});
 
 const ReactionPicker = () => {
   const [selectedReactions, setSelectedReactions] = useState([]); // {emoji: true}
-
+  // ここでemojiOptionsを持っておかないとだめかね。。。
   const renderSelectedEmojis = () => {
     if (selectedReactions.length) {
       const list = selectedReactions.map((emoji, index) => {
@@ -109,16 +84,13 @@ const ReactionPicker = () => {
         );
       });
 
-      return (
-        <View style={{ flexDirection: 'row', alignItems: 'center', alignSelf: 'center', marginBottom: 20 }}>
-          {list}
-        </View>
-      );
+      return <View style={{ flexDirection: 'row', alignItems: 'center', alignSelf: 'center' }}>{list}</View>;
     } else {
       return null;
     }
   };
 
+  const list = ['frequentlyUsed', 'people', 'nature', 'food', 'activity', 'travel', 'objects', 'symbols', 'flags'];
   return (
     <ReactionPickerContext.Provider value={{ selectedReactions, setSelectedReactions }}>
       <View style={{ flex: 1, backgroundColor: 'black' }}>
@@ -159,74 +131,76 @@ const ReactionPicker = () => {
           }}
         >
           <Tab.Screen
-            name='SmileyAndPeople'
+            name='People'
             // component={(props) => <Emojis emojiType={'smileyAndPeople'} {...props} />}
             options={({ navigation, route }) => ({
               tabBarShowLabel: false,
               tabBarIcon: ({ size, color, focused }) => <Text style={{ fontSize: 25 }}>😁</Text>,
             })}
           >
-            {(props) => <Emojis emojiType={'smileyAndPeople'} {...props} />}
+            {/* {(props) => <Emojis emojiType={'smileyAndPeople'} {...props} />} */}
+            {(props) => <EmojisByCategory category={'people'} {...props} />}
           </Tab.Screen>
           <Tab.Screen
             name='Symbols'
-            // component={(props) => <Emojis emojiType={'symbols'} {...props} />}
+            // component={(props) => <Emojis emojiType={'objects'} {...props} />}
             options={({ navigation, route }) => ({
               tabBarShowLabel: false,
               tabBarIcon: ({ size, color, focused }) => <Text style={{ fontSize: 25 }}>❤️</Text>,
             })}
           >
-            {(props) => <Emojis emojiType={'symbols'} {...props} />}
+            {(props) => <EmojisByCategory category={'symbols'} {...props} />}
           </Tab.Screen>
           <Tab.Screen
-            name='AnimalsAndNature'
-            // component={(props) => <Emojis emojiType={'animalsAndNature'} {...props} />}
+            name='Nature'
+            // component={(props) => <Emojis emojiType={'smileyAndPeople'} {...props} />}
             options={({ navigation, route }) => ({
               tabBarShowLabel: false,
               tabBarIcon: ({ size, color, focused }) => <Text style={{ fontSize: 25 }}>🐶</Text>,
             })}
           >
-            {(props) => <Emojis emojiType={'animalsAndNature'} {...props} />}
+            {/* {(props) => <Emojis emojiType={'smileyAndPeople'} {...props} />} */}
+            {(props) => <EmojisByCategory category={'nature'} {...props} />}
           </Tab.Screen>
           <Tab.Screen
-            name='FoodAndDrink'
-            // component={(props) => <Emojis emojiType={'foodAndDrink'} {...props} />}
+            name='Food'
+            // component={(props) => <Emojis emojiType={'symbols'} {...props} />}
             options={({ navigation, route }) => ({
               tabBarShowLabel: false,
               tabBarIcon: ({ size, color, focused }) => <Text style={{ fontSize: 25 }}>🍕</Text>,
             })}
           >
-            {(props) => <Emojis emojiType={'foodAndDrink'} {...props} />}
+            {(props) => <EmojisByCategory category={'food'} {...props} />}
           </Tab.Screen>
           <Tab.Screen
             name='Activity'
-            // component={(props) => <Emojis emojiType={'activity'} {...props} />}
+            // component={(props) => <Emojis emojiType={'animalsAndNature'} {...props} />}
             options={({ navigation, route }) => ({
               tabBarShowLabel: false,
-              tabBarIcon: ({ size, color, focused }) => <Text style={{ fontSize: 25 }}>🎾</Text>,
+              tabBarIcon: ({ size, color, focused }) => <Text style={{ fontSize: 25 }}>⚽️</Text>,
             })}
           >
-            {(props) => <Emojis emojiType={'activity'} {...props} />}
+            {(props) => <EmojisByCategory category={'activity'} {...props} />}
           </Tab.Screen>
           <Tab.Screen
-            name='TravelAndPlaces'
-            // component={(props) => <Emojis emojiType={'travelAndPlaces'} {...props} />}
+            name='Travel'
+            // component={(props) => <Emojis emojiType={'foodAndDrink'} {...props} />}
             options={({ navigation, route }) => ({
               tabBarShowLabel: false,
               tabBarIcon: ({ size, color, focused }) => <Text style={{ fontSize: 25 }}>✈️</Text>,
             })}
           >
-            {(props) => <Emojis emojiType={'travelAndPlaces'} {...props} />}
+            {(props) => <EmojisByCategory category={'travel'} {...props} />}
           </Tab.Screen>
           <Tab.Screen
             name='Objects'
-            // component={(props) => <Emojis emojiType={'objects'} {...props} />}
+            // component={(props) => <Emojis emojiType={'travelAndPlaces'} {...props} />}
             options={({ navigation, route }) => ({
               tabBarShowLabel: false,
               tabBarIcon: ({ size, color, focused }) => <Text style={{ fontSize: 25 }}>📱</Text>,
             })}
           >
-            {(props) => <Emojis emojiType={'objects'} {...props} />}
+            {(props) => <EmojisByCategory category={'objects'} {...props} />}
           </Tab.Screen>
           <Tab.Screen
             name='Flags'
@@ -236,7 +210,7 @@ const ReactionPicker = () => {
               tabBarIcon: ({ size, color, focused }) => <Text style={{ fontSize: 25 }}>🌎</Text>,
             })}
           >
-            {(props) => <Emojis emojiType={'flags'} {...props} />}
+            {(props) => <EmojisByCategory category={'flags'} {...props} />}
           </Tab.Screen>
           {/* <Tab.Screen name='Sticker' component={HomeScreen} /> */}
         </Tab.Navigator>
