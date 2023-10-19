@@ -13,6 +13,9 @@ import { Ionicons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
+import SnackBar from '../../../components/SnackBar';
+import FastImage from 'react-native-fast-image';
+import Stickers from './Stickers';
 
 const Tab = createBottomTabNavigator();
 
@@ -20,39 +23,49 @@ const ReactionPicker = () => {
   const { formData, setFormData } = useContext(CreateNewSpaceContext);
   const [selectedReactions, setSelectedReactions] = useState({}); // {emoji: true}
   // ここでemojiOptionsを持っておかないとだめかね。。。
-  // const renderSelectedEmojis = () => {
-  //   if (selectedReactions.length) {
-  //     const list = selectedReactions.map((emoji, index) => {
-  //       return (
-  //         <View
-  //           style={{
-  //             width: 50,
-  //             height: 50,
-  //             backgroundColor: 'rgb(80, 80, 80)',
-  //             borderRadius: 15,
-  //             justifyContent: 'center',
-  //             alignItems: 'center',
-  //             marginRight: 8,
-  //           }}
-  //         >
-  //           <Text style={{ fontSize: 40 }}>{emoji}</Text>
-  //           <TouchableOpacity style={{ position: 'absolute', top: -5, right: -5 }}>
-  //             <AntDesign name='minuscircle' color={'red'} size={20} />
-  //           </TouchableOpacity>
-  //         </View>
-  //       );
-  //     });
+  const renderSelectedEmojis = () => {
+    if (Object.values(selectedReactions).length) {
+      const selectedReactionsList = Object.values(selectedReactions);
+      if (selectedReactionsList.length) {
+        const list = selectedReactionsList.map((reactionObject, index) => {
+          return (
+            <View
+              style={{
+                width: 50,
+                height: 50,
+                backgroundColor: 'rgb(80, 80, 80)',
+                borderRadius: 15,
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginRight: 8,
+              }}
+            >
+              {reactionObject.type === 'emoji' ? (
+                <Text style={{ fontSize: 40 }}>{reactionObject.emoji}</Text>
+              ) : (
+                <FastImage source={{ uri: reactionObject.sticker.url }} style={{ width: 40, height: 40 }} />
+              )}
+            </View>
+          );
+        });
 
-  //     return <View style={{ flexDirection: 'row', alignItems: 'center', alignSelf: 'center' }}>{list}</View>;
-  //   } else {
-  //     return null;
-  //   }
-  // };
+        return (
+          <View style={{ flexDirection: 'row', alignItems: 'center', alignSelf: 'center', marginBottom: 20 }}>
+            {list}
+          </View>
+        );
+      } else {
+        return null;
+      }
+    } else {
+      return null;
+    }
+  };
 
   return (
     <ReactionPickerContext.Provider value={{ selectedReactions, setSelectedReactions }}>
       <View style={{ flex: 1, backgroundColor: 'black' }}>
-        <View style={{ paddingLeft: 30, paddingRight: 30, paddingTop: 20, paddingBottom: 20 }}>
+        <View style={{ paddingLeft: 30, paddingRight: 30, paddingTop: 20, paddingBottom: 10 }}>
           <Text
             style={{
               color: 'white',
@@ -68,8 +81,9 @@ const ReactionPicker = () => {
             Please choose at most 6 reaction options.
           </Text>
         </View>
-        {/* {renderSelectedEmojis()} */}
+        {renderSelectedEmojis()}
         <Tab.Navigator
+          initialRouteName='People'
           screenOptions={{
             headerShown: false,
             tabBarStyle: {
@@ -88,6 +102,16 @@ const ReactionPicker = () => {
             },
           }}
         >
+          <Tab.Screen
+            name='Stickers'
+            component={Stickers}
+            options={({ navigation, route }) => ({
+              tabBarShowLabel: false,
+              tabBarIcon: ({ size, color, focused }) => (
+                <Ionicons name='star' color={focused ? 'white' : 'rgb(120,120,120)'} size={25} />
+              ),
+            })}
+          />
           <Tab.Screen
             name='People'
             // component={(props) => <Emojis emojiType={'smileyAndPeople'} {...props} />}
@@ -188,6 +212,7 @@ const ReactionPicker = () => {
           </Tab.Screen>
           {/* <Tab.Screen name='Sticker' component={HomeScreen} /> */}
         </Tab.Navigator>
+        <SnackBar />
       </View>
     </ReactionPickerContext.Provider>
   );

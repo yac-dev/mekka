@@ -1,28 +1,28 @@
-import React, { useCallback, memo, useContext } from 'react';
-import { View, Text, FlatList, Dimensions, TouchableOpacity } from 'react-native';
-import { emojisByCategory } from '../../../utils/Emoji/emojis';
-import shortnameToUnicode from '../../../utils/Emoji/shortNameToUnicode';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
+import { View, Text, FlatList, TouchableOpacity, Dimensions } from 'react-native';
+import backendAPI from '../../../apis/backend';
 import { GlobalContext } from '../../../contexts/GlobalContext';
 import { ReactionPickerContext } from '../contexts/ReactionPickerContext';
+import SnackBar from '../../../components/SnackBar';
 import { Ionicons } from '@expo/vector-icons';
+import FastImage from 'react-native-fast-image';
 
-const EmojisByCategory = ({ category }) => {
+const Stickers = () => {
   const { isIpad, setSnackBar } = useContext(GlobalContext);
   const { selectedReactions, setSelectedReactions } = useContext(ReactionPickerContext);
+  const [stickers, setStickers] = useState([]);
   const oneGridWidth = isIpad ? Dimensions.get('window').width / 15 : Dimensions.get('window').width / 9;
-  // {
-  //   type: route?.params?.selectedReaction.type,
-  //   emoji:
-  //     route?.params?.selectedReaction.type === 'emoji' ? route?.params?.selectedReaction.emoji : undefined,
-  //   sticker:
-  //     route?.params?.selectedReaction.type === 'sticker'
-  //       ? {
-  //           _id: route?.params?.selectedReaction.sticker._id,
-  //           name: route?.params?.selectedReaction.sticker.name,
-  //           url: route?.params?.selectedReaction.sticker.url,
-  //         }
-  //       : undefined,
-  // },
+
+  const getStickers = async () => {
+    const result = await backendAPI.get('/stickers');
+    const { stickers } = result.data;
+    setStickers(stickers);
+  };
+
+  useEffect(() => {
+    getStickers();
+  }, []);
+
   const renderItem = useCallback(
     ({ item }) => {
       return (
@@ -56,10 +56,10 @@ const EmojisByCategory = ({ category }) => {
                   setSelectedReactions((previous) => {
                     return {
                       ...previous,
-                      [item]: {
-                        type: 'emoji',
-                        emoji: shortnameToUnicode[`:${item}:`],
-                        sticker: undefined,
+                      [item._id]: {
+                        type: 'sticker',
+                        emoji: undefined,
+                        sticker: item,
                       },
                     };
                   });
@@ -67,7 +67,7 @@ const EmojisByCategory = ({ category }) => {
               }
             }}
           >
-            <Text style={{ fontSize: 35 }}>{shortnameToUnicode[`:${item}:`]}</Text>
+            <FastImage source={{ uri: item.url }} style={{ width: 25, height: 25 }} />
             {selectedReactions[item] ? (
               <View style={{ position: 'absolute', top: -5, right: -5 }}>
                 <Ionicons name='checkmark-circle' color='green' size={15} />
@@ -82,14 +82,9 @@ const EmojisByCategory = ({ category }) => {
 
   return (
     <View style={{ flex: 1, backgroundColor: 'black' }}>
-      <FlatList
-        data={emojisByCategory[category]}
-        renderItem={renderItem}
-        keyExtractor={(item) => item}
-        numColumns={9}
-      />
+      <FlatList data={stickers} renderItem={renderItem} keyExtractor={(item, index) => `${item._id}`} numColumns={9} />
     </View>
   );
 };
 
-export default memo(EmojisByCategory);
+export default Stickers;
