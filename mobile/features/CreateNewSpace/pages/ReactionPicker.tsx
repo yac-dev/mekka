@@ -61,6 +61,7 @@ const ReactionPicker = (props) => {
   const onAddPress = () => {
     props.navigation.navigate('Reaction', { selectedReactions: Object.values(selectedReactions) });
   };
+  console.log(selectedReactions);
 
   const renderSelectedEmojis = () => {
     if (Object.values(selectedReactions).length) {
@@ -85,6 +86,34 @@ const ReactionPicker = (props) => {
               ) : (
                 <FastImage source={{ uri: reactionObject.sticker.url }} style={{ width: 40, height: 40 }} />
               )}
+              <TouchableOpacity
+                style={{
+                  backgroundColor: 'red',
+                  borderRadius: 10,
+                  width: 20,
+                  height: 20,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  position: 'absolute',
+                  top: -7,
+                  right: -7,
+                }}
+                onPress={() => {
+                  console.log(selectedReactions);
+                  console.log(reactionObject);
+                  setSelectedReactions((previous) => {
+                    const updating = { ...previous };
+                    if (reactionObject.type === 'emoji') {
+                      delete updating[reactionObject.emoji];
+                    } else if (reactionObject.type === 'sticker') {
+                      delete updating[reactionObject.sticker._id];
+                    }
+                    return updating;
+                  });
+                }}
+              >
+                <MaterialCommunityIcons name='minus' color={'white'} size={20} />
+              </TouchableOpacity>
             </View>
           );
         });

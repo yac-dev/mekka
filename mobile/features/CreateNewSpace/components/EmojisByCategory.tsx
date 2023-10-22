@@ -5,6 +5,7 @@ import shortnameToUnicode from '../../../utils/Emoji/shortNameToUnicode';
 import { GlobalContext } from '../../../contexts/GlobalContext';
 import { ReactionPickerContext } from '../contexts/ReactionPickerContext';
 import { Ionicons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const EmojisByCategory = ({ category }) => {
   const { isIpad, setSnackBar } = useContext(GlobalContext);
@@ -31,7 +32,7 @@ const EmojisByCategory = ({ category }) => {
             style={{
               width: '100%',
               height: '100%',
-              // backgroundColor: selectedReactions[item] ? 'white' : 'black',
+              backgroundColor: selectedReactions[shortnameToUnicode[`:${item}:`]] ? 'rgb(120,120,120)' : 'black',
               justifyContent: 'center',
               alignItems: 'center',
               borderRadius: 5,
@@ -56,7 +57,7 @@ const EmojisByCategory = ({ category }) => {
                   setSelectedReactions((previous) => {
                     return {
                       ...previous,
-                      [item]: {
+                      [shortnameToUnicode[`:${item}:`]]: {
                         type: 'emoji',
                         emoji: shortnameToUnicode[`:${item}:`],
                         sticker: undefined,
@@ -68,11 +69,6 @@ const EmojisByCategory = ({ category }) => {
             }}
           >
             <Text style={{ fontSize: 35 }}>{shortnameToUnicode[`:${item}:`]}</Text>
-            {selectedReactions[item] ? (
-              <View style={{ position: 'absolute', top: -5, right: -5 }}>
-                <Ionicons name='checkmark-circle' color='green' size={15} />
-              </View>
-            ) : null}
           </TouchableOpacity>
         </View>
       );
@@ -87,6 +83,7 @@ const EmojisByCategory = ({ category }) => {
         renderItem={renderItem}
         keyExtractor={(item) => item}
         numColumns={9}
+        contentContainerStyle={{ paddingTop: 5 }}
       />
     </View>
   );

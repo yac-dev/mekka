@@ -12,17 +12,17 @@ const Reaction = (props) => {
       setFormData((previous) => {
         return {
           ...previous,
-          reactions: [...previous.reactions, ...props.route?.params?.selectedReactions],
+          reactions: props.route?.params?.selectedReactions,
         };
       });
     }
   }, [props.route?.params?.selectedReactions]);
 
   const renderSelectedReactions = () => {
-    if (formData.isReactionAvailable && formData.reactions.length) {
+    if (formData.isReactionAvailable) {
       const list = formData.reactions.map((reactionObject, index) => {
         return (
-          <View
+          <TouchableOpacity
             key={index}
             style={{
               width: 50,
@@ -33,19 +33,41 @@ const Reaction = (props) => {
               alignItems: 'center',
               marginRight: 8,
             }}
+            onPress={() => props.navigation.navigate('ReactionPicker', { reactions: formData.reactions })}
           >
             {reactionObject.type === 'emoji' ? (
               <Text style={{ fontSize: 40 }}>{reactionObject.emoji}</Text>
             ) : (
               <FastImage source={{ uri: reactionObject.sticker.url }} style={{ width: 40, height: 40 }} />
             )}
-          </View>
+          </TouchableOpacity>
         );
       });
 
       return (
-        <View style={{ flexDirection: 'row', alignItems: 'center', alignSelf: 'center', marginBottom: 20 }}>
-          {list}
+        <View
+          style={{ flexDirection: 'row', alignItems: 'center', alignSelf: 'center', marginBottom: 20, marginTop: 30 }}
+        >
+          {formData.reactions.length === 6 ? null : (
+            <TouchableOpacity
+              style={{
+                alignSelf: 'center',
+                backgroundColor: 'white',
+                justifyContent: 'center',
+                alignItems: 'center',
+                width: 56,
+                height: 56,
+                padding: 2,
+                borderRadius: 56 / 2,
+                marginRight: 8,
+              }}
+              onPress={() => props.navigation.navigate('ReactionPicker', { reactions: formData.reactions })}
+            >
+              <Text style={{ fontSize: 23 }}>😁</Text>
+              <Text style={{ fontWeight: 'bold' }}>Add</Text>
+            </TouchableOpacity>
+          )}
+          {formData.reactions.length ? list : null}
         </View>
       );
     } else {
@@ -135,25 +157,6 @@ const Reaction = (props) => {
           )}
         </TouchableOpacity>
       </View>
-      {formData.isReactionAvailable ? (
-        <TouchableOpacity
-          style={{
-            alignSelf: 'center',
-            backgroundColor: 'white',
-            justifyContent: 'center',
-            alignItems: 'center',
-            width: 50,
-            height: 50,
-            padding: 2,
-            borderRadius: 50 / 2,
-            marginBottom: 20,
-            marginTop: 30,
-          }}
-          onPress={() => props.navigation.navigate('ReactionPicker', { reactions: formData.reactions })}
-        >
-          <Text>Add</Text>
-        </TouchableOpacity>
-      ) : null}
       {renderSelectedReactions()}
     </View>
   );

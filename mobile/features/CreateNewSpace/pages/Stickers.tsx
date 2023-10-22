@@ -49,7 +49,7 @@ const Stickers = (props) => {
             style={{
               width: '100%',
               height: '100%',
-              // backgroundColor: selectedReactions[item] ? 'white' : 'black',
+              backgroundColor: selectedReactions[item._id] ? 'rgb(120,120,120)' : 'black',
               justifyContent: 'center',
               alignItems: 'center',
               borderRadius: 5,
@@ -85,12 +85,7 @@ const Stickers = (props) => {
               }
             }}
           >
-            <FastImage source={{ uri: item.url }} style={{ width: 25, height: 25 }} />
-            {selectedReactions[item] ? (
-              <View style={{ position: 'absolute', top: -5, right: -5 }}>
-                <Ionicons name='checkmark-circle' color='green' size={15} />
-              </View>
-            ) : null}
+            <FastImage source={{ uri: item.url }} style={{ width: 30, height: 30 }} />
           </TouchableOpacity>
         </View>
       );
@@ -108,7 +103,13 @@ const Stickers = (props) => {
           <Text style={{ color: 'black', alignSelf: 'center', fontWeight: 'bold' }}>Create new reaction</Text>
         </TouchableOpacity>
       </View>
-      <FlatList data={stickers} renderItem={renderItem} keyExtractor={(item, index) => `${item._id}`} numColumns={9} />
+      <FlatList
+        data={stickers}
+        renderItem={renderItem}
+        keyExtractor={(item, index) => `${item._id}`}
+        numColumns={9}
+        contentContainerStyle={{ paddingTop: 5 }}
+      />
     </View>
   );
 };

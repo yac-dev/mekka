@@ -396,7 +396,7 @@ const CreateNewSpaceStackNavigator = (props) => {
                       fontWeight: 'bold',
                     }}
                   >
-                    Create
+                    Create!
                   </Text>
                 </TouchableOpacity>
               ),
