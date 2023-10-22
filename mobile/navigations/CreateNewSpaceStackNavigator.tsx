@@ -29,7 +29,7 @@ const CreateNewSpaceStackNavigator = (props) => {
     isCommentAvailable: undefined,
     isReactionAvailable: undefined,
     videoLength: 60,
-    disappearAfter: 720, // from 5 minutes to 1440 minutes(24 hours), 720 minutes(12 hours)
+    disappearAfter: 1439, // from 5 minutes to 1399 minutes(23 hours 59 min), 720 minutes(12 hours) defautlで23時間59分
     reactions: [],
     description: '',
   });
@@ -235,11 +235,18 @@ const CreateNewSpaceStackNavigator = (props) => {
               headerRight: () => (
                 <TouchableOpacity
                   onPress={() => navigation.navigate('Description')}
-                  disabled={formData.name.length && formData.icon && formData.isPublic !== undefined ? false : true}
+                  disabled={
+                    (formData.isReactionAvailable && formData.reactions.length) || !formData.isReactionAvailable
+                      ? false
+                      : true
+                  }
                 >
                   <Text
                     style={{
-                      color: formData.name.length ? 'white' : 'rgb(170,170,170)',
+                      color:
+                        (formData.isReactionAvailable && formData.reactions.length) || !formData.isReactionAvailable
+                          ? 'white'
+                          : 'rgb(170,170,170)',
                       fontSize: 20,
                       fontWeight: 'bold',
                     }}

@@ -12,7 +12,7 @@ const ContentType = () => {
   const pickerMinRef = useRef();
   const pickerSecRef = useRef();
 
-  function formatTime(inputSeconds) {
+  const formatTime = (inputSeconds) => {
     if (inputSeconds < 0) {
       return 'Invalid input';
     }
@@ -27,7 +27,7 @@ const ContentType = () => {
       minutes: minutes,
       seconds: seconds,
     };
-  }
+  };
 
   function calculateSeconds(minutes, seconds) {
     const minNumber = Number(minutes);

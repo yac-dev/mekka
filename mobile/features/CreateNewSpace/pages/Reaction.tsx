@@ -89,7 +89,9 @@ const Reaction = (props) => {
         >
           Reaction
         </Text>
-        <Text style={{ textAlign: 'center', color: 'rgb(180, 180, 180)' }}>You can post </Text>
+        <Text style={{ textAlign: 'center', color: 'rgb(180, 180, 180)' }}>
+          You can set reaction options. you can disable any reactions.
+        </Text>
       </View>
       <View style={{ flexDirection: 'row', alignItems: 'center', alignSelf: 'center' }}>
         <TouchableOpacity
