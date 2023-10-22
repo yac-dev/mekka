@@ -7,6 +7,7 @@ import Tag from '../models/tag';
 import PostAndTagRelationship from '../models/postAndTagRelationship';
 import SpaceAndTagAndPostRelationship from '../models/spaceAndTagAndPostRelationship';
 import LocationTag from '../models/locationTag';
+import mongoose from 'mongoose';
 
 // space, reactions, spaceAndUserRel, tagを作る。ここのhandlerで。
 function generateRandomString(length) {
@@ -35,7 +36,9 @@ export const createSpace = async (request, response) => {
       reactions,
       createdBy,
     } = request.body;
-    console.log(request.body);
+    console.log('this is the payload', request.body);
+    const userData = JSON.parse(createdBy);
+    console.log(userData);
 
     const randomString = generateRandomString(20);
     const space = new Space({
@@ -47,7 +50,7 @@ export const createSpace = async (request, response) => {
       isPublic: Boolean(isPublic),
       isCommentAvailable: Boolean(isCommentAvailable),
       isReactionAvailable: Boolean(isReactionAvailable),
-      createdBy,
+      createdBy: new mongoose.Types.ObjectId(userData._id),
       createdAt: new Date(),
       totalPosts: 0,
       totalMembers: 1,
@@ -78,6 +81,7 @@ export const createSpace = async (request, response) => {
           };
         }
       });
+      // ここで、さらにsendする内容に関しても持っておかないとあかん。
       const createdReactions = await Reaction.insertMany(reactionOptions);
       const reactionIds = createdReactions.map((reaction) => reaction._id);
       space.reactions = reactionIds; // spaceに直接idを入れる。
@@ -85,7 +89,7 @@ export const createSpace = async (request, response) => {
 
     const spaceAndUserRelationship = await SpaceAndUserRelationship.create({
       space: space._id,
-      user: createdBy,
+      user: userData._id,
       createdAt: new Date(),
     });
     space.save();
@@ -100,7 +104,7 @@ export const createSpace = async (request, response) => {
       color: 'white',
       count: 1,
       space: space._id,
-      createdBy: createdBy,
+      createdBy: userData._id,
       updatedAt: new Date(),
     });
 
@@ -112,6 +116,19 @@ export const createSpace = async (request, response) => {
           name: space.name,
           icon: space.icon,
           contentType: space.contentType,
+          description: space.description,
+          secretKey: space.secretKey,
+          isPublic: space.isPublic,
+          isCommentAvailable: space.isCommentAvailable,
+          isReactionAvailable: space.isReactionAvailable,
+          videoLength: space.videoLength,
+          disappearAfter: space.disappearAfter,
+          reactions: space.isReactionAvailable ? JSON.parse(reactions) : undefined,
+          createdBy: userData,
+          createdAt: space.createdAt,
+          totalPosts: space.totalPosts,
+          totalMembers: space.totalMembers,
+          rate: space.rate,
         },
       },
     });

@@ -57,7 +57,6 @@ const ContentType = () => {
       };
     });
   }, [selectedMin, selectedSec]);
-  console.log(formData.videoLength);
 
   const renderMinPickerItems = () => {
     const minArr = Array.from({ length: 3 }, (x, i) => i);
@@ -82,6 +81,27 @@ const ContentType = () => {
 
   const renderSecPickerItems = () => {
     const secArr = Array.from({ length: 60 }, (x, i) => i);
+    const list = secArr.map((sec, index) => {
+      return <Picker.Item key={index} label={sec.toString()} value={sec.toString()} color='white' />;
+    });
+
+    return (
+      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        <Picker
+          ref={pickerMinRef}
+          selectedValue={selectedSec}
+          onValueChange={(itemValue, itemIndex) => setSelectedSec(itemValue)}
+          style={{ width: 100, marginRight: 20 }}
+        >
+          {list}
+        </Picker>
+        <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold' }}>sec</Text>
+      </View>
+    );
+  };
+
+  const renderSecPickerItemsFromFiveToFiftyNine = () => {
+    const secArr = Array.from({ length: 55 }, (x, i) => i + 5);
     const list = secArr.map((sec, index) => {
       return <Picker.Item key={index} label={sec.toString()} value={sec.toString()} color='white' />;
     });
@@ -221,7 +241,7 @@ const ContentType = () => {
           </Text>
           <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
             {renderMinPickerItems()}
-            {renderSecPickerItems()}
+            {selectedMin === '0' ? renderSecPickerItemsFromFiveToFiftyNine() : renderSecPickerItems()}
           </View>
         </View>
       ) : null}

@@ -26,7 +26,7 @@ const CreateNewSpaceStackNavigator = (props) => {
     icon: '',
     contentType: '', // ここら辺は、全部選択式になる。
     isPublic: undefined,
-    isCommentAvailable: undefined,
+    isCommentAvailable: true,
     isReactionAvailable: undefined,
     videoLength: 60,
     disappearAfter: 1439, // from 5 minutes to 1399 minutes(23 hours 59 min), 720 minutes(12 hours) defautlで23時間59分
@@ -38,7 +38,12 @@ const CreateNewSpaceStackNavigator = (props) => {
   //   currentSpaceAndUserRelationship: { space },
   // } = props.route.params;
 
-  const onDonePress = async () => {
+  const onCreatePress = async () => {
+    const userData = {
+      _id: authData._id,
+      name: authData.name,
+      avatar: authData.avatar,
+    };
     const payload = new FormData();
     payload.append('name', formData.name);
     payload.append('contentType', formData.contentType);
@@ -49,7 +54,7 @@ const CreateNewSpaceStackNavigator = (props) => {
     payload.append('videoLength', formData.videoLength.toString());
     payload.append('disappearAfter', formData.disappearAfter.toString());
     payload.append('description', formData.description);
-    payload.append('createdBy', authData._id);
+    payload.append('createdBy', JSON.stringify(userData));
     const iconData = {
       name: `${authData._id}-${Date.now()}`,
       uri: formData.icon,
@@ -57,12 +62,14 @@ const CreateNewSpaceStackNavigator = (props) => {
     };
 
     payload.append('icon', JSON.parse(JSON.stringify(iconData)));
+    console.log('payload', payload);
     setLoading(true);
     const result = await backendAPI.post('/spaces', payload, {
       headers: { 'Content-type': 'multipart/form-data' },
     });
     setLoading(false);
     const { spaceAndUserRelationship } = result.data;
+    console.log('created!!!', spaceAndUserRelationship);
     setSpaceAndUserRelationships((previous) => [...previous, spaceAndUserRelationship]);
     setSnackBar({
       isVisible: true,
@@ -277,7 +284,7 @@ const CreateNewSpaceStackNavigator = (props) => {
               headerShown: true, // ここtrueにすると、,,,
               headerRight: () => (
                 <TouchableOpacity
-                  onPress={() => console.log('create done!!')}
+                  onPress={() => onCreatePress()}
                   disabled={formData.name.length && formData.icon && formData.isPublic !== undefined ? false : true}
                 >
                   <Text
@@ -287,7 +294,7 @@ const CreateNewSpaceStackNavigator = (props) => {
                       fontWeight: 'bold',
                     }}
                   >
-                    Create
+                    Create!
                   </Text>
                 </TouchableOpacity>
               ),

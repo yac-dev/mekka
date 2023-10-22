@@ -61,7 +61,6 @@ const ReactionPicker = (props) => {
   const onAddPress = () => {
     props.navigation.navigate('Reaction', { selectedReactions: Object.values(selectedReactions) });
   };
-  console.log(selectedReactions);
 
   const renderSelectedEmojis = () => {
     if (Object.values(selectedReactions).length) {

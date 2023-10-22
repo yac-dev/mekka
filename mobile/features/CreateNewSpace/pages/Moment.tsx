@@ -7,6 +7,7 @@ const Moment = () => {
   const { formData, setFormData } = useContext(CreateNewSpaceContext);
   const [selectedHour, setSelectedHour] = useState();
   const [selectedMin, setSelectedMin] = useState();
+  console.log('moment time', formData.disappearAfter);
 
   const formatTime = (inputMinutes) => {
     if (inputMinutes < 0) {
@@ -33,6 +34,8 @@ const Moment = () => {
       return 'Invalid input. Minutes should be non-negative, and seconds should be in the range 0-59.';
     }
 
+    const d = hourNumber * 60 + minNumber;
+    console.log(d);
     return hourNumber * 60 + minNumber;
   }
 
@@ -43,24 +46,15 @@ const Moment = () => {
   }, []);
 
   useEffect(() => {
-    const seconds = calculateMinutes(selectedHour, selectedMin);
+    const minutes = calculateMinutes(selectedHour, selectedMin);
+    console.log('calcurated', minutes);
     setFormData((previous) => {
       return {
         ...previous,
-        videoLength: seconds,
+        disappearAfter: minutes,
       };
     });
   }, [selectedHour, selectedMin]);
-
-  // useEffect(() => {
-  //   const seconds = calculateSeconds(selectedMin, selectedSec);
-  //   setFormData((previous) => {
-  //     return {
-  //       ...previous,
-  //       videoLength: seconds,
-  //     };
-  //   });
-  // }, [selectedMin, selectedSec]);
 
   const renderHourPickerItems = () => {
     const secArr = Array.from({ length: 24 }, (x, i) => i);
