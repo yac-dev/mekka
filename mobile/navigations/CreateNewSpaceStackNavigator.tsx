@@ -10,6 +10,7 @@ import Moment from '../features/CreateNewSpace/pages/Moment';
 import Reaction from '../features/CreateNewSpace/pages/Reaction';
 import Description from '../features/CreateNewSpace/pages/Description';
 import ReactionPicker from '../features/CreateNewSpace/pages/ReactionPicker';
+import CreateNewSticker from '../features/CreateNewSpace/pages/CreateSticker';
 import { Ionicons } from '@expo/vector-icons';
 import { GlobalContext } from '../contexts/GlobalContext';
 import { CreateNewSpaceContext } from '../features/CreateNewSpace/contexts/CreateNewSpace';
@@ -77,6 +78,7 @@ const CreateNewSpaceStackNavigator = (props) => {
       value={{
         formData,
         setFormData,
+        navigation: props.navigation,
       }}
     >
       <Stack.Navigator>
@@ -346,6 +348,42 @@ const CreateNewSpaceStackNavigator = (props) => {
             component={ReactionPicker}
             options={({ navigation }) => ({
               headerShown: true, // ここtrueにすると、,,,
+              // headerRight: () => (
+              //   <TouchableOpacity
+              //     onPress={() => console.log('create done!!')}
+              //     disabled={formData.name.length && formData.icon && formData.isPublic !== undefined ? false : true}
+              //   >
+              //     <Text
+              //       style={{
+              //         color: formData.name.length ? 'white' : 'rgb(170,170,170)',
+              //         fontSize: 20,
+              //         fontWeight: 'bold',
+              //       }}
+              //     >
+              //       Add
+              //     </Text>
+              //   </TouchableOpacity>
+              // ),
+              headerLeft: () => (
+                <TouchableOpacity onPress={() => navigation.goBack()}>
+                  <Ionicons name='close-circle-sharp' size={30} color={'white'} />
+                </TouchableOpacity>
+              ),
+              headerTitle: '',
+              headerStyle: {
+                backgroundColor: 'black',
+              },
+              headerTitleStyle: {
+                fontWeight: 'bold',
+                color: 'white',
+              },
+            })}
+          />
+          <Stack.Screen
+            name='CreateNewSticker'
+            component={CreateNewSticker}
+            options={({ navigation }) => ({
+              headerShown: true, // ここtrueにすると、,,,
               headerRight: () => (
                 <TouchableOpacity
                   onPress={() => console.log('create done!!')}
@@ -358,7 +396,7 @@ const CreateNewSpaceStackNavigator = (props) => {
                       fontWeight: 'bold',
                     }}
                   >
-                    Add
+                    Create
                   </Text>
                 </TouchableOpacity>
               ),

@@ -1,10 +1,57 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { CreateNewSpaceContext } from '../contexts/CreateNewSpace';
 import { Ionicons } from '@expo/vector-icons';
+import FastImage from 'react-native-fast-image';
 
 const Reaction = (props) => {
   const { formData, setFormData } = useContext(CreateNewSpaceContext);
+
+  useEffect(() => {
+    if (props.route?.params?.selectedReactions) {
+      setFormData((previous) => {
+        return {
+          ...previous,
+          reactions: [...previous.reactions, ...props.route?.params?.selectedReactions],
+        };
+      });
+    }
+  }, [props.route?.params?.selectedReactions]);
+
+  const renderSelectedReactions = () => {
+    if (formData.isReactionAvailable && formData.reactions.length) {
+      const list = formData.reactions.map((reactionObject, index) => {
+        return (
+          <View
+            key={index}
+            style={{
+              width: 50,
+              height: 50,
+              backgroundColor: 'rgb(80, 80, 80)',
+              borderRadius: 15,
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginRight: 8,
+            }}
+          >
+            {reactionObject.type === 'emoji' ? (
+              <Text style={{ fontSize: 40 }}>{reactionObject.emoji}</Text>
+            ) : (
+              <FastImage source={{ uri: reactionObject.sticker.url }} style={{ width: 40, height: 40 }} />
+            )}
+          </View>
+        );
+      });
+
+      return (
+        <View style={{ flexDirection: 'row', alignItems: 'center', alignSelf: 'center', marginBottom: 20 }}>
+          {list}
+        </View>
+      );
+    } else {
+      return null;
+    }
+  };
 
   return (
     <View style={{ flex: 1, backgroundColor: 'black' }}>
@@ -102,11 +149,12 @@ const Reaction = (props) => {
             marginBottom: 20,
             marginTop: 30,
           }}
-          onPress={() => props.navigation.navigate('ReactionPicker')}
+          onPress={() => props.navigation.navigate('ReactionPicker', { reactions: formData.reactions })}
         >
           <Text>Add</Text>
         </TouchableOpacity>
       ) : null}
+      {renderSelectedReactions()}
     </View>
   );
 };

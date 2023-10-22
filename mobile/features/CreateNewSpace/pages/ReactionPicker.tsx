@@ -1,4 +1,4 @@
-import React, { useState, useContext, memo } from 'react';
+import React, { useState, useContext, memo, useEffect } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, FlatList, Dimensions } from 'react-native';
 import { emojis } from '../../../utils/emojis';
 import { ReactionPickerContext } from '../contexts/ReactionPickerContext';
@@ -19,10 +19,49 @@ import Stickers from './Stickers';
 
 const Tab = createBottomTabNavigator();
 
-const ReactionPicker = () => {
+const ReactionPicker = (props) => {
   const { formData, setFormData } = useContext(CreateNewSpaceContext);
   const [selectedReactions, setSelectedReactions] = useState({}); // {emoji: true}
   // ここでemojiOptionsを持っておかないとだめかね。。。
+
+  useEffect(() => {
+    props.navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity onPress={() => onAddPress()} disabled={Object.keys(selectedReactions).length ? false : true}>
+          <Text
+            style={{
+              color: Object.keys(selectedReactions).length ? 'white' : 'rgb(117,117, 117)',
+              fontSize: 20,
+              fontWeight: 'bold',
+            }}
+          >
+            Done
+          </Text>
+        </TouchableOpacity>
+      ),
+    });
+  }, [selectedReactions]);
+
+  useEffect(() => {
+    if (props.route.params.reactions) {
+      setSelectedReactions(() => {
+        const table = {};
+        props.route.params.reactions.forEach((reactionObject) => {
+          if (reactionObject.type === 'emoji') {
+            table[reactionObject.emoji] = reactionObject;
+          } else if (reactionObject.type === 'sticker') {
+            table[reactionObject._id] = reactionObject;
+          }
+        });
+        return table;
+      });
+    }
+  }, [props.route.params.reactions]);
+
+  const onAddPress = () => {
+    props.navigation.navigate('Reaction', { selectedReactions: Object.values(selectedReactions) });
+  };
+
   const renderSelectedEmojis = () => {
     if (Object.values(selectedReactions).length) {
       const selectedReactionsList = Object.values(selectedReactions);
@@ -30,6 +69,7 @@ const ReactionPicker = () => {
         const list = selectedReactionsList.map((reactionObject, index) => {
           return (
             <View
+              key={index}
               style={{
                 width: 50,
                 height: 50,
@@ -102,114 +142,119 @@ const ReactionPicker = () => {
             },
           }}
         >
-          <Tab.Screen
-            name='Stickers'
-            component={Stickers}
-            options={({ navigation, route }) => ({
-              tabBarShowLabel: false,
-              tabBarIcon: ({ size, color, focused }) => (
-                <Ionicons name='star' color={focused ? 'white' : 'rgb(120,120,120)'} size={25} />
-              ),
-            })}
-          />
-          <Tab.Screen
-            name='People'
-            // component={(props) => <Emojis emojiType={'smileyAndPeople'} {...props} />}
-            options={({ navigation, route }) => ({
-              tabBarShowLabel: false,
-              tabBarIcon: ({ size, color, focused }) => (
-                <Fontisto name='smiley' color={focused ? 'white' : 'rgb(120,120,120)'} size={25} />
-              ),
-            })}
-          >
-            {/* {(props) => <Emojis emojiType={'smileyAndPeople'} {...props} />} */}
-            {(props) => <EmojisByCategory category={'people'} {...props} />}
-          </Tab.Screen>
-          <Tab.Screen
-            name='Symbols'
-            // component={(props) => <Emojis emojiType={'objects'} {...props} />}
-            options={({ navigation, route }) => ({
-              tabBarShowLabel: false,
-              tabBarIcon: ({ size, color, focused }) => (
-                <Ionicons name='heart' color={focused ? 'white' : 'rgb(120,120,120)'} size={25} />
-              ),
-            })}
-          >
-            {(props) => <EmojisByCategory category={'symbols'} {...props} />}
-          </Tab.Screen>
-          <Tab.Screen
-            name='Nature'
-            // component={(props) => <Emojis emojiType={'smileyAndPeople'} {...props} />}
-            options={({ navigation, route }) => ({
-              tabBarShowLabel: false,
-              tabBarIcon: ({ size, color, focused }) => (
-                <MaterialCommunityIcons name='dog' color={focused ? 'white' : 'rgb(120,120,120)'} size={25} />
-              ),
-            })}
-          >
-            {/* {(props) => <Emojis emojiType={'smileyAndPeople'} {...props} />} */}
-            {(props) => <EmojisByCategory category={'nature'} {...props} />}
-          </Tab.Screen>
-          <Tab.Screen
-            name='Food'
-            // component={(props) => <Emojis emojiType={'symbols'} {...props} />}
-            options={({ navigation, route }) => ({
-              tabBarShowLabel: false,
-              tabBarIcon: ({ size, color, focused }) => (
-                <Ionicons name='pizza' color={focused ? 'white' : 'rgb(120,120,120)'} size={25} />
-              ),
-            })}
-          >
-            {(props) => <EmojisByCategory category={'food'} {...props} />}
-          </Tab.Screen>
-          <Tab.Screen
-            name='Activity'
-            // component={(props) => <Emojis emojiType={'animalsAndNature'} {...props} />}
-            options={({ navigation, route }) => ({
-              tabBarShowLabel: false,
-              tabBarIcon: ({ size, color, focused }) => (
-                <Ionicons name='tennisball' color={focused ? 'white' : 'rgb(120,120,120)'} size={25} />
-              ),
-            })}
-          >
-            {(props) => <EmojisByCategory category={'activity'} {...props} />}
-          </Tab.Screen>
-          <Tab.Screen
-            name='Travel'
-            // component={(props) => <Emojis emojiType={'foodAndDrink'} {...props} />}
-            options={({ navigation, route }) => ({
-              tabBarShowLabel: false,
-              tabBarIcon: ({ size, color, focused }) => (
-                <MaterialIcons name='flight' color={focused ? 'white' : 'rgb(120,120,120)'} size={25} />
-              ),
-            })}
-          >
-            {(props) => <EmojisByCategory category={'travel'} {...props} />}
-          </Tab.Screen>
-          <Tab.Screen
-            name='Objects'
-            // component={(props) => <Emojis emojiType={'travelAndPlaces'} {...props} />}
-            options={({ navigation, route }) => ({
-              tabBarShowLabel: false,
-              tabBarIcon: ({ size, color, focused }) => (
-                <Foundation name='telephone' color={focused ? 'white' : 'rgb(120,120,120)'} size={25} />
-              ),
-            })}
-          >
-            {(props) => <EmojisByCategory category={'objects'} {...props} />}
-          </Tab.Screen>
-          <Tab.Screen
-            name='Flags'
-            // component={(props) => <Emojis emojiType={'flags'} {...props} />}
-            options={({ navigation, route }) => ({
-              tabBarShowLabel: false,
-              tabBarIcon: ({ size, color, focused }) => (
-                <Entypo name='globe' color={focused ? 'white' : 'rgb(120,120,120)'} size={25} />
-              ),
-            })}
-          >
-            {(props) => <EmojisByCategory category={'flags'} {...props} />}
-          </Tab.Screen>
+          <Tab.Group>
+            <Tab.Screen
+              name='Stickers'
+              component={Stickers}
+              options={({ navigation, route }) => ({
+                tabBarShowLabel: false,
+                tabBarIcon: ({ size, color, focused }) => (
+                  <Ionicons name='star' color={focused ? 'white' : 'rgb(120,120,120)'} size={25} />
+                ),
+              })}
+            />
+            <Tab.Screen
+              name='People'
+              // component={(props) => <Emojis emojiType={'smileyAndPeople'} {...props} />}
+              options={({ navigation, route }) => ({
+                tabBarShowLabel: false,
+                tabBarIcon: ({ size, color, focused }) => (
+                  <Fontisto name='smiley' color={focused ? 'white' : 'rgb(120,120,120)'} size={25} />
+                ),
+              })}
+            >
+              {/* {(props) => <Emojis emojiType={'smileyAndPeople'} {...props} />} */}
+              {(props) => <EmojisByCategory category={'people'} {...props} />}
+            </Tab.Screen>
+            <Tab.Screen
+              name='Symbols'
+              // component={(props) => <Emojis emojiType={'objects'} {...props} />}
+              options={({ navigation, route }) => ({
+                tabBarShowLabel: false,
+                tabBarIcon: ({ size, color, focused }) => (
+                  <Ionicons name='heart' color={focused ? 'white' : 'rgb(120,120,120)'} size={25} />
+                ),
+              })}
+            >
+              {(props) => <EmojisByCategory category={'symbols'} {...props} />}
+            </Tab.Screen>
+            <Tab.Screen
+              name='Nature'
+              // component={(props) => <Emojis emojiType={'smileyAndPeople'} {...props} />}
+              options={({ navigation, route }) => ({
+                tabBarShowLabel: false,
+                tabBarIcon: ({ size, color, focused }) => (
+                  <MaterialCommunityIcons name='dog' color={focused ? 'white' : 'rgb(120,120,120)'} size={25} />
+                ),
+              })}
+            >
+              {/* {(props) => <Emojis emojiType={'smileyAndPeople'} {...props} />} */}
+              {(props) => <EmojisByCategory category={'nature'} {...props} />}
+            </Tab.Screen>
+            <Tab.Screen
+              name='Food'
+              // component={(props) => <Emojis emojiType={'symbols'} {...props} />}
+              options={({ navigation, route }) => ({
+                tabBarShowLabel: false,
+                tabBarIcon: ({ size, color, focused }) => (
+                  <Ionicons name='pizza' color={focused ? 'white' : 'rgb(120,120,120)'} size={25} />
+                ),
+              })}
+            >
+              {(props) => <EmojisByCategory category={'food'} {...props} />}
+            </Tab.Screen>
+            <Tab.Screen
+              name='Activity'
+              // component={(props) => <Emojis emojiType={'animalsAndNature'} {...props} />}
+              options={({ navigation, route }) => ({
+                tabBarShowLabel: false,
+                tabBarIcon: ({ size, color, focused }) => (
+                  <Ionicons name='tennisball' color={focused ? 'white' : 'rgb(120,120,120)'} size={25} />
+                ),
+              })}
+            >
+              {(props) => <EmojisByCategory category={'activity'} {...props} />}
+            </Tab.Screen>
+            <Tab.Screen
+              name='Travel'
+              // component={(props) => <Emojis emojiType={'foodAndDrink'} {...props} />}
+              options={({ navigation, route }) => ({
+                tabBarShowLabel: false,
+                tabBarIcon: ({ size, color, focused }) => (
+                  <MaterialIcons name='flight' color={focused ? 'white' : 'rgb(120,120,120)'} size={25} />
+                ),
+              })}
+            >
+              {(props) => <EmojisByCategory category={'travel'} {...props} />}
+            </Tab.Screen>
+            <Tab.Screen
+              name='Objects'
+              // component={(props) => <Emojis emojiType={'travelAndPlaces'} {...props} />}
+              options={({ navigation, route }) => ({
+                tabBarShowLabel: false,
+                tabBarIcon: ({ size, color, focused }) => (
+                  <Foundation name='telephone' color={focused ? 'white' : 'rgb(120,120,120)'} size={25} />
+                ),
+              })}
+            >
+              {(props) => <EmojisByCategory category={'objects'} {...props} />}
+            </Tab.Screen>
+            <Tab.Screen
+              name='Flags'
+              // component={(props) => <Emojis emojiType={'flags'} {...props} />}
+              options={({ navigation, route }) => ({
+                tabBarShowLabel: false,
+                tabBarIcon: ({ size, color, focused }) => (
+                  <Entypo name='globe' color={focused ? 'white' : 'rgb(120,120,120)'} size={25} />
+                ),
+              })}
+            >
+              {(props) => <EmojisByCategory category={'flags'} {...props} />}
+            </Tab.Screen>
+          </Tab.Group>
+          {/* <Tab.Group screenOptions={{modal: 'fullScreen', ges}}>
+
+          </Tab.Group> */}
           {/* <Tab.Screen name='Sticker' component={HomeScreen} /> */}
         </Tab.Navigator>
         <SnackBar />
